@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Identity;
 
 namespace AreaApi
 {
@@ -20,8 +21,16 @@ namespace AreaApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<TodoContext>(opt =>
-               opt.UseInMemoryDatabase("TodoList"));
+            /*services.AddDbContext<TodoContext>(opt =>
+               opt.UseInMemoryDatabase("TodoList"));*/
+            
+            services.AddDbContext<ApplicationDbContext>(options => options.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
+            /*services.AddDbContext<TodoContext>(options => options.UseMySql(Configuration.GetConnectionString("DefaultConnection")));*/
+
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
+
             services.AddControllers();
 
             //Swagger
@@ -45,6 +54,8 @@ namespace AreaApi
             //swagger
             app.UseOpenApi();
             app.UseSwaggerUi3();
+
+            SeedDB.Initialize(app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope().ServiceProvider);
 
             app.UseEndpoints(endpoints =>
             {
