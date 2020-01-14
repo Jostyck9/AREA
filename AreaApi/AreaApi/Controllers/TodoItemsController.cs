@@ -5,10 +5,12 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using AreaApi.Models;
+using AreaApi.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AreaApi.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class TodoItemsController : ControllerBase
