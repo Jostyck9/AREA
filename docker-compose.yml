@@ -2,21 +2,26 @@ version: "3"
 services:
     db:
         image: mysql:latest
+        # image: microsoft/mssql-server-linux:latest
         restart: always
         environment:
+            ACCEPT_EULA: "Y"
             MYSQL_DATABASE: "area"
             MYSQL_USER: "user"
             MYSQL_PASSWORD: "password"
             MYSQL_ROOT_PASSWORD: "password"
-            ACCEPT_EULA: "Y"
+            # SA_PASSWORD: "Str0ng_Passw0rd"
+            # MSSQL_PID: "Area"
         ports:
             - "3306:3306"
+            # - "1433:1433"
         expose:
             - "3306"
+            # - "1433"
         volumes:
-            - my-db:/var/lib/mysql
+            - common:/var/lib/mysql
     server:
-        build: .
+        build: ./AreaApi
         image: area
         ports:
              # - "8081:443"
@@ -31,14 +36,17 @@ services:
             - server
         ports:
             # - "8080:80"
-            # - "8081:443"
+            - "8080:443"
         volumes:
             - /:/var/www
             - ./nginx/nginx.conf:/etc/nginx/nginx.conf
             - /certs:/etc/nginx/certs
     web:
+        build: ./Area
         image: web
-        depends_on: 
+        depends_on:
+            - mobile
+            - server
         ports:
             - "8081:80"
         expose:
@@ -46,11 +54,12 @@ services:
         volumes:
             - common:/home/
     mobile:
+        build: ./AreaApp
         image: mobile
         depends_on:
+            - server
         volumes:
             - common:/home/
 
 volumes:
     common:
-    my_db:
