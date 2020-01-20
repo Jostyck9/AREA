@@ -1,25 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
 using Discord;
 using Discord.WebSocket;
 
-namespace AreaApi.Controllers
+namespace TestDiscordAPI
 {
-    public class DiscordController : Controller
+    class Program
     {
-
         private DiscordSocketClient _client;
-        static void Main(string[] args) => new DiscordController().MainAsync().GetAwaiter().GetResult();
-
-
-        public IActionResult Index()
-        {
-            return View();
-        }
-
+		private readonly string DiscordToken = "NjY4NzU3MjkyNzAyODkyMDg4.XiV-GQ.Ea8BDDps_43RA9Iw4tRx9ENJ6qg";
+        static void Main(string[] args) => new Program().MainAsync().GetAwaiter().GetResult();
 		public async Task MainAsync()
 		{
 			_client = new DiscordSocketClient(new DiscordSocketConfig
@@ -29,7 +19,7 @@ namespace AreaApi.Controllers
 
 			_client.Log += Log;
 
-			await _client.LoginAsync(TokenType.Bot, Environment.GetEnvironmentVariable("DiscordToken")); //stocker token
+			await _client.LoginAsync(TokenType.Bot, "NjY4NzU3MjkyNzAyODkyMDg4.XiV-GQ.Ea8BDDps_43RA9Iw4tRx9ENJ6qg"); //getBotToken
 			await _client.StartAsync();
 
 			await Task.Delay(-1);
@@ -41,5 +31,4 @@ namespace AreaApi.Controllers
 			return Task.CompletedTask;
 		}
 	}
-}
 }
