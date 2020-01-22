@@ -23,9 +23,15 @@ namespace Area.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
+        public IActionResult Help()
         {
             return View();
+        }
+
+        [Route("about.json")]
+        public String About()
+        {
+            return ("Wesh");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
