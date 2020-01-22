@@ -40,7 +40,7 @@
           "dependencies": {
             "Microsoft.AspNetCore.Authentication.JwtBearer": {
               "target": "Package",
-              "version": "[3.0.0, )"
+              "version": "[3.1.1, )"
             },
             "Microsoft.AspNetCore.Identity": {
               "target": "Package",
@@ -48,37 +48,37 @@
             },
             "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
               "target": "Package",
-              "version": "[3.1.0, )"
+              "version": "[3.1.1, )"
             },
             "Microsoft.EntityFrameworkCore.InMemory": {
               "target": "Package",
-              "version": "[3.1.0, )"
+              "version": "[3.1.1, )"
             },
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
-              "version": "[3.1.0, )"
+              "version": "[3.1.1, )"
             },
             "Microsoft.EntityFrameworkCore.Tools": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
               "target": "Package",
-              "version": "[3.1.0, )"
+              "version": "[3.1.1, )"
             },
             "Microsoft.Extensions.Hosting": {
               "target": "Package",
-              "version": "[3.1.0, )"
+              "version": "[3.1.1, )"
             },
             "Microsoft.Extensions.Identity.Core": {
               "target": "Package",
-              "version": "[3.1.0, )"
+              "version": "[3.1.1, )"
             },
             "Microsoft.Extensions.Logging": {
               "target": "Package",
-              "version": "[3.1.0, )"
+              "version": "[3.1.1, )"
             },
             "Microsoft.Extensions.Logging.Debug": {
               "target": "Package",
-              "version": "[3.1.0, )"
+              "version": "[3.1.1, )"
             },
             "Microsoft.IdentityModel.Tokens": {
               "target": "Package",
@@ -86,11 +86,11 @@
             },
             "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
               "target": "Package",
-              "version": "[3.0.0, )"
+              "version": "[3.1.0, )"
             },
             "NSwag.AspNetCore": {
               "target": "Package",
-              "version": "[13.2.0, )"
+              "version": "[13.2.2, )"
             },
             "Pomelo.EntityFrameworkCore.MySql": {
               "target": "Package",
