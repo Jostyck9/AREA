@@ -6,10 +6,6 @@ import com.example.area.view.LoginView
 class LoginPresenter(var loginView: LoginView) {
     fun onLogin(email: String?, password: String?) {
         val user = UserLogin(email!!, password!!)
-        val isLoginSuccess = user.isValidData
-        if (isLoginSuccess)
-            loginView.onResult("Login Success")
-        else
-            loginView.onResult("Login error")
+        loginView.onResult(user.isValidEmail, user.isValidPassword)
     }
 }

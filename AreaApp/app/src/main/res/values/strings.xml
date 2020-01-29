@@ -17,4 +17,8 @@
     <string name="sign_in">Sign in</string>
     <string name="register">Register</string>
     <string name="confirm_password">Confirm Password</string>
+    <string name="errorEmail">"Invalid email"</string>
+    <string name="errorPasswordRegister">"Password must have 6 characters at least"</string>
+    <string name="errorPasswordLogin">"Invalid password"</string>
+    <string name="errorConfirmPassword">"Passwords are not identical"</string>
 </resources>

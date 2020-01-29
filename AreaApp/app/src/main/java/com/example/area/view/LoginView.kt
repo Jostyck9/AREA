@@ -1,5 +1,5 @@
 package com.example.area.view
 
 interface LoginView {
-    fun onResult(message: String?)
+    fun onResult(isEmailSuccess: Boolean, isPasswordSuccess: Boolean)
 }

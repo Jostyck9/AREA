@@ -4,9 +4,10 @@ import android.text.TextUtils
 import android.util.Patterns
 
 class UserLogin(private val email: String, private val password: String) {
-    val isValidData: Boolean
-        get() = !TextUtils.isEmpty(email) &&
-                Patterns.EMAIL_ADDRESS.matcher(email).matches() &&
-                password.length > 5
-
+    //TODO changer par vérification DB
+    val isValidEmail: Boolean
+        get() = !TextUtils.isEmpty(email)&&
+                Patterns.EMAIL_ADDRESS.matcher(email).matches()
+    val isValidPassword: Boolean
+        get() = password.length > 5
 }
