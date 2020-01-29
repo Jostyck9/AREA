@@ -15,44 +15,46 @@ services:
             - "3306"
         volumes:
             - common:/var/lib/mysql
-    nginx:
-        restart: always
-        build:
-            context: ./nginx
-            dockerfile: Dockerfile
-        ports:
-            - "80:80"
-            - "443:443"
-        volumes:
-            - /etc/letsencrypt/:/etc/letsencrypt/
-        links:
-            - web
-    api:
+    # nginx:
+    #     restart: always
+    #     build:
+    #         context: ./nginx
+    #         dockerfile: Dockerfile
+    #     ports:
+    #         - "80:80"
+    #         - "443:443"
+    #     volumes:
+    #         - /etc/letsencrypt/:/etc/letsencrypt/
+    #     links:
+    #         - web
+    server:
         build: ./AreaApi/AreaApi/
         image: area
         ports:
-            - "8080:8080"
+            - "8081:80"
+        expose:
+            - "8080"
         depends_on:
             - db
     web:
         build: ./Area/Area
         image: web
         depends_on:
-            - mobile    
-            - api
+            - server
+            - mobile
         expose:
-            - "8081"
-        # ports:
-        #     - "8082:3000"
+            - "8080"
+        ports:
+            - "8080:80"
         volumes:
             - common:/var/www/:ro
     mobile:
         build: ./AreaApp/
         image: mobile
         depends_on:
-            - api
+            - server
         volumes:
-            - common:/usr/src/app/app/build/outputs/apk/:rw
+            - common:/usr/src/app/build/outputs/apk/:rw
 
 volumes:
     common:

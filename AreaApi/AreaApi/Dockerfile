@@ -2,7 +2,7 @@
 
 FROM mcr.microsoft.com/dotnet/core/aspnet:3.0 AS base
 WORKDIR /app
-EXPOSE 8080
+EXPOSE 8081
 EXPOSE 443
 EXPOSE 80
 
