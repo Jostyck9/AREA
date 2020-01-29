@@ -1,14 +1,15 @@
 package com.example.area.presenter
 
-import com.example.area.model.User
-import com.example.area.view.ILoginView
+import com.example.area.model.UserLogin
+import com.example.area.view.LoginView
 
-class LoginPresenter(var loginView: ILoginView) : ILoginPresenter {
-    override fun onLogin(email: String?, password: String?) {
-        val user = User(email!!, password!!)
+class LoginPresenter(var loginView: LoginView) {
+    fun onLogin(email: String?, password: String?) {
+        val user = UserLogin(email!!, password!!)
         val isLoginSuccess = user.isValidData
-        if (isLoginSuccess) loginView.onLoginResult("Login Success")
-        else loginView.onLoginResult("Login error")
+        if (isLoginSuccess)
+            loginView.onResult("Login Success")
+        else
+            loginView.onResult("Login error")
     }
-
 }
