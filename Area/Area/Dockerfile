@@ -2,9 +2,8 @@
 
 FROM mcr.microsoft.com/dotnet/core/aspnet:3.0 AS base
 WORKDIR /app
-EXPOSE 8080
-EXPOSE 443
-EXPOSE 80
+ENV ASPNETCORE_URLS http://+:8081
+EXPOSE 8081
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.0 AS build
 WORKDIR /src

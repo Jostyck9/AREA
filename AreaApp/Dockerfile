@@ -1,6 +1,9 @@
 FROM gradle:5.4.1-jdk8
 
-USER root
+# USER root
+
+RUN useradd builduser -m 
+RUN passwd -d builduser
 
 ENV SDK_URL="https://dl.google.com/android/repository/sdk-tools-linux-3859397.zip" \
     ANDROID_HOME="/usr/local/android-sdk" \
@@ -22,6 +25,17 @@ RUN $ANDROID_HOME/tools/bin/sdkmanager --update
 RUN $ANDROID_HOME/tools/bin/sdkmanager "build-tools;${ANDROID_BUILD_TOOLS_VERSION}" \
     "platforms;android-${ANDROID_VERSION}" \
     "platform-tools"
+
 # Install Build Essentials
 RUN apt-get update && apt-get install build-essential -y && apt-get install file -y && apt-get install apt-utils -y
+
+COPY . /usr/src/
+WORKDIR /usr/src/
+
+RUN ls
+RUN pwd
+
 CMD ["./gradlew", "assembleRelease"]
+
+# RUN ls ./app/build/outputs/apk/release/
+# RUN pwd
