@@ -16,7 +16,6 @@ class RegisterActivity : AppCompatActivity(), RegisterView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
-        supportActionBar?.hide()
 
         //Redirection
         val backButton: ImageView = findViewById(R.id.backRegister)
