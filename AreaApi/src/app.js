@@ -9,7 +9,7 @@ const app = express()
 // app.use(userRouter)
 
 app.get('/', function(req, res) { // création de la route sous le verbe get
-    res.send('Hello world  ! ') // envoi de hello world a l'utilisateur
+    res.send('Hello world API ! ') // envoi de hello world a l'utilisateur
 })
 
 app.listen(port, () => {
