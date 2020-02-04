@@ -22,7 +22,7 @@ services:
             dockerfile: Dockerfile
         ports:
             - '8082:80'
-    api:
+    server:
         build: ./AreaApi/
         image: area
         ports:
@@ -32,11 +32,11 @@ services:
         volumes:
             - /app/node_modules
             - ./AreaApi:/app
-    web:
+    client_web:
         build: ./AreaWeb/
         image: web
         depends_on:
-            - api
+            - server
             - mobile
         ports:
             - '8080:8080'
@@ -48,7 +48,7 @@ services:
         build: ./AreaApp/
         image: mobile
         depends_on:
-            - api
+            - server
             - nginx
         volumes:
             - common:/usr/src/app/build/outputs/apk/:rw
