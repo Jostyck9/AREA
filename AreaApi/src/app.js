@@ -1,9 +1,13 @@
-const express = require('express')
-const userRouter = require('./routers/auth')
-const aboutRouter = require('./routers/about')
+const express = require('express');
+const bodyParser = require('body-parser')
+
+const oauthRouter = require('./routers/auth');
+const oauth2Router = require('./routers/auth2');
+const aboutRouter = require('./routers/about');
+
 var cors = require('cors');
-const port = process.env.PORT
-require('./db/db')
+const port = process.env.PORT;
+require('./db/db');
 
 const app = express()
 
@@ -34,13 +38,17 @@ let options = {
     basedir: __dirname, //app absolute path
     files: ['./routers/**/*.js'] //Path to the API handle folder
 };
-expressSwagger(options)
+expressSwagger(options);
 
 app.use(cors());
-app.use(express.json())
-app.use(userRouter)
-app.use(aboutRouter)
+app.use(bodyParser.json());
+app.use(bodyParser.raw());
+app.use(express.json());
+
+app.use(oauthRouter);
+app.use(oauth2Router);
+app.use(aboutRouter);
 
 app.listen(port, () => {
     console.log(`Server running on port ${port}`)
-})
+});
