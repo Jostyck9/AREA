@@ -8,7 +8,7 @@ class UserRegister(private val email: String, private val password: String, priv
         get() = !TextUtils.isEmpty(email)&&
                 Patterns.EMAIL_ADDRESS.matcher(email).matches()
     val isValidPassword: Boolean
-        get() = password.length > 5
+        get() = password.length > 6
     val isValidConfirmPassword: Boolean
         get() = password == confirmPassword
 }
