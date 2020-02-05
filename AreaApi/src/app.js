@@ -4,6 +4,8 @@ const bodyParser = require('body-parser')
 const oauthRouter = require('./routers/auth');
 const oauth2Router = require('./routers/auth2');
 const aboutRouter = require('./routers/about');
+const areaRouter = require('./router/area');
+const servicesRouter = require('./router/services');
 
 var cors = require('cors');
 const port = process.env.PORT;
@@ -48,6 +50,8 @@ app.use(express.json());
 app.use(oauthRouter);
 app.use(oauth2Router);
 app.use(aboutRouter);
+app.use(servicesRouter);
+app.use(areaRouter);
 
 app.listen(port, () => {
     console.log(`Server running on port ${port}`)
