@@ -1,4 +1,5 @@
 const express = require('express')
+const AboutJs = require('../models/About')
 
 const router = express.Router()
 
@@ -11,9 +12,8 @@ const router = express.Router()
  */
 router.get('/about.json', async (req, res) => {
     // Get the about.json
-    console.log("about")
-    var about = 'about hello'
-    res.status(200).send({ about })
+    var about = new AboutJs(req.ip);
+    res.status(200).send(await about.getAboutJson())
 })
 
 module.exports = router

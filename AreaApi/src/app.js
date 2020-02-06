@@ -58,6 +58,8 @@ app.use(aboutRouter);
 app.use(servicesRouter);
 app.use(areaRouter);
 
+app.set('trust proxy', true);
+
 app.listen(port, () => {
     console.log(`Server running on port ${port}`)
 });

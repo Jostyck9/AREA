@@ -22,6 +22,25 @@ const reactionSchema = mongoose.Schema({
     }
 })
 
+
+reactionSchema.statics.getAll = async () => {
+    const reactions = await Reaction.find()
+    return reactions;
+}
+
+reactionSchema.statics.getFromServiceId = async (service) => {
+    const reactions = await Reaction.find( {service} );
+    return reactions;
+}
+
+reactionSchema.statics.getById = async (id) => {
+    const reactions = await Reaction.findById(id);
+    if (!reactions) {
+        throw new Error({ error: 'No reaction found' });
+    }
+    return reactions;
+}
+
 const Reaction = mongoose.model('Reaction', reactionSchema)
 
 module.exports = Reaction

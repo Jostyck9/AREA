@@ -1,11 +1,3 @@
-// Get arguments passed on command line
-/*
-if (!userArgs[0].startsWith('mongodb')) {
-    console.log('ERROR: You need to specify a valid mongodb URL as the first argument');
-    return
-}
-*/
-
 var async = require('async')
 var Service = require('../models/Service')
 var Action = require('../models/Action')
@@ -19,16 +11,6 @@ var reactions = []
 module.exports = {
     populateDB: function populateDB(mongoDB) {
     console.log('this scipt populate the services and the actions');
-    mongoose.connect(
-        mongoDB, {
-        useNewUrlParser: true,
-        useCreateIndex: true,
-        useUnifiedTopology: true
-    })
-    mongoose.Promise = global.Promise;
-    var db = mongoose.connection;
-    db.on('error', console.error.bind(console, 'MongoDB connection error:'));
-
     async.series([
         createServices,
         createActions,
@@ -42,8 +24,6 @@ module.exports = {
             else {
                 console.log('Services, actions and reactions created');
             }
-            // All done, disconnect from database
-            mongoose.connection.close();
         });
 }
 };
@@ -107,7 +87,7 @@ function reactionCreate(reactionService, reactionName, reactionDescription, reac
 }
 
 function createServices(cb) {
-    async.parallel([
+    async.series([
         function (callback) {
             serviceCreate('GitHub', callback);
         },

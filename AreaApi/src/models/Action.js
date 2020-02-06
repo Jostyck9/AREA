@@ -22,6 +22,24 @@ const actionSchema = mongoose.Schema({
     }
 })
 
+actionSchema.statics.getAll = async () => {
+    const actions = await Action.find()
+    return actions;
+}
+
+actionSchema.statics.getFromServiceId = async (service) => {
+    const actions = await Action.find( {service} );
+    return actions;
+}
+
+actionSchema.statics.getById = async (id) => {
+    const actions = await Action.findById(id);
+    if (!actions) {
+        throw new Error({ error: 'No action found' });
+    }
+    return actions;
+}
+
 const Action = mongoose.model('Action', actionSchema)
 
 module.exports = Action
