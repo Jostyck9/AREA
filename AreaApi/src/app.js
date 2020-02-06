@@ -11,6 +11,11 @@ var cors = require('cors');
 const port = process.env.PORT;
 require('./db/db');
 
+const populateDb = require('./db/populated.js')
+populateDb.populateDB(process.env.MONGODB_URL);
+
+
+
 const app = express()
 
 // swagger
