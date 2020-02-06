@@ -4,16 +4,50 @@ const AboutJs = require('../models/About')
 const router = express.Router()
 
 /**
+ * @typedef Client
+ * @property {string} host - user's ip
+ */
+
+/**
+ * @typedef Action
+ * @property {string} name - action's name
+ * @property {string} description - action's description
+ */
+
+/**
+ * @typedef Service
+ * @property {string} name - service's name
+ * @property {Array.<Action>} actions - actions describing the service
+ * @property {Array.<Action>} reactions - reactions describing the service
+ */
+
+/**
+ * @typedef Server
+ * @property {Int} current_time - server's current time
+ * @property {Array.<Service>} services - all the services available
+ */
+ 
+/**
+ * @typedef About
+ * @property {Client.model} client - user's informations
+ * @property {Server.model} server - server's informations
+ */
+
+/**
  * Get the about.json file with all the informations about the services
  * @route GET /about.json
  * @group About - About file
- * @returns {JSON} 200 - about file
+ * @returns {About.model} 200 - about file
  * @returns {Error}  default - Unexpected error
  */
 router.get('/about.json', async (req, res) => {
     // Get the about.json
-    var about = new AboutJs(req.ip);
-    res.status(200).send(await about.getAboutJson())
+    try {
+        var about = new AboutJs(req.ip);
+        res.status(200).send(await about.getAboutJson())
+    } catch (error) {
+        res.status(401).send({ error: 'Failed to catch json object' })
+    }
 })
 
 module.exports = router
