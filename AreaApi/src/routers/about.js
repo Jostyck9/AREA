@@ -4,25 +4,25 @@ const AboutJs = require('../models/About')
 const router = express.Router()
 
 /**
- * @typedef Client
+ * @typedef ClientAbout
  * @property {string} host - user's ip
  */
 
 /**
- * @typedef Action
+ * @typedef ActionAbout
  * @property {string} name - action's name
  * @property {string} description - action's description
  */
 
 /**
- * @typedef Service
+ * @typedef ServiceAbout
  * @property {string} name - service's name
  * @property {Array.<Action>} actions - actions describing the service
  * @property {Array.<Action>} reactions - reactions describing the service
  */
 
 /**
- * @typedef Server
+ * @typedef ServerAbout
  * @property {Int} current_time - server's current time
  * @property {Array.<Service>} services - all the services available
  */
