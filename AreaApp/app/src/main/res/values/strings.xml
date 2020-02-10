@@ -1,3 +1,24 @@
 <resources>
-    <string name="app_name">Area</string>
+    <string name="app_name">AREA</string>
+    <string name="area">AREA</string>
+    <string name="info">You need to be connected  first \nto manage your services</string>
+    <string name="tree">Tree</string>
+    <string name="google">Google</string>
+    <string name="microsoft">Microsoft</string>
+    <string name="twitter">Twitter</string>
+    <string name="sign_in_with_email">Sign in with email</string>
+    <string name="logo_google">logo google</string>
+    <string name="logo_microsoft">logo microsoft</string>
+    <string name="logo_twitter">logo twitter</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="not_register_yet_create_an_account">Not registered yet ? Create an account</string>
+    <string name="enter_in_your_world">Enter in your world</string>
+    <string name="sign_in">Sign in</string>
+    <string name="register">Register</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="errorEmail">"Invalid email"</string>
+    <string name="errorPasswordRegister">"Password must have 6 characters at least"</string>
+    <string name="errorPasswordLogin">"Invalid password"</string>
+    <string name="errorConfirmPassword">"Passwords are not identical"</string>
 </resources>
