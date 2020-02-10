@@ -29,8 +29,8 @@ const router = express.Router()
  
 /**
  * @typedef About
- * @property {Client.model} client - user's informations
- * @property {Server.model} server - server's informations
+ * @property {ClientAbout.model} client - user's informations
+ * @property {ServerAbout.model} server - server's informations
  */
 
 /**
