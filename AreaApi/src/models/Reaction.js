@@ -33,6 +33,14 @@ reactionSchema.statics.getFromServiceId = async (service) => {
     return reactions;
 }
 
+reactionSchema.statics.getByName = async (name) => {
+    const reactions = await Reaction.findOne({name});
+    if (!reactions) {
+        throw new Error({ error: 'No reaction found' });
+    }
+    return reactions;
+}
+
 reactionSchema.statics.getById = async (id) => {
     const reactions = await Reaction.findById(id);
     if (!reactions) {

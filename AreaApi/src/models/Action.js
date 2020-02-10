@@ -38,6 +38,14 @@ actionSchema.statics.getFromServiceId = async (service) => {
     return actions;
 }
 
+actionSchema.statics.getByName = async (name) => {
+    const service = await Action.findOne( {name} );
+    if (!service) {
+        throw new Error({ error: 'No action found' })
+    }
+    return service
+}
+
 actionSchema.statics.getById = async (id) => {
     const actions = await Action.findById(id);
     if (!actions) {

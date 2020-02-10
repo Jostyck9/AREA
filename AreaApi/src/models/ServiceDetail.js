@@ -36,9 +36,10 @@ async function GetReactions(id)
 
 async function GetServiceDetailByName(ServiceName)
 {
+    console.log(ServiceName)
     const service = await Services.getByName(ServiceName)
-    const actions = await GetActions(id)
-    const reactions = await GetReactions(id)
+    const actions = await GetActions(service._id)
+    const reactions = await GetReactions(service._id)
 
     return {name: service._name, id: service._id, actions: actions, reactions: reactions}
 }
