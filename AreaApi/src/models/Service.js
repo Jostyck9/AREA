@@ -11,6 +11,9 @@ const serviceSchema = mongoose.Schema({
 
 serviceSchema.statics.getAll = async () => {
     const services = await Service.find()
+    if (!services) {
+        throw new Error({ error: 'No service found' })
+    }
     return services;
 }
 

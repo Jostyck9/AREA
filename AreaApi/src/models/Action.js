@@ -24,11 +24,17 @@ const actionSchema = mongoose.Schema({
 
 actionSchema.statics.getAll = async () => {
     const actions = await Action.find()
+    if (!actions) {
+        throw new Error({ error: 'No action found' });
+    }
     return actions;
 }
 
 actionSchema.statics.getFromServiceId = async (service) => {
     const actions = await Action.find( {service} );
+    if (!actions) {
+        throw new Error({ error: 'No action found' });
+    }
     return actions;
 }
 
