@@ -38,40 +38,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/area" />
 
-    <androidx.cardview.widget.CardView
+    <com.google.android.gms.common.SignInButton
         android:id="@+id/googleButton"
         android:layout_width="175sp"
         android:layout_height="40sp"
         android:layout_marginTop="200dp"
-        app:cardBackgroundColor="@color/colorPrimaryDark"
-        app:cardCornerRadius="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" >
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:gravity="center">
-
-            <ImageView
-                android:layout_width="15dp"
-                android:layout_height="15dp"
-                android:layout_gravity="center"
-                app:srcCompat="@drawable/google"
-                android:layout_marginEnd="15dp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="@string/google"
-                android:textColor="@color/colorPrimary"
-                android:textSize="17sp"/>
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/microsoftButton"
@@ -160,10 +136,10 @@
         android:id="@+id/treeImage"
         android:layout_width="208dp"
         android:layout_height="234dp"
+        android:contentDescription="@string/tree"
         app:layout_constraintBottom_toTopOf="@+id/googleButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/tree"
-        android:contentDescription="@string/tree" />
+        app:srcCompat="@drawable/tree" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

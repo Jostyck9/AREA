@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageView
+import com.google.firebase.auth.FirebaseAuth
 
 class ProfileActivity : AppCompatActivity() {
 
@@ -23,6 +24,7 @@ class ProfileActivity : AppCompatActivity() {
         val profileRedirection: Button = findViewById(R.id.profileRedirection)
         profileRedirection.setOnClickListener {
             //TODO déconnecter l'utilisateur
+            FirebaseAuth.getInstance().signOut()
             val i = Intent(applicationContext, MainActivity::class.java)
             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
