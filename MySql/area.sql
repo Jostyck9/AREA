@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 5.5.62, for Win64 (AMD64)
 --
--- Host: localhost    Database: area
+-- Host: 172.20.1.1    Database: area
 -- ------------------------------------------------------
 -- Server version	8.0.18
 
@@ -18,6 +18,9 @@
 --
 -- Table structure for table `actions`
 --
+
+ALTER USER 'root'@'172.20.1.1' IDENTIFIED WITH mysql_native_password BY 'password';
+FLUSH PRIVILEGES;
 
 DROP TABLE IF EXISTS `actions`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
