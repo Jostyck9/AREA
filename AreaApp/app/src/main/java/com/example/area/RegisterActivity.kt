@@ -10,6 +10,10 @@ import android.widget.Toast
 import androidx.cardview.widget.CardView
 import com.example.area.presenter.RegisterPresenter
 import com.example.area.view.RegisterView
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import kotlinx.android.synthetic.main.activity_profile.*
+import kotlinx.android.synthetic.main.activity_register.*
 
 class RegisterActivity : AppCompatActivity(), RegisterView {
 
@@ -18,36 +22,40 @@ class RegisterActivity : AppCompatActivity(), RegisterView {
         setContentView(R.layout.activity_register)
 
         //Redirection
-        val backButton: ImageView = findViewById(R.id.backRegister)
-        backButton.setOnClickListener {
+        backRegister.setOnClickListener {
             finish()
         }
 
-        //Check Register
-        val emailRegister: EditText = findViewById(R.id.emailRegister)
-        val passwordRegister: EditText = findViewById(R.id.passwordRegister)
-        val confirmPasswordRegister: EditText = findViewById(R.id.confirmPasswordRegister)
-        val registerButton: CardView = findViewById(R.id.registerButton)
-        val loginPresenter = RegisterPresenter(this)
+        val registerPresenter = RegisterPresenter(this)
 
         registerButton.setOnClickListener {
-            loginPresenter.onLogin(emailRegister.text.toString(), passwordRegister.text.toString(), confirmPasswordRegister.text.toString())
+            registerPresenter.onRegister(emailRegister.text.toString(), usernameRegister.text.toString(), passwordRegister.text.toString(), confirmPasswordRegister.text.toString())
         }
     }
 
-    override fun onResult(isEmailSuccess: Boolean, isPasswordSuccess: Boolean, isConfirmPasswordSuccess: Boolean) {
-        val errorText: TextView = findViewById(R.id.errorTextRegister)
+    override fun onResult(isEmailSuccess: Boolean, isUsernameSuccess: Boolean, isPasswordSuccess: Boolean, isConfirmPasswordSuccess: Boolean) {
         if (isEmailSuccess) {
-            if (isPasswordSuccess) {
-                if (isConfirmPasswordSuccess) {
-                    errorText.text = ""
-                    //TODO ajouter la personne a la DB
-                    Toast.makeText(this, "Register Success", Toast.LENGTH_SHORT).show()
+            if (isUsernameSuccess) {
+                if (isPasswordSuccess) {
+                    if (isConfirmPasswordSuccess) {
+                        errorTextRegister.text = ""
+                        val gson = GsonBuilder().setPrettyPrinting().create()
+                        val tutMap: Map<String, String> =
+                            mapOf(
+                                "name" to usernameRegister.text.toString(),
+                                "email" to emailRegister.text.toString(),
+                                "password" to passwordRegister.text.toString()
+                            )
+                        val jsonTutMapPretty: String = gson.toJson(tutMap)
+                        println(jsonTutMapPretty)
+                        //TODO ajouter la personne a la DB
+                    } else
+                    errorTextRegister.text = getString(R.string.errorConfirmPassword)
                 } else
-                    errorText.text = getString(R.string.errorConfirmPassword)
+                    errorTextRegister.text = getString(R.string.errorPasswordRegister)
             } else
-                errorText.text = getString(R.string.errorPasswordRegister)
+                errorTextRegister.text = getString(R.string.errorUsernameRegister)
         } else
-            errorText.text = getString(R.string.errorEmail)
+            errorTextRegister.text = getString(R.string.errorEmail)
     }
 }

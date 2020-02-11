@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageView
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.android.synthetic.main.activity_profile.*
 
 class ProfileActivity : AppCompatActivity() {
 
@@ -16,12 +17,10 @@ class ProfileActivity : AppCompatActivity() {
         //TODO afficher username, email et password de l'utilisateur
 
         //Redirection
-        val backButton: ImageView = findViewById(R.id.backProfile)
-        backButton.setOnClickListener {
+        backProfile.setOnClickListener {
             finish()
         }
 
-        val profileRedirection: Button = findViewById(R.id.profileRedirection)
         profileRedirection.setOnClickListener {
             //TODO déconnecter l'utilisateur
             FirebaseAuth.getInstance().signOut()

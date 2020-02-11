@@ -46,6 +46,21 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
+        android:id="@+id/usernameRegister"
+        android:layout_width="275dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="50dp"
+        android:background="@color/backgroundText"
+        android:drawableStart="@drawable/ic_logo_profile"
+        android:ems="10"
+        android:hint="@string/username"
+        android:inputType="text"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/emailRegister" />
+
+    <EditText
         android:id="@+id/passwordRegister"
         android:layout_width="275dp"
         android:layout_height="35dp"
@@ -58,7 +73,7 @@
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/emailRegister" />
+        app:layout_constraintTop_toBottomOf="@+id/usernameRegister" />
 
     <EditText
         android:id="@+id/confirmPasswordRegister"
