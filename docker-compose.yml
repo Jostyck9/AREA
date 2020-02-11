@@ -1,7 +1,10 @@
 version: "3"
 services:
     db:
-        image: mysql:latest
+        volumes:
+            - ./configs/mysql/data:/docker-entrypoint-initdb.d
+        build: ./MySql/
+        container_name: MYSQL_Database
         restart: always
         environment:
             ACCEPT_EULA: "Y"
