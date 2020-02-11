@@ -1,11 +1,15 @@
+// const populate = require('./db/populated.js');
+// populate.init();
+console.log('Starting server...')
+
 const express = require('express');
 const bodyParser = require('body-parser')
 
-const oauthRouter = require('./routers/auth');
+// const oauthRouter = require('./routers/auth');
 // const oauth2Router = require('./routers/auth2');
 // const aboutRouter = require('./routers/about');
 // const areaRouter = require('./routers/area');
-// const servicesRouter = require('./routers/services/services');
+const servicesRouter = require('./routers/services/services');
 
 var cors = require('cors');
 const port = process.env.PORT;
@@ -46,10 +50,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.raw());
 app.use(express.json());
 
-app.use(oauthRouter);
+// app.use(oauthRouter);
 // app.use(oauth2Router);
 // app.use(aboutRouter);
-// app.use(servicesRouter);
+app.use(servicesRouter);
 // app.use(areaRouter);
 
 app.set('trust proxy', true);

@@ -17,7 +17,7 @@
 //         createReactions
 //     ],
 //         // Optional callback
-//         function (err, results) {
+//         function (er
 //             if (err) {
 //                 console.log('FINAL ERR: ' + err);
 //             }
@@ -190,18 +190,100 @@ const sql = require('../models/db');
 
 module.exports = {
     init: function populateDB(mongoDB) {
-        console.log('this scipt populate the services and the actions');
-        sql.query("DROP TABLE IF EXISTS `services`;");
-        sql.query("DROP TABLE IF EXISTS `actions`;");
+        console.log('this scipt populate the services and the actions', (err, res) => {
+            if (err) {
+                console.log("error: ", err);
+                return;
+            }
+        });
+
+        // sql.query("DROP TABLE IF EXISTS `services`;", (err, res) => {
+        //     if (err) {
+        //         console.log("error: ", err);
+        //         return;
+        //     }
+        // });
+
+        // sql.query("DROP TABLE IF EXISTS `actions`;", (err, res) => {
+        //     if (err) {
+        //         console.log("error: ", err);
+        //         return;
+        //     }
+        // });
+
+        sql.query("CREATE TABLE `services` (`id` int(11) NOT NULL AUTO_INCREMENT,`name` varchar(50) NOT NULL,PRIMARY KEY (`id`),UNIQUE KEY `service name` (`name`)) DEFAULT CHARSET=utf8;", (err, res) => {
+            if (err) {
+                console.log("error: ", err);
+                return;
+            }
+
+        });
+
         sql.query("CREATE TABLE `actions` (\
             `id` int(11) NOT NULL AUTO_INCREMENT,\
             `service_id` int(11) NOT NULL,\
             `name` varchar(100) NOT NULL,\
             `description` text NOT NULL,\
-            `results` json DEFAULT NULL,\
             PRIMARY KEY (`id`),\
             UNIQUE KEY `action name` (`name`)\
-          ) DEFAULT CHARSET=utf8;");
+          ) DEFAULT CHARSET=utf8;", (err, res) => {
+            if (err) {
+                console.log("error: ", err);
+                return;
+            }
+
+        });
+
+        // sql.query("INSERT INTO `services` VALUES (0,'github');", (err, res) => {
+        //     if (err) {
+        //         console.log("error: ", err);
+        //         return;
+        //     }
+
+        // })
+        // sql.query("INSERT INTO `services` VALUES (1,'twitter');", (err, res) => {
+        //     if (err) {
+        //         console.log("error: ", err);
+        //         return;
+        //     }
+
+        // })
+        // sql.query("INSERT INTO `services` VALUES (2,'spotify');", (err, res) => {
+        //     if (err) {
+        //         console.log("error: ", err);
+        //         return;
+        //     }
+
+        // })
+        // sql.query("INSERT INTO `services` VALUES (3,'outlook');", (err, res) => {
+        //     if (err) {
+        //         console.log("error: ", err);
+        //         return;
+        //     }
+
+        // })
+        // sql.query("INSERT INTO `services` VALUES (4,'discord');", (err, res) => {
+        //     if (err) {
+        //         console.log("error: ", err);
+        //         return;
+        //     }
+
+        // })
+        // sql.query("INSERT INTO `services` VALUES (5,'trello');", (err, res) => {
+        //     if (err) {
+        //         console.log("error: ", err);
+        //         return;
+        //     }
+
+        // })
+        // sql.query("INSERT INTO `services` VALUES (6,'onedrive');", (err, res) => {
+        //     if (err) {
+        //         console.log("error: ", err);
+        //         return;
+        //     }
+
+        // })
+        console.log('Populate finished')
     }
 };
 

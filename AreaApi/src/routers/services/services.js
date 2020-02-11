@@ -1,9 +1,9 @@
 const express = require('express');
 const Services = require('../../models/Service')
-const Actions = require('../../models/Action')
-const Reactions = require('../../models/Reaction')
+// const Actions = require('../../models/Action')
+// const Reactions = require('../../models/Reaction')
 
-const ServiceDetail = require('../../models/ServiceDetail')
+// const ServiceDetail = require('../../models/ServiceDetail')
 
 const router = express.Router();
 
@@ -43,8 +43,14 @@ router.get('/services', async (req, res) => {
     // } catch (error) {
     //     res.status(401).send(error);
     // }
-
-    res.status(200).send('ok')
+    try {
+        const resRequest = await Services.getAll()
+        console.log('Succes', resRequest, 'end')
+        res.status(200).send(JSON.stringify(resRequest))
+    } catch (err) {
+        console.log('Err', err)
+        res.status(400).send(err)
+    }
 })
 
 /**

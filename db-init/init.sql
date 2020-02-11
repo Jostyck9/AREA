@@ -20,7 +20,7 @@
 --
 
 -- ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'password';
-ALTER USER 'root'@'172.20.1.1' IDENTIFIED WITH mysql_native_password BY 'password';
+-- ALTER USER 'root'@'172.20.1.1' IDENTIFIED WITH mysql_native_password BY 'password';
 -- FLUSH PRIVILEGES;
 
 DROP TABLE IF EXISTS `actions`;
@@ -43,17 +43,17 @@ CREATE TABLE `actions` (
 
 -- LOCK TABLES `actions` WRITE;
 
--- INSERT INTO `actions` VALUES (0, 0, "push", "a new push is intended by someone", NULL);
--- INSERT INTO `actions` VALUES (1, 0, "pull request", "a new pull request is intended by someone", NULL);
--- INSERT INTO `actions` VALUES (2, 1, "tweet", "a new tweet has been post", NULL);
--- INSERT INTO `actions` VALUES (3, 2, "music added", "A new music has been added to a playlist", NULL);
--- INSERT INTO `actions` VALUES (4, 3, "email received", "A new email has been received", NULL);
--- INSERT INTO `actions` VALUES (5, 3, "event created", "A new event has been created in calendar", NULL);
--- INSERT INTO `actions` VALUES (6, 4, "messaged received", "A new message has been received", NULL);
--- INSERT INTO `actions` VALUES (7, 5, "card added", "A new card has been had to a board", NULL);
--- INSERT INTO `actions` VALUES (8, 5, "deadline soon", "A card approched a deadline", NULL);
--- INSERT INTO `actions` VALUES (9, 6, "file deleted", "A file has been delete", NULL);
--- INSERT INTO `actions` VALUES (10, 6, "file added", "A new file has been add", NULL);
+INSERT INTO `actions` VALUES (0, 0, "push", "a new push is intended by someone", NULL);
+INSERT INTO `actions` VALUES (1, 0, "pull request", "a new pull request is intended by someone", NULL);
+INSERT INTO `actions` VALUES (2, 1, "tweet", "a new tweet has been post", NULL);
+INSERT INTO `actions` VALUES (3, 2, "music added", "A new music has been added to a playlist", NULL);
+INSERT INTO `actions` VALUES (4, 3, "email received", "A new email has been received", NULL);
+INSERT INTO `actions` VALUES (5, 3, "event created", "A new event has been created in calendar", NULL);
+INSERT INTO `actions` VALUES (6, 4, "messaged received", "A new message has been received", NULL);
+INSERT INTO `actions` VALUES (7, 5, "card added", "A new card has been had to a board", NULL);
+INSERT INTO `actions` VALUES (8, 5, "deadline soon", "A card approched a deadline", NULL);
+INSERT INTO `actions` VALUES (9, 6, "file deleted", "A file has been delete", NULL);
+INSERT INTO `actions` VALUES (10, 6, "file added", "A new file has been add", NULL);
 /*!40000 ALTER TABLE `actions` DISABLE KEYS */;
 /*!40000 ALTER TABLE `actions` ENABLE KEYS */;
 -- UNLOCK TABLES;
@@ -107,14 +107,14 @@ CREATE TABLE `reactions` (
 
 -- LOCK TABLES `reactions` WRITE;
 
--- INSERT INTO `reactions` VALUES (0, 1, "tweet", "post a new tweet", NULL);
--- INSERT INTO `reactions` VALUES (1, 2, "add music", "add a new music to an existing playlist", NULL);
--- INSERT INTO `reactions` VALUES (2, 3, "create event", "create a new event in calendar", NULL);
--- INSERT INTO `reactions` VALUES (3, 3, "send email", "send an email", NULL);
--- INSERT INTO `reactions` VALUES (4, 4, "send message", "send a message to a specific channel", NULL);
--- INSERT INTO `reactions` VALUES (5, 5, "add card", "add a new card to an existing board", NULL);
--- INSERT INTO `reactions` VALUES (6, 6, "add file", "add a new file", NULL);
--- INSERT INTO `reactions` VALUES (7, 6, "delete file", "delete a file", NULL);
+INSERT INTO `reactions` VALUES (0, 1, "tweet", "post a new tweet", NULL);
+INSERT INTO `reactions` VALUES (1, 2, "add music", "add a new music to an existing playlist", NULL);
+INSERT INTO `reactions` VALUES (2, 3, "create event", "create a new event in calendar", NULL);
+INSERT INTO `reactions` VALUES (3, 3, "send email", "send an email", NULL);
+INSERT INTO `reactions` VALUES (4, 4, "send message", "send a message to a specific channel", NULL);
+INSERT INTO `reactions` VALUES (5, 5, "add card", "add a new card to an existing board", NULL);
+INSERT INTO `reactions` VALUES (6, 6, "add file", "add a new file", NULL);
+INSERT INTO `reactions` VALUES (7, 6, "delete file", "delete a file", NULL);
 
 /*!40000 ALTER TABLE `reactions` DISABLE KEYS */;
 /*!40000 ALTER TABLE `reactions` ENABLE KEYS */;
@@ -141,13 +141,13 @@ CREATE TABLE `services` (
 
 -- LOCK TABLES `services` WRITE;
 /*!40000 ALTER TABLE `services` DISABLE KEYS */;
--- INSERT INTO `services` VALUES (0,'github');
--- INSERT INTO `services` VALUES (1,'twitter');
--- INSERT INTO `services` VALUES (2,'spotify');
--- INSERT INTO `services` VALUES (3,'outlook');
--- INSERT INTO `services` VALUES (4,'discord');
--- INSERT INTO `services` VALUES (5,'trello');
--- INSERT INTO `services` VALUES (6,'onedrive');
+INSERT INTO `services` VALUES (0,'github');
+INSERT INTO `services` VALUES (1,'twitter');
+INSERT INTO `services` VALUES (2,'spotify');
+INSERT INTO `services` VALUES (3,'outlook');
+INSERT INTO `services` VALUES (4,'discord');
+INSERT INTO `services` VALUES (5,'trello');
+INSERT INTO `services` VALUES (6,'onedrive');
 /*!40000 ALTER TABLE `services` ENABLE KEYS */;
 -- UNLOCK TABLES;
 

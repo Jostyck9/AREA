@@ -21,7 +21,7 @@
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^3.5.2",
     "mongoose": "^5.8.10",
-    "mysql": "^2.18.1",
+    "mysql2": "^2.1.0",
     "node-outlook": "^1.1.8",
     "nodemon": "^2.0.2",
     "onedrive-api": "^0.3.4",
