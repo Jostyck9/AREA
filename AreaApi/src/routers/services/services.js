@@ -36,13 +36,15 @@ const router = express.Router();
  * @returns {Error}  default - Unexpected error
  */
 router.get('/services', async (req, res) => {
-    //Get a list of available services
-    try {
-        resRequest = await ServiceDetail.GetAllServiceDetail()
-        res.status(200).send(resRequest)
-    } catch (error) {
-        res.status(401).send(error);
-    }
+    // //Get a list of available services
+    // try {
+    //     resRequest = await ServiceDetail.GetAllServiceDetail()
+    //     res.status(200).send(resRequest)
+    // } catch (error) {
+    //     res.status(401).send(error);
+    // }
+
+    res.status(200).send('ok')
 })
 
 /**
@@ -55,13 +57,14 @@ router.get('/services', async (req, res) => {
  */
 router.get('/services/:nameService', async (req, res) => {
     //Get a list of available services
-    try {
-        resRequest = await ServiceDetail.GetServiceDetailByName(req.params.nameService)
-        res.status(200).send(resRequest)
-    } catch {
-        res.status(401).send("Service " + req.params.idService + " not found")
-        return
-    }
+    // try {
+    //     resRequest = await ServiceDetail.GetServiceDetailByName(req.params.nameService)
+    //     res.status(200).send(resRequest)
+    // } catch {
+    //     res.status(401).send("Service " + req.params.idService + " not found")
+    //     return
+    // }
+    res.status(200).send('ok')
 })
 
 
@@ -75,14 +78,15 @@ router.get('/services/:nameService', async (req, res) => {
  */
 router.get('/services/:nameService/actions', async (req, res) => {
     //Get a list of the service's actions
-    service = {}
-    try {
-        var test = await Services.getByName(req.params.nameService)
-        resRequest = await ServiceDetail.GetActions(test._id)
-        res.status(200).send(resRequest);
-    } catch (error) {
-        res.status(401).send(error);
-    }
+    // service = {}
+    // try {
+    //     var test = await Services.getByName(req.params.nameService)
+    //     resRequest = await ServiceDetail.GetActions(test._id)
+    //     res.status(200).send(resRequest);
+    // } catch (error) {
+    //     res.status(401).send(error);
+    // }
+    res.status(200).send('ok')
 })
 
 /**
@@ -96,14 +100,15 @@ router.get('/services/:nameService/actions', async (req, res) => {
  */
 router.get('/services/:nameService/actions/:nameAction', async (req, res) => {
     //Get a specific action from a speficied service
-    try {
-        var test = await Services.getByName(req.params.nameService)
-        resRequest = await Actions.getByName(req.params.nameAction)
-        restest = {name: resRequest.name, id: resRequest._id, description: resRequest.description, results: resRequest.res}
-        res.status(200).send(restest);
-    } catch (error) {
-        res.status(401).send(error);
-    }
+    // try {
+    //     var test = await Services.getByName(req.params.nameService)
+    //     resRequest = await Actions.getByName(req.params.nameAction)
+    //     restest = {name: resRequest.name, id: resRequest._id, description: resRequest.description, results: resRequest.res}
+    //     res.status(200).send(restest);
+    // } catch (error) {
+    //     res.status(401).send(error);
+    // }
+    res.status(200).send('ok')
 })
 
 /**
@@ -115,15 +120,16 @@ router.get('/services/:nameService/actions/:nameAction', async (req, res) => {
  * @returns {Error}  default - Unexpected error
  */
 router.get('/services/:nameService/reactions', async (req, res) => {
-    //Get a list of the service's actions
-    service = {}
-    try {
-        var test = await Services.getByName(req.params.nameService)
-        resRequest = await ServiceDetail.GetReactions(test._id)
-        res.status(200).send(resRequest);
-    } catch (error) {
-        res.status(401).send(error);
-    }
+    // //Get a list of the service's actions
+    // service = {}
+    // try {
+    //     var test = await Services.getByName(req.params.nameService)
+    //     resRequest = await ServiceDetail.GetReactions(test._id)
+    //     res.status(200).send(resRequest);
+    // } catch (error) {
+    //     res.status(401).send(error);
+    // }
+    res.status(200).send('ok')
 })
 
 /**
@@ -137,14 +143,15 @@ router.get('/services/:nameService/reactions', async (req, res) => {
  */
 router.get('/services/:nameService/reactions/:nameReaction', async (req, res) => {
     //Get a specific action from a speficied service
-    try {
-        var test = await Services.getByName(req.params.nameService)
-        resRequest = await Reactions.getByName(req.params.nameReaction)
-        restest = {name: resRequest.name, id: resRequest._id, description: resRequest.description, parameters: resRequest.parameters}
-        res.status(200).send(restest);
-    } catch (error) {
-        res.status(401).send(error);
-    }
+    // try {
+    //     var test = await Services.getByName(req.params.nameService)
+    //     resRequest = await Reactions.getByName(req.params.nameReaction)
+    //     restest = {name: resRequest.name, id: resRequest._id, description: resRequest.description, parameters: resRequest.parameters}
+    //     res.status(200).send(restest);
+    // } catch (error) {
+    //     res.status(401).send(error);
+    // }
+    res.status(200).send('ok')
 })
 
 module.exports = router;
