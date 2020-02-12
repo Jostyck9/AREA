@@ -209,8 +209,9 @@ CREATE TABLE `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(50) NOT NULL,
   `email` varchar(100) NOT NULL,
-  `pasword` varchar(50) NOT NULL,
-  PRIMARY KEY (`id`)
+  `password` varchar(70) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `user email` (`email`)
 ) DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 

@@ -9,87 +9,71 @@ const Action = function (action) {
     this.results = action.results
 };
 
-Action.create = (newAction, result) => {
-    sql.query("INSERT INTO actions SET ?", newAction, (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(err, null);
-            return;
-        }
-
+Action.create = async newAction => {
+    try {
+        const res = await sql.query("INSERT INTO actions SET ?", [newAction]);
         console.log("created action: ", { id: res.insertId, ...newAction });
-        result(null, { id: res.insertId, ...newAction });
-    });
+        return { id: res.insertId, ...newAction };
+    } catch (err) {
+        console.log(err);
+        throw err;
+    }
 };
 
-Action.getAll = result => {
-    sql.query("SELECT * FROM actions", (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(err, null);
-            return;
+Action.getAll = async () => {
+    try {
+        const res = await sql.query("SELECT * FROM actions");
+        if (res[0].length < 1) {
+            throw new Error("error: no actions found")
         }
-
-        console.log("actions: ", res);
-        result(null, res);
-    });
+        console.log("actions: ", res[0]);
+        return res[0];
+    } catch (err) {
+        console.log(err);
+        throw err;
+    }
 }
 
-Action.findById = (actionId, result) => {
-    sql.query(`SELECT * FROM actions WHERE id = ${actionId}`, (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(err, null);
-            return;
+Action.findById = async actionId => {
+    try {
+        const res = await sql.query(`SELECT * FROM actions WHERE id = ?`, [actionId]);
+        if (res[0].length < 1) {
+            throw new Error("error: no actions found")
         }
-
-        if (res.length) {
-            console.log("found action: ", res[0]);
-            result(null, res[0]);
-            return;
-        }
-
-        // not found Action with the id
-        result({ kind: "not_found" }, null);
-    });
+        console.log("actions: ", res[0])
+        return res[0][0];
+    } catch (err) {
+        console.log(err);
+        throw err;
+    }
 };
 
-Action.findByServiceId = (serviceId, result) => {
-    sql.query(`SELECT * FROM actions WHERE service_id = ${serviceId}`, (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(err, null);
-            return;
+Action.findByServiceId = async serviceId => {
+    try {
+        const res = await sql.query(`SELECT * FROM actions WHERE service_id = ?`, [serviceId]);
+        if (res[0].length < 1) {
+            throw new Error("error: no actions found")
         }
-
-        if (res.length) {
-            console.log("found actions: ", res);
-            result(null, res);
-            return;
-        }
-
-        // not found Action with the id
-        result({ kind: "not_found" }, null);
-    });
+        console.log("actions: ", res[0])
+        return res[0];
+    } catch (err) {
+        console.log(err);
+        throw err;
+    }
 };
 
-Action.findByName = (actionName, result) => {
-    sql.query(`SELECT * FROM actions WHERE name = ${actionName}`, (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(err, null);
-            return;
+Action.findByName = async actionName => {
+    try {
+        const res = await sql.query(`SELECT * FROM actions WHERE name = ?`, [actionName]);
+        if (res[0].length < 1) {
+            throw new Error("error: no actions found")
         }
-
-        if (res.length) {
-            console.log("found action: ", res[0]);
-            result(null, res[0]);
-            return;
-        }
-
-        // not found Customer with the id
-        result({ kind: "not_found" }, null);
-    });
+        console.log("actions: ", res[0][0])
+        return res[0][0];
+    } catch (err) {
+        console.log(err);
+        throw err;
+    }
 };
 
 module.exports = Action

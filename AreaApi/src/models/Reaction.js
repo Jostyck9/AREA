@@ -1,54 +1,79 @@
-const mongoose = require('mongoose')
+//MYSQL
 
-const reactionSchema = mongoose.Schema({
-    service: {
-        type: mongoose.Schema.Types.ObjectId, 
-        ref: 'Service', 
-        required: true
-    },
-    name: {
-        type: String,
-        unique: true,
-        required: true,
-        trim: true
-    },
-    description: {
-        type: String,
-        required: true
-    },
-    parameters: {
-        type: JSON,
-        required: true
+const sql = require("./db.js");
+
+const Reaction = function (reaction) {
+    this.service_id = reaction.service_id,
+    this.name = reaction.name,
+    this.description = reaction.description,
+    this.parameters = reaction.parameters
+};
+
+Reaction.create = async newReaction => {
+    try {
+        const res = await sql.query("INSERT INTO reactions SET ?", [newReaction]);
+        console.log("created action: ", { id: res.insertId, ...newReaction });
+        return { id: res.insertId, ...newReaction };
+    } catch (err) {
+        console.log(err);
+        throw err;
     }
-})
+};
 
-
-reactionSchema.statics.getAll = async () => {
-    const reactions = await Reaction.find()
-    return reactions;
-}
-
-reactionSchema.statics.getFromServiceId = async (service) => {
-    const reactions = await Reaction.find( {service} );
-    return reactions;
-}
-
-reactionSchema.statics.getByName = async (name) => {
-    const reactions = await Reaction.findOne({name});
-    if (!reactions) {
-        throw new Error({ error: 'No reaction found' });
+Reaction.getAll = async () => {
+    try {
+        const res = await sql.query("SELECT * FROM reactions");
+        if (res[0].length < 1) {
+            throw new Error("error: no reactions found")
+        }
+        console.log("reactions: ", res[0]);
+        return res[0];
+    } catch (err) {
+        console.log(err);
+        throw err;
     }
-    return reactions;
 }
 
-reactionSchema.statics.getById = async (id) => {
-    const reactions = await Reaction.findById(id);
-    if (!reactions) {
-        throw new Error({ error: 'No reaction found' });
+Reaction.findById = async actionId => {
+    try {
+        const res = await sql.query(`SELECT * FROM reactions WHERE id = ?`, [actionId]);
+        if (res[0].length < 1) {
+            throw new Error("error: no reactions found")
+        }
+        console.log("reactions: ", res[0])
+        return res[0][0];
+    } catch (err) {
+        console.log(err);
+        throw err;
     }
-    return reactions;
-}
+};
 
-const Reaction = mongoose.model('Reaction', reactionSchema)
+Reaction.findByServiceId = async serviceId => {
+    try {
+        const res = await sql.query(`SELECT * FROM reactions WHERE service_id = ?`, [serviceId]);
+        if (res[0].length < 1) {
+            throw new Error("error: no reactions found")
+        }
+        console.log("reactions: ", res[0])
+        return res[0];
+    } catch (err) {
+        console.log(err);
+        throw err;
+    }
+};
+
+Reaction.findByName = async actionName => {
+    try {
+        const res = await sql.query(`SELECT * FROM reactions WHERE name = ?`, [actionName]);
+        if (res[0].length < 1) {
+            throw new Error("error: no reactions found")
+        }
+        console.log("reactions: ", res[0][0])
+        return res[0][0];
+    } catch (err) {
+        console.log(err);
+        throw err;
+    }
+};
 
 module.exports = Reaction

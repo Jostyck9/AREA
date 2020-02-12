@@ -1,172 +1,206 @@
-// const mongoose = require('mongoose')
-// const validator = require('validator')
-// const bcrypt = require('bcryptjs')
-// const jwt = require('jsonwebtoken')
+//MYSQL
 
-// const userSchema = mongoose.Schema({
-//     name: {
-//         type: String,
-//         required: true,
-//         trim: true
-//     },
-//     email: {
-//         type: String,
-//         required: true,
-//         unique: true,
-//         lowercase: true,
-//         validate: value => {
-//             if (!validator.isEmail(value)) {
-//                 throw new Error({ error: 'Invalid Email address' })
-//             }
-//         }
-//     },
-//     password: {
-//         type: String,
-//         required: true,
-//         minLength: 7
-//     },
-//     tokens: [{
-//         token: {
-//             type: String,
-//             required: true
-//         }
-//     }]
-// })
-
-// userSchema.pre('save', async function (next) {
-//     // Hash the password before saving the user model
-//     const user = this
-//     if (user.isModified('password')) {
-//         user.password = await bcrypt.hash(user.password, 8)
-//     }
-//     next()
-// })
-
-// userSchema.methods.generateAuthToken = async function () {
-//     // Generate an auth token for the user
-//     const user = this
-//     const token = jwt.sign({ _id: user._id }, process.env.JWT_KEY)
-//     user.tokens = user.tokens.concat({ token })
-//     await user.save()
-//     return token
-// }
-
-// userSchema.statics.findByCredentials = async (email, password) => {
-//     // Search for a user by email and password.
-//     const user = await User.findOne({ email })
-//     if (!user) {
-//         throw new Error({ error: 'Invalid login credentials' })
-//     }
-//     const isPasswordMatch = await bcrypt.compare(password, user.password)
-//     if (!isPasswordMatch) {
-//         throw new Error({ error: 'Invalid login credentials' })
-//     }
-//     return user
-// }
-
-// const User = mongoose.model('User', userSchema)
-
-// module.exports = User
-
-//MYSQL 
-
+const validator = require('validator')
+const bcrypt = require('bcryptjs')
 const sql = require("./db.js");
 
 // constructor
 const User = function (user) {
+    this.username = user.username;
     this.email = user.email;
-    this.name = user.name;
     this.password = user.password;
 };
 
 User.create = async (newUser, result) => {
-    newUser.password = await bcrypt.hash(newUser.password, 8)
-    sql.query("INSERT INTO users SET ?", newUser, (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(err, null);
-            return;
-        }
+    try {
+        if (!validator.isEmail(newUser.email))
+            throw new Error({ message: 'Invalid Email address' });
+        if (newUser.email.length < 7)
+            throw new Error({ message: 'Invalid password size, min 7' });
 
-        console.log("created user: ", { id: res.insertId, ...newUser });
-        result(null, { id: res.insertId, ...newUser });
-    });
-};
-
-User.findByEmail = (userEmail, result) => {
-    sql.query(`SELECT * FROM users WHERE email = ${userEmail}`, (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(err, null);
-            return;
-        }
-
-        if (res.length) {
-            console.log("found user: ", res[0]);
-            result(null, res[0]);
-            return;
-        }
-
-        // not found User with the id
-        result({ kind: "not_found" }, null);
-    });
-};
-
-User.remove = (id, result) => {
-    sql.query("DELETE FROM user WHERE id = ?", id, (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(null, err);
-            return;
-        }
-
-        if (res.affectedRows == 0) {
-            // not found user with the id
-            result({ kind: "not_found" }, null);
-            return;
-        }
-
-        console.log("deleted user with id: ", id);
-        result(null, res);
-    });
-};
-
-//update name or password but not email
-User.updateById = async (id, user, result) => {
-    user.password = await bcrypt.hash(newUser.password, 8)
-    sql.query(
-        "UPDATE users SET name = ?, password = ? WHERE id = ?",
-        [user.name, user.password, id],
-        (err, res) => {
+        console.log('send request')
+        newUser.password = await bcrypt.hash(newUser.password, 'OK')
+        var resRequest = await sql.query("INSERT INTO users(username,email,password) VALUES (?,?,?)", [newUser.username, newUser.email, newUser.password], (err, res) => {
             if (err) {
-                console.log("error: ", err);
-                result(null, err);
-                return;
+                console.log('Error: ', err)
+                result(err, null)
+                return
             }
+        });
+        console.log("created user: ", { ...newUser });
+        result(null, { message: "created user :" + newUser.username, id: resRequest[0].insertId})
+    } catch (err) {
+        console.log(err)
+        result(err, null)
+    }
+};
 
+User.findByCredentials = async (email, password, result) => {
+    var isPasswordMatch = false;
+
+    try {
+        // console.log(password)
+        // password = await bcrypt.hash(password, 'OK')
+        console.log("Check by request : ", email, password)
+
+        var resRequest = await sql.query(`SELECT * FROM users WHERE email = ?`, [email], (err, res) => {
+            if (err) {
+                console.log('Error: ', err)
+                result(err, null)
+                return
+            }
+        });
+        for (const user of resRequest[0]) {
+            isPasswordMatch = await bcrypt.compare(password, user.password)
+            if (isPasswordMatch) {
+                console.log("user: ", user)
+                result(null, {id: user.id, username: user.username, email: user.email})
+            }
+        }
+        if (!isPasswordMatch) {
+            console.log('No users')
+            result(null, null)
+        }
+    } catch (err) {
+        console.log(err)
+        result(err, null)
+    }
+}
+
+User.findByEmail = async (userEmail, result) => {
+    try {
+        await sql.query(`SELECT * FROM users WHERE email = ?`, [userEmail], (err, res) => {
+            if (err) {
+                console.log('Error: ', err)
+                result(err, null)
+                return
+            }
+            if (res[0].length < 1) {
+                console.log('No users')
+                result(null, null)
+                return
+            }
+            console.log("users: ", res[0])
+            result(null, res[0][0])
+        });
+
+    } catch (err) {
+        console.log(err)
+        result(err, null)
+    }
+};
+
+User.findById = async (userId, result) => {
+    try {
+        await sql.query(`SELECT * FROM users WHERE id = ?`, [userId], (err, res) => {
+            if (err) {
+                console.log('Error: ', err)
+                result(err, null)
+                return
+            }
+            if (res[0].length < 1) {
+                console.log('No users')
+                result(null, null)
+                return
+            }
+            console.log("users: ", res[0])
+            result(null, res[0][0])
+        });
+    } catch (err) {
+        console.log(err)
+        result(err, null)
+    }
+};
+
+User.findByName = async (userName, result) => {
+    try {
+        await sql.query(`SELECT * FROM users WHERE username = ?`, [userName], (err, res) => {
+            if (err) {
+                console.log('Error: ', err)
+                result(err, null)
+                return
+            }
+            if (res[0].length < 1) {
+                console.log('No users')
+                result(null, null)
+                return
+            }
+            console.log("users: ", res[0])
+            result(null, res[0])
+        });
+    } catch (err) {
+        console.log(err)
+        result(err, null)
+    }
+};
+
+
+User.remove = async (id, result) => {
+    try {
+        await sql.query("DELETE FROM users WHERE id = ?", [id], (err, res) => {
+            if (err) {
+                console.log('Error: ', err)
+                result(err, null)
+                return
+            }
             if (res.affectedRows == 0) {
-                // not found User with the id
+                console.log('Not found: ', id)
                 result({ kind: "not_found" }, null);
                 return;
             }
-
-            console.log("updated user: ", { id: id, ...user });
-            result(null, { id: id, ...user });
-        }
-    );
+            console.log("Delete: ", id)
+            result(null, res)
+        });
+        result(null, {message: 'User deleted ' + id})
+    } catch (err) {
+        console.log(err)
+        result(err, null)
+    }
 };
 
-User.removeAll = result => {
-    sql.query("DELETE * FROM users", (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(null, err);
-            return;
-        }
+User.updateUsername = async (id, userName, result) => {
+    try {
+        var resRequest = await sql.query("UPDATE users SET username = ? WHERE id = ?", [userName, id], (err, res) => {
+            if (err) {
+                console.log('Error: ', err)
+                result(err, null)
+                return
+            }
+            if (res.affectedRows == 0) {
+                console.log('Not found: ', id)
+                result({ kind: "not_found" }, null);
+                return;
+            }
+            console.log("Update: ", id)
+            result(null, res)
+        });
+    } catch (err) {
+        console.log(err)
+        result(err, null)
+    }
+};
 
-        console.log(`deleted ${res.affectedRows} users`);
-        result(null, res);
-    });
+User.updatePassword = async (id, password, result) => {
+    try {
+        password = await bcrypt.hash(password, 8)
+        await sql.query("UPDATE users SET password = ? WHERE id = ?", [password, id], (err, res) => {
+            if (err) {
+                console.log('Error: ', err)
+                result(err, null)
+                return
+            }
+            if (res.affectedRows == 0) {
+                console.log('Not found: ', id)
+                result({ kind: "not_found" }, null);
+                return;
+            }
+            console.log("Update: ", id)
+            result(null, res)
+        });
+    } catch (err) {
+        console.log(err)
+        result(err, null)
+    }
 };
 
 module.exports = User

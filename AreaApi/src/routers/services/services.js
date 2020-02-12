@@ -45,10 +45,9 @@ router.get('/services', async (req, res) => {
     // }
     try {
         const resRequest = await Services.getAll()
-        console.log('Succes', resRequest, 'end')
-        res.status(200).send(JSON.stringify(resRequest))
+        res.status(200).send({resRequest})
     } catch (err) {
-        console.log('Err', err)
+        console.log('Error: ', err)
         res.status(400).send(err)
     }
 })
@@ -70,7 +69,13 @@ router.get('/services/:nameService', async (req, res) => {
     //     res.status(401).send("Service " + req.params.idService + " not found")
     //     return
     // }
-    res.status(200).send('ok')
+    try {
+        const resRequest = await Services.findByName(req.params.nameService)
+        res.status(200).send(resRequest)
+    } catch (err) {
+        console.log('Error: ', err)
+        res.status(400).send(err)
+    }
 })
 
 
