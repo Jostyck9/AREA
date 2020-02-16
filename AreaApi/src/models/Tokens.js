@@ -73,17 +73,25 @@ Token.findByClientId = async clientId => {
 }
 
 // TODO a tester
-Token.findByClientToken = async clientToken => {
+Token.findByClientToken = async (clientToken, result) => {
     try {
-        const res = await sql.query("SELECT * FROM tokens WHERE token = ?", [clientToken]);
-        if (res[0].length < 1) {
-            throw new Error("error: no tokens found")
+        console.log("token ============+++> ", clientToken)
+        const resRequest = await sql.query("SELECT * FROM tokens WHERE token = ?", [clientToken], (err, res) => {
+            if (err) {
+                console.log('Error: ', err)
+                result(err, null)
+                return
+            }
+        });
+        if (resRequest[0].length < 1) {
+            console.log('No tokens found')
+            result(null, null)
         }
-        console.log("tokens: ", res[0]);
-        return res[0];
+        console.log("tokens: ", resRequest[0]);
+        result(null, resRequest[0])
     } catch (err) {
         console.log(err);
-        throw err;
+        result(err, null)
     }
 }
 

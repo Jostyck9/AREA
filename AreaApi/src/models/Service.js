@@ -10,7 +10,6 @@ const Service = function (service) {
 // TODO a tester
 Service.getAll = async result => {
     try {
-        console.log("Test2")
         const resRequest = await sql.query("SELECT * FROM services", (err, res) => {
             if (err) {
                 console.log('Error: ', err)
@@ -18,7 +17,6 @@ Service.getAll = async result => {
                 return
             }
         });
-        console.log("Test3")
         if (resRequest[0].length < 1) {
             console.log('No services found')
             result(null, null)
