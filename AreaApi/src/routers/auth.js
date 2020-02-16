@@ -42,7 +42,11 @@ router.post('/auth/register', async (req, res) => {
                     message: err.message || "Some error occurred while creating the User."
                 })
             } else {
-                res.status(200).send(data)
+                if (!data) {
+                    res.status(401).send('not authorized')
+                } else {
+                    res.status(200).send(data)
+                }
             }
         })
     } catch (error) {
@@ -87,7 +91,11 @@ router.post('/auth/login', async (req, res) => {
                     message: err.message || "Some error occurred while creating the User."
                 })
             } else {
-                res.status(200).send(data)
+                if (!data) {
+                    res.status(401).send('not authorized')
+                } else {
+                    res.status(200).send(data)
+                }
             }
         })
     } catch (error) {
