@@ -9,17 +9,7 @@ const Reaction = function (reaction) {
     this.parameters = reaction.parameters
 };
 
-Reaction.create = async newReaction => {
-    try {
-        const res = await sql.query("INSERT INTO reactions SET ?", [newReaction]);
-        console.log("created action: ", { id: res.insertId, ...newReaction });
-        return { id: res.insertId, ...newReaction };
-    } catch (err) {
-        console.log(err);
-        throw err;
-    }
-};
-
+// TODO a tester
 Reaction.getAll = async () => {
     try {
         const res = await sql.query("SELECT * FROM reactions");
@@ -34,6 +24,7 @@ Reaction.getAll = async () => {
     }
 }
 
+// TODO a tester
 Reaction.findById = async actionId => {
     try {
         const res = await sql.query(`SELECT * FROM reactions WHERE id = ?`, [actionId]);
@@ -48,6 +39,7 @@ Reaction.findById = async actionId => {
     }
 };
 
+// TODO a tester
 Reaction.findByServiceId = async serviceId => {
     try {
         const res = await sql.query(`SELECT * FROM reactions WHERE service_id = ?`, [serviceId]);
@@ -62,6 +54,7 @@ Reaction.findByServiceId = async serviceId => {
     }
 };
 
+// TODO a tester
 Reaction.findByName = async actionName => {
     try {
         const res = await sql.query(`SELECT * FROM reactions WHERE name = ?`, [actionName]);

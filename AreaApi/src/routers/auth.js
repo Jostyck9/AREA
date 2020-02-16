@@ -1,7 +1,7 @@
 const express = require('express')
 // const auth = require('../middleware/auth')
 const User = require('../models/User')
-// const Token = require('../models/Token')
+const Token = require('../models/Tokens')
 
 const router = express.Router()
 
@@ -36,7 +36,7 @@ router.post('/auth/register', async (req, res) => {
             password: req.body.password
         });
 
-        await User.create(user, (err, data) => {
+        await User.create(user, async (err, data) => {
             if (err) {
                 res.status(500).send({
                     message: err.message || "Some error occurred while creating the User."
@@ -45,7 +45,15 @@ router.post('/auth/register', async (req, res) => {
                 if (!data) {
                     res.status(401).send('not authorized')
                 } else {
-                    res.status(200).send(data)
+                    await Token.create(data.id, (errToken, resToken) => {
+                        if (errToken) {
+                            res.status(500).send({
+                                message: errToken.message || "Some error occurred while creating the User."
+                            })
+                        } else {
+                            res.status(200).send(resToken)
+                        }
+                    })
                 }
             }
         })
@@ -85,7 +93,7 @@ router.post('/auth/login', async (req, res) => {
             password: req.body.password
         });
 
-        await User.findByCredentials(user.email, user.password, (err, data) => {
+        await User.findByCredentials(user.email, user.password, async (err, data) => {
             if (err) {
                 res.status(500).send({
                     message: err.message || "Some error occurred while creating the User."
@@ -94,7 +102,15 @@ router.post('/auth/login', async (req, res) => {
                 if (!data) {
                     res.status(401).send('not authorized')
                 } else {
-                    res.status(200).send(data)
+                    await Token.create(data.id, (errToken, resToken) => {
+                        if (errToken) {
+                            res.status(500).send({
+                                message: errToken.message || "Some error occurred while creating the User."
+                            })
+                        } else {
+                            res.status(200).send(resToken)
+                        }
+                    })
                 }
             }
         })

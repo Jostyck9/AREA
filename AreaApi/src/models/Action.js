@@ -9,17 +9,7 @@ const Action = function (action) {
     this.results = action.results
 };
 
-Action.create = async newAction => {
-    try {
-        const res = await sql.query("INSERT INTO actions SET ?", [newAction]);
-        console.log("created action: ", { id: res.insertId, ...newAction });
-        return { id: res.insertId, ...newAction };
-    } catch (err) {
-        console.log(err);
-        throw err;
-    }
-};
-
+// TODO a tester
 Action.getAll = async () => {
     try {
         const res = await sql.query("SELECT * FROM actions");
@@ -34,6 +24,7 @@ Action.getAll = async () => {
     }
 }
 
+// TODO a tester
 Action.findById = async actionId => {
     try {
         const res = await sql.query(`SELECT * FROM actions WHERE id = ?`, [actionId]);
@@ -48,6 +39,7 @@ Action.findById = async actionId => {
     }
 };
 
+// TODO a tester
 Action.findByServiceId = async serviceId => {
     try {
         const res = await sql.query(`SELECT * FROM actions WHERE service_id = ?`, [serviceId]);
@@ -62,6 +54,7 @@ Action.findByServiceId = async serviceId => {
     }
 };
 
+// TODO a tester
 Action.findByName = async actionName => {
     try {
         const res = await sql.query(`SELECT * FROM actions WHERE name = ?`, [actionName]);

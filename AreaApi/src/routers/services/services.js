@@ -44,8 +44,16 @@ router.get('/services', async (req, res) => {
     //     res.status(401).send(error);
     // }
     try {
-        const resRequest = await Services.getAll()
-        res.status(200).send({resRequest})
+        console.log("test")
+        await await Services.getAll((err, data) => {
+            if (err) {
+                res.status(500).send({
+                    message: err.message || "Some error occurred while getting the Services."
+                })
+            } else {
+                res.status(200).send(data)
+            }
+        });
     } catch (err) {
         console.log('Error: ', err)
         res.status(400).send(err)
@@ -165,4 +173,4 @@ router.get('/services/:nameService/reactions/:nameReaction', async (req, res) =>
     res.status(200).send('ok')
 })
 
-module.exports = router;
+module.exports = router

@@ -7,32 +7,32 @@ const Service = function (service) {
     this.name = service.name;
 };
 
-Service.create = async newService => {
-    try {
-        const res = await sql.query("INSERT INTO services SET ?", [newService]);
-        console.log("created service: ", { id: res.insertId, ...newService });
-        return { id: res.insertId, ...newService };
-    } catch (err) {
-        console.log(err);
-        throw err;
-    }
-};
-
+// TODO a tester
 Service.getAll = async result => {
     try {
-        const res = await sql.query("SELECT * FROM services");
-        if (res[0].length < 1) {
-            throw new Error("error: no services found")
+        console.log("Test2")
+        const resRequest = await sql.query("SELECT * FROM services", (err, res) => {
+            if (err) {
+                console.log('Error: ', err)
+                result(err, null)
+                return
+            }
+        });
+        console.log("Test3")
+        if (resRequest[0].length < 1) {
+            console.log('No services found')
+            result(null, null)
         }
-        console.log("services: ", res[0]);
-        return res[0];
+        console.log("services: ", resRequest[0]);
+        result(null, resRequest[0]);
     } catch (err) {
         console.log(err);
-        throw err;
+        result(err, null)
     }
 
 }
 
+// TODO a tester
 Service.findById = async serviceId => {
     try {
         const res = await sql.query(`SELECT * FROM services WHERE id = ?`, [serviceId]);
