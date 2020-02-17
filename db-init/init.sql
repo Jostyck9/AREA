@@ -44,16 +44,16 @@ CREATE TABLE `actions` (
 -- LOCK TABLES `actions` WRITE;
 
 INSERT INTO `actions` VALUES (0, 0, "push", "a new push is intended by someone", NULL);
-INSERT INTO `actions` VALUES (1, 0, "pull request", "a new pull request is intended by someone", NULL);
+INSERT INTO `actions` VALUES (1, 0, "pull_request", "a new pull request is intended by someone", NULL);
 INSERT INTO `actions` VALUES (2, 1, "tweet", "a new tweet has been post", NULL);
-INSERT INTO `actions` VALUES (3, 2, "music added", "A new music has been added to a playlist", NULL);
-INSERT INTO `actions` VALUES (4, 3, "email received", "A new email has been received", NULL);
-INSERT INTO `actions` VALUES (5, 3, "event created", "A new event has been created in calendar", NULL);
-INSERT INTO `actions` VALUES (6, 4, "messaged received", "A new message has been received", NULL);
-INSERT INTO `actions` VALUES (7, 5, "card added", "A new card has been had to a board", NULL);
-INSERT INTO `actions` VALUES (8, 5, "deadline soon", "A card approched a deadline", NULL);
-INSERT INTO `actions` VALUES (9, 6, "file deleted", "A file has been delete", NULL);
-INSERT INTO `actions` VALUES (10, 6, "file added", "A new file has been add", NULL);
+INSERT INTO `actions` VALUES (3, 2, "music_added", "A new music has been added to a playlist", NULL);
+INSERT INTO `actions` VALUES (4, 3, "email_received", "A new email has been received", NULL);
+INSERT INTO `actions` VALUES (5, 3, "event_created", "A new event has been created in calendar", NULL);
+INSERT INTO `actions` VALUES (6, 4, "messaged_received", "A new message has been received", NULL);
+INSERT INTO `actions` VALUES (7, 5, "card_added", "A new card has been had to a board", NULL);
+INSERT INTO `actions` VALUES (8, 5, "deadline_soon", "A card approched a deadline", NULL);
+INSERT INTO `actions` VALUES (9, 6, "file_deleted", "A file has been delete", NULL);
+INSERT INTO `actions` VALUES (10, 6, "file_added", "A new file has been add", NULL);
 /*!40000 ALTER TABLE `actions` DISABLE KEYS */;
 /*!40000 ALTER TABLE `actions` ENABLE KEYS */;
 -- UNLOCK TABLES;
@@ -108,13 +108,13 @@ CREATE TABLE `reactions` (
 -- LOCK TABLES `reactions` WRITE;
 
 INSERT INTO `reactions` VALUES (0, 1, "tweet", "post a new tweet", NULL);
-INSERT INTO `reactions` VALUES (1, 2, "add music", "add a new music to an existing playlist", NULL);
-INSERT INTO `reactions` VALUES (2, 3, "create event", "create a new event in calendar", NULL);
-INSERT INTO `reactions` VALUES (3, 3, "send email", "send an email", NULL);
-INSERT INTO `reactions` VALUES (4, 4, "send message", "send a message to a specific channel", NULL);
-INSERT INTO `reactions` VALUES (5, 5, "add card", "add a new card to an existing board", NULL);
-INSERT INTO `reactions` VALUES (6, 6, "add file", "add a new file", NULL);
-INSERT INTO `reactions` VALUES (7, 6, "delete file", "delete a file", NULL);
+INSERT INTO `reactions` VALUES (1, 2, "add_music", "add a new music to an existing playlist", NULL);
+INSERT INTO `reactions` VALUES (2, 3, "create_event", "create a new event in calendar", NULL);
+INSERT INTO `reactions` VALUES (3, 3, "send_email", "send an email", NULL);
+INSERT INTO `reactions` VALUES (4, 4, "send_message", "send a message to a specific channel", NULL);
+INSERT INTO `reactions` VALUES (5, 5, "add_card", "add a new card to an existing board", NULL);
+INSERT INTO `reactions` VALUES (6, 6, "add_file", "add a new file", NULL);
+INSERT INTO `reactions` VALUES (7, 6, "delete_file", "delete a file", NULL);
 
 /*!40000 ALTER TABLE `reactions` DISABLE KEYS */;
 /*!40000 ALTER TABLE `reactions` ENABLE KEYS */;

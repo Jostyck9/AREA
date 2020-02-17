@@ -5,9 +5,9 @@ const bodyParser = require('body-parser')
 
 const oauthRouter = require('./routers/auth.router');
 // const oauth2Router = require('./routers/auth2');
-// const aboutRouter = require('./routers/about');
+const aboutRouter = require('./routers/about.router');
 // const areaRouter = require('./routers/area');
-const servicesRouter = require('./routers/services');
+const servicesRouter = require('./routers/services.router');
 
 var cors = require('cors');
 const port = process.env.PORT;
@@ -50,7 +50,7 @@ app.use(express.json());
 
 app.use(oauthRouter);
 // app.use(oauth2Router);
-// app.use(aboutRouter);
+app.use(aboutRouter);
 app.use(servicesRouter);
 // app.use(areaRouter);
 

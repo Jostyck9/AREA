@@ -57,12 +57,12 @@ Reaction.findByServiceId = async function (serviceId) {
 // TODO a tester
 Reaction.findByName = async function (actionName) {
     try {
-        const [rows, fields] = await sql.query(`SELECT * FROM reactions WHERE name = ?`, [actionName])
+        const [rows, fields] = await sql.query(`SELECT * FROM reactions WHERE name = ?`, [actionName.toLowerCase()])
         if (rows.length < 1) {
             console.log('No reactions found')
             return null
         }
-        return rows
+        return rows[0]
     } catch (err) {
         console.log(err);
         throw err

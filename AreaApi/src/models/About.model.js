@@ -1,6 +1,4 @@
-var Service = require('./Service')
-var Action = require('./Action')
-var Reaction = require('./Reaction')
+var Service = require('./ServiceDetail.model')
 
 class AboutJs {
     constructor(ipClient) {
@@ -18,10 +16,9 @@ class AboutJs {
                 services: []
             }
         }
-
-        const services = await Service.getAll();
-        const actions = await Action.getAll();
-        const reactions = await Reaction.getAll();
+        const services = await Service.GetAllServiceDetail();
+        // const actions = await Action.getAll();
+        // const reactions = await Reaction.getAll();
 
         services.forEach(element => {
             var currentService = {
@@ -29,15 +26,11 @@ class AboutJs {
                 actions: [],
                 reactions: []
             }
-            actions.forEach(elementAction => {
-                if (elementAction.service.toString() === element._id.toString()) {
-                    currentService.actions.push({name: elementAction.name, description: elementAction.description});
-                }
+            element.actions.forEach(elementAction => {
+                currentService.actions.push({name: elementAction.name, description: elementAction.description});
             });
-            reactions.forEach(elementReaction => {
-                if (elementReaction.service.toString() === element._id.toString()) {
-                    currentService.reactions.push({name: elementReaction.name, description: elementReaction.description});
-                }
+            element.reactions.forEach(elementReaction => {
+                currentService.reactions.push({name: elementReaction.name, description: elementReaction.description});
             });
             aboutDetails.server.services.push(currentService);
         });

@@ -1,5 +1,5 @@
 const express = require('express')
-const AboutJs = require('../models/About')
+const AboutJs = require('../models/About.model')
 
 const router = express.Router()
 

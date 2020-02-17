@@ -8,7 +8,7 @@ async function GetActions(id) {
     const actions = await Actions.findByServiceId(id)
     if (actions) {
         actions.forEach(element => {
-            actionsRes.push({ name: element.name, id: element.id, description: element.description, results: element.res })
+            actionsRes.push({ name: element.name, id: element.id, description: element.description, results: element.results })
         });
     }
     return actionsRes
@@ -20,7 +20,7 @@ async function GetReactions(id) {
     const reactions = await Reactions.findByServiceId(id)
     if (reactions) {
         reactions.forEach(element => {
-            reactionsRes.push({ name: element.name, id: element._id, description: element.description, parameters: element.parameters })
+            reactionsRes.push({ name: element.name, id: element.id, description: element.description, parameters: element.parameters })
         });
     }
     return reactionsRes
@@ -58,9 +58,7 @@ async function GetAllServiceDetail() {
     if (!services)
         return {}
     for (const element of services) {
-        console.log(element)
         const resService = await GetServiceDetail(element)
-        console.log(resService)
         res.push(resService)
     }
     return res;

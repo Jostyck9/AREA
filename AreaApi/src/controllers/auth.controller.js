@@ -73,5 +73,11 @@ exports.logOut = async (req, res) => {
 };
 
 exports.logOutAll = async (req, res) => {
-
+    // Log user out of the application
+    try {
+        await Token.deleteTokenByClientId(req.user.id)
+        res.status(200).send({ message: 'User deconnected' })
+    } catch (error) {
+        res.status(500).send(error)
+    }
 }

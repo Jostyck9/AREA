@@ -32,7 +32,7 @@ Action.findById = async function (actionId) {
             console.log('No actions found')
             return null
         }
-        return rows
+        return rows[0]
     } catch (err) {
         console.log(err)
         throw err
@@ -57,12 +57,14 @@ Action.findByServiceId = async function (serviceId) {
 // TODO a tester
 Action.findByName = async function (actionName) {
     try {
-        const [rows, fields] = await sql.query(`SELECT * FROM actions WHERE name = ?`, [actionName]);
+        console.log(actionName)
+        const [rows, fields] = await sql.query(`SELECT * FROM actions WHERE name = ?`, [actionName.toLowerCase()]);
         if (rows.length < 1) {
             console.log('No actions found')
             return null;
         }
-        return rows;
+        console.log(rows)
+        return rows[0];
     } catch (err) {
         console.log(err);
         throw (err)

@@ -51,4 +51,16 @@ router.post('/auth/logout', auth, async (req, res) => {
     UserController.logOut(req, res)
 })
 
+/**
+ * Logout from all the device the user
+ * @route POST /auth/logoutAll
+ * @security JWT
+ * @group User - User Login
+ * @returns {Error}  default - Unexpected error
+ */
+router.post('/auth/logoutAll', auth, async (req, res) => {
+    UserController.logOutAll(req, res)
+})
+
+
 module.exports = router
