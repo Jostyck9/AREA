@@ -10,7 +10,7 @@ const Service = function (service) {
 // TODO a tester
 Service.getAll = async result => {
     try {
-        const resRequest = await sql.query("SELECT * FROM services", (err, res) => {
+        const resRequest = await sql.query("SELECT * FROM services", [], (err, res) => {
             if (err) {
                 console.log('Error: ', err)
                 result(err, null)

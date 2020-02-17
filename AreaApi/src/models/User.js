@@ -24,7 +24,7 @@ User.create = async (newUser, result) => {
         var resRequest = await sql.query("INSERT INTO users(username,email,password) VALUES (?,?,?)", [newUser.username, newUser.email, newUser.password], (err, res) => {
             if (err) {
                 console.log('Error: ', err)
-                result(err, null)
+                result({message: err}, null)
                 return
             }
         });
@@ -32,7 +32,7 @@ User.create = async (newUser, result) => {
         result(null, { message: "created user :" + newUser.username, id: resRequest[0].insertId })
     } catch (err) {
         console.log(err)
-        result(err, null)
+        result({message: err.message}, null)
     }
 };
 
@@ -48,7 +48,7 @@ User.findByCredentials = async (email, password, result) => {
         var resRequest = await sql.query(`SELECT * FROM users WHERE email = ?`, [email], (err, res) => {
             if (err) {
                 console.log('Error: ', err)
-                result(err, null)
+                result({message: err}, null)
                 return
             }
         });
@@ -65,7 +65,7 @@ User.findByCredentials = async (email, password, result) => {
         }
     } catch (err) {
         console.log(err)
-        result(err, null)
+        result({message: err.message}, null)
     }
 }
 
@@ -76,7 +76,7 @@ User.findByEmail = async (userEmail, result) => {
         var resRequest = await sql.query(`SELECT * FROM users WHERE email = ?`, [userEmail], (err, res) => {
             if (err) {
                 console.log('Error: ', err)
-                result(err, null)
+                result({message: err}, null)
                 return
             }
         });
@@ -90,17 +90,18 @@ User.findByEmail = async (userEmail, result) => {
 
     } catch (err) {
         console.log(err)
-        result(err, null)
+        result({message: err.message}, null)
     }
 };
 
 // NOTE ok working
 User.findById = async (userId, result) => {
     try {
+        console.log('Serch for user with id : ', userId)
         var resRequest = await sql.query(`SELECT * FROM users WHERE id = ?`, [userId], (err, res) => {
             if (err) {
                 console.log('Error: ', err)
-                result(err, null)
+                result({message: err}, null)
                 return
             }
         });
@@ -114,7 +115,7 @@ User.findById = async (userId, result) => {
 
     } catch (err) {
         console.log(err)
-        result(err, null)
+        result({message: err.message}, null)
     }
 };
 
@@ -124,7 +125,7 @@ User.findByName = async (userName, result) => {
         var resRequest = await sql.query(`SELECT * FROM users WHERE username = ?`, [userName], (err, res) => {
             if (err) {
                 console.log('Error: ', err)
-                result(err, null)
+                result({message: err}, null)
                 return
             }
         });
@@ -137,7 +138,7 @@ User.findByName = async (userName, result) => {
         result(null, resRequest[0])
     } catch (err) {
         console.log(err)
-        result(err, null)
+        result({message: err.message}, null)
     }
 };
 
@@ -147,7 +148,7 @@ User.remove = async (id, result) => {
         var resRequest = await sql.query("DELETE FROM users WHERE id = ?", [id], (err, res) => {
             if (err) {
                 console.log('Error: ', err)
-                result(err, null)
+                result({message: err}, null)
                 return
             }
         });
@@ -160,7 +161,7 @@ User.remove = async (id, result) => {
         result(null, { message: 'User deleted ' + id })
     } catch (err) {
         console.log(err)
-        result(err, null)
+        result({message: err.message}, null)
     }
 };
 
@@ -172,7 +173,7 @@ User.updateUsername = async (id, userName, result) => {
         var resRequest = await sql.query("UPDATE users SET username = ? WHERE id = ?", [userName, id], (err, res) => {
             if (err) {
                 console.log('Error: ', err)
-                result(err, null)
+                result({message: err}, null)
                 return
             }
         });
@@ -185,7 +186,7 @@ User.updateUsername = async (id, userName, result) => {
         result(null, { message: 'User updated' })
     } catch (err) {
         console.log(err)
-        result(err, null)
+        result({message: err.message}, null)
     }
 };
 
@@ -199,7 +200,7 @@ User.updatePassword = async (id, password, result) => {
         var resRequest = await sql.query("UPDATE users SET password = ? WHERE id = ?", [password, id], (err, res) => {
             if (err) {
                 console.log('Error: ', err)
-                result(err, null)
+                result({message: err}, null)
                 return
             }
         });
@@ -212,7 +213,7 @@ User.updatePassword = async (id, password, result) => {
         result(null, { message: 'Password updated'})
     } catch (err) {
         console.log(err)
-        result(err, null)
+        result({message: err.message}, null)
     }
 };
 

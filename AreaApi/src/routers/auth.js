@@ -120,18 +120,29 @@ router.post('/auth/login', async (req, res) => {
 
 })
 
-router.post('/auth/logout', async (req, res) => {
+/**
+ * Logout the user
+ * @route POST /auth/logout
+ * @security JWT
+ * @group User - User Login
+ * @returns {Error}  default - Unexpected error
+ */
+router.post('/auth/logout', auth, async (req, res) => {
     // Log user out of the application
-    // try {
-    //     req.user.tokens = req.user.tokens.filter((token) => {
-    //         return token.token != req.token
-    //     })
-    //     await req.user.save()
-    //     res.send()
-    // } catch (error) {
-    //     res.status(500).send(error)
-    // }
-    res.status(200).send('ok')
+    try {
+        await Token.deleteToken(req.token, (err, data) => {
+            if (err) {
+                res.status(500).send({
+                    message: err.message || "Some error occurred while loging out the User."
+                })
+                return
+            }
+            res.status(200).send({message: 'User deconnected'})
+        })
+        res.send()
+    } catch (error) {
+        res.status(500).send(error)
+    }
 })
 
 module.exports = router

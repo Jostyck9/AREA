@@ -8,10 +8,10 @@ const auth = async(req, res, next) => {
         const token = req.header('Authorization').replace('Bearer ', '')
         const data = jwt.verify(token, process.env.JWT_KEY)
         await Token.findByClientToken(token, async (errRequest, resRequest) => {
-            if (errRequest) {
+            if (errRequest || !resRequest) {
                 errorAppend = true
             } else {
-                await User.findById(resRequest.id, (errRequest, resRequest2) => {
+                await User.findById(resRequest.client_id, (errRequest, resRequest2) => {
                     if (errRequest) {
                         errorAppend = true
                     } else {
@@ -26,7 +26,7 @@ const auth = async(req, res, next) => {
         if (errorAppend)
             throw new Error()
     } catch (error) {
-        res.status(401).send({ error: 'Not authorized to access this resource' })
+        res.status(401).send({ message: 'Not authorized to access this resource' })
     }
 }
 module.exports = auth
