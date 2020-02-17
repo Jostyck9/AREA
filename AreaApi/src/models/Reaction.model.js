@@ -1,6 +1,6 @@
 //MYSQL
 
-const sql = require("./db.js");
+const sql = require("../db/db");
 
 const Reaction = function (reaction) {
     this.service_id = reaction.service_id,

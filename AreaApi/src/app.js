@@ -3,7 +3,7 @@ console.log('Starting server...')
 const express = require('express');
 const bodyParser = require('body-parser')
 
-const oauthRouter = require('./routers/auth');
+const oauthRouter = require('./routers/auth.router');
 // const oauth2Router = require('./routers/auth2');
 // const aboutRouter = require('./routers/about');
 // const areaRouter = require('./routers/area');

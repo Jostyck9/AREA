@@ -2,7 +2,7 @@
 
 const validator = require('validator')
 const bcrypt = require('bcryptjs')
-const sql = require("./db.js");
+const sql = require("../db/db");
 
 // constructor
 const User = function (user) {

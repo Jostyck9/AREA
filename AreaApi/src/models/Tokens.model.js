@@ -1,7 +1,7 @@
 //MYSQL
 
 const jwt = require('jsonwebtoken')
-const sql = require("./db.js");
+const sql = require("../db/db");
 
 const Token = function (token) {
     this.client_id = token.client_id,

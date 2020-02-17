@@ -1,13 +1,13 @@
 //MySQL
 
-const sql = require('./db')
+const sql = require('../db/db')
 
 // constructor
 const Service = function (service) {
     this.name = service.name;
 };
 
-// TODO a tester
+// NOTE ok working
 Service.getAll = async result => {
     try {
         const resRequest = await sql.query("SELECT * FROM services", [], (err, res) => {

@@ -1,6 +1,6 @@
 //MYSQL
 
-const sql = require("./db.js");
+const sql = require("../db/db");
 
 const Action = function (action) {
     this.service_id = action.service_id,

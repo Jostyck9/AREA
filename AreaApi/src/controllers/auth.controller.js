@@ -1,26 +1,7 @@
-const express = require('express')
-const auth = require('../middleware/auth')
-const User = require('../models/User')
-const Token = require('../models/Tokens')
+const User = require('../models/User.model')
+const Token = require('../models/Tokens.model')
 
-const router = express.Router()
-
-/**
- * @typedef RegisterData
- * @property {string} name.required - user's name
- * @property {string} email.required - user's email
- * @property {string} password.required - user's password.
- */
-
-/**
- * Register the user inside the db
- * @route POST /auth/register
- * @group User - User Registration
- * @param {RegisterData.model} register.body.required - The user informations
- * @returns {JSON} 200 - JWT for the api
- * @returns {Error}  default - Unexpected error
- */
-router.post('/auth/register', async (req, res) => {
+exports.create = async (req, res) => {
     // Create a new user
     console.log("User trying to create")
     try {
@@ -60,26 +41,10 @@ router.post('/auth/register', async (req, res) => {
     } catch (error) {
         res.status(400).send(error)
     }
-    // res.status(200).send('ok')
-})
+};
 
-/**
- * @typedef LoginData
- * @property {string} email.required - user's email
- * @property {string} password.required - user's password.
- */
-
-/**
- * Log the user
- * @route POST /auth/login
- * @group User - User Login
- * @param {LoginData.model} login.body.required - The user informations
- * @returns {JSON} 200 - JWT for the api
- * @returns {Error}  default - Unexpected error
- */
-router.post('/auth/login', async (req, res) => {
+exports.login = async (req, res) => {
     //Login a registered user
-
     console.log("User trying to connect")
     try {
         if (!req.body) {
@@ -117,17 +82,9 @@ router.post('/auth/login', async (req, res) => {
     } catch (error) {
         res.status(400).send(error)
     }
+};
 
-})
-
-/**
- * Logout the user
- * @route POST /auth/logout
- * @security JWT
- * @group User - User Login
- * @returns {Error}  default - Unexpected error
- */
-router.post('/auth/logout', auth, async (req, res) => {
+exports.logOut = async (req, res) => {
     // Log user out of the application
     try {
         await Token.deleteToken(req.token, (err, data) => {
@@ -143,6 +100,8 @@ router.post('/auth/logout', auth, async (req, res) => {
     } catch (error) {
         res.status(500).send(error)
     }
-})
+};
 
-module.exports = router
+exports.logOutAll = async (req, res) => {
+
+}

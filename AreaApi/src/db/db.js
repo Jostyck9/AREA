@@ -1,11 +1,3 @@
-// const mongoose = require('mongoose')
-
-// mongoose.connect(process.env.MONGODB_URL, {
-//     useNewUrlParser: true,
-//     useCreateIndex: true,
-//     useUnifiedTopology: true
-// })
-
 // MYSQL BELOW
 
 const dbConfig = require("../config/db.config.js");
@@ -30,14 +22,5 @@ const pool = mysql.createPool({
     connectionLimit: 10,
     queueLimit: 0
 });
-
-// open the MySQL connection
-// connection.connect(error => {
-//     if (error) {
-//         throw error
-//     }
-
-//     console.log("Successfully connected to the database.");
-// });
 
 module.exports = pool;
