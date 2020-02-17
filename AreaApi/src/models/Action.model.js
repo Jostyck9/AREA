@@ -10,62 +10,62 @@ const Action = function (action) {
 };
 
 // TODO a tester
-Action.getAll = async () => {
+Action.getAll = async function () {
     try {
-        const res = await sql.query("SELECT * FROM actions");
-        if (res[0].length < 1) {
-            throw new Error("error: no actions found")
+        const [rows, fields] = await sql.query("SELECT * FROM actions", [])
+        if (rows.length < 1) {
+            console.log('No actions found')
+            return null
         }
-        console.log("actions: ", res[0]);
-        return res[0];
+        return rows
     } catch (err) {
         console.log(err);
-        throw err;
+        throw err
     }
 }
 
 // TODO a tester
-Action.findById = async actionId => {
+Action.findById = async function (actionId) {
     try {
-        const res = await sql.query(`SELECT * FROM actions WHERE id = ?`, [actionId]);
-        if (res[0].length < 1) {
-            throw new Error("error: no actions found")
+        const [rows, fields] = await sql.query(`SELECT * FROM actions WHERE id = ?`, [actionId]);
+        if (rows.length < 1) {
+            console.log('No actions found')
+            return null
         }
-        console.log("actions: ", res[0])
-        return res[0][0];
+        return rows
     } catch (err) {
-        console.log(err);
-        throw err;
+        console.log(err)
+        throw err
+    }
+};
+
+// NOTE OKOKOKOK
+Action.findByServiceId = async function (serviceId) {
+    try {
+        const [rows, fields] = await sql.query(`SELECT * FROM actions WHERE service_id = ?`, [serviceId])
+        if (rows[0].length < 1) {
+            console.log('No actions found')
+            return null
+        }
+        return (rows)
+    } catch (err) {
+        console.log(err)
+        throw (err)
     }
 };
 
 // TODO a tester
-Action.findByServiceId = async serviceId => {
+Action.findByName = async function (actionName) {
     try {
-        const res = await sql.query(`SELECT * FROM actions WHERE service_id = ?`, [serviceId]);
-        if (res[0].length < 1) {
-            throw new Error("error: no actions found")
+        const [rows, fields] = await sql.query(`SELECT * FROM actions WHERE name = ?`, [actionName]);
+        if (rows.length < 1) {
+            console.log('No actions found')
+            return null;
         }
-        console.log("actions: ", res[0])
-        return res[0];
+        return rows;
     } catch (err) {
         console.log(err);
-        throw err;
-    }
-};
-
-// TODO a tester
-Action.findByName = async actionName => {
-    try {
-        const res = await sql.query(`SELECT * FROM actions WHERE name = ?`, [actionName]);
-        if (res[0].length < 1) {
-            throw new Error("error: no actions found")
-        }
-        console.log("actions: ", res[0][0])
-        return res[0][0];
-    } catch (err) {
-        console.log(err);
-        throw err;
+        throw (err)
     }
 };
 

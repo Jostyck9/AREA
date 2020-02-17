@@ -8,54 +8,63 @@ const Service = function (service) {
 };
 
 // NOTE ok working
-Service.getAll = async result => {
+Service.getAll = async function() {
     try {
-        const resRequest = await sql.query("SELECT * FROM services", [], (err, res) => {
+        const [rows, fields] = await sql.query("SELECT * FROM services")
+        if (rows.length < 1) {
+            console.log('No services found')
+            return null
+        }
+        return rows
+    } catch (err) {
+        console.log(err);
+        throw (err)
+    }
+}
+
+// NOTE ok working
+Service.findById = async (serviceId, result) => {
+    try {
+        const resRequest = await sql.query(`SELECT * FROM services WHERE id = ?`, [serviceId], (err, res) => {
             if (err) {
                 console.log('Error: ', err)
-                result(err, null)
+                result({message: err}, null)
                 return
             }
         });
         if (resRequest[0].length < 1) {
             console.log('No services found')
             result(null, null)
+            return
         }
-        console.log("services: ", resRequest[0]);
-        result(null, resRequest[0]);
+        // console.log("services: ", resRequest[0])
+        result(null, resRequest[0][0])
     } catch (err) {
         console.log(err);
-        result(err, null)
-    }
-
-}
-
-// TODO a tester
-Service.findById = async serviceId => {
-    try {
-        const res = await sql.query(`SELECT * FROM services WHERE id = ?`, [serviceId]);
-        if (res[0].length < 1) {
-            throw new Error("error: no services found")
-        }
-        console.log("services: ", res[0])
-        return res[0][0];
-    } catch (err) {
-        console.log(err);
-        throw err;
+        result({message: err.message}, null)
     }
 };
 
-Service.findByName = async serviceName => {
+// NOTE ok working
+Service.findByName = async (serviceName, result) => {
     try {
-        const res = await sql.query(`SELECT * FROM services WHERE name = ?`, [serviceName]);
-        if (res[0].length < 1) {
-            throw new Error("error: no services found")
+        const resRequest = await sql.query(`SELECT * FROM services WHERE name = ?`, [serviceName], (err, res) => {
+            if (err) {
+                console.log('Error: ', err)
+                result({message: err}, null)
+                return
+            }
+        });
+        if (resRequest[0].length < 1) {
+            console.log('No services found')
+            result(null, null)
+            return
         }
-        console.log("services: ", res[0])
-        return res[0][0];
+        // console.log("services: ", resRequest[0])
+        result(null, resRequest[0][0])
     } catch (err) {
         console.log(err);
-        throw err;
+        result({message: err.message}, null)
     }
 };
 

@@ -4,68 +4,68 @@ const sql = require("../db/db");
 
 const Reaction = function (reaction) {
     this.service_id = reaction.service_id,
-    this.name = reaction.name,
-    this.description = reaction.description,
-    this.parameters = reaction.parameters
+        this.name = reaction.name,
+        this.description = reaction.description,
+        this.parameters = reaction.parameters
 };
 
 // TODO a tester
-Reaction.getAll = async () => {
+Reaction.getAll = async function (result) {
     try {
-        const res = await sql.query("SELECT * FROM reactions");
-        if (res[0].length < 1) {
-            throw new Error("error: no reactions found")
+        const [rows, fields] = await sql.query("SELECT * FROM reactions", [])
+        if (rows.length < 1) {
+            console.log('No reactions found')
+            return null
         }
-        console.log("reactions: ", res[0]);
-        return res[0];
+        return rows
     } catch (err) {
         console.log(err);
-        throw err;
+        throw err
     }
 }
 
 // TODO a tester
-Reaction.findById = async actionId => {
+Reaction.findById = async function (actionId) {
     try {
-        const res = await sql.query(`SELECT * FROM reactions WHERE id = ?`, [actionId]);
-        if (res[0].length < 1) {
-            throw new Error("error: no reactions found")
+        const [rows, fields] = await sql.query(`SELECT * FROM reactions WHERE id = ?`, [actionId])
+        if (rows.length < 1) {
+            console.log('No reactions found')
+            return null
         }
-        console.log("reactions: ", res[0])
-        return res[0][0];
+        return rows
     } catch (err) {
         console.log(err);
-        throw err;
+        throw err
     }
 };
 
 // TODO a tester
-Reaction.findByServiceId = async serviceId => {
+Reaction.findByServiceId = async function (serviceId) {
     try {
-        const res = await sql.query(`SELECT * FROM reactions WHERE service_id = ?`, [serviceId]);
-        if (res[0].length < 1) {
-            throw new Error("error: no reactions found")
+        const [rows, fields] = await sql.query(`SELECT * FROM reactions WHERE service_id = ?`, [serviceId])
+        if (rows.length < 1) {
+            console.log('No reactions found')
+            return null
         }
-        console.log("reactions: ", res[0])
-        return res[0];
+        return rows
     } catch (err) {
         console.log(err);
-        throw err;
+        throw err
     }
 };
 
 // TODO a tester
-Reaction.findByName = async actionName => {
+Reaction.findByName = async function (actionName) {
     try {
-        const res = await sql.query(`SELECT * FROM reactions WHERE name = ?`, [actionName]);
-        if (res[0].length < 1) {
-            throw new Error("error: no reactions found")
+        const [rows, fields] = await sql.query(`SELECT * FROM reactions WHERE name = ?`, [actionName])
+        if (rows.length < 1) {
+            console.log('No reactions found')
+            return null
         }
-        console.log("reactions: ", res[0][0])
-        return res[0][0];
+        return rows
     } catch (err) {
         console.log(err);
-        throw err;
+        throw err
     }
 };
 

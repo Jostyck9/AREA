@@ -1,5 +1,6 @@
 const express = require('express');
-const Services = require('../../models/Service.model')
+const Services = require('../models/Service.model')
+const ServiceController = require('../controllers/service.controller')
 // const Actions = require('../../models/Action')
 // const Reactions = require('../../models/Reaction')
 
@@ -43,21 +44,7 @@ router.get('/services', async (req, res) => {
     // } catch (error) {
     //     res.status(401).send(error);
     // }
-    try {
-        console.log("test")
-        await await Services.getAll((err, data) => {
-            if (err) {
-                res.status(500).send({
-                    message: err.message || "Some error occurred while getting the Services."
-                })
-            } else {
-                res.status(200).send(data)
-            }
-        });
-    } catch (err) {
-        console.log('Error: ', err)
-        res.status(400).send(err)
-    }
+    await ServiceController.getAllServices(req, res)
 })
 
 /**

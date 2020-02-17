@@ -1,67 +1,69 @@
-var Services = require('./Service')
-var Actions = require('./Action')
-var Reactions = require('./Reaction')
+var Services = require('./Service.model')
+var Actions = require('./Action.model')
+var Reactions = require('./Reaction.model')
 
-async function GetActions(id)
-{
+async function GetActions(id) {
     var actionsRes = []
 
-    try {
-        const actions = await Actions.getFromServiceId(id)
-
+    const actions = await Actions.findByServiceId(id)
+    if (actions) {
         actions.forEach(element => {
-            actionsRes.push({name: element.name, id: element._id, description: element.description, results: element.res})
+            actionsRes.push({ name: element.name, id: element.id, description: element.description, results: element.res })
         });
-    } catch (error) {
-        return []
     }
     return actionsRes
 }
 
-async function GetReactions(id)
-{
+async function GetReactions(id) {
     var reactionsRes = []
 
-    try {
-        const reactions = await Reactions.getFromServiceId(id)
-
+    const reactions = await Reactions.findByServiceId(id)
+    if (reactions) {
         reactions.forEach(element => {
-            reactionsRes.push({name: element.name, id: element._id, description: element.description, parameters: element.parameters})
+            reactionsRes.push({ name: element.name, id: element._id, description: element.description, parameters: element.parameters })
         });
-    } catch (error) {
-        return []
     }
     return reactionsRes
 }
 
-async function GetServiceDetailByName(ServiceName)
-{
-    console.log(ServiceName)
-    const service = await Services.getByName(ServiceName)
-    const actions = await GetActions(service._id)
-    const reactions = await GetReactions(service._id)
-
-    return {name: service._name, id: service._id, actions: actions, reactions: reactions}
+async function GetServiceDetailById(ServiceId) {
+    const service = await Services.findById(ServiceId)
+    if (!service)
+        return {}
+    const actions = await GetActions(service.id);
+    const reactions = await GetReactions(service.id);
+    return { name: service.name, id: service.id, actions: actions, reactions: reactions }
 }
 
-async function GetServiceDetailById(id)
-{
-    const service = await Services.getById(id)
-    const actions = await GetActions(id)
-    const reactions = await GetReactions(id)
-
-    return {name: service.name,  id: service._id,actions: actions, reactions: reactions}
+async function GetServiceDetailByName(ServiceName) {
+    const service = await Services.findByName(ServiceName)
+    if (!service)
+        return {}
+    const actions = await GetActions(service.id);
+    const reactions = await GetReactions(service.id);
+    return { name: service.name, id: service.id, actions: actions, reactions: reactions }
 }
 
-async function GetAllServiceDetail()
-{
-    const services = await Services.getAll();
-    var res = []
+async function GetServiceDetail(service) {
+    const actions = await GetActions(service.id);
+    const reactions = await GetReactions(service.id)
+    return { name: service.name, id: service.id, actions: actions, reactions: reactions }
+}
 
+async function GetAllServiceDetail() {
+
+    let res = []
+    const services = await Services.getAll()
+
+    if (!services)
+        return {}
     for (const element of services) {
-        res.push(await GetServiceDetailById(element._id))
+        console.log(element)
+        const resService = await GetServiceDetail(element)
+        console.log(resService)
+        res.push(resService)
     }
-    return res
+    return res;
 }
 
 module.exports = {

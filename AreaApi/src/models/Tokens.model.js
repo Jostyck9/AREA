@@ -9,142 +9,94 @@ const Token = function (token) {
 };
 
 // NOTE Ok working
-Token.refresh = async (id, result) => {
+Token.refresh = async function (id) {
     try {
         var newToken = jwt.sign(id, process.env.JWT_KEY)
-        const resRequest = await sql.query("UPDATE tokens SET token = ? WHERE id = ?", [newToken, id], (err, res) => {
-            if (err) {
-                console.log('Error: ', err)
-                result({message: err}, null)
-                return
-            }
-        });
-        if (resRequest[0].affectedRows == 0) {
+
+        const [rows, fields] = await sql.query("UPDATE tokens SET token = ? WHERE id = ?", [newToken, id])
+        if (rows.affectedRows == 0) {
             console.log('Not found: ', id)
-            result({ message: "cannot update token ", id }, null);
-            return;
+            throw Error("cannot update token " + id)
         }
-        console.log('new token : ', newToken)
-        result(null, { token: newToken })
+        return { token: newToken }
     } catch (err) {
         console.log(err)
-        result({message: err.message}, null)
+        throw err
     }
 };
 
 
 // NOTE OK working
-Token.create = async (clientId, result) => {
+Token.create = async function (clientId) {
     try {
-        const resRequest = await sql.query("INSERT INTO tokens SET client_id = ?", [clientId], (err, res) => {
-            if (err) {
-                console.log('Error: ', err)
-                result({message: err}, null)
-                return
-            }
-        });
-        console.log(resRequest[0])
-        await Token.refresh(resRequest[0].insertId, (errToken, resToken) => {
-            if (errToken) {
-                result({message: errToken.message}, null)
-                return
-            }
-            console.log("created token for : ", clientId);
-            result(null, resToken)
-        });
+        const [rows, fields] = await sql.query("INSERT INTO tokens SET client_id = ?", [clientId])
+
+        const resToken = await Token.refresh(rows.insertId)
+        return resToken
     } catch (err) {
         console.log(err)
-        result({message: err.message}, null)
+        throw err
     }
 };
 
 // TODO a tester
-Token.findByClientId = async (clientId, result) => {
+Token.findByClientId = async function (clientId) {
     try {
-        const resRequest = await sql.query("SELECT * FROM tokens WHERE client_id = ?", [clientId], (err, res) => {
-            if (err) {
-                console.log('Error: ', err)
-                result({message: err}, null)
-                return
-            }
-        });
-        if (resRequest[0].length < 1) {
+        const [rows, fields] = await sql.query("SELECT * FROM tokens WHERE client_id = ?", [clientId])
+        if (rows.length < 1) {
             console.log('No tokens found')
-            result(null, null)
+            return null
         }
-        console.log("tokens: ", resRequest[0]);
-        result(null, resRequest[0])
+        return rows[0]
     } catch (err) {
         console.log(err);
-        result({message: err.message}, null)
+        throw err
     }
 }
 
 // NOTE ok working
-Token.findByClientToken = async (clientToken, result) => {
+Token.findByClientToken = async function (clientToken) {
     try {
-        const resRequest = await sql.query("SELECT * FROM tokens WHERE token = ?", [clientToken], (err, res) => {
-            if (err) {
-                console.log('Error: ', err)
-                result({message: err}, null)
-                return
-            }
-        });
-        if (resRequest[0].length < 1) {
+        const [rows, fields] = await sql.query("SELECT * FROM tokens WHERE token = ?", [clientToken])
+        if (rows.length < 1) {
             console.log('No tokens found')
-            result(null, null)
+            return null
         }
-        console.log("tokens: ", resRequest[0]);
-        result(null, resRequest[0][0])
+        return rows[0]
     } catch (err) {
         console.log(err);
-        result({message: err.message}, null)
+        throw err
     }
 }
 
 // TODO a tester
-Token.deleteToken = async (clientToken, result) => {
+Token.deleteToken = async function (clientToken) {
     try {
-        const resRequest = await sql.query("DELETE FROM tokens WHERE token = ?", [clientToken], (err, res) => {
-            if (err) {
-                console.log('Error: ', err)
-                result({message: err}, null)
-                return
-            }
-        });
-        if (resRequest[0].affectedRows < 1) {
+        const [rows, fields] = await sql.query("DELETE FROM tokens WHERE token = ?", [clientToken])
+        if (rows.affectedRows < 1) {
             console.log('No tokens found')
-            result(null, null)
-            return
+            return null
         }
-        console.log("tokens: ", resRequest[0]);
-        result(null, {message: 'user deconnected'})
+        return { message: 'user deconnected' }
     } catch (err) {
         console.log(err);
-        result({message: err.message}, null)
+        throw err
     }
 }
 
 // TODO a tester
-Token.deleteTokenByClientId = async (clientId, result) => {
+Token.deleteTokenByClientId = async function (clientId) {
     try {
-        const resRequest = await sql.query("DELETE FROM tokens WHERE client_id = ?", [clientId], (err, res) => {
-            if (err) {
-                console.log('Error: ', err)
-                result({message: err}, null)
-                return
-            }
-        });
-        if (res[0].affectedRows < 1) {
+        const [rows, fields] = await sql.query("DELETE FROM tokens WHERE client_id = ?", [clientId])
+
+        if (rows.affectedRows < 1) {
             console.log('No tokens found')
-            result(null, null)
-            return
+            return null;
         }
-        console.log("tokens: ", res[0]);
-        result(null, {message: 'tokens deleted'})
+        return { message: 'tokens deleted' }
     } catch (err) {
         console.log(err);
-        result({message: err.message}, null)
+        throw err
     }
 }
 
