@@ -5,7 +5,7 @@ const bot = new Discord.Client ();
 const testhookurl = "https://discordapp.com/api/webhooks/679074617662504993/uW5Ew-QzNLioEhvb4sFI1L134U7u_WsQs-28VPUMw-_84hX319vM_8uQwAIbTj0f8loh";
 
 const TOKEN = process.env.DISCORD_TOKEN;
-// const TOKEN = "NjY4NzU3MjkyNzAyODkyMDg4.Xkq4Rg._efpbznn71JZX6jpqich-RdqHz8";
+const APP_TOKEN = process.env.DISCORD_APP_TOKEN;
 bot.login (TOKEN);
 
 bot.on ('ready', () => {
@@ -16,15 +16,13 @@ bot.on ('ready', () => {
 
 
 bot.on ('message', msg => {
-    if (msg.author.username === 'Aphi') {
-        msg.channel.send("cc esther");
-    }
-    console.info(msg.channel.name);
+    msg.react("🤔");
+    console.info("There is a new message in " + msg.guild.name + ". In " +  msg.channel.name + " channel. From user : " + msg.author.username + " and it says " + msg.content);
 });
 
 bot.on("guildMemberAdd", (member) => {
     console.info('a new guild member approached');
-    let guild = member.guild; // Reading property `guild` of guildmember object.
+    let guild = member.guild; // Reading property `guild` of guildmember object
     const channel = member.guild.channels.find(ch => ch.name === 'test');
     // Do nothing if the channel wasn't found on this server
     if (!channel) return;
@@ -41,6 +39,8 @@ const objB = {"Message":"Hello World", "ToGuild":false, "guild": "", "channel":"
         bot.channels.get(`test`).send('coucou');
     }
 }
+
+bot.login(TOKEN);
     // if (obj.ToGuild == true) {
     //     // bot.channels.get(``).send(`Text`);
     //     //send msg to specific channel ou throw error

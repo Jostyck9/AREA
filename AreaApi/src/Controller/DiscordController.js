@@ -3,16 +3,15 @@ const Discord = require ('discord.js');
 const bot = new Discord.Client ();
 
 const TOKEN = process.env.DISCORD_BOT_TOKEN;
+const BOT_URL = process.env.DISCORD_BOT_URL;
 bot.login (TOKEN);
 
 bot.on ('ready', () => {
-    console.info (`Connecté en tant que $ {bot.user.tag}!`);
+    console.info (`Connecté en tant que ${bot.user.tag}!`);
 });
 
 
-jsonA = {"Message":"Hello World", "ToGuild":true, "guild": "TESTAREA", "channel":"test", "user":""};
-
-jsonB = {"Message":"Hello World", "ToGuild":false, "guild": "", "channel":"", "user":"Aphi"};
+const obj = {"Message":"Hello World", "ToGuild":true, "guild": "TESTAREA", "channel":"test", "user":""};
 
 /**
  * Send a specified message in Discord
@@ -24,19 +23,33 @@ exports.sendMessage = async function (req, res) {
     //Send a specified message in Discord
 
     console.info(req.body);
-    var obj = JSON.parse(req.body);
+    const obj = req.body;
     if (obj.ToGuild == true) {
-        bot.sendMessage(obj.Message);
-        //send msg to specifi channel ou throw error
-        return;
+        console.info("sending " + obj.Message + " - to channel : " + obj.channel + " of server : " + obj.guild + " //");
+    } else {
+        console.info("sending " + obj.Message + " - to user : " + obj.user);
     }
-    // bot.channels.get(`channelID`).send(`Text`)
-
-    //try to send msg in dm to specified user
-    //     msg.channel.send();
-
 }
 
+/**
+ * get bot url to add him to a server
+ * @group Discord - Discord get bot url
+ * @return {string} - bot's url
+ */
+exports.getBotUrl = async function (req, res) {
+    //get bot url to add him to a server
+    return BOT_URL;
+}
+
+/**
+ * Notice that a message was received on Discord
+ * @group Discord - Discord receiveMessage Action
+ * @return {JSON} - message's informations (guild, channel, author and content)
+ * @returns {Error}  default - Unexpected error
+ */
 exports.receiveMessage = async function (req, res) {
-    //webhook ? ou le bot sur bot.on ('message', msg => {})
+    //Notice that a message was received on Discord    
+    bot.on ('message', msg => {
+        console.info("There is a new message in " + msg.guild.name + ". In " +  msg.channel.name + " channel. From user : " + msg.author.username + " and it says " + msg.content);
+    });
 }
