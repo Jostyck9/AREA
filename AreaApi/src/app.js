@@ -6,7 +6,7 @@ const bodyParser = require('body-parser')
 const oauthRouter = require('./routers/auth.router');
 // const oauth2Router = require('./routers/auth2');
 const aboutRouter = require('./routers/about.router');
-// const areaRouter = require('./routers/area');
+const areaRouter = require('./routers/area.router');
 const servicesRouter = require('./routers/services.router');
 
 var cors = require('cors');
@@ -52,7 +52,7 @@ app.use(oauthRouter);
 // app.use(oauth2Router);
 app.use(aboutRouter);
 app.use(servicesRouter);
-// app.use(areaRouter);
+app.use(areaRouter);
 
 app.set('trust proxy', true);
 

@@ -10,7 +10,7 @@ const Reaction = function (reaction) {
 };
 
 // TODO a tester
-Reaction.getAll = async function (result) {
+Reaction.getAll = async function () {
     try {
         const [rows, fields] = await sql.query("SELECT * FROM reactions", [])
         if (rows.length < 1) {
