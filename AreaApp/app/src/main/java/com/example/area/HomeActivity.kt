@@ -21,17 +21,20 @@ class HomeActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu,menu)
-        return true;
+        return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val id = item.itemId;
+        val id = item.itemId
 
         if (id == R.id.profile) {
-            val intent = Intent(this, ProfileActivity::class.java)
-            startActivity(intent)
+            val intentProfile = Intent(this, ProfileActivity::class.java)
+            startActivity(intentProfile)
         } else if (id == R.id.add) {
             Toast.makeText(applicationContext, "Add", Toast.LENGTH_SHORT).show()
+        } else if (id == R.id.settings) {
+            val intentSettings = Intent(this, SettingsActivity::class.java)
+            startActivity(intentSettings)
         }
         return true
     }
