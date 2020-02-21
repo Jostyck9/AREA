@@ -23,10 +23,9 @@ let options = {
             title: 'Swagger',
             version: '1.0.0',
         },
-        host: 'localhost:8081',
+        host: '10.29.124.206:8081',
         produces: [
-            "application/json",
-            "application/xml"
+            "application/json"
         ],
         schemes: ['http'],
         securityDefinitions: {

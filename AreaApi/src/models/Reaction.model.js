@@ -32,7 +32,7 @@ Reaction.findById = async function (actionId) {
             console.log('No reactions found')
             return null
         }
-        return rows
+        return rows[0]
     } catch (err) {
         console.log(err);
         throw err

@@ -13,6 +13,7 @@ Area.create = async function (newArea) {
         if (rows.affectedRows == 0) {
             console.log('Error trying to create an area')
         }
+
         return { message: "created area" }
     } catch (err) {
         console.log(err)

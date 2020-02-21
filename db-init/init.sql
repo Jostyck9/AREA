@@ -43,7 +43,7 @@ CREATE TABLE `actions` (
 
 -- LOCK TABLES `actions` WRITE;
 
-INSERT INTO `actions` VALUES (0, 0, "push", "a new push is intended by someone", NULL);
+INSERT INTO `actions` VALUES (0, 0, "push", "a new push is intended by someone", '{"message": "string"}');
 INSERT INTO `actions` VALUES (1, 0, "pull_request", "a new pull request is intended by someone", NULL);
 INSERT INTO `actions` VALUES (2, 1, "tweet", "a new tweet has been post", NULL);
 INSERT INTO `actions` VALUES (3, 2, "music_added", "A new music has been added to a playlist", NULL);
@@ -107,7 +107,7 @@ CREATE TABLE `reactions` (
 
 -- LOCK TABLES `reactions` WRITE;
 
-INSERT INTO `reactions` VALUES (0, 1, "tweet", "post a new tweet", NULL);
+INSERT INTO `reactions` VALUES (0, 1, "tweet", "post a new tweet", '{"message": "string"}');
 INSERT INTO `reactions` VALUES (1, 2, "add_music", "add a new music to an existing playlist", NULL);
 INSERT INTO `reactions` VALUES (2, 3, "create_event", "create a new event in calendar", NULL);
 INSERT INTO `reactions` VALUES (3, 3, "send_email", "send an email", NULL);
