@@ -1,20 +1,25 @@
 version: "3"
 services:
     db:
-        image: mysql:latest
+        image: mysql:5
         restart: always
+        volumes:
+            - common:/var/lib/mysql
+            - ./db-init:/docker-entrypoint-initdb.d
         environment:
-            ACCEPT_EULA: "Y"
             MYSQL_DATABASE: "area"
             MYSQL_USER: "user"
             MYSQL_PASSWORD: "password"
             MYSQL_ROOT_PASSWORD: "password"
+        container_name: MYSQL_Database
         ports:
             - "3306:3306"
         expose:
             - "3306"
-        volumes:
-            - common:/var/lib/mysql
+        networks:
+            area_network:
+                ipv4_address: 172.20.1.1
+
     nginx:
         restart: always
         build:
@@ -22,6 +27,10 @@ services:
             dockerfile: Dockerfile
         ports:
             - '8082:80'
+        networks:
+            area_network:
+                ipv4_address: 172.20.1.3
+
     server:
         build: ./AreaApi/
         image: area
@@ -32,6 +41,10 @@ services:
         volumes:
             - /app/node_modules
             - ./AreaApi:/app
+        networks:
+            area_network:
+                ipv4_address: 172.20.1.2
+    
     client_web:
         build: ./AreaWeb/
         image: web
@@ -44,6 +57,9 @@ services:
             - /app/node_modules
             - ./AreaWeb:/app
             - common:/var/www/:ro
+        networks:
+            area_network:
+                ipv4_address: 172.20.1.4
     mobile:
         build: ./AreaApp/
         image: mobile
@@ -55,3 +71,10 @@ services:
 
 volumes:
     common:
+
+networks:
+    area_network:
+        ipam:
+            driver: default
+            config:
+                - subnet: 172.20.0.0/16
