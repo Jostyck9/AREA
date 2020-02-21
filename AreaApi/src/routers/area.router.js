@@ -1,5 +1,6 @@
 const express = require('express');
 const auth = require('../middleware/auth')
+const AreaController = require('../controllers/area.controller')
 
 const router = express.Router();
 
@@ -13,11 +14,7 @@ const router = express.Router();
  */
 router.get('/area', auth, async(req, res) => {
     // Get a list of user's Areas
-    try { 
-        res.status(200).send("ListofUser'sAreas");
-    } catch (error) {
-        res.status(401).send(error);
-    }
+    AreaController.getAll(req, res)
 })
 
 /**
@@ -25,17 +22,13 @@ router.get('/area', auth, async(req, res) => {
  * @route GET /area/{id}
  * @group Area - Area connections
  * @security JWT
- * @param {var} idArea - id of the researched area
+ * @param {Int} id.path.require - id of the area
  * @returns {JSON} specified area
  * @returns {Error}  default - Unexpected error
  */
 router.get('/area/:id', auth, async(req, res) => {
     // Get the area corresponding to the id
-    try { 
-        res.status(200).send(" Get the area corresponding to the id");
-    } catch (error) {
-        res.status(401).send(error);
-    }
+    AreaController.get(req, res)
 })
 
 /**
@@ -43,31 +36,30 @@ router.get('/area/:id', auth, async(req, res) => {
  * @route DELETE /area/{id}
  * @group Area - Area connections
  * @security JWT
- * @param {var} idArea - id of the researched area
+ * @param {Int} id.path.require - id of the area
  * @returns {Error}  default - Unexpected error
  */
 router.delete('/area/:id', auth, async(req, res) => {
     // Get the area corresponding to the id
-    try { 
-        res.status(200).send("Delete the area corresponding to the id");
-    } catch (error) {
-        res.status(401).send(error);
-    }
+    AreaController.delete(req, res)
 })
 
+/**
+ * @typedef Area
+ * @property {integer} action_id - Area's action
+ * @property {integer} reaction_id - Area's reaction
+ * @property {json} parameters - Area's parameters format
+ */
 /**
  * Create an area between an action and a reaction 
  * @route POST /area
  * @group Area - Area connections
+ * @param {Area.model} area.body.required - Area to create
  * @security JWT
  * @returns {Error}  default - Unexpected error
  */
 router.post('/area', auth, async(req, res) => {
-    try { 
-        res.status(200).send(" Create an area ");
-    } catch (error) {
-        res.status(401).send(error);
-    }
+    AreaController.create(req, res)
 })
 
 module.exports = router;
