@@ -30,4 +30,8 @@
     <string name="edit_photo">Edit photo</string>
     <string name="save_changes">Save changes</string>
     <string name="username">Username</string>
+    <string name="discord">Discord</string>
+    <string name="trello">Trello</string>
+    <string name="spotify">Spotify</string>
+    <string name="github">Github</string>
 </resources>
