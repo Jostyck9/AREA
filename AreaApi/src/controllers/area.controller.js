@@ -34,17 +34,17 @@ async function checkParameters(newArea, res) {
             res.status(401).send({ message: "missing parameter " + element });
             return false
         }
-        if (typeof (newAreaObj[element]) === "string") {
-            let resSplit = newAreaObj[element].split("{{")
-            if (resSplit.length !== 1) {
-                resSplit = resSplit[1].split("}}")
-                if (resSplit.length !== 1 && (actionObj === null || !actionObj.hasOwnProperty(resSplit[0]))) {
-                    res.status(401).send({ message: "invalid dynamic parameter " + resSplit[0] });
-                    return false
-                }
+        // if (typeof (newAreaObj[element]) === "string") {
+        //     let resSplit = newAreaObj[element].split("{{")
+        //     if (resSplit.length !== 1) {
+        //         resSplit = resSplit[1].split("}}")
+        //         if (resSplit.length !== 1 && (actionObj === null || !actionObj.hasOwnProperty(resSplit[0]))) {
+        //             res.status(401).send({ message: "invalid dynamic parameter " + resSplit[0] });
+        //             return false
+        //         }
                     
-            }
-        }
+        //     }
+        // }
     });
 
     return true
@@ -52,6 +52,9 @@ async function checkParameters(newArea, res) {
 
 exports.create = async (req, res) => {
     try {
+        if (!res.body.hasOwnProperty('action_id'))
+            throw new Error('action_id property missing')
+
         const newArea = new AreaModel({
             client_id: req.user.id,
             action_id: req.body.action_id,
