@@ -1,9 +1,10 @@
 const express = require('express');
-const Services = require('../../models/Service')
-const Actions = require('../../models/Action')
-const Reactions = require('../../models/Reaction')
+const Services = require('../models/Service.model')
+const ServiceController = require('../controllers/service.controller')
+// const Actions = require('../../models/Action')
+// const Reactions = require('../../models/Reaction')
 
-const ServiceDetail = require('../../models/ServiceDetail')
+// const ServiceDetail = require('../../models/ServiceDetail')
 
 const router = express.Router();
 
@@ -36,13 +37,14 @@ const router = express.Router();
  * @returns {Error}  default - Unexpected error
  */
 router.get('/services', async (req, res) => {
-    //Get a list of available services
-    try {
-        resRequest = await ServiceDetail.GetAllServiceDetail()
-        res.status(200).send(resRequest)
-    } catch (error) {
-        res.status(401).send(error);
-    }
+    // //Get a list of available services
+    // try {
+    //     resRequest = await ServiceDetail.GetAllServiceDetail()
+    //     res.status(200).send(resRequest)
+    // } catch (error) {
+    //     res.status(401).send(error);
+    // }
+    await ServiceController.getAllServices(req, res)
 })
 
 /**
@@ -55,13 +57,7 @@ router.get('/services', async (req, res) => {
  */
 router.get('/services/:nameService', async (req, res) => {
     //Get a list of available services
-    try {
-        resRequest = await ServiceDetail.GetServiceDetailByName(req.params.nameService)
-        res.status(200).send(resRequest)
-    } catch {
-        res.status(401).send("Service " + req.params.idService + " not found")
-        return
-    }
+    await ServiceController.getService(req, res)
 })
 
 
@@ -74,15 +70,8 @@ router.get('/services/:nameService', async (req, res) => {
  * @returns {Error}  default - Unexpected error
  */
 router.get('/services/:nameService/actions', async (req, res) => {
-    //Get a list of the service's actions
-    service = {}
-    try {
-        var test = await Services.getByName(req.params.nameService)
-        resRequest = await ServiceDetail.GetActions(test._id)
-        res.status(200).send(resRequest);
-    } catch (error) {
-        res.status(401).send(error);
-    }
+    //Get a list of available actions
+    await ServiceController.getServiceAllActions(req, res)
 })
 
 /**
@@ -96,14 +85,7 @@ router.get('/services/:nameService/actions', async (req, res) => {
  */
 router.get('/services/:nameService/actions/:nameAction', async (req, res) => {
     //Get a specific action from a speficied service
-    try {
-        var test = await Services.getByName(req.params.nameService)
-        resRequest = await Actions.getByName(req.params.nameAction)
-        restest = {name: resRequest.name, id: resRequest._id, description: resRequest.description, results: resRequest.res}
-        res.status(200).send(restest);
-    } catch (error) {
-        res.status(401).send(error);
-    }
+    await ServiceController.getServiceAction(req, res)
 })
 
 /**
@@ -115,15 +97,8 @@ router.get('/services/:nameService/actions/:nameAction', async (req, res) => {
  * @returns {Error}  default - Unexpected error
  */
 router.get('/services/:nameService/reactions', async (req, res) => {
-    //Get a list of the service's actions
-    service = {}
-    try {
-        var test = await Services.getByName(req.params.nameService)
-        resRequest = await ServiceDetail.GetReactions(test._id)
-        res.status(200).send(resRequest);
-    } catch (error) {
-        res.status(401).send(error);
-    }
+    // //Get a list of the service's actions
+    await ServiceController.getServiceAllReactions(req, res)
 })
 
 /**
@@ -137,14 +112,15 @@ router.get('/services/:nameService/reactions', async (req, res) => {
  */
 router.get('/services/:nameService/reactions/:nameReaction', async (req, res) => {
     //Get a specific action from a speficied service
-    try {
-        var test = await Services.getByName(req.params.nameService)
-        resRequest = await Reactions.getByName(req.params.nameReaction)
-        restest = {name: resRequest.name, id: resRequest._id, description: resRequest.description, parameters: resRequest.parameters}
-        res.status(200).send(restest);
-    } catch (error) {
-        res.status(401).send(error);
-    }
+    // try {
+    //     var test = await Services.getByName(req.params.nameService)
+    //     resRequest = await Reactions.getByName(req.params.nameReaction)
+    //     restest = {name: resRequest.name, id: resRequest._id, description: resRequest.description, parameters: resRequest.parameters}
+    //     res.status(200).send(restest);
+    // } catch (error) {
+    //     res.status(401).send(error);
+    // }
+    await ServiceController.getServiceReaction(req, res)
 })
 
-module.exports = router;
+module.exports = router
