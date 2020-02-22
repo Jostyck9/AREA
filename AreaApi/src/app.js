@@ -6,6 +6,7 @@ const oauth2Router = require('./routers/auth2');
 const aboutRouter = require('./routers/about');
 const areaRouter = require('./routers/area');
 const servicesRouter = require('./routers/services/services');
+const discordController = require('./Controller/DiscordController');
 
 var cors = require('cors');
 const port = process.env.PORT;

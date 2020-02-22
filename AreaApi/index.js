@@ -40,7 +40,6 @@ const objB = {"Message":"Hello World", "ToGuild":false, "guild": "", "channel":"
     }
 }
 
-bot.login(TOKEN);
     // if (obj.ToGuild == true) {
     //     // bot.channels.get(``).send(`Text`);
     //     //send msg to specific channel ou throw error
