@@ -14,9 +14,12 @@ bot.on ('ready', () => {
 });
 
 bot.on ('message', msg => {
+    if (msg.channel.type === "dm")        
+        console.info("There is a new private message from user : " + msg.author.username + " and it says " + msg.content);
+    else
         console.info("There is a new message in " + msg.guild.name + ". In " +  msg.channel.name + " channel. From user : " + msg.author.username + " and it says " + msg.content);
-        // receivedMessage();
-        });
+    // receivedMessage();
+});
 
     
         // /**
