@@ -12,7 +12,7 @@ exports.getAllServices = async (req, res) => {
         }
         res.status(200).send(resRequest)
     } catch (err) {
-        console.log('message: ', err.message)
+        // console.log('message: ', err.message)
         res.status(400).send({message: err.message || 'An internal error occured'})
     }
 };
@@ -26,7 +26,7 @@ exports.getService = async (req, res) => {
         }
         res.status(200).send(resRequest)
     } catch (err) {
-        console.log('message: ', err.message)
+        // console.log('message: ', err.message)
         res.status(400).send({message: err.message || 'An internal error occured'})
     }
 }

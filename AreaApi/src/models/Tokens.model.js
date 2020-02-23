@@ -15,12 +15,11 @@ Token.refresh = async function (id) {
 
         const [rows, fields] = await sql.query("UPDATE tokens SET token = ? WHERE id = ?", [newToken, id])
         if (rows.affectedRows == 0) {
-            console.log('Not found: ', id)
             throw Error("cannot update token " + id)
         }
         return { token: newToken }
     } catch (err) {
-        console.log(err)
+        // console.log(err)
         throw err
     }
 };
@@ -34,7 +33,7 @@ Token.create = async function (clientId) {
         const resToken = await Token.refresh(rows.insertId)
         return resToken
     } catch (err) {
-        console.log(err)
+        // console.log(err)
         throw err
     }
 };
@@ -44,12 +43,11 @@ Token.findByClientId = async function (clientId) {
     try {
         const [rows, fields] = await sql.query("SELECT * FROM tokens WHERE client_id = ?", [clientId])
         if (rows.length < 1) {
-            console.log('No tokens found')
             return null
         }
         return rows[0]
     } catch (err) {
-        console.log(err);
+        // console.log(err);
         throw err
     }
 }
@@ -59,12 +57,11 @@ Token.findByClientToken = async function (clientToken) {
     try {
         const [rows, fields] = await sql.query("SELECT * FROM tokens WHERE token = ?", [clientToken])
         if (rows.length < 1) {
-            console.log('No tokens found')
             return null
         }
         return rows[0]
     } catch (err) {
-        console.log(err);
+        // console.log(err);
         throw err
     }
 }
@@ -74,12 +71,11 @@ Token.deleteToken = async function (clientToken) {
     try {
         const [rows, fields] = await sql.query("DELETE FROM tokens WHERE token = ?", [clientToken])
         if (rows.affectedRows < 1) {
-            console.log('No tokens found')
             return null
         }
         return { message: 'user deconnected' }
     } catch (err) {
-        console.log(err);
+        // console.log(err);
         throw err
     }
 }
@@ -90,12 +86,11 @@ Token.deleteTokenByClientId = async function (clientId) {
         const [rows, fields] = await sql.query("DELETE FROM tokens WHERE client_id = ?", [clientId])
 
         if (rows.affectedRows < 1) {
-            console.log('No tokens found')
             return null;
         }
         return { message: 'tokens deleted' }
     } catch (err) {
-        console.log(err);
+        // console.log(err);
         throw err
     }
 }

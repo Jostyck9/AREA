@@ -12,12 +12,11 @@ Service.getAll = async function() {
     try {
         const [rows, fields] = await sql.query("SELECT * FROM services")
         if (rows.length < 1) {
-            console.log('No services found')
             return null
         }
         return rows
     } catch (err) {
-        console.log(err);
+        // console.log(err);
         throw (err)
     }
 }
@@ -27,12 +26,11 @@ Service.findById = async function (serviceId) {
     try {
         const [rows, fields] = await sql.query(`SELECT * FROM services WHERE id = ?`, [serviceId])
         if (rows.length < 1) {
-            console.log('No services found')
             return null
         }
         return rows[0]
     } catch (err) {
-        console.log(err);
+        // console.log(err);
         return err
     }
 };
@@ -42,12 +40,11 @@ Service.findByName = async function (serviceName) {
     try {
         const [rows, fields] = await sql.query(`SELECT * FROM services WHERE name = ?`, [serviceName.toLowerCase()])
         if (rows.length < 1) {
-            console.log('No services found')
             return null
         }
         return rows[0]
     } catch (err) {
-        console.log(err);
+        // console.log(err);
         throw err
     }
 };

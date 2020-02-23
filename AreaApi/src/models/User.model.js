@@ -22,7 +22,7 @@ User.create = async function (newUser) {
         var [rows, fields] = await sql.query("INSERT INTO users(username,email,password) VALUES (?,?,?)", [newUser.username, newUser.email, newUser.password])
         return { message: "created user :" + newUser.username, id: rows.insertId }
     } catch (err) {
-        console.log(err)
+        // console.log(err)
         if (err.code && err.code == 'ER_DUP_ENTRY')
             throw new Error('email already used')
         throw err
@@ -36,7 +36,6 @@ User.findByCredentials = async function (email, password) {
     try {
         const [rows, fields] = await sql.query(`SELECT * FROM users WHERE email = ?`, [email])
         if (rows.length < 1) {
-            console.log('No users')
             return null
         }
         if (await bcrypt.compare(password, rows[0].password)) {
@@ -44,7 +43,7 @@ User.findByCredentials = async function (email, password) {
         }
         return null
     } catch (err) {
-        console.log(err)
+        // console.log(err)
         throw err
     }
 }
@@ -54,13 +53,12 @@ User.findByEmail = async function (userEmail) {
     try {
         const [rows, fields] = await sql.query(`SELECT * FROM users WHERE email = ?`, [userEmail])
         if (rows.length < 1) {
-            console.log('No users')
             return null
         }
         return rows[0]
 
     } catch (err) {
-        console.log(err)
+        // console.log(err)
         throw err
     }
 };
@@ -71,13 +69,12 @@ User.findById = async function (userId) {
         const [rows, fields] = await sql.query(`SELECT * FROM users WHERE id = ?`, [userId])
 
         if (rows.length < 1) {
-            console.log('No users')
             return null
         }
         return rows[0]
 
     } catch (err) {
-        console.log(err)
+        // console.log(err)
         throw err
     }
 };
@@ -87,12 +84,11 @@ User.findByName = async function (userName) {
     try {
         const [rows, fields] = await sql.query(`SELECT * FROM users WHERE username = ?`, [userName])
         if (rows.length < 1) {
-            console.log('No users')
             return null
         }
         return rows[0]
     } catch (err) {
-        console.log(err)
+        // console.log(err)
         throw err;
     }
 };
@@ -106,7 +102,7 @@ User.remove = async function (id) {
         }
         return { message: 'User deleted ' + id }
     } catch (err) {
-        console.log(err)
+        // console.log(err)
         throw err
     }
 };
@@ -122,7 +118,7 @@ User.updateUsername = async function (id, userName) {
         }
         return { message: 'User updated' }
     } catch (err) {
-        console.log(err)
+        // console.log(err)
         throw err
     }
 };
@@ -140,7 +136,7 @@ User.updatePassword = async function (id, password) {
         }
         return ({ message: 'Password updated' })
     } catch (err) {
-        console.log(err)
+        // console.log(err)
         throw err
     }
 };

@@ -16,7 +16,6 @@ const auth = async (req, res, next) => {
             throw new Error()
         req.user = resUser
         req.token = resToken.token
-        console.log("Auth : ", req.user, req.token)
         next()
     } catch (error) {
         res.status(401).send({ message: 'Not authorized to access this resource' })

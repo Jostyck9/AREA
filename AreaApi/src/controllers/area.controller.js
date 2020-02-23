@@ -29,10 +29,13 @@ async function checkParameters(newArea, res) {
     const reactionObj = reactionParameters.parameters;
     const actionObj = actionParameters.results;
 
+    let resKeys = true 
     Object.keys(reactionObj).forEach(element => {
+        console.log("check : ", element)
         if (!newAreaObj.hasOwnProperty(element)) {
             res.status(400).send({ message: "missing parameter " + element });
-            return false
+            resKeys = false
+            return;
         }
         // if (typeof (newAreaObj[element]) === "string") {
         //     let resSplit = newAreaObj[element].split("{{")
@@ -47,12 +50,16 @@ async function checkParameters(newArea, res) {
         // }
     });
 
-    return true
+    return resKeys
 }
 
 exports.create = async (req, res) => {
     try {
-        if (!res.body.hasOwnProperty('action_id'))
+        if (!req.body.hasOwnProperty('action_id'))
+            throw new Error('action_id property missing')
+        if (!req.body.hasOwnProperty('reaction_id'))
+            throw new Error('action_id property missing')
+        if (!req.body.hasOwnProperty('parameters'))
             throw new Error('action_id property missing')
 
         const newArea = new AreaModel({
@@ -62,16 +69,14 @@ exports.create = async (req, res) => {
             parameters: req.body.parameters
         });
 
-
-        if (!await checkParameters(newArea, res)) {
+        const resCheck = await checkParameters(newArea, res)
+        if (!resCheck)
             return
-        }
 
         const resRequest = await AreaModel.create(newArea)
-        console.log(resRequest)
         res.status(201).send(resRequest);
     } catch (error) {
-        res.status(400).send({ message: error.message })
+        res.status(400).send({message: error.message || 'An error  occured'});
     }
 }
 
