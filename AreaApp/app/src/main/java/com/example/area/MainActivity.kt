@@ -1,12 +1,15 @@
 package com.example.area
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import com.google.android.gms.tasks.Task
+import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.OAuthProvider
@@ -49,8 +52,9 @@ class MainActivity : AppCompatActivity() {
 
     private fun microsoftAuthentication() {
         val provider = OAuthProvider.newBuilder("microsoft.com")
-
         val pendingResultTask: Task<AuthResult>? = auth.pendingAuthResult
+
+        Log.d("debug", "test")
         if (pendingResultTask != null) {
             pendingResultTask.addOnSuccessListener {
                 val intent = Intent(this, HomeActivity::class.java)
@@ -60,7 +64,7 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(applicationContext, "Failure", Toast.LENGTH_SHORT).show()
             }
         } else {
-            auth.startActivityForSignInWithProvider( /* activity= */this, provider.build())
+            auth.startActivityForSignInWithProvider(this, provider.build())
                 .addOnSuccessListener {
                     val intent = Intent(this, HomeActivity::class.java)
                     startActivity(intent)
