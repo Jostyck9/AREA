@@ -1,6 +1,14 @@
 const twitterWebhooks = require('twitter-webhooks');
-var add_user_to_twitter_webhook = async function (userActivityWebhook, userId, userToken, secretToken) {
-		userActivityWebhook.subscribe({
+var add_user_to_twitter_webhook = async function (userId, userToken, secretToken) {
+	const userActivityWebhook = twitterWebhooks.userActivity({
+		serverUrl: 'https://d15cdcc3.ngrok.io',
+		route: '/',
+		consumerKey: 'GKRASjadiIHwSBs9KkO7KXhIM',
+		consumerSecret: '8dlwneANyz6WJTUR8NOBcYkYVSL9jEVviPfWbHoKcmC8ERnYQ9',
+		environment: 'TestArea',
+	});
+
+	userActivityWebhook.subscribe({
 		userId: userId,
 		accessToken: userToken,
 		accessTokenSecret: secretToken
@@ -20,10 +28,58 @@ var add_user_to_twitter_webhook = async function (userActivityWebhook, userId, u
 	});
 }
 
-var delete_user_to_twitter_webhook = async function (userActivityWebhook, userId, userToken, secretToken) {
+var delete_user_to_twitter_webhook = async function (userId, userToken, secretToken) {
+	
+	const userActivityWebhook = twitterWebhooks.userActivity({
+		serverUrl: 'https://d15cdcc3.ngrok.io',
+		route: '/',
+		consumerKey: 'GKRASjadiIHwSBs9KkO7KXhIM',
+		consumerSecret: '8dlwneANyz6WJTUR8NOBcYkYVSL9jEVviPfWbHoKcmC8ERnYQ9',
+		environment: 'TestArea',
+	});
+
 	userActivityWebhook.unsubscribe({
 		userId: userId,
 		accessToken: userToken,
 		accessTokenSecret: secretToken
 	})
 }
+
+const express = require ('express');
+const bodyParser = require ('body-parser');
+const https = require ('https');
+const fs = require('fs');
+
+const app = express();
+app.use(bodyParser.json());
+
+const userActivityWebhook = twitterWebhooks.userActivity({
+	serverUrl: 'https://d15cdcc3.ngrok.io',
+	route: '/',
+    consumerKey: 'GKRASjadiIHwSBs9KkO7KXhIM',
+	consumerSecret: '8dlwneANyz6WJTUR8NOBcYkYVSL9jEVviPfWbHoKcmC8ERnYQ9',
+	accessToken: '1098557912677576704-2fz3FvHUaDs5ccaje09f8YhiWpISEn',
+    accessTokenSecret: 'pdymBZU6dt229qycuNSyAo11cN9adU3yb2Nhkrka8CQnX',
+	environment: 'TestArea',
+	app
+});
+const server = https.createServer({
+	key: fs.readFileSync('key.pem'),
+	cert: fs.readFileSync('cert.pem')
+}, app);
+
+server.listen(8081, () => {
+	console.log('server start Port: 8081')
+});
+
+//userActivityWebhook.register()
+// userActivityWebhook.unregister({
+// 	webhookId: '1231610176232415232'
+// })
+
+//add_user_to_twitter_webhook('1098557912677576704', '1098557912677576704-2fz3FvHUaDs5ccaje09f8YhiWpISEn', 'pdymBZU6dt229qycuNSyAo11cN9adU3yb2Nhkrka8CQnX')
+//delete_user_to_twitter_webhook('1098557912677576704', '1098557912677576704-2fz3FvHUaDs5ccaje09f8YhiWpISEn', 'pdymBZU6dt229qycuNSyAo11cN9adU3yb2Nhkrka8CQnX')
+
+
+userActivityWebhook.on('event', (event, userId, data) => console.log (userId + ' ' + event + ' ' + data));
+userActivityWebhook.on('unknown-event', (rawData) => console.log (rawData));
