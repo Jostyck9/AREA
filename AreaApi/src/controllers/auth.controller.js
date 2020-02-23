@@ -68,7 +68,7 @@ exports.login = async (req, res) => {
         const resUser = await User.findByCredentials(user.email, user.password)
 
         if (!resUser) {
-            res.status(401).send('not authorized')
+            res.status(401).send({message: 'not authorized'})
         } else {
             const resToken = await Token.create(resUser.id)
             if (!resToken)

@@ -63,7 +63,7 @@ exports.getServiceAction = async (req, res) => {
         }
         res.status(200).send({name: resRequest.name, id: resRequest.id, description: resRequest.description, results: resRequest.results});
     } catch (error) {
-        res.status(400).send({message: err.message || 'An internal error occured'});
+        res.status(400).send({message: error.message || 'An internal error occured'});
     }
 }
 
@@ -81,7 +81,7 @@ exports.getServiceAllReactions = async (req, res) => {
         }
         res.status(200).send(resRequest)
     } catch (error) {
-        res.status(400).send({message: err.message || 'An internal error occured'});
+        res.status(400).send({message: error.message || 'An internal error occured'});
     }
 }
 
@@ -99,6 +99,6 @@ exports.getServiceReaction = async (req, res) => {
         }
         res.status(200).send({name: resRequest.name, id: resRequest.id, description: resRequest.description, parameters: resRequest.parameters});
     } catch (error) {
-        res.status(400).send({message: err.message || 'An internal error occured'});
+        res.status(400).send({message: eerrorrr.message || 'An internal error occured'});
     }
 }
