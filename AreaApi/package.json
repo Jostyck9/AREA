@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "env-cmd -f ./.env nodemon src/app.js",
-    "test": "env-cmd -f ./.env cross-env NODE_ENV=test jest"
+    "test": "env-cmd -f ./.env cross-env NODE_ENV=test jest --testTimeout=10000"
   },
   "jest": {
     "testEnvironment": "node",
