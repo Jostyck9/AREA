@@ -8,12 +8,12 @@ const oauthRouter = require('./routers/auth.router');
 const aboutRouter = require('./routers/about.router');
 const areaRouter = require('./routers/area.router');
 const servicesRouter = require('./routers/services.router');
-const discordController = require('./Controller/DiscordController');
+const tmpDiscordController = require('./controllers/discord.controller');
 
 var cors = require('cors');
 const port = process.env.PORT;
 
-const app = express()
+const app = express();
 
 // swagger
 const expressSwagger = require('express-swagger-generator')(app);

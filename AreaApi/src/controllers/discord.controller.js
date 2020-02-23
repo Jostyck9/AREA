@@ -1,26 +1,19 @@
+exports.create = async(req, res) => {
+    const obj = {"Message":"Hello World", "ToGuild":true, "guild": "TESTAREA", "channel":"test", "user":""};
+}
+require('dotenv').config();
+const Discord = require ('discord.js');
+const bot = new Discord.Client ();
 
-class DiscordController {
-    constructor() { 
-        require('dotenv').config();
-        const Discord = require ('discord.js');
-        const bot = new Discord.Client ();
-        
-        const TOKEN = process.env.DISCORD_TOKEN;
-        const APP_TOKEN = process.env.DISCORD_APP_TOKEN;
-        bot.login (TOKEN);
-        
-        bot.on ('ready', () => {
-            console.info (`Connecté en tant que $ {bot.user.tag}!`);
-        });
-       }
-    
+const TOKEN = process.env.DISCORD_TOKEN;
+const APP_TOKEN = process.env.DISCORD_APP_TOKEN;
+bot.login (TOKEN);
 
+bot.on ('ready', () => {
+    console.info (`Connecté en tant que $ {bot.user.tag}!`);
+});
 
-        async discordAction() {
-        const obj = {"Message":"Hello World", "ToGuild":true, "guild": "TESTAREA", "channel":"test", "user":""};
-
-
-        bot.on ('message', msg => {
+bot.on ('message', msg => {
         console.info("There is a new message in " + msg.guild.name + ". In " +  msg.channel.name + " channel. From user : " + msg.author.username + " and it says " + msg.content);
         // receivedMessage();
         });
@@ -36,7 +29,6 @@ class DiscordController {
         //     //Notice that a message was received on Discord   
         //     console.info("receivedMessage"); 
         // }
-    }
     
 
 // /**
@@ -66,5 +58,3 @@ class DiscordController {
 //     //get bot url to add him to a server
 //     return BOT_URL;
 // }
-
-}
