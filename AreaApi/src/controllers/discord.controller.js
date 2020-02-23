@@ -10,7 +10,7 @@ const APP_TOKEN = process.env.DISCORD_APP_TOKEN;
 bot.login (TOKEN);
 
 bot.on ('ready', () => {
-    console.info (`Connecté en tant que $ {bot.user.tag}!`);
+    console.info (`Connecté en tant que ${bot.user.tag}`);
 });
 
 bot.on ('message', msg => {
