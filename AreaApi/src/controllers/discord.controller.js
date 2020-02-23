@@ -21,6 +21,12 @@ bot.on ('message', msg => {
     // receivedMessage();
 });
 
+
+bot.on('guildMemberAdd', member => {
+    channel = member.guild.channels.find("name","test").send("Welcome!" + member.user.username);
+    // channel.send("Welcome " + member.user.username);
+});
+
     
         // /**
         //  * Notice that a message was received on Discord
