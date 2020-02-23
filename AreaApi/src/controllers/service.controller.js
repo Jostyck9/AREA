@@ -3,6 +3,12 @@ const Service = require('../models/Service.model')
 const Action = require('../models/Action.model')
 const Reaction = require('../models/Reaction.model')
 
+/**
+ * Get all the availables services
+ * 
+ * @param {Request<ParamsDictionary, any, any>} req The request received with the route
+ * @param {Response<any>} res The result of the request to send after
+ */
 exports.getAllServices = async (req, res) => {
     try {
         const resRequest = await ServiceDetail.GetAllServiceDetail();
@@ -17,6 +23,12 @@ exports.getAllServices = async (req, res) => {
     }
 };
 
+/**
+ * Get a specific service
+ * 
+ * @param {Request<ParamsDictionary, any, any>} req The request received with the route
+ * @param {Response<any>} res The result of the request to send after
+ */
 exports.getService = async (req, res) => {
     try {
         const resRequest = await ServiceDetail.GetServiceDetailByName(req.params.nameService);
@@ -31,6 +43,12 @@ exports.getService = async (req, res) => {
     }
 }
 
+/**
+ * Get all the actions from a specific service
+ * 
+ * @param {Request<ParamsDictionary, any, any>} req The request received with the route
+ * @param {Response<any>} res The result of the request to send after
+ */
 exports.getServiceAllActions = async (req, res) => {
     try {
         const service = await Service.findByName(req.params.nameService)
@@ -49,6 +67,12 @@ exports.getServiceAllActions = async (req, res) => {
     }
 }
 
+/**
+ * Get a specific action from a specific service
+ * 
+ * @param {Request<ParamsDictionary, any, any>} req The request received with the route
+ * @param {Response<any>} res The result of the request to send after
+ */
 exports.getServiceAction = async (req, res) => {
     try {
         var service = await Service.findByName(req.params.nameService)
@@ -67,6 +91,12 @@ exports.getServiceAction = async (req, res) => {
     }
 }
 
+/**
+ * Get all the reactions from a specific service
+ * 
+ * @param {Request<ParamsDictionary, any, any>} req The request received with the route
+ * @param {Response<any>} res The result of the request to send after
+ */
 exports.getServiceAllReactions = async (req, res) => {
     try {
         var service = await Service.findByName(req.params.nameService)
@@ -85,6 +115,12 @@ exports.getServiceAllReactions = async (req, res) => {
     }
 }
 
+/**
+ * Get all the reactions from a specifi reaction
+ * 
+ * @param {Request<ParamsDictionary, any, any>} req The request received with the route
+ * @param {Response<any>} res The result of the request to send after
+ */
 exports.getServiceReaction = async (req, res) => {
     try {
         var service = await Service.findByName(req.params.nameService)

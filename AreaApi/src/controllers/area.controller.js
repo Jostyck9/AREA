@@ -2,7 +2,13 @@ const AreaModel = require('../models/Area.model')
 const ActionModel = require('../models/Action.model')
 const ReactionModel = require('../models/Reaction.model')
 
-//AreaModel to pass in parameters
+/**
+ * Check if the field parameter inside the res.body is good according the action and the reaction
+ * 
+ * @param {AreaModel} newArea The request received with the route
+ * @param {Response<any>} res The result of the request to send after
+ * @returns {boolean} is the request is valid or not 
+ */
 async function checkParameters(newArea, res) {
     const reactionParameters = await ReactionModel.findById(newArea.reaction_id)
     if (!reactionParameters) {
@@ -27,32 +33,25 @@ async function checkParameters(newArea, res) {
 
     const newAreaObj = JSON.parse(JSON.stringify(newArea.parameters));
     const reactionObj = reactionParameters.parameters;
-    const actionObj = actionParameters.results;
 
     let resKeys = true 
     Object.keys(reactionObj).forEach(element => {
-        console.log("check : ", element)
         if (!newAreaObj.hasOwnProperty(element)) {
             res.status(400).send({ message: "missing parameter " + element });
             resKeys = false
             return;
         }
-        // if (typeof (newAreaObj[element]) === "string") {
-        //     let resSplit = newAreaObj[element].split("{{")
-        //     if (resSplit.length !== 1) {
-        //         resSplit = resSplit[1].split("}}")
-        //         if (resSplit.length !== 1 && (actionObj === null || !actionObj.hasOwnProperty(resSplit[0]))) {
-        //             res.status(401).send({ message: "invalid dynamic parameter " + resSplit[0] });
-        //             return false
-        //         }
-
-        //     }
-        // }
     });
 
     return resKeys
 }
 
+/**
+ * Create a reaction according to the request for a specific user
+ * 
+ * @param {Request<ParamsDictionary, any, any>} req The request received with the route
+ * @param {Response<any>} res The result of the request to send after
+ */
 exports.create = async (req, res) => {
     try {
         if (!req.body.hasOwnProperty('action_id'))
@@ -80,6 +79,12 @@ exports.create = async (req, res) => {
     }
 }
 
+/**
+ * Get all the user's area
+ * 
+ * @param {Request<ParamsDictionary, any, any>} req The request received with the route
+ * @param {Response<any>} res The result of the request to send after
+ */
 exports.getAll = async (req, res) => {
     try {
         const resRequest = await AreaModel.getArea(req.user.id)
@@ -92,6 +97,12 @@ exports.getAll = async (req, res) => {
     }
 }
 
+/**
+ * Get a specific user's area by his id
+ * 
+ * @param {Request<ParamsDictionary, any, any>} req The request received with the route
+ * @param {Response<any>} res The result of the request to send after
+ */
 exports.get = async (req, res) => {
     try {
         const resRequest = await AreaModel.findById(req.user.id, req.params.id)
@@ -103,6 +114,12 @@ exports.get = async (req, res) => {
     }
 }
 
+/**
+ * Delete a specific user's area from id
+ * 
+ * @param {Request<ParamsDictionary, any, any>} req The request received with the route
+ * @param {Response<any>} res The result of the request to send after
+ */
 exports.delete = async (req, res) => {
     try {
         const resRequest = await AreaModel.delete(req.user.id, req.params.id)

@@ -1,6 +1,12 @@
 const User = require('../models/User.model')
 const Token = require('../models/Tokens.model')
 
+/**
+ * Create a user
+ * 
+ * @param {Request<ParamsDictionary, any, any>} req The request received with the route
+ * @param {Response<any>} res The result of the request to send after
+ */
 exports.create = async (req, res) => {
     // Create a new user
     try {
@@ -43,6 +49,12 @@ exports.create = async (req, res) => {
     }
 };
 
+/**
+ * Log a user
+ * 
+ * @param {Request<ParamsDictionary, any, any>} req The request received with the route
+ * @param {Response<any>} res The result of the request to send after
+ */
 exports.login = async (req, res) => {
     //Login a registered user
     try {
@@ -81,6 +93,12 @@ exports.login = async (req, res) => {
     }
 };
 
+/**
+ * Logout the token of the user
+ * 
+ * @param {Request<ParamsDictionary, any, any>} req The request received with the route
+ * @param {Response<any>} res The result of the request to send after
+ */
 exports.logOut = async (req, res) => {
     // Log user out of the application
     try {
@@ -91,6 +109,12 @@ exports.logOut = async (req, res) => {
     }
 };
 
+/**
+ * Log out all the tokens of the user
+ * 
+ * @param {Request<ParamsDictionary, any, any>} req The request received with the route
+ * @param {Response<any>} res The result of the request to send after
+ */
 exports.logOutAll = async (req, res) => {
     // Log user out of the application
     try {
