@@ -13,15 +13,15 @@ export default function Routes() {
     return (
     <Switch>
         <Route path="/" exact component={Home} />
-        <Route path="/login" component={LogIn} />
-        <Route path="/registration" component={Registration} />
+        <Route path="/login" component={LogIn} isConnected/>
+        <Route path="/registration" component={Registration} isConnected/>
         <Route path="/help" component={Help} />
         <Route path="/error" component={ErrorPage} />
 
         <Route path="/account" component={Account} isPrivate />
 
         {/* redirect user to SignIn page if route does not exist and user is not authenticated */}
-        <Route component={LogIn} />
+        <Route component={Home} />
     </Switch>
     );
 }

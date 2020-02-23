@@ -13,6 +13,11 @@ import {
     Link
 } from "react-router-dom";
 
+function OnSignOut()
+{
+    localStorage.removeItem('currentUser')
+}
+
 export default function AuthLayout({ children }) {
     return (
         <Router>
@@ -27,7 +32,7 @@ export default function AuthLayout({ children }) {
                             <Dropdown.Item href='account'>Account</Dropdown.Item>
                             <Dropdown.Item href='help'>Help</Dropdown.Item>
                             <Dropdown.Divider />
-                            <Dropdown.Item href='/'>Sign Out</Dropdown.Item>
+                            <Dropdown.Item onClick={OnSignOut} href='/'>Sign Out</Dropdown.Item>
                         </DropdownButton>
                     </Navbar.Collapse>
                 </Navbar>

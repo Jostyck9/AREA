@@ -8,19 +8,23 @@ import AuthLayout from "../pages/Shared/auth";
 export default function RouteWrapper({
     component: Component,
     isPrivate,
+    isConnected,
     ...rest
 }) {
-    const signed = false;
 
     /**
      * Redirect user to SignIn page if he tries to access a private route
      * without authentication.
      */
-    if (isPrivate && !signed) {
-        return <Redirect to="/LogIn" />;
+    if (isPrivate && !localStorage.getItem('currentUser')) {
+        return <Redirect to="/login" />;
     }
 
-    const Layout = signed ? AuthLayout : DefaultLayout;
+    if (isConnected && localStorage.getItem('currentUser')) {
+        return <Redirect to="/" />;
+    }
+
+    const Layout = localStorage.getItem('currentUser') ? AuthLayout : DefaultLayout;
 
     /**
      * If not included on both previous cases, redirect user to the desired route.
