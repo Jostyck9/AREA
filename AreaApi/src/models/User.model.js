@@ -11,7 +11,6 @@ const User = function (user) {
     this.password = user.password;
 };
 
-// NOTE OK working
 User.create = async function (newUser) {
     try {
         if (!validator.isEmail(newUser.email))
@@ -24,6 +23,8 @@ User.create = async function (newUser) {
         return { message: "created user :" + newUser.username, id: rows.insertId }
     } catch (err) {
         console.log(err)
+        if (err.code && err.code == 'ER_DUP_ENTRY')
+            throw new Error('email already used')
         throw err
     }
 };

@@ -6,7 +6,7 @@ const ReactionModel = require('../models/Reaction.model')
 async function checkParameters(newArea, res) {
     const reactionParameters = await ReactionModel.findById(newArea.reaction_id)
     if (!reactionParameters) {
-        res.status(401).send({ message: "No reaction found with id " + newArea.reaction_id });
+        res.status(400).send({ message: "No reaction found with id " + newArea.reaction_id });
         return false
     }
 
@@ -16,12 +16,12 @@ async function checkParameters(newArea, res) {
 
     const actionParameters = await ActionModel.findById(newArea.action_id)
     if (!actionParameters) {
-        res.status(401).send({ message: "No action found with id " + newArea.action_id });
+        res.status(400).send({ message: "No action found with id " + newArea.action_id });
         return false
     }
 
     if (newArea.parameters === null && reactionParameters.parameters !== null) {
-        res.status(401).send({ message: "parameters invalid for reaction" });
+        res.status(400).send({ message: "parameters invalid for reaction" });
         return false
     }
 
@@ -31,7 +31,7 @@ async function checkParameters(newArea, res) {
 
     Object.keys(reactionObj).forEach(element => {
         if (!newAreaObj.hasOwnProperty(element)) {
-            res.status(401).send({ message: "missing parameter " + element });
+            res.status(400).send({ message: "missing parameter " + element });
             return false
         }
         // if (typeof (newAreaObj[element]) === "string") {
@@ -42,7 +42,7 @@ async function checkParameters(newArea, res) {
         //             res.status(401).send({ message: "invalid dynamic parameter " + resSplit[0] });
         //             return false
         //         }
-                    
+
         //     }
         // }
     });
@@ -63,16 +63,15 @@ exports.create = async (req, res) => {
         });
 
 
-        // TODO Parser les paramètres en fonctions des actions et voir s'ils sont tous remplis
         if (!await checkParameters(newArea, res)) {
             return
         }
 
         const resRequest = await AreaModel.create(newArea)
         console.log(resRequest)
-        res.status(200).send(resRequest);
+        res.status(201).send(resRequest);
     } catch (error) {
-        res.status(401).send({ message: error.message });
+        res.status(400).send({ message: error.message })
     }
 }
 
@@ -80,11 +79,11 @@ exports.getAll = async (req, res) => {
     try {
         const resRequest = await AreaModel.getArea(req.user.id)
         if (!resRequest)
-            res.status(200).send("[]");
+            res.status(200).send([]);
         else
             res.status(200).send(resRequest);
     } catch (error) {
-        res.status(401).send(error.message);
+        res.status(400).send({message: error.message || 'An error  occured'});
     }
 }
 
@@ -95,7 +94,7 @@ exports.get = async (req, res) => {
             throw new Error("No area found")
         res.status(200).send(resRequest);
     } catch (error) {
-        res.status(401).send(error.message);
+        res.status(400).send({message: error.message || 'An error  occured'});
     }
 }
 
@@ -106,6 +105,6 @@ exports.delete = async (req, res) => {
             throw new Error("No area found")
         res.status(200).send(resRequest);
     } catch (error) {
-        res.status(401).send(error.message);
+        res.status(400).send({message: error.message || 'An error  occured'});
     }
 }

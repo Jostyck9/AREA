@@ -29,7 +29,7 @@ async function GetReactions(id) {
 async function GetServiceDetailById(ServiceId) {
     const service = await Services.findById(ServiceId)
     if (!service)
-        return {}
+        return null
     const actions = await GetActions(service.id);
     const reactions = await GetReactions(service.id);
     return { name: service.name, id: service.id, actions: actions, reactions: reactions }
@@ -38,7 +38,7 @@ async function GetServiceDetailById(ServiceId) {
 async function GetServiceDetailByName(ServiceName) {
     const service = await Services.findByName(ServiceName)
     if (!service)
-        return {}
+        return null
     const actions = await GetActions(service.id);
     const reactions = await GetReactions(service.id);
     return { name: service.name, id: service.id, actions: actions, reactions: reactions }
