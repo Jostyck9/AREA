@@ -69,6 +69,6 @@ exports.add_user_to_twitter_webhook = add_user_to_twitter_webhook;
 exports.delete_user_to_twitter_webhook = delete_user_to_twitter_webhook;
 exports.post_tweet = post_tweet;
 
-exports.UseReaction = async() => {
+exports.UseReaction = async(client_id, action_result, reaction_id) => {
     console.info("Twitter useReaction is on");
 }

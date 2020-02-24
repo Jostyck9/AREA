@@ -44,7 +44,7 @@ bot.on('guildMemberAdd', member => {
     channel = member.guild.channels.find("name","test").send("Welcome!" + member.user.username);
 });
 
-exports.UseReaction = async() => {
+exports.UseReaction = async(client_id, action_result, reaction_id) => {
     console.info("Discord useReaction is on");
 }
 

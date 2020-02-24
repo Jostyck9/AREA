@@ -83,7 +83,7 @@ exports.connectActionToReaction =  async (action_id, action_result) => {
         const AreaArray= await AreaModel.findByActionId(action_id);
         console.info(AreaArray);
         AreaArray.forEach(element => {
-            SendToReactionById(element.reaction_id, action_id, action_result);
+            SendToReactionById(element.reaction_id, action_id, action_result, element.client_id);
         });
 
     }
@@ -96,20 +96,20 @@ exports.connectActionToReaction =  async (action_id, action_result) => {
     //foreach des area qui restent et on appelle Area.reaction_id.service_id.userReaction(client_id, action_result, reaction_id) --> petite incohérence pq pas appeler la réaction tout desuite ?
 }
 
-async function SendToReactionById(reaction_id, action_id, action_result) {
+async function SendToReactionById(reaction_id, action_id, action_result, client_id) {
     // set off the corresponding reaction
 
     const controllerArray = [
-        TwitterController.UseReaction,
-        TwitterController.UseReaction,
-        TwitterController.UseReaction,
-        TwitterController.UseReaction,
-        DiscordController.UseReaction,
-        DiscordController.UseReaction
+        TwitterController.UseReaction(client_id, action_result, reaction_id),
+        TwitterController.UseReaction(client_id, action_result, reaction_id),
+        TwitterController.UseReaction(client_id, action_result, reaction_id),
+        TwitterController.UseReaction(client_id, action_result, reaction_id),
+        DiscordController.UseReaction(client_id, action_result, reaction_id),
+        DiscordController.UseReaction(client_id, action_result, reaction_id)
     ]
     const reactionmodel = await ReactionModel.findById(reaction_id);
     console.info("the service id of the reaction is : " + reactionmodel.service_id);
-    controllerArray[reactionmodel.service_id]();
+    controllerArray[reactionmodel.service_id](client_id, action_result, reaction_id);
 }
 
 /**
