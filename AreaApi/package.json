@@ -41,7 +41,9 @@
     "spotify-web-api-node": "^4.0.0",
     "supertest": "^4.0.2",
     "trello": "^0.10.0",
+    "twit": "^2.2.11",
     "twitter": "^1.7.1",
+    "twitter-webhooks": "^0.3.3",
     "validator": "^12.2.0"
   }
 }
