@@ -7,6 +7,8 @@ import android.widget.*
 import androidx.cardview.widget.CardView
 import com.example.area.presenter.LoginPresenter
 import com.example.area.view.LoginView
+import com.google.gson.GsonBuilder
+import kotlinx.android.synthetic.main.activity_register.*
 import kotlinx.android.synthetic.main.activity_sign_in.*
 
 class SignInActivity : AppCompatActivity(), LoginView {
@@ -36,7 +38,14 @@ class SignInActivity : AppCompatActivity(), LoginView {
             if (isPasswordSuccess) {
                     errorTextLogin.text = ""
                     //TODO check personne dans DB
-                    Toast.makeText(this, "Login Success", Toast.LENGTH_SHORT).show()
+                val gson = GsonBuilder().setPrettyPrinting().create()
+                val tutMap: Map<String, String> =
+                    mapOf(
+                        "email" to emailLogin.text.toString(),
+                        "password" to passwordLogin.text.toString()
+                    )
+                val jsonTutMapPretty: String = gson.toJson(tutMap)
+                println(jsonTutMapPretty)
             } else
                 errorTextLogin.text = getString(R.string.errorPasswordLogin)
         } else

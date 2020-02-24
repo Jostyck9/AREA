@@ -34,4 +34,5 @@
     <string name="trello">Trello</string>
     <string name="spotify">Spotify</string>
     <string name="github">Github</string>
+    <string name="api">api</string>
 </resources>

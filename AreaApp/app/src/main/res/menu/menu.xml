@@ -13,10 +13,4 @@
         android:id="@+id/profile"
         android:icon="@drawable/ic_person"
         app:showAsAction="ifRoom"/>
-
-    <item
-        android:title="@string/add"
-        android:id="@+id/add"
-        android:icon="@drawable/ic_add_circle"
-        app:showAsAction="ifRoom"/>
 </menu>

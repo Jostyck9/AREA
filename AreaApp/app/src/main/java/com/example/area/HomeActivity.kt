@@ -32,9 +32,6 @@ class HomeActivity : AppCompatActivity() {
             startActivity(intentProfile)
         } else if (id == R.id.add) {
             Toast.makeText(applicationContext, "Add", Toast.LENGTH_SHORT).show()
-        } else if (id == R.id.settings) {
-            val intentSettings = Intent(this, SettingsActivity::class.java)
-            startActivity(intentSettings)
         }
         return true
     }
