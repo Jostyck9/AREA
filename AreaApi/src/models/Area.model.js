@@ -9,7 +9,8 @@ const AreaModel = function (area) {
     this.client_id = area.client_id,
         this.action_id = area.action_id,
         this.reaction_id = area.reaction_id,
-        this.parameters = area.parameters
+        this.parameters_action = area.parameters_action,
+        this.parameters_reaction = area.parameters_reaction
 };
 
 /**
@@ -21,7 +22,7 @@ const AreaModel = function (area) {
  */
 AreaModel.create = async function (newArea) {
     try {
-        var [rows, fields] = await sql.query("INSERT INTO area(client_id,action_id,reaction_id,parameters) VALUES (?,?,?,?)", [newArea.client_id, newArea.action_id, newArea.reaction_id, JSON.stringify(newArea.parameters)])
+        var [rows, fields] = await sql.query("INSERT INTO area(client_id,action_id,reaction_id,parameters_action,parameters_reaction) VALUES (?,?,?,?,?)", [newArea.client_id, newArea.action_id, newArea.reaction_id, JSON.stringify(newArea.parameters_action), JSON.stringify(newArea.parameters_reaction)])
         if (rows.affectedRows == 0) {
             throw('Error trying to create an area')
         }

@@ -31,6 +31,7 @@ UserModel.create = async function (newUser) {
 
         newUser.password = await bcrypt.hash(newUser.password, 8)
         var [rows, fields] = await sql.query("INSERT INTO users(username,email,password) VALUES (?,?,?)", [newUser.username, newUser.email, newUser.password])
+        console.log('created')
         return { message: "created user :" + newUser.username, id: rows.insertId }
     } catch (err) {
         // console.log(err)

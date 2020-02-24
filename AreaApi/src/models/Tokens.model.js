@@ -47,7 +47,7 @@ TokenModel.create = async function (clientId) {
     try {
         const [rows, fields] = await sql.query("INSERT INTO tokens SET client_id = ?", [clientId])
 
-        const resToken = await Token.refresh(rows.insertId)
+        const resToken = await TokenModel.refresh(rows.insertId)
         return resToken
     } catch (err) {
         // console.log(err)

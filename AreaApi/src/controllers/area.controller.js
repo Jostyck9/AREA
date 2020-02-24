@@ -15,33 +15,55 @@ async function checkParameters(newArea, res) {
         res.status(400).send({ message: "No reaction found with id " + newArea.reaction_id });
         return false
     }
-
-    if (reactionParameters.parameters === null) {
-        return true
-    }
-
     const actionParameters = await ActionModel.findById(newArea.action_id)
     if (!actionParameters) {
         res.status(400).send({ message: "No action found with id " + newArea.action_id });
         return false
     }
 
-    if (newArea.parameters === null && reactionParameters.parameters !== null) {
+
+    //if no parameters are necessaries
+    if (reactionParameters.parameters === null && actionParameters.parameters === null) {
+        return true
+    }
+
+    if (newArea.parameters_action === null && reactionParameters.parameters !== null) {
+        res.status(400).send({ message: "parameters invalid for action" });
+        return false
+    }
+
+    if (newArea.parameters_reaction === null && reactionParameters.parameters !== null) {
         res.status(400).send({ message: "parameters invalid for reaction" });
         return false
     }
 
-    const newAreaObj = JSON.parse(JSON.stringify(newArea.parameters));
+    const areaReactionParam = JSON.parse(JSON.stringify(newArea.parameters_reaction));
+    const areaActionParam = JSON.parse(JSON.stringify(newArea.parameters_action));
     const reactionObj = reactionParameters.parameters;
+    const actionObj = actionParameters.parameters;
 
-    let resKeys = true 
-    Object.keys(reactionObj).forEach(element => {
-        if (!newAreaObj.hasOwnProperty(element)) {
-            res.status(400).send({ message: "missing parameter " + element });
-            resKeys = false
-            return;
-        }
-    });
+    let resKeys = true
+    if (actionObj) {
+        Object.keys(actionObj).forEach(element => {
+            if (!areaActionParam.hasOwnProperty(element)) {
+                res.status(400).send({ message: "missing parameter " + element + " for action" });
+                resKeys = false
+                return;
+            }
+        });
+    }
+    if (!resKeys)
+        return (false)
+
+    if (reactionObj) {
+        Object.keys(reactionObj).forEach(element => {
+            if (!areaReactionParam.hasOwnProperty(element)) {
+                res.status(400).send({ message: "missing parameter " + element + " for reaction" });
+                resKeys = false
+                return;
+            }
+        });
+    }
 
     return resKeys
 }
@@ -57,15 +79,18 @@ exports.create = async (req, res) => {
         if (!req.body.hasOwnProperty('action_id'))
             throw new Error('action_id property missing')
         if (!req.body.hasOwnProperty('reaction_id'))
-            throw new Error('action_id property missing')
-        if (!req.body.hasOwnProperty('parameters'))
-            throw new Error('action_id property missing')
+            throw new Error('reaction_id property missing')
+        if (!req.body.hasOwnProperty('parameters_action'))
+            throw new Error('parameters_action property missing')
+        if (!req.body.hasOwnProperty('parameters_reaction'))
+            throw new Error('parameters_reaction property missing')
 
         const newArea = new AreaModel({
             client_id: req.user.id,
             action_id: req.body.action_id,
             reaction_id: req.body.reaction_id,
-            parameters: req.body.parameters
+            parameters_action: req.body.parameters_action,
+            parameters_reaction: req.body.parameters_reaction
         });
 
         const resCheck = await checkParameters(newArea, res)
@@ -75,7 +100,7 @@ exports.create = async (req, res) => {
         const resRequest = await AreaModel.create(newArea)
         res.status(201).send(resRequest);
     } catch (error) {
-        res.status(400).send({message: error.message || 'An error  occured'});
+        res.status(400).send({ message: error.message || 'An error  occured' });
     }
 }
 
@@ -93,7 +118,7 @@ exports.getAll = async (req, res) => {
         else
             res.status(200).send(resRequest);
     } catch (error) {
-        res.status(400).send({message: error.message || 'An error  occured'});
+        res.status(400).send({ message: error.message || 'An error  occured' });
     }
 }
 
@@ -110,7 +135,7 @@ exports.get = async (req, res) => {
             throw new Error("No area found")
         res.status(200).send(resRequest);
     } catch (error) {
-        res.status(400).send({message: error.message || 'An error  occured'});
+        res.status(400).send({ message: error.message || 'An error  occured' });
     }
 }
 
@@ -127,6 +152,6 @@ exports.delete = async (req, res) => {
             throw new Error("No area found")
         res.status(200).send(resRequest);
     } catch (error) {
-        res.status(400).send({message: error.message || 'An error  occured'});
+        res.status(400).send({ message: error.message || 'An error  occured' });
     }
 }

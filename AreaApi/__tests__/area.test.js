@@ -36,7 +36,8 @@ describe('Area', () => {
             .set('Authorization', token)
             .send({
                 reaction_id: 0,
-                parameters: {}
+                parameters_action: {},
+                parameters_reaction: {}
             })
         expect(res.statusCode).toEqual(400)
         expect(res.body).toHaveProperty('message')
@@ -50,7 +51,8 @@ describe('Area', () => {
             .set('Authorization', token)
             .send({
                 action_id: 0,
-                parameters: {}
+                parameters_action: {},
+                parameters_reaction: {}
             })
         expect(res.statusCode).toEqual(400)
         expect(res.body).toHaveProperty('message')
@@ -58,13 +60,14 @@ describe('Area', () => {
 })
 
 describe('Area', () => {
-    it('Should get error Missing field parameters when creating', async () => {
+    it('Should get error Missing field parameters_action when creating', async () => {
         let res = await request(app)
             .post('/area')
             .set('Authorization', token)
             .send({
                 reaction_id: 0,
-                action_id: 0
+                action_id: 0,
+                parameters_reaction: {}
             })
         expect(res.statusCode).toEqual(400)
         expect(res.body).toHaveProperty('message')
@@ -72,14 +75,31 @@ describe('Area', () => {
 })
 
 describe('Area', () => {
-    it('Should get error missing var in parameters when creating', async () => {
+    it('Should get error missing var in parameters_action when creating', async () => {
         let res = await request(app)
             .post('/area')
             .set('Authorization', token)
             .send({
                 action_id: 0,
                 reaction_id: 0,
-                parameters: {}
+                parameters_action: {},
+                parameters_reaction: { "message": "test" }
+            })
+        expect(res.statusCode).toEqual(400)
+        expect(res.body).toHaveProperty('message')
+    })
+})
+
+describe('Area', () => {
+    it('Should get error missing var in parameters_reaction when creating', async () => {
+        let res = await request(app)
+            .post('/area')
+            .set('Authorization', token)
+            .send({
+                action_id: 0,
+                reaction_id: 0,
+                parameters_action: { "repository": "test" },
+                parameters_reaction: {}
             })
         expect(res.statusCode).toEqual(400)
         expect(res.body).toHaveProperty('message')
@@ -94,7 +114,8 @@ describe('Area', () => {
             .send({
                 action_id: 0,
                 reaction_id: 0,
-                parameters: {message: 'ok'}
+                parameters_action: { "repository": "le repo" },
+                parameters_reaction: { "message": "Hello" }
             })
         expect(res.statusCode).toEqual(201)
         expect(res.body).toHaveProperty('message')
@@ -111,7 +132,8 @@ describe('Area', () => {
             expect(element).toHaveProperty('id')
             expect(element).toHaveProperty('action_id')
             expect(element).toHaveProperty('reaction_id')
-            expect(element).toHaveProperty('parameters')
+            expect(element).toHaveProperty('parameters_action')
+            expect(element).toHaveProperty('parameters_reaction')
             idCreated = element.id
         });
     })
@@ -126,7 +148,8 @@ describe('Area', () => {
         expect(res.body).toHaveProperty('id')
         expect(res.body).toHaveProperty('action_id')
         expect(res.body).toHaveProperty('reaction_id')
-        expect(res.body).toHaveProperty('parameters')
+        expect(res.body).toHaveProperty('parameters_action')
+        expect(res.body).toHaveProperty('parameters_reaction')
     })
 })
 

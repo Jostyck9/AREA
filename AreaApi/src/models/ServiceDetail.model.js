@@ -8,9 +8,11 @@ async function GetActions(id) {
     const actions = await Actions.findByServiceId(id)
     if (actions) {
         actions.forEach(element => {
-            actionsRes.push({ name: element.name, id: element.id, description: element.description, results: element.results })
+            // console.log(element)
+            actionsRes.push({ name: element.name, id: element.id, description: element.description, parameters: element.parameters, results: element.results })
         });
     }
+    // console.log(actionsRes)
     return actionsRes
 }
 
