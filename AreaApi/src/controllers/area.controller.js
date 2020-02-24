@@ -83,33 +83,29 @@ exports.connectActionToReaction =  async (action_id, action_result) => {
         const AreaArray= await AreaModel.findByActionId(action_id);
         console.info(AreaArray);
         AreaArray.forEach(element => {
-            SendToReactionById(element.reaction_id, action_id, action_result, element.client_id);
+            SendToReactionById(element, action_id, action_result);
         });
 
     }
     catch (error) {
 
     }
-    // check if the user is concerned --> check if area.params_actions matches result
-    // (ex: area.param_action contient "etre notifié des tweets de Gabin" donc si result username correspond pas à Gabin on retient pas cette AREA)
-
-    //foreach des area qui restent et on appelle Area.reaction_id.service_id.userReaction(client_id, action_result, reaction_id) --> petite incohérence pq pas appeler la réaction tout desuite ?
 }
 
-async function SendToReactionById(reaction_id, action_id, action_result, client_id) {
+async function SendToReactionById(area, action_id, action_result) {
     // set off the corresponding reaction
 
     const controllerArray = [
-        TwitterController.UseReaction(client_id, action_result, reaction_id),
-        TwitterController.UseReaction(client_id, action_result, reaction_id),
-        TwitterController.UseReaction(client_id, action_result, reaction_id),
-        TwitterController.UseReaction(client_id, action_result, reaction_id),
-        DiscordController.UseReaction(client_id, action_result, reaction_id),
-        DiscordController.UseReaction(client_id, action_result, reaction_id)
+        TwitterController.UseReaction(client_id, action_result, area),
+        TwitterController.UseReaction(client_id, action_result, area),
+        TwitterController.UseReaction(client_id, action_result, area),
+        TwitterController.UseReaction(client_id, action_result, area),
+        DiscordController.UseReaction(client_id, action_result, area),
+        DiscordController.UseReaction(client_id, action_result, area)
     ]
-    const reactionmodel = await ReactionModel.findById(reaction_id);
+    const reactionmodel = await ReactionModel.findById(area.reaction_id);
     console.info("the service id of the reaction is : " + reactionmodel.service_id);
-    controllerArray[reactionmodel.service_id](client_id, action_result, reaction_id);
+    controllerArray[reactionmodel.service_id](client_id, action_result, area);
 }
 
 /**
