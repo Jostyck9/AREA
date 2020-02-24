@@ -2,6 +2,7 @@ const AreaModel = require('../models/Area.model')
 const ActionModel = require('../models/Action.model')
 const ReactionModel = require('../models/Reaction.model')
 const DiscordController = require('../controllers/discord.controller')
+const TwitterController = require('../controllers/twitter.controller')
 
 /**
  * Check if the field parameter inside the res.body is good according the action and the reaction
@@ -96,10 +97,19 @@ exports.connectActionToReaction =  async (action_id, action_result) => {
 }
 
 async function SendToReactionById(reaction_id, action_id, action_result) {
-    // set off the corresponding reactio
+    // set off the corresponding reaction
+
+    const controllerArray = [
+        TwitterController.UseReaction,
+        TwitterController.UseReaction,
+        TwitterController.UseReaction,
+        TwitterController.UseReaction,
+        DiscordController.UseReaction,
+        DiscordController.UseReaction
+    ]
     const reactionmodel = await ReactionModel.findById(reaction_id);
     console.info("the service id of the reaction is : " + reactionmodel.service_id);
-
+    controllerArray[reactionmodel.service_id]();
 }
 
 /**
