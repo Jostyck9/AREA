@@ -7,7 +7,7 @@ import { Button } from 'react-bootstrap'
 export default class Home extends React.Component {
 
     printToken() {
-        alert(JSON.parse(localStorage.getItem('currentUser')));
+       alert(JSON.parse(localStorage.getItem('currentUser')));
     }
 
     render() {

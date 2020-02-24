@@ -41,6 +41,65 @@ router.post('/auth/login', async (req, res) => {
 })
 
 /**
+ * Log the user to microsoft
+ * @route POST /auth/login/microsoft
+ * @group User - User Login
+ */
+router.post('/auth/login/microsoft', async (req, res) => {
+    // await UserController.login(req, res)
+})
+
+/**
+ * Log the user to github
+ * @route POST /auth/login/github
+ * @group User - User Login
+ * @security JWT
+ */
+router.post('/auth/login/github', async (req, res) => {
+    // await UserController.login(req, res)
+})
+
+/**
+ * Log the user to trello
+ * @route POST /auth/login/trello
+ * @group User - User Login
+ * @security JWT
+ */
+router.post('/auth/login/trello', async (req, res) => {
+    // await UserController.login(req, res)
+})
+
+/**
+ * Log the user to spotify
+ * @route POST /auth/login/spotify
+ * @group User - User Login
+ * @security JWT
+ */
+router.post('/auth/login/spotify', async (req, res) => {
+    // await UserController.login(req, res)
+})
+
+/**
+ * Log the user to discord
+ * @route POST /auth/login/discord
+ * @group User - User Login
+ * @security JWT
+ */
+router.post('/auth/login/discord', async (req, res) => {
+    // await UserController.login(req, res)
+})
+
+/**
+ * Log the user to twitter
+ * @route POST /auth/login/twitter
+ * @group User - User Login
+ * @security JWT
+ */
+router.post('/auth/login/twitter', async (req, res) => {
+    // await UserController.login(req, res)
+})
+
+/**
  * Logout the user
  * @route POST /auth/logout
  * @security JWT

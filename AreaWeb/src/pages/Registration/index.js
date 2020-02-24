@@ -30,7 +30,8 @@ export default class Registration extends React.Component {
         if (password !== confirmpassword)
         alert("Passwords don't match");
         else {
-            fetch('http://10.29.124.139:8080/auth/register', {
+            alert(process.env.REACT_APP_SERVER_URI)
+            fetch(process.env.REACT_APP_SERVER_URI + '/auth/register', {
                 method: 'POST',
                 body: JSON.stringify({ name: username, email: email, password: password }),
                 headers: {

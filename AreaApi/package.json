@@ -4,20 +4,32 @@
   "description": "Api for Area project who will connect several services",
   "main": "index.js",
   "scripts": {
-    "start": "env-cmd -f ./.env nodemon src/app.js"
+    "start": "env-cmd -f ./.env nodemon src/app.js",
+    "test": "env-cmd -f ./.env cross-env NODE_ENV=test jest --testTimeout=10000",
+    "docs:build": "documentation build src/config/*.js src/controllers/*.js src/db/*.js src/middleware/*.js src/models/*.js -f html -o docs"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ]
   },
   "license": "MIT",
   "dependencies": {
+    "@microsoft/microsoft-graph-client": "^2.0.0",
     "@octokit/rest": "^16.43.1",
     "async": "^3.1.1",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "core-js": "3",
     "cors": "^2.8.5",
+    "cross-env": "^7.0.0",
     "discord.js": "^11.5.1",
+    "documentation": "^12.1.4",
     "env-cmd": "^10.0.1",
     "express": "^4.17.1",
     "express-swagger-generator": "^1.1.17",
+    "jest": "^25.1.0",
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^3.5.2",
     "mongoose": "^5.8.10",
@@ -26,6 +38,7 @@
     "nodemon": "^2.0.2",
     "onedrive-api": "^0.3.4",
     "spotify-web-api-node": "^4.0.0",
+    "supertest": "^4.0.2",
     "trello": "^0.10.0",
     "twitter": "^1.7.1",
     "validator": "^12.2.0"

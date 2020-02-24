@@ -1,0 +1,47 @@
+version: "3"
+services:
+    db:
+        image: mysql:5
+        restart: always
+        volumes:
+            - common:/var/lib/mysql
+            - ./db-init:/docker-entrypoint-initdb.d
+        environment:
+            MYSQL_DATABASE: "area"
+            MYSQL_USER: "user"
+            MYSQL_PASSWORD: "password"
+            MYSQL_ROOT_PASSWORD: "password"
+        container_name: MYSQL_Database
+        ports:
+            - "3306:3306"
+        expose:
+            - "3306"
+        networks:
+            area_network:
+                ipv4_address: 172.20.1.1
+
+    server:
+        build: 
+            context: ./AreaApi
+            dockerfile: ./Dockerfile.tests
+        image: area
+        ports:
+            - '8081:8081'
+        depends_on:
+            - db
+        volumes:
+            - /app/node_modules
+            - ./AreaApi:/app
+        networks:
+            area_network:
+                ipv4_address: 172.20.1.2
+
+volumes:
+    common:
+
+networks:
+    area_network:
+        ipam:
+            driver: default
+            config:
+                - subnet: 172.20.0.0/16
