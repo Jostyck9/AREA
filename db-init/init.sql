@@ -24,6 +24,7 @@ CREATE TABLE `actions` (
   `service_id` int(11) NOT NULL,
   `name` varchar(100) NOT NULL,
   `description` text NOT NULL,
+  `parameters` json DEFAULT NULL,
   `results` json DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `action name` (`name`)
@@ -36,17 +37,17 @@ CREATE TABLE `actions` (
 
 -- LOCK TABLES `actions` WRITE;
 
-INSERT INTO `actions` VALUES (0, 0, "push", "a new push is intended by someone", '{"message": "string"}');
-INSERT INTO `actions` VALUES (1, 0, "pull_request", "a new pull request is intended by someone", NULL);
-INSERT INTO `actions` VALUES (2, 1, "tweet", "a new tweet has been post", NULL);
-INSERT INTO `actions` VALUES (3, 2, "music_added", "A new music has been added to a playlist", NULL);
-INSERT INTO `actions` VALUES (4, 3, "email_received", "A new email has been received", NULL);
-INSERT INTO `actions` VALUES (5, 3, "event_created", "A new event has been created in calendar", NULL);
-INSERT INTO `actions` VALUES (6, 4, "messaged_received", "A new message has been received", NULL);
-INSERT INTO `actions` VALUES (7, 5, "card_added", "A new card has been had to a board", NULL);
-INSERT INTO `actions` VALUES (8, 5, "deadline_soon", "A card approched a deadline", NULL);
-INSERT INTO `actions` VALUES (9, 6, "file_deleted", "A file has been delete", NULL);
-INSERT INTO `actions` VALUES (10, 6, "file_added", "A new file has been add", NULL);
+INSERT INTO `actions` VALUES (0, 0, "push", "a new push is intended by someone", '{"repository": "string"}', '{"message": "string"}');
+INSERT INTO `actions` VALUES (1, 0, "pull_request", "a new pull request is intended by someone", '{"repository": "string"}', '{"message": "string"}');
+INSERT INTO `actions` VALUES (2, 1, "tweet", "a new tweet has been post", '{"user": "string"}', '{"message": "string"}');
+INSERT INTO `actions` VALUES (3, 2, "music_added", "A new music has been added to a playlist", '{"playlist": "string"}', '{"message": "string"}');
+INSERT INTO `actions` VALUES (4, 3, "email_received", "A new email has been received", '{"from": "string"}', '{"message": "string"}');
+INSERT INTO `actions` VALUES (5, 3, "event_created", "A new event has been created in calendar", '{"calendar": "string"}', '{"message": "string"}');
+INSERT INTO `actions` VALUES (6, 4, "messaged_received", "A new message has been received", '{"server": "string", "channel": "string"}', '{"message": "string"}');
+INSERT INTO `actions` VALUES (7, 5, "card_added", "A new card has been had to a board", '{"board": "string"}', '{"message": "string"}');
+INSERT INTO `actions` VALUES (8, 5, "deadline_soon", "A card approched a deadline", '{"board": "string"}', '{"message": "string"}');
+INSERT INTO `actions` VALUES (9, 6, "file_deleted", "A file has been delete", '{}', '{"file": "string"}');
+INSERT INTO `actions` VALUES (10, 6, "file_added", "A new file has been add", '{}', '{"message": "string"}');
 /*!40000 ALTER TABLE `actions` DISABLE KEYS */;
 /*!40000 ALTER TABLE `actions` ENABLE KEYS */;
 -- UNLOCK TABLES;
@@ -62,6 +63,7 @@ CREATE TABLE `area` (
   `client_id` int(11) NOT NULL,
   `action_id` int(11) NOT NULL,
   `reaction_id` int(11) NOT NULL,
+  `parameters_actions` json DEFAULT NULL,
   `parameters` json DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) DEFAULT CHARSET=utf8;
