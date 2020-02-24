@@ -20,6 +20,7 @@ const router = express.Router();
  * @property {string} name - Action's name
  * @property {string} id - Action's id
  * @property {string} description - Action's description
+ * @property {JSON} parameters - Action's parameters format
  * @property {JSON} results - Action's results format
  */
 /**

@@ -2,89 +2,132 @@ const AreaModel = require('../models/Area.model')
 const ActionModel = require('../models/Action.model')
 const ReactionModel = require('../models/Reaction.model')
 
-//AreaModel to pass in parameters
+/**
+ * Check if the field parameter inside the res.body is good according the action and the reaction
+ * 
+ * @param {AreaModel} newArea The request received with the route
+ * @param {Response<any>} res The result of the request to send after
+ * @returns {boolean} is the request is valid or not 
+ */
 async function checkParameters(newArea, res) {
     const reactionParameters = await ReactionModel.findById(newArea.reaction_id)
     if (!reactionParameters) {
-        res.status(401).send({ message: "No reaction found with id " + newArea.reaction_id });
+        res.status(400).send({ message: "No reaction found with id " + newArea.reaction_id });
+        return false
+    }
+    const actionParameters = await ActionModel.findById(newArea.action_id)
+    if (!actionParameters) {
+        res.status(400).send({ message: "No action found with id " + newArea.action_id });
         return false
     }
 
-    if (reactionParameters.parameters === null) {
+
+    //if no parameters are necessaries
+    if (reactionParameters.parameters === null && actionParameters.parameters === null) {
         return true
     }
 
-    const actionParameters = await ActionModel.findById(newArea.action_id)
-    if (!actionParameters) {
-        res.status(401).send({ message: "No action found with id " + newArea.action_id });
+    if (newArea.parameters_action === null && reactionParameters.parameters !== null) {
+        res.status(400).send({ message: "parameters invalid for action" });
         return false
     }
 
-    if (newArea.parameters === null && reactionParameters.parameters !== null) {
-        res.status(401).send({ message: "parameters invalid for reaction" });
+    if (newArea.parameters_reaction === null && reactionParameters.parameters !== null) {
+        res.status(400).send({ message: "parameters invalid for reaction" });
         return false
     }
 
-    const newAreaObj = JSON.parse(JSON.stringify(newArea.parameters));
+    const areaReactionParam = JSON.parse(JSON.stringify(newArea.parameters_reaction));
+    const areaActionParam = JSON.parse(JSON.stringify(newArea.parameters_action));
     const reactionObj = reactionParameters.parameters;
-    const actionObj = actionParameters.results;
+    const actionObj = actionParameters.parameters;
 
-    Object.keys(reactionObj).forEach(element => {
-        if (!newAreaObj.hasOwnProperty(element)) {
-            res.status(401).send({ message: "missing parameter " + element });
-            return false
-        }
-        if (typeof (newAreaObj[element]) === "string") {
-            let resSplit = newAreaObj[element].split("{{")
-            if (resSplit.length !== 1) {
-                resSplit = resSplit[1].split("}}")
-                if (resSplit.length !== 1 && (actionObj === null || !actionObj.hasOwnProperty(resSplit[0]))) {
-                    res.status(401).send({ message: "invalid dynamic parameter " + resSplit[0] });
-                    return false
-                }
-                    
+    let resKeys = true
+    if (actionObj) {
+        Object.keys(actionObj).forEach(element => {
+            if (!areaActionParam.hasOwnProperty(element)) {
+                res.status(400).send({ message: "missing parameter " + element + " for action" });
+                resKeys = false
+                return;
             }
-        }
-    });
+        });
+    }
+    if (!resKeys)
+        return (false)
 
-    return true
+    if (reactionObj) {
+        Object.keys(reactionObj).forEach(element => {
+            if (!areaReactionParam.hasOwnProperty(element)) {
+                res.status(400).send({ message: "missing parameter " + element + " for reaction" });
+                resKeys = false
+                return;
+            }
+        });
+    }
+
+    return resKeys
 }
 
+/**
+ * Create a reaction according to the request for a specific user
+ * 
+ * @param {Request<ParamsDictionary, any, any>} req The request received with the route
+ * @param {Response<any>} res The result of the request to send after
+ */
 exports.create = async (req, res) => {
     try {
+        if (!req.body.hasOwnProperty('action_id'))
+            throw new Error('action_id property missing')
+        if (!req.body.hasOwnProperty('reaction_id'))
+            throw new Error('reaction_id property missing')
+        if (!req.body.hasOwnProperty('parameters_action'))
+            throw new Error('parameters_action property missing')
+        if (!req.body.hasOwnProperty('parameters_reaction'))
+            throw new Error('parameters_reaction property missing')
+
         const newArea = new AreaModel({
             client_id: req.user.id,
             action_id: req.body.action_id,
             reaction_id: req.body.reaction_id,
-            parameters: req.body.parameters
+            parameters_action: req.body.parameters_action,
+            parameters_reaction: req.body.parameters_reaction
         });
 
-
-        // TODO Parser les paramètres en fonctions des actions et voir s'ils sont tous remplis
-        if (!await checkParameters(newArea, res)) {
+        const resCheck = await checkParameters(newArea, res)
+        if (!resCheck)
             return
-        }
 
         const resRequest = await AreaModel.create(newArea)
-        console.log(resRequest)
-        res.status(200).send(resRequest);
+        res.status(201).send(resRequest);
     } catch (error) {
-        res.status(401).send({ message: error.message });
+        res.status(400).send({ message: error.message || 'An error  occured' });
     }
 }
 
+/**
+ * Get all the user's area
+ * 
+ * @param {Request<ParamsDictionary, any, any>} req The request received with the route
+ * @param {Response<any>} res The result of the request to send after
+ */
 exports.getAll = async (req, res) => {
     try {
         const resRequest = await AreaModel.getArea(req.user.id)
         if (!resRequest)
-            res.status(200).send("[]");
+            res.status(200).send([]);
         else
             res.status(200).send(resRequest);
     } catch (error) {
-        res.status(401).send(error.message);
+        res.status(400).send({ message: error.message || 'An error  occured' });
     }
 }
 
+/**
+ * Get a specific user's area by his id
+ * 
+ * @param {Request<ParamsDictionary, any, any>} req The request received with the route
+ * @param {Response<any>} res The result of the request to send after
+ */
 exports.get = async (req, res) => {
     try {
         const resRequest = await AreaModel.findById(req.user.id, req.params.id)
@@ -92,10 +135,16 @@ exports.get = async (req, res) => {
             throw new Error("No area found")
         res.status(200).send(resRequest);
     } catch (error) {
-        res.status(401).send(error.message);
+        res.status(400).send({ message: error.message || 'An error  occured' });
     }
 }
 
+/**
+ * Delete a specific user's area from id
+ * 
+ * @param {Request<ParamsDictionary, any, any>} req The request received with the route
+ * @param {Response<any>} res The result of the request to send after
+ */
 exports.delete = async (req, res) => {
     try {
         const resRequest = await AreaModel.delete(req.user.id, req.params.id)
@@ -103,6 +152,6 @@ exports.delete = async (req, res) => {
             throw new Error("No area found")
         res.status(200).send(resRequest);
     } catch (error) {
-        res.status(401).send(error.message);
+        res.status(400).send({ message: error.message || 'An error  occured' });
     }
 }
