@@ -3,6 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.area">
 
+    <!-- Volley -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -36,10 +39,6 @@
 
         <activity
             android:name=".ProfileActivity"
-            android:screenOrientation="portrait" />
-
-        <activity
-            android:name=".SettingsActivity"
             android:screenOrientation="portrait" />
     </application>
 

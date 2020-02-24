@@ -3,13 +3,17 @@ package com.example.area
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.*
-import androidx.cardview.widget.CardView
+import androidx.preference.PreferenceManager
+import com.android.volley.Request
+import com.android.volley.Response
+import com.android.volley.toolbox.JsonObjectRequest
+import com.android.volley.toolbox.Volley
 import com.example.area.presenter.LoginPresenter
 import com.example.area.view.LoginView
-import com.google.gson.GsonBuilder
-import kotlinx.android.synthetic.main.activity_register.*
 import kotlinx.android.synthetic.main.activity_sign_in.*
+import org.json.JSONObject
 
 class SignInActivity : AppCompatActivity(), LoginView {
 
@@ -36,16 +40,37 @@ class SignInActivity : AppCompatActivity(), LoginView {
     override fun onResult(isEmailSuccess: Boolean, isPasswordSuccess: Boolean) {
         if (isEmailSuccess) {
             if (isPasswordSuccess) {
-                    errorTextLogin.text = ""
-                    //TODO check personne dans DB
-                val gson = GsonBuilder().setPrettyPrinting().create()
-                val tutMap: Map<String, String> =
-                    mapOf(
-                        "email" to emailLogin.text.toString(),
-                        "password" to passwordLogin.text.toString()
-                    )
-                val jsonTutMapPretty: String = gson.toJson(tutMap)
-                println(jsonTutMapPretty)
+
+                errorTextLogin.text = ""
+
+                val url = PreferenceManager.getDefaultSharedPreferences(applicationContext).getString("api", null)!! + "/auth/login/"
+
+                val jsonObj = JSONObject()
+                jsonObj.put("email", emailLogin.text)
+                jsonObj.put("password", passwordLogin.text)
+
+                val queue = Volley.newRequestQueue(this)
+                val request = JsonObjectRequest(
+                    Request.Method.POST, url, jsonObj,
+                    Response.Listener { response ->
+
+                        Log.d("Response", response["token"].toString())
+
+                        val pref = PreferenceManager.getDefaultSharedPreferences(applicationContext)
+                        val editor = pref.edit()
+                        editor.putString("token", response["token"].toString())
+                        editor.apply()
+
+                        val intent = Intent(this, HomeActivity::class.java)
+                        startActivity(intent)
+                    },
+                    Response.ErrorListener { error ->
+                        Log.d("Response", error.toString())
+                        Toast.makeText(applicationContext, "Login fail", Toast.LENGTH_SHORT).show()
+                    }
+                )
+                queue.add(request)
+
             } else
                 errorTextLogin.text = getString(R.string.errorPasswordLogin)
         } else

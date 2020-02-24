@@ -1,19 +1,20 @@
 package com.example.area
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.TextView
 import android.widget.Toast
-import androidx.cardview.widget.CardView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.preference.PreferenceManager
+import com.android.volley.Request
+import com.android.volley.Response
+import com.android.volley.toolbox.JsonObjectRequest
+import com.android.volley.toolbox.Volley
 import com.example.area.presenter.RegisterPresenter
 import com.example.area.view.RegisterView
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
-import kotlinx.android.synthetic.main.activity_profile.*
 import kotlinx.android.synthetic.main.activity_register.*
+import org.json.JSONObject
+
 
 class RegisterActivity : AppCompatActivity(), RegisterView {
 
@@ -39,16 +40,36 @@ class RegisterActivity : AppCompatActivity(), RegisterView {
                 if (isPasswordSuccess) {
                     if (isConfirmPasswordSuccess) {
                         errorTextRegister.text = ""
-                        val gson = GsonBuilder().setPrettyPrinting().create()
-                        val tutMap: Map<String, String> =
-                            mapOf(
-                                "name" to usernameRegister.text.toString(),
-                                "email" to emailRegister.text.toString(),
-                                "password" to passwordRegister.text.toString()
-                            )
-                        val jsonTutMapPretty: String = gson.toJson(tutMap)
-                        println(jsonTutMapPretty)
-                        //TODO ajouter la personne a la DB
+
+                        val url = PreferenceManager.getDefaultSharedPreferences(applicationContext).getString("api", null)!! + "/auth/register/"
+
+                        val jsonObj = JSONObject()
+                        jsonObj.put("name", usernameRegister.text)
+                        jsonObj.put("email", emailRegister.text)
+                        jsonObj.put("password", passwordRegister.text)
+
+                        val queue = Volley.newRequestQueue(this)
+                        val request = JsonObjectRequest(Request.Method.POST, url, jsonObj,
+                            Response.Listener { response ->
+
+                                Log.d("Response", response["token"].toString())
+
+                                val pref = PreferenceManager.getDefaultSharedPreferences(applicationContext)
+                                val editor = pref.edit()
+                                editor.putString("token", response["token"].toString())
+                                editor.apply()
+
+                                val intent = Intent(this, HomeActivity::class.java)
+                                startActivity(intent)
+
+                            },
+                            Response.ErrorListener { error ->
+                                Log.d("Response", error.toString())
+                                Toast.makeText(applicationContext, "Register fail", Toast.LENGTH_SHORT).show()
+                            }
+                        )
+                        queue.add(request)
+
                     } else
                     errorTextRegister.text = getString(R.string.errorConfirmPassword)
                 } else
