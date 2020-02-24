@@ -1,5 +1,5 @@
 const express = require('express')
-const UserController = require('../controllers/auth.controller')
+const AuthController = require('../controllers/auth.controller')
 const auth = require('../middleware/auth')
 
 const router = express.Router()
@@ -19,7 +19,7 @@ const router = express.Router()
  * @returns {Error}  default - Unexpected error
  */
 router.post('/auth/register', async (req, res) => {
-    await UserController.create(req, res)
+    await AuthController.create(req, res)
 })
 
 /**
@@ -37,7 +37,7 @@ router.post('/auth/register', async (req, res) => {
  * @returns {Error}  default - Unexpected error
  */
 router.post('/auth/login', async (req, res) => {
-    await UserController.login(req, res)
+    await AuthController.login(req, res)
 })
 
 /**
@@ -46,7 +46,7 @@ router.post('/auth/login', async (req, res) => {
  * @group User - User Login
  */
 router.post('/auth/login/microsoft', async (req, res) => {
-    // await UserController.login(req, res)
+    // await AuthController.login(req, res)
 })
 
 /**
@@ -56,7 +56,7 @@ router.post('/auth/login/microsoft', async (req, res) => {
  * @security JWT
  */
 router.post('/auth/login/github', async (req, res) => {
-    // await UserController.login(req, res)
+    // await AuthController.login(req, res)
 })
 
 /**
@@ -66,7 +66,7 @@ router.post('/auth/login/github', async (req, res) => {
  * @security JWT
  */
 router.post('/auth/login/trello', async (req, res) => {
-    // await UserController.login(req, res)
+    // await AuthController.login(req, res)
 })
 
 /**
@@ -76,7 +76,7 @@ router.post('/auth/login/trello', async (req, res) => {
  * @security JWT
  */
 router.post('/auth/login/spotify', async (req, res) => {
-    // await UserController.login(req, res)
+    // await AuthController.login(req, res)
 })
 
 /**
@@ -86,7 +86,7 @@ router.post('/auth/login/spotify', async (req, res) => {
  * @security JWT
  */
 router.post('/auth/login/discord', async (req, res) => {
-    // await UserController.login(req, res)
+    // await AuthController.login(req, res)
 })
 
 /**
@@ -96,7 +96,7 @@ router.post('/auth/login/discord', async (req, res) => {
  * @security JWT
  */
 router.post('/auth/login/twitter', async (req, res) => {
-    // await UserController.login(req, res)
+    // await AuthController.login(req, res)
 })
 
 /**
@@ -107,7 +107,7 @@ router.post('/auth/login/twitter', async (req, res) => {
  * @returns {Error}  default - Unexpected error
  */
 router.post('/auth/logout', auth, async (req, res) => {
-    UserController.logOut(req, res)
+    AuthController.logOut(req, res)
 })
 
 /**
@@ -118,7 +118,7 @@ router.post('/auth/logout', auth, async (req, res) => {
  * @returns {Error}  default - Unexpected error
  */
 router.post('/auth/logoutAll', auth, async (req, res) => {
-    UserController.logOutAll(req, res)
+    AuthController.logOutAll(req, res)
 })
 
 

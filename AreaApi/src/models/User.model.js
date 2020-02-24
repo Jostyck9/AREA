@@ -191,7 +191,7 @@ UserModel.updatePassword = async function (id, password) {
         password = await bcrypt.hash(password, 8)
 
         const [rows, fields] = await sql.query("UPDATE users SET password = ? WHERE id = ?", [password, id])
-        if (resRequest.affectedRows == 0) {
+        if (rows.affectedRows == 0) {
             throw { message: "not_found" }
         }
         return ({ message: 'Password updated' })
