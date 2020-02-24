@@ -48,7 +48,8 @@ router.delete('/area/:id', auth, async(req, res) => {
  * @typedef Area
  * @property {integer} action_id - Area's action
  * @property {integer} reaction_id - Area's reaction
- * @property {json} parameters - Area's parameters format
+ * @property {json} parameters_action - Area's reaction parameters format
+ * @property {json} parameters_reaction - Area's reaction parameters format
  */
 /**
  * Create an area between an action and a reaction 

@@ -3,6 +3,12 @@ const Service = require('../models/Service.model')
 const Action = require('../models/Action.model')
 const Reaction = require('../models/Reaction.model')
 
+/**
+ * Get all the availables services
+ * 
+ * @param {Request<ParamsDictionary, any, any>} req The request received with the route
+ * @param {Response<any>} res The result of the request to send after
+ */
 exports.getAllServices = async (req, res) => {
     try {
         const resRequest = await ServiceDetail.GetAllServiceDetail();
@@ -12,30 +18,42 @@ exports.getAllServices = async (req, res) => {
         }
         res.status(200).send(resRequest)
     } catch (err) {
-        console.log('Error: ', err.message)
-        res.status(400).send({error: err.message || 'An internal error occured'})
+        // console.log('message: ', err.message)
+        res.status(400).send({message: err.message || 'An internal error occured'})
     }
 };
 
+/**
+ * Get a specific service
+ * 
+ * @param {Request<ParamsDictionary, any, any>} req The request received with the route
+ * @param {Response<any>} res The result of the request to send after
+ */
 exports.getService = async (req, res) => {
     try {
         const resRequest = await ServiceDetail.GetServiceDetailByName(req.params.nameService);
         if (!resRequest) {
-            res.status(200).send({})
+            res.status(404).send({message: 'Unknow service'})
             return
         }
         res.status(200).send(resRequest)
     } catch (err) {
-        console.log('Error: ', err.message)
-        res.status(400).send({error: err.message || 'An internal error occured'})
+        // console.log('message: ', err.message)
+        res.status(400).send({message: err.message || 'An internal error occured'})
     }
 }
 
+/**
+ * Get all the actions from a specific service
+ * 
+ * @param {Request<ParamsDictionary, any, any>} req The request received with the route
+ * @param {Response<any>} res The result of the request to send after
+ */
 exports.getServiceAllActions = async (req, res) => {
     try {
         const service = await Service.findByName(req.params.nameService)
         if (!service) {
-            res.status(400).send({error: 'Unknow service'})
+            res.status(404).send({message: 'Unknow service'})
             return
         }
         const resRequest = await ServiceDetail.GetActions(service.id);
@@ -45,34 +63,45 @@ exports.getServiceAllActions = async (req, res) => {
         }
         res.status(200).send(resRequest)
     } catch (err) {
-        console.log('Error: ', err.message)
-        res.status(400).send({error: err.message || 'An internal error occured'})
+        res.status(400).send({message: err.message || 'An internal error occured'})
     }
 }
 
+/**
+ * Get a specific action from a specific service
+ * 
+ * @param {Request<ParamsDictionary, any, any>} req The request received with the route
+ * @param {Response<any>} res The result of the request to send after
+ */
 exports.getServiceAction = async (req, res) => {
     try {
         var service = await Service.findByName(req.params.nameService)
         if (!service) {
-            res.status(401).send({error: 'Unknow service'})
+            res.status(404).send({message: 'Unknow service'})
             return
         }
         resRequest = await Action.findByName(req.params.nameAction)
         if (!resRequest) {
-            res.status(401).send({error: 'Unknow action'})
+            res.status(404).send({message: 'Unknow action'})
             return
         }
         res.status(200).send({name: resRequest.name, id: resRequest.id, description: resRequest.description, results: resRequest.results});
     } catch (error) {
-        res.status(401).send(error);
+        res.status(400).send({message: error.message || 'An internal error occured'});
     }
 }
 
+/**
+ * Get all the reactions from a specific service
+ * 
+ * @param {Request<ParamsDictionary, any, any>} req The request received with the route
+ * @param {Response<any>} res The result of the request to send after
+ */
 exports.getServiceAllReactions = async (req, res) => {
     try {
         var service = await Service.findByName(req.params.nameService)
         if (!service) {
-            res.status(401).send({error: 'Unknow service'})
+            res.status(404).send({message: 'Unknow service'})
             return
         }
         const resRequest = await ServiceDetail.GetReactions(service.id);
@@ -82,24 +111,30 @@ exports.getServiceAllReactions = async (req, res) => {
         }
         res.status(200).send(resRequest)
     } catch (error) {
-        res.status(401).send(error);
+        res.status(400).send({message: error.message || 'An internal error occured'});
     }
 }
 
+/**
+ * Get all the reactions from a specifi reaction
+ * 
+ * @param {Request<ParamsDictionary, any, any>} req The request received with the route
+ * @param {Response<any>} res The result of the request to send after
+ */
 exports.getServiceReaction = async (req, res) => {
     try {
         var service = await Service.findByName(req.params.nameService)
         if (!service) {
-            res.status(401).send({error: 'Unknow service'})
+            res.status(404).send({message: 'Unknow service'})
             return
         }
         resRequest = await Reaction.findByName(req.params.nameReaction)
         if (!resRequest) {
-            res.status(401).send({error: 'Unknow reaction'})
+            res.status(404).send({message: 'Unknow reaction'})
             return
         }
         res.status(200).send({name: resRequest.name, id: resRequest.id, description: resRequest.description, parameters: resRequest.parameters});
     } catch (error) {
-        res.status(401).send(error);
+        res.status(400).send({message: eerrorrr.message || 'An internal error occured'});
     }
 }

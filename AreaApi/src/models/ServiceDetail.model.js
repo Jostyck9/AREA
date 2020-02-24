@@ -8,9 +8,11 @@ async function GetActions(id) {
     const actions = await Actions.findByServiceId(id)
     if (actions) {
         actions.forEach(element => {
-            actionsRes.push({ name: element.name, id: element.id, description: element.description, results: element.results })
+            // console.log(element)
+            actionsRes.push({ name: element.name, id: element.id, description: element.description, parameters: element.parameters, results: element.results })
         });
     }
+    // console.log(actionsRes)
     return actionsRes
 }
 
@@ -29,7 +31,7 @@ async function GetReactions(id) {
 async function GetServiceDetailById(ServiceId) {
     const service = await Services.findById(ServiceId)
     if (!service)
-        return {}
+        return null
     const actions = await GetActions(service.id);
     const reactions = await GetReactions(service.id);
     return { name: service.name, id: service.id, actions: actions, reactions: reactions }
@@ -38,7 +40,7 @@ async function GetServiceDetailById(ServiceId) {
 async function GetServiceDetailByName(ServiceName) {
     const service = await Services.findByName(ServiceName)
     if (!service)
-        return {}
+        return null
     const actions = await GetActions(service.id);
     const reactions = await GetReactions(service.id);
     return { name: service.name, id: service.id, actions: actions, reactions: reactions }

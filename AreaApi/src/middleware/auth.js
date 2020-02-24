@@ -2,6 +2,13 @@ const jwt = require('jsonwebtoken')
 const User = require('../models/User.model')
 const Token = require('../models/Tokens.model')
 
+/**
+ * Check if the request intercepted is a user authetified
+ * 
+ * @param {Request<ParamsDictionary, any, any>} req The request received with the route
+ * @param {Response<any>} res The result of the request to send after
+ * @param {any} next The next request to validate
+ */
 const auth = async (req, res, next) => {
     try {
         const token = req.header('Authorization').replace('Bearer ', '')
@@ -16,7 +23,6 @@ const auth = async (req, res, next) => {
             throw new Error()
         req.user = resUser
         req.token = resToken.token
-        console.log("Auth : ", req.user, req.token)
         next()
     } catch (error) {
         res.status(401).send({ message: 'Not authorized to access this resource' })
