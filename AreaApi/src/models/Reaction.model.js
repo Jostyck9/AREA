@@ -25,9 +25,9 @@ Reaction.getAll = async function () {
 }
 
 // TODO a tester
-Reaction.findById = async function (actionId) {
+Reaction.findById = async function (reactionId) {
     try {
-        const [rows, fields] = await sql.query(`SELECT * FROM reactions WHERE id = ?`, [actionId])
+        const [rows, fields] = await sql.query(`SELECT * FROM reactions WHERE id = ?`, [reactionId])
         if (rows.length < 1) {
             console.log('No reactions found')
             return null

@@ -1,6 +1,7 @@
 const AreaModel = require('../models/Area.model')
 const ActionModel = require('../models/Action.model')
 const ReactionModel = require('../models/Reaction.model')
+const DiscordController = require('../controllers/discord.controller')
 
 //AreaModel to pass in parameters
 async function checkParameters(newArea, res) {
@@ -42,13 +43,48 @@ async function checkParameters(newArea, res) {
                     res.status(401).send({ message: "invalid dynamic parameter " + resSplit[0] });
                     return false
                 }
-                    
+
             }
         }
     });
 
     return true
 }
+
+
+/**
+ * Connect an action to its reaction
+ * @group area.controller - connectActionToReaction
+ * @param {Int} action_id - id of the action that was detected
+ * @param {JSON} action_result - json that contains results of the action (username, message content, ....)
+ * @returns {Error}  default - Unexpected error
+ */
+exports.connectActionToReaction =  async (action_id, action_result) => {
+    //is called by a service.controller that detected an action and Connect an action to its reaction
+    try {
+        const newArea = new AreaModel();
+        const AreaArray= newArea.findByActionId(action_id);
+        AreaArray.forEach(element => {
+            SendToReactionById(element.reaction_id, action_id, action_result);
+        });
+
+    }
+    catch (error) {
+
+    }
+    // check if the user is concerned --> check if area.params_actions matches result
+    // (ex: area.param_action contient "etre notifié des tweets de Gabin" donc si result username correspond pas à Gabin on retient pas cette AREA)
+
+    //foreach des area qui restent et on appelle Area.reaction_id.service_id.userReaction(client_id, action_result, reaction_id) --> petite incohérence pq pas appeler la réaction tout desuite ?
+}
+
+async function SendToReactionById(reaction_id, action_id, action_result) {
+    // set off the corresponding reaction
+    const ReactionModel = new ReactionModel();
+    const Reaction = ReactionModel.findById(reaction_id);
+    console.info("the service id of the reaction is : " + Reaction.service_id);
+}
+
 
 exports.create = async (req, res) => {
     try {
