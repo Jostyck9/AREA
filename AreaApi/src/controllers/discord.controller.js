@@ -37,6 +37,7 @@ bot.on ('message', msg => {
         content: msg.content
     };
     AreaController.connectActionToReaction(MSG_RECEIVED_ID, action_result);
+    //cc
 });
 
 bot.on('guildMemberAdd', member => {
