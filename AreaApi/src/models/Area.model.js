@@ -50,6 +50,22 @@ Area.findById = async function (client_id, area_id) {
     }
 }
 
+Area.findByActionId = async function (client_id, action_id) {
+    //Find all areas that has this action
+    try {
+        console.log(client_id, action_id)
+        const [rows, fields] = await sql.query("SELECT * FROM area WHERE client_id = ? AND action_id = ?", [client_id, action_id])
+        if (rows.length < 1) {
+            console.log('No area found')
+            return null
+        }
+        return rows
+    } catch (err) {
+        console.log(err)
+        throw err
+    }
+}
+
 Area.delete = async function (client_id, area_id) {
     try {
         const [rows, fields] = await sql.query("DELETE FROM area WHERE client_id = ? AND id = ?", [client_id, area_id])
