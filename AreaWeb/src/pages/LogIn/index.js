@@ -24,7 +24,7 @@ export default class LogIn extends React.Component{
     onSubmit = (event) => {
         event.preventDefault();
         const { email, password } = this.state;
-        fetch('http://10.29.124.139:8081/auth/login', {
+        fetch('http://10.29.124.139:8080/auth/login', {
                 method: 'POST',
                 body: JSON.stringify({ email: email, password: password }),
                 headers: {
