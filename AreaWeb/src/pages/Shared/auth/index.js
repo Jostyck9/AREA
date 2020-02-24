@@ -29,7 +29,6 @@ export default function AuthLayout({ children }) {
                         <DropdownButton
                             drop='left' variant='secondary' title='Profile'>
                             <Dropdown.Item href='account'>Account</Dropdown.Item>
-                            <Dropdown.Item href='help'>Help</Dropdown.Item>
                             <Dropdown.Divider />
                             <Dropdown.Item onClick={OnSignOut} href='/'>Sign Out</Dropdown.Item>
                         </DropdownButton>

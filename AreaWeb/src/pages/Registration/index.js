@@ -17,6 +17,13 @@ export default class Registration extends React.Component {
         };
     }
     
+    handleInputChange = (event) => {
+        const { value, name } = event.target;
+        this.setState({
+            [name]: value
+        });
+    }
+
     onSubmit = (event) => {
         event.preventDefault();
         const { email, username, password, confirmpassword } = this.state;
