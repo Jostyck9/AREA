@@ -43,7 +43,6 @@ ReactionModel.getAll = async function () {
  * @throws {error} Contains a message field
  */
 ReactionModel.findById = async function (reactionId) {
-    console.info("truc");
     try {
         const [rows, fields] = await sql.query(`SELECT * FROM reactions WHERE id = ?`, [reactionId])
         if (rows.length < 1) {

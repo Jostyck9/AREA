@@ -22,7 +22,6 @@ async function checkParameters(newArea, res) {
         return false
     }
 
-
     //if no parameters are necessaries
     if (reactionParameters.parameters === null && actionParameters.parameters === null) {
         return true
@@ -83,7 +82,6 @@ exports.connectActionToReaction =  async (action_id, action_result) => {
         const AreaArray= await AreaModel.findByActionId(action_id);
         console.info(AreaArray);
         AreaArray.forEach(element => {
-            console.info("foreach");
             SendToReactionById(element.reaction_id, action_id, action_result);
         });
 
@@ -98,9 +96,10 @@ exports.connectActionToReaction =  async (action_id, action_result) => {
 }
 
 async function SendToReactionById(reaction_id, action_id, action_result) {
-    // set off the corresponding reaction
-    ReactionModel.findById(reaction_id);
-    console.info("the service id of the reaction is : " + Reaction.service_id);
+    // set off the corresponding reactio
+    const reactionmodel = await ReactionModel.findById(reaction_id);
+    console.info("the service id of the reaction is : " + reactionmodel.service_id);
+
 }
 
 /**
