@@ -5,9 +5,6 @@ import '../../css/site.css';
 import { Button } from 'react-bootstrap'
 
 export default class Home extends React.Component {
-    constructor(props) {
-        super(props)
-    }
 
     printToken() {
         alert(JSON.parse(localStorage.getItem('currentUser')));

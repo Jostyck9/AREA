@@ -1,9 +1,9 @@
 import '../../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import React from 'react';
 import '../../css/site.css';
+import { Button, Form } from 'react-bootstrap'
 import Microsoft from '../../images/microsoft_logo.png'
 import Twitter from '../../images/twitter_logo.png'
-import { Button, Form } from 'react-bootstrap'
 
 export default class LogIn extends React.Component{
     constructor(props) {
@@ -52,6 +52,8 @@ export default class LogIn extends React.Component{
     }
 
     render () {
+
+
         return (
             <table width="100%" height="100%" border="0">
                 <tr height="100%">
@@ -68,14 +70,16 @@ export default class LogIn extends React.Component{
                             <Form.Control className='text-center' type="password" name="password" placeholder="Password" value={this.state.password} onChange={this.handleInputChange} required/>
                         </Form.Group>
                         <Button variant="secondary" size="lg" active type="submit" value="Submit">Log In</Button><br/>
-                        <br/><Button variant="secondary" size="lg" className="divider" active>
-                            <img src={Microsoft} height="30" width="30" alt="Microsoft"/>|Microsoft
+                    </Form>
+                    <div class="text-center">
+                        <br /><Button variant="secondary" size="lg" className="divider" active>
+                            <img src={Microsoft} height="30" width="30" alt="Microsoft" />|Microsoft
                         </Button>
                         <Button variant="secondary" size="lg" className="divider" active>
-                            <img src={Twitter} height="30" width="30" alt="Twitter"/>|Twitter
+                            <img src={Twitter} height="30" width="30" alt="Twitter" />|Twitter
                         </Button><br/>
                         <br/><p>No account ? <a href='registration'>Create a new account.</a></p>
-                    </Form>
+                    </div>
                     </td>
                     <td width="25%"></td>
                 </tr>

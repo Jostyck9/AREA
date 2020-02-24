@@ -8,6 +8,7 @@ import Registration from "../pages/Registration";
 import Help from "../pages/Help"
 import ErrorPage from "../pages/ErrorPage"
 import Account from "../pages/Account";
+import About from "../pages/About";
 
 export default function Routes() {
     return (
@@ -17,6 +18,7 @@ export default function Routes() {
         <Route path="/registration" component={Registration} isConnected/>
         <Route path="/help" component={Help} />
         <Route path="/error" component={ErrorPage} />
+        <Route path="/about.json" component={About} />
 
         <Route path="/account" component={Account} isPrivate />
 

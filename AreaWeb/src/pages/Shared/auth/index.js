@@ -10,7 +10,6 @@ import PropTypes from "prop-types";
 import '../../../css/site.css';
 import {
     BrowserRouter as Router,
-    Link
 } from "react-router-dom";
 
 function OnSignOut()
@@ -44,7 +43,7 @@ export default function AuthLayout({ children }) {
             </div>
             <footer class="border-top footer text-muted">
                 <div class="container">
-                &copy; 2020 - Area - <Link to='/'>About</Link>
+                &copy; 2020 - Area - <a href='about.json'>About</a>
                 </div>
             </footer>
         </Router>

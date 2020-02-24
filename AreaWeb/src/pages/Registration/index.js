@@ -1,9 +1,9 @@
 import '../../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import React from 'react';
 import '../../css/site.css';
+import { Button, Form } from 'react-bootstrap'
 import Microsoft from '../../images/microsoft_logo.png'
 import Twitter from '../../images/twitter_logo.png'
-import { Button, Form } from 'react-bootstrap'
 
 export default class Registration extends React.Component {
     constructor(props) {
@@ -13,21 +13,15 @@ export default class Registration extends React.Component {
             username: '',
             password: '',
             confirmpassword: '',
+
         };
     }
-
-    handleInputChange = (event) => {
-        const { value, name } = event.target;
-        this.setState({
-            [name]: value
-        });
-    }
-
+    
     onSubmit = (event) => {
         event.preventDefault();
         const { email, username, password, confirmpassword } = this.state;
         if (password !== confirmpassword)
-            alert("Passwords don't match");
+        alert("Passwords don't match");
         else {
             fetch('http://10.29.124.139:8081/auth/register', {
                 method: 'POST',
@@ -78,13 +72,15 @@ export default class Registration extends React.Component {
                                 Password confirmation <Form.Control className='text-center' type="password" name="confirmpassword" placeholder="Confirmed Password" value={this.state.confirmpassword} onChange={this.handleInputChange} required />
                             </Form.Group>
                             <Button variant="secondary" size="lg" active type="submit" value="Submit">Register</Button><br />
+                        </Form>
+                        <div class="text-center">
                             <br /><Button variant="secondary" size="lg" className="divider" active>
                                 <img src={Microsoft} height="30" width="30" alt="Microsoft" />|Microsoft
                             </Button>
                             <Button variant="secondary" size="lg" className="divider" active>
                                 <img src={Twitter} height="30" width="30" alt="Twitter" />|Twitter
-                        </Button>
-                        </Form>
+                            </Button><br/>
+                        </div>
                     </td>
                     <td width="25%"></td>
                 </tr>

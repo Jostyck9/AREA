@@ -4,12 +4,8 @@ import PropTypes from "prop-types";
 import '../../../css/site.css';
 import {
     BrowserRouter as Router,
-    Link,
   } from "react-router-dom";
-import {
-    Navbar,
-    Nav
-} from 'react-bootstrap'
+import { Navbar, Nav } from 'react-bootstrap'
 
 export default function DefaultLayout({ children }) {
     return (
@@ -32,7 +28,7 @@ export default function DefaultLayout({ children }) {
             </div>
             <footer class="border-top footer text-muted">
                 <div class="container">
-                    &copy; 2020 - Area - <Link href='/'>About</Link>
+                    &copy; 2020 - Area - <a href='about.json'>About</a>
                 </div>
             </footer>
         </Router>
