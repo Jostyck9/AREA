@@ -15,7 +15,7 @@ const AreaModel = function (area) {
 
 /**
  * Create an Area in the database
- * 
+ *
  * @param {Area} newArea Json of the variables of the newArea
  * @returns {json} Json of the result with a message field
  * @throws {error} Contains a message field
@@ -35,7 +35,7 @@ AreaModel.create = async function (newArea) {
 
 /**
  * Get all the area from the user from the database
- * 
+ *
  * @param {number} client_id id of the client
  * @returns {null} If the database is empty
  * @returns {array.<json>} Json of the result
@@ -55,7 +55,7 @@ AreaModel.getArea = async function (client_id) {
 
 /**
  * Get the specific area from the user from the database
- * 
+ *
  * @param {number} client_id id of the client
  * @param {number} area_id id of the area
  * @returns {null} If the database is empty
@@ -78,7 +78,7 @@ AreaModel.findById = async function (client_id, area_id) {
 AreaModel.findByActionId = async function (action_id) {
     //Find all areas that has this action
     try {
-        console.log(client_id, action_id)
+        console.log("action id is : " + action_id);
         const [rows, fields] = await sql.query("SELECT * FROM area WHERE action_id = ?", [action_id])
         if (rows.length < 1) {
             console.log('No area found')
@@ -93,7 +93,7 @@ AreaModel.findByActionId = async function (action_id) {
 
 /**
  * Delete a specific area from the user from the database
- * 
+ *
  * @param {number} client_id id of the client
  * @param {number} area_id id of the area
  * @returns {json} Json of the result
