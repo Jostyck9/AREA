@@ -75,6 +75,22 @@ AreaModel.findById = async function (client_id, area_id) {
     }
 }
 
+AreaModel.findByActionId = async function (action_id) {
+    //Find all areas that has this action
+    try {
+        console.log(client_id, action_id)
+        const [rows, fields] = await sql.query("SELECT * FROM area WHERE action_id = ?", [action_id])
+        if (rows.length < 1) {
+            console.log('No area found')
+            return null
+        }
+        return rows
+    } catch (err) {
+        console.log(err)
+        throw err
+    }
+}
+
 /**
  * Delete a specific area from the user from the database
  * 

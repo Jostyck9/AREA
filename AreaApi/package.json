@@ -26,6 +26,7 @@
     "cross-env": "^7.0.0",
     "discord.js": "^11.5.1",
     "documentation": "^12.1.4",
+    "dotenv": "^8.2.0",
     "env-cmd": "^10.0.1",
     "express": "^4.17.1",
     "express-swagger-generator": "^1.1.17",
