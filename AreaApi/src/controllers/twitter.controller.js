@@ -71,8 +71,4 @@ exports.post_tweet = post_tweet;
 
 exports.UseReaction = async() => {
     console.info("Twitter useReaction is on");
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 13fde52ec24d84547b84e76620d3cfd691d58d77
