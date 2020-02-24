@@ -37,11 +37,16 @@ bot.on ('message', msg => {
         content: msg.content
     };
     AreaController.connectActionToReaction(MSG_RECEIVED_ID, action_result);
+    //cc
 });
 
 bot.on('guildMemberAdd', member => {
     channel = member.guild.channels.find("name","test").send("Welcome!" + member.user.username);
 });
+
+exports.UseReaction = async() => {
+    console.info("Discord useReaction is on");
+}
 
 async function receiveMessage() {
     //get les infos de la db

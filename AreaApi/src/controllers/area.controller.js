@@ -2,13 +2,14 @@ const AreaModel = require('../models/Area.model')
 const ActionModel = require('../models/Action.model')
 const ReactionModel = require('../models/Reaction.model')
 const DiscordController = require('../controllers/discord.controller')
+const TwitterController = require('../controllers/twitter.controller')
 
 /**
  * Check if the field parameter inside the res.body is good according the action and the reaction
- * 
+ *
  * @param {AreaModel} newArea The request received with the route
  * @param {Response<any>} res The result of the request to send after
- * @returns {boolean} is the request is valid or not 
+ * @returns {boolean} is the request is valid or not
  */
 async function checkParameters(newArea, res) {
     const reactionParameters = await ReactionModel.findById(newArea.reaction_id)
@@ -21,7 +22,6 @@ async function checkParameters(newArea, res) {
         res.status(400).send({ message: "No action found with id " + newArea.action_id });
         return false
     }
-
 
     //if no parameters are necessaries
     if (reactionParameters.parameters === null && actionParameters.parameters === null) {
@@ -80,8 +80,8 @@ async function checkParameters(newArea, res) {
 exports.connectActionToReaction =  async (action_id, action_result) => {
     //is called by a service.controller that detected an action and Connect an action to its reaction
     try {
-        const newArea = new AreaModel();
-        const AreaArray= newArea.findByActionId(action_id);
+        const AreaArray= await AreaModel.findByActionId(action_id);
+        console.info(AreaArray);
         AreaArray.forEach(element => {
             SendToReactionById(element.reaction_id, action_id, action_result);
         });
@@ -98,14 +98,23 @@ exports.connectActionToReaction =  async (action_id, action_result) => {
 
 async function SendToReactionById(reaction_id, action_id, action_result) {
     // set off the corresponding reaction
-    const ReactionModel = new ReactionModel();
-    const Reaction = ReactionModel.findById(reaction_id);
-    console.info("the service id of the reaction is : " + Reaction.service_id);
+
+    const controllerArray = [
+        TwitterController.UseReaction,
+        TwitterController.UseReaction,
+        TwitterController.UseReaction,
+        TwitterController.UseReaction,
+        DiscordController.UseReaction,
+        DiscordController.UseReaction
+    ]
+    const reactionmodel = await ReactionModel.findById(reaction_id);
+    console.info("the service id of the reaction is : " + reactionmodel.service_id);
+    controllerArray[reactionmodel.service_id]();
 }
 
 /**
  * Create a reaction according to the request for a specific user
- * 
+ *
  * @param {Request<ParamsDictionary, any, any>} req The request received with the route
  * @param {Response<any>} res The result of the request to send after
  */
@@ -141,7 +150,7 @@ exports.create = async (req, res) => {
 
 /**
  * Get all the user's area
- * 
+ *
  * @param {Request<ParamsDictionary, any, any>} req The request received with the route
  * @param {Response<any>} res The result of the request to send after
  */
@@ -159,7 +168,7 @@ exports.getAll = async (req, res) => {
 
 /**
  * Get a specific user's area by his id
- * 
+ *
  * @param {Request<ParamsDictionary, any, any>} req The request received with the route
  * @param {Response<any>} res The result of the request to send after
  */
@@ -176,7 +185,7 @@ exports.get = async (req, res) => {
 
 /**
  * Delete a specific user's area from id
- * 
+ *
  * @param {Request<ParamsDictionary, any, any>} req The request received with the route
  * @param {Response<any>} res The result of the request to send after
  */
