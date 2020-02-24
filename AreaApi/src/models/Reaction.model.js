@@ -2,15 +2,26 @@
 
 const sql = require("../db/db");
 
-const Reaction = function (reaction) {
+/**
+* ReactionModel class manage all the database request for reactions table
+* @class
+* @classdesc This class connect to the reaction inside the db
+*/
+const ReactionModel = function (reaction) {
     this.service_id = reaction.service_id,
         this.name = reaction.name,
         this.description = reaction.description,
         this.parameters = reaction.parameters
 };
 
-// TODO a tester
-Reaction.getAll = async function () {
+/**
+ * Get all the reactions from the database
+ * 
+ * @returns {null} If the database is empty
+ * @returns {array.<json>} Json of the result
+ * @throws {error} Contains a message field
+ */
+ReactionModel.getAll = async function () {
     try {
         const [rows, fields] = await sql.query("SELECT * FROM reactions", [])
         if (rows.length < 1) {
@@ -23,8 +34,15 @@ Reaction.getAll = async function () {
     }
 }
 
-// TODO a tester
-Reaction.findById = async function (actionId) {
+/**
+ * Get the reaction with id from the database
+ * 
+ * @param {number} actionId id of the reaction
+ * @returns {null} If the database is empty
+ * @returns {json} Json of the result
+ * @throws {error} Contains a message field
+ */
+ReactionModel.findById = async function (actionId) {
     try {
         const [rows, fields] = await sql.query(`SELECT * FROM reactions WHERE id = ?`, [actionId])
         if (rows.length < 1) {
@@ -37,8 +55,15 @@ Reaction.findById = async function (actionId) {
     }
 };
 
-// TODO a tester
-Reaction.findByServiceId = async function (serviceId) {
+/**
+ * Get all the reaction from the service from the database
+ * 
+ * @param {number} serviceId id of the service
+ * @returns {null} If the database is empty
+ * @returns {array.<json>} Json of the result
+ * @throws {error} Contains a message field
+ */
+ReactionModel.findByServiceId = async function (serviceId) {
     try {
         const [rows, fields] = await sql.query(`SELECT * FROM reactions WHERE service_id = ?`, [serviceId])
         if (rows.length < 1) {
@@ -51,8 +76,15 @@ Reaction.findByServiceId = async function (serviceId) {
     }
 };
 
-// TODO a tester
-Reaction.findByName = async function (actionName) {
+/**
+ * Get the reaction with name from the database
+ * 
+ * @param {number} client_id id of the client
+ * @returns {null} If the database is empty
+ * @returns {json} Json of the result
+ * @throws {error} Contains a message field
+ */
+ReactionModel.findByName = async function (actionName) {
     try {
         const [rows, fields] = await sql.query(`SELECT * FROM reactions WHERE name = ?`, [actionName.toLowerCase()])
         if (rows.length < 1) {
@@ -65,4 +97,4 @@ Reaction.findByName = async function (actionName) {
     }
 };
 
-module.exports = Reaction
+module.exports = ReactionModel

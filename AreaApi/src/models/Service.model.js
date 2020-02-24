@@ -2,13 +2,23 @@
 
 const sql = require('../db/db')
 
-// constructor
-const Service = function (service) {
+/**
+* ServiceModel class manage all the database request for reactions table
+* @class
+* @classdesc This class connect to the service inside the db
+*/
+const ServiceModel = function (service) {
     this.name = service.name;
 };
 
-// NOTE ok working
-Service.getAll = async function() {
+/**
+ * Get all the services from the database
+ * 
+ * @returns {null} If the database is empty
+ * @returns {array.<json>} Json of the result
+ * @throws {error} Contains a message field
+ */
+ServiceModel.getAll = async function() {
     try {
         const [rows, fields] = await sql.query("SELECT * FROM services")
         if (rows.length < 1) {
@@ -21,8 +31,15 @@ Service.getAll = async function() {
     }
 }
 
-// NOTE ok working
-Service.findById = async function (serviceId) {
+/**
+ * Get a specific service from id from the database
+ * 
+ * @param {number} serviceId Id of the service
+ * @returns {null} If the database is empty
+ * @returns {json} Json of the result
+ * @throws {error} Contains a message field
+ */
+ServiceModel.findById = async function (serviceId) {
     try {
         const [rows, fields] = await sql.query(`SELECT * FROM services WHERE id = ?`, [serviceId])
         if (rows.length < 1) {
@@ -35,8 +52,15 @@ Service.findById = async function (serviceId) {
     }
 };
 
-// NOTE ok working
-Service.findByName = async function (serviceName) {
+/**
+ * Get a specific service by name from the database
+ * 
+ * @param {string} serviceName Name of the service
+ * @returns {null} If the database is empty
+ * @returns {json} Json of the result
+ * @throws {error} Contains a message field
+ */
+ServiceModel.findByName = async function (serviceName) {
     try {
         const [rows, fields] = await sql.query(`SELECT * FROM services WHERE name = ?`, [serviceName.toLowerCase()])
         if (rows.length < 1) {
@@ -49,4 +73,4 @@ Service.findByName = async function (serviceName) {
     }
 };
 
-module.exports = Service;
+module.exports = ServiceModel;

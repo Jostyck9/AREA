@@ -4,14 +4,25 @@ const validator = require('validator')
 const bcrypt = require('bcryptjs')
 const sql = require("../db/db");
 
-// constructor
-const User = function (user) {
+/**
+* UserModel class manage all the database request for reactions table
+* @class
+* @classdesc This class connect to the user inside the db
+*/
+const UserModel = function (user) {
     this.username = user.username;
     this.email = user.email;
     this.password = user.password;
 };
 
-User.create = async function (newUser) {
+/**
+ * Create a new user in the database
+ * 
+ * @param {json} newUser New user infos
+ * @returns {json} Json of the result
+ * @throws {error} Contains a message field
+ */
+UserModel.create = async function (newUser) {
     try {
         if (!validator.isEmail(newUser.email))
             throw new Error('Invalid Email address');
@@ -29,8 +40,15 @@ User.create = async function (newUser) {
     }
 };
 
-// NOTE OK working
-User.findByCredentials = async function (email, password) {
+/**
+ * Find a user by his credentials in the database
+ * 
+ * @param {string} email Email of the user
+ * @param {string} password Password of the client
+ * @returns {json} Json of the result
+ * @throws {error} Contains a message field
+ */
+UserModel.findByCredentials = async function (email, password) {
     var isPasswordMatch = false;
 
     try {
@@ -48,8 +66,15 @@ User.findByCredentials = async function (email, password) {
     }
 }
 
-// NOTE OK working
-User.findByEmail = async function (userEmail) {
+/**
+ * Find a user by his email in the database
+ * 
+ * @param {string} userEmail Email of the user
+ * @returns {null} If not present in the database
+ * @returns {json} Json of the result
+ * @throws {error} Contains a message field
+ */
+UserModel.findByEmail = async function (userEmail) {
     try {
         const [rows, fields] = await sql.query(`SELECT * FROM users WHERE email = ?`, [userEmail])
         if (rows.length < 1) {
@@ -63,8 +88,15 @@ User.findByEmail = async function (userEmail) {
     }
 };
 
-// NOTE ok working
-User.findById = async function (userId) {
+/**
+ * Find a user by his id in the database
+ * 
+ * @param {number} userId Id of the user
+ * @returns {null} If not present in the database
+ * @returns {json} Json of the result
+ * @throws {error} Contains a message field
+ */
+UserModel.findById = async function (userId) {
     try {
         const [rows, fields] = await sql.query(`SELECT * FROM users WHERE id = ?`, [userId])
 
@@ -79,8 +111,15 @@ User.findById = async function (userId) {
     }
 };
 
-// NOTE ok working
-User.findByName = async function (userName) {
+/**
+ * Find a user by his name in the database
+ * 
+ * @param {string} userName Name of the user
+ * @returns {null} If not present in the database
+ * @returns {json} Json of the result
+ * @throws {error} Contains a message field
+ */
+UserModel.findByName = async function (userName) {
     try {
         const [rows, fields] = await sql.query(`SELECT * FROM users WHERE username = ?`, [userName])
         if (rows.length < 1) {
@@ -93,8 +132,14 @@ User.findByName = async function (userName) {
     }
 };
 
-// NOTE OK working
-User.remove = async function (id) {
+/**
+ * Delete a user by his id in the database
+ * 
+ * @param {number} id Id of the user
+ * @returns {json} Json of the result
+ * @throws {error} Contains a message field
+ */
+UserModel.remove = async function (id) {
     try {
         const [rows, fields] = await sql.query("DELETE FROM users WHERE id = ?", [id])
         if (rows.affectedRows == 0) {
@@ -107,8 +152,15 @@ User.remove = async function (id) {
     }
 };
 
-// NOTE Ok working
-User.updateUsername = async function (id, userName) {
+/**
+ * Update a user's name by his id in the database
+ * 
+ * @param {number} id Id of the user
+ * @param {string} userName Name of the user
+ * @returns {json} Json of the result
+ * @throws {error} Contains a message field
+ */
+UserModel.updateUsername = async function (id, userName) {
     try {
         if (userName.length == 0)
             throw new Error("Username must not be null")
@@ -123,8 +175,15 @@ User.updateUsername = async function (id, userName) {
     }
 };
 
-// NOTE Ok working
-User.updatePassword = async function (id, password) {
+/**
+ * Update a user's password by his id in the database
+ * 
+ * @param {number} id Id of the user
+ * @param {string} password Password of the user
+ * @returns {json} Json of the result
+ * @throws {error} Contains a message field
+ */
+UserModel.updatePassword = async function (id, password) {
     try {
         if (password.length < 7)
             throw Error('Invalid password size, min 7');
@@ -141,4 +200,4 @@ User.updatePassword = async function (id, password) {
     }
 };
 
-module.exports = User
+module.exports = UserModel
