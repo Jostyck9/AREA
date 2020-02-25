@@ -9,6 +9,7 @@ import ErrorPage from "../pages/ErrorPage"
 import Account from "../pages/Account";
 import About from "../pages/About";
 import Apk from "../pages/Apk";
+import Creation from "../pages/Creation"
 
 export default function Routes() {
     return (
@@ -20,6 +21,7 @@ export default function Routes() {
         <Route path="/about.json" component={About} />
 
         <Route path="/account" component={Account} isPrivate />
+        <Route path="/creation" component={Creation} isPrivate />
         <Route path="/client.apk" component={Apk}/>
 
         {/* redirect user to SignIn page if route does not exist and user is not authenticated */}
