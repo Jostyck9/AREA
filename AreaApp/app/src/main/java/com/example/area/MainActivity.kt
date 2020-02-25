@@ -4,9 +4,14 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.PreferenceManager
+import com.android.volley.AuthFailureError
+import com.android.volley.Response
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -54,8 +59,35 @@ class MainActivity : AppCompatActivity() {
         api.setText(PreferenceManager.getDefaultSharedPreferences(applicationContext).getString("api", null)!!)
 
         if (PreferenceManager.getDefaultSharedPreferences(applicationContext).contains("token")) {
-            val intent = Intent(this, HomeActivity::class.java)
-            startActivity(intent)
+
+            val url = PreferenceManager.getDefaultSharedPreferences(applicationContext).getString("api", null)!! + "/me/"
+
+            val queue = Volley.newRequestQueue(this)
+            val request = object: StringRequest(
+                Method.GET, url,
+                Response.Listener<String> {
+
+                    val intent = Intent(this, HomeActivity::class.java)
+                    startActivity(intent)
+
+                },
+                Response.ErrorListener {
+                    Log.d("debug", "your token isn't valid")
+                })
+
+            {
+                @Throws(AuthFailureError::class)
+                override fun getHeaders(): Map<String, String> {
+
+                    val params: MutableMap<String, String>
+                    params = HashMap()
+                    params["Content-Type"] = "application/json"
+                    params["Authorization"] = "Bearer " + PreferenceManager.getDefaultSharedPreferences(applicationContext).getString("token", null)!!
+                    return params
+
+                }
+            }
+            queue.add(request)
         }
 
     }

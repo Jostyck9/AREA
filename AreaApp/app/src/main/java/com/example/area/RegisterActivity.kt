@@ -52,8 +52,6 @@ class RegisterActivity : AppCompatActivity(), RegisterView {
                         val request = JsonObjectRequest(Request.Method.POST, url, jsonObj,
                             Response.Listener { response ->
 
-                                Log.d("Response", response["token"].toString())
-
                                 val pref = PreferenceManager.getDefaultSharedPreferences(applicationContext)
                                 val editor = pref.edit()
                                 editor.putString("token", response["token"].toString())

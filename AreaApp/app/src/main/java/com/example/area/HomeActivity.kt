@@ -1,22 +1,25 @@
 package com.example.area
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.Button
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.preference.PreferenceManager
 import com.android.volley.AuthFailureError
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
-import com.google.gson.Gson
+import com.google.gson.JsonObject
+import com.google.gson.JsonParser
 import kotlinx.android.synthetic.main.activity_home.*
+import org.json.JSONArray
+
 
 class HomeActivity : AppCompatActivity() {
 
@@ -40,9 +43,18 @@ class HomeActivity : AppCompatActivity() {
 
                 if (response.toString() != "[]") {
 
-                    Log.d("debug ", response.toString())
                     treeImage.visibility =  View.INVISIBLE
                     startConnecting.visibility = View.INVISIBLE
+
+                    val jsonArray = JSONArray(response)
+
+                    for (i in 0 until jsonArray.length()) {
+                        val jsonObject = jsonArray.getJSONObject(i)
+
+                        if (jsonObject.has("id")) {
+                            Log.d("debug", jsonObject.getString("id"))
+                        }
+                    }
 
 
                 } else {
@@ -66,7 +78,8 @@ class HomeActivity : AppCompatActivity() {
             }
         }
 
-        queue.add(request)    }
+        queue.add(request)
+    }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu,menu)
