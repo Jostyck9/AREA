@@ -16,12 +16,7 @@ module.exports = () => {
     // information. Normally, you would save the user to the database 
     // in this callback and it would be customized for each provider
     const callback = (accessToken, refreshToken, profile, cb) => cb(null, profile)
-    const callbackTrello = (req, token, tokenSecret, profile, done) => {
-        console.log(req.body)
-        console.log(token)
-        console.log(tokenSecret)
-        console.log(profile)
-    }
+    const callbackTrello = (req, token, tokenSecret, profile, done) => done(null, profile)
 
     // Adding each OAuth provider's strategy to passport
     passport.use(new TwitterStrategy(TWITTER_CONFIG, callback))
