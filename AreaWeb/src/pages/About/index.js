@@ -11,7 +11,7 @@ export default class About extends React.Component {
 
     componentDidMount() {
         fetch(
-            process.env.SERVER_URI + '/about.json', {
+            process.env.REACT_APP_SERVER_URI + '/about.json', {
             method: 'GET'
             }
         ).then(res => {
