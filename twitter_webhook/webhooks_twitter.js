@@ -8,7 +8,7 @@ const app = express();
 app.use(bodyParser.json());
 
 const userActivityWebhook = twitterWebhooks.userActivity({
-	serverUrl: 'https://42870df0.ngrok.io',
+	serverUrl: 'https://d41bacbd.ngrok.io',
 	route: '/',
     consumerKey: 'GKRASjadiIHwSBs9KkO7KXhIM',
 	consumerSecret: '8dlwneANyz6WJTUR8NOBcYkYVSL9jEVviPfWbHoKcmC8ERnYQ9',
@@ -17,16 +17,16 @@ const userActivityWebhook = twitterWebhooks.userActivity({
 	environment: 'TestArea',
 	app
 });
-const server = https.createServer({
-	key: fs.readFileSync('key.pem'),
-	cert: fs.readFileSync('cert.pem')
-}, app);
+// const server = https.createServer({
+// 	key: fs.readFileSync('key.pem'),
+// 	cert: fs.readFileSync('cert.pem')
+// }, app);
 
-server.listen(8081, () => {
-	console.log('server start Port: 8081')
+app.listen(8080, () => {
+	console.log('server start Port: 8080')
 });
 
-//userActivityWebhook.register()
+userActivityWebhook.register()
 // userActivityWebhook.unregister({
 // 	webhookId: '1231630049138356225'
 // })
@@ -35,19 +35,19 @@ const token = '1098557912677576704-2fz3FvHUaDs5ccaje09f8YhiWpISEn';
 const secret = 'pdymBZU6dt229qycuNSyAo11cN9adU3yb2Nhkrka8CQnX';
 
 
-userActivityWebhook.on('event', (event, userId, data) => {
-	console.log (userId + ' ' + event + ' ' + data.text)
-	twitter_webhook.post_tweet(token, secret, "ALLEZ !!")
-});
+// userActivityWebhook.on('event', (event, userId, data) => {
+// 	console.log (userId + ' ' + event + ' ' + data.text)
+// 	twitter_webhook.post_tweet(token, secret, "ALLEZ !!")
+// });
 
-userActivityWebhook.on('unknown-event', (rawData) => {console.log (rawData)});
+// userActivityWebhook.on('unknown-event', (rawData) => {console.log (rawData)});
 
-app.get('/webhook/add_user', (req, res) => {
-	res.send('Hello World!', 200)
-	twitter_webhook.add_user_to_twitter_webhook('1098557912677576704', token, secret)
-})
+// app.get('/webhook/add_user', (req, res) => {
+// 	res.send('Hello World!', 200)
+// 	twitter_webhook.add_user_to_twitter_webhook('1098557912677576704', token, secret)
+// })
 
-app.get('/webhook/delete_user', (req, res) => {
-    res.send('Hello World!', 200)
-	twitter_webhook.delete_user_to_twitter_webhook('1098557912677576704', token, secret)
-})
+// app.get('/webhook/delete_user', (req, res) => {
+//     res.send('Hello World!', 200)
+// 	twitter_webhook.delete_user_to_twitter_webhook('1098557912677576704', token, secret)
+// })
