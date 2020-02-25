@@ -83,13 +83,32 @@ exports.connectActionToReaction =  async (action_id, action_result) => {
         const AreaArray= await AreaModel.findByActionId(action_id);
         console.info(AreaArray);
         AreaArray.forEach(element => {
-            SendToReactionById(element, action_id, action_result);
+            if (checkIfuserIsConcerned(element, action_result, action_id))
+                SendToReactionById(element, action_id, action_result);
         });
 
     }
     catch (error) {
 
     }
+}
+
+function checkIfuserIsConcerned(area, action_result, action_id) {
+    const actionArray = [
+        githubPush,
+        githubNewPullRequest,
+        twitterTweet,
+        spotifyNewMusic,
+        outlookMailReceived,
+        outlookEventCreated,
+        discordMessageReceived,
+        discordNewMember,
+        trelloCardAdded,
+        trelloDeadline,
+        onedriveFileDeleted,
+        onedriveFileAdded
+    ]
+    return actionArray[action_id](area, action_result)
 }
 
 /**

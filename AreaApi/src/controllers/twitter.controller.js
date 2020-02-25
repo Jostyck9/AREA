@@ -102,3 +102,9 @@ exports.init_twitter = async function(app) {
 		console.log (userId + ' ' + event + ' ' + data.text)
 	});
 }
+
+exports.twitterTweet = async function(area, action_result) {
+    if (action_result.user == area.parameters_action.user)
+        return true
+    return false
+}
