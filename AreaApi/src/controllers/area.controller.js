@@ -96,16 +96,16 @@ async function SendToReactionById(area, action_id, action_result) {
     // set off the corresponding reaction
 
     const controllerArray = [
-        TwitterController.UseReaction(client_id, action_result, area),
-        TwitterController.UseReaction(client_id, action_result, area),
-        TwitterController.UseReaction(client_id, action_result, area),
-        TwitterController.UseReaction(client_id, action_result, area),
-        DiscordController.UseReaction(client_id, action_result, area),
-        DiscordController.UseReaction(client_id, action_result, area)
+        TwitterController.UseReaction,
+        TwitterController.UseReaction,
+        TwitterController.UseReaction,
+        TwitterController.UseReaction,
+        DiscordController.UseReaction,
+        DiscordController.UseReaction
     ]
     const reactionmodel = await ReactionModel.findById(area.reaction_id);
     console.info("the service id of the reaction is : " + reactionmodel.service_id);
-    controllerArray[reactionmodel.service_id](client_id, action_result, area);
+    controllerArray[reactionmodel.service_id](action_result, area);
 }
 
 /**
