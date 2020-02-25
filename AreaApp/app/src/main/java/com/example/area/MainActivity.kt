@@ -18,7 +18,9 @@ class MainActivity : AppCompatActivity() {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(applicationContext)
         val editor = pref.edit()
-        editor.putString("token", "")
+        if (!pref.contains("api")) {
+            editor.putString("api", "api")
+        }
         editor.apply()
 
         //Redirection
@@ -51,9 +53,7 @@ class MainActivity : AppCompatActivity() {
 
         api.setText(PreferenceManager.getDefaultSharedPreferences(applicationContext).getString("api", null)!!)
 
-        val token = PreferenceManager.getDefaultSharedPreferences(applicationContext).getString("token", null)
-
-        if (token != "") {
+        if (PreferenceManager.getDefaultSharedPreferences(applicationContext).contains("token")) {
             val intent = Intent(this, HomeActivity::class.java)
             startActivity(intent)
         }

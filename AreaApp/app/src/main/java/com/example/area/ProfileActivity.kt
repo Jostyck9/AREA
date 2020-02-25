@@ -34,12 +34,12 @@ class ProfileActivity : AppCompatActivity() {
             val queue = Volley.newRequestQueue(this)
             val request = object: StringRequest(
                 Method.POST, url,
-                Response.Listener<String> { response ->
+                Response.Listener<String> {
 
-                    /*val pref = PreferenceManager.getDefaultSharedPreferences(applicationContext)
+                    val pref = PreferenceManager.getDefaultSharedPreferences(applicationContext)
                     val editor = pref.edit()
                     editor.remove("token")
-                    editor.apply()*/
+                    editor.apply()
 
                     val i = Intent(applicationContext, MainActivity::class.java)
                     i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
@@ -56,7 +56,7 @@ class ProfileActivity : AppCompatActivity() {
                 @Throws(AuthFailureError::class)
                 override fun getHeaders(): Map<String, String> {
 
-                    var params: MutableMap<String, String> = super.getHeaders()
+                    val params: MutableMap<String, String>
                     params = HashMap()
                     params["Content-Type"] = "application/json"
                     params["Authorization"] = "Bearer " + PreferenceManager.getDefaultSharedPreferences(applicationContext).getString("token", null)!!
