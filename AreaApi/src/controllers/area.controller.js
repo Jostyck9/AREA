@@ -83,8 +83,9 @@ exports.connectActionToReaction =  async (action_id, action_result) => {
         const AreaArray= await AreaModel.findByActionId(action_id);
         console.info(AreaArray);
         AreaArray.forEach(element => {
-            if (checkIfuserIsConcerned(element, action_result, action_id))
+            if (checkIfuserIsConcerned(element, action_result, action_id)) {
                 SendToReactionById(element, action_id, action_result);
+            }
         });
 
     }
@@ -93,7 +94,36 @@ exports.connectActionToReaction =  async (action_id, action_result) => {
     }
 }
 
+exports.githubPush = async function(area, action_result) {
+    return false;
+}
+exports.githubNewPullRequest = async function(area, action_result) {
+    return false;
+}
+exports.spotifyNewMusic = async function(area, action_result) {
+    return false;
+}
+exports.outlookMailReceived = async function(area, action_result) {
+    return false;
+}
+exports.outlookEventCreated = async function(area, action_result) {
+    return false;
+}
+exports.trelloCardAdded = async function(area, action_result) {
+    return false;
+}
+exports.trelloDeadline = async function(area, action_result) {
+    return false;
+}
+exports.onedriveFileDeleted = async function(area, action_result) {
+    return false;
+}
+exports.onedriveFileAdded = async function(area, action_result) {
+    return false;
+}
+
 function checkIfuserIsConcerned(area, action_result, action_id) {
+
     const actionArray = [
         githubPush,
         githubNewPullRequest,
@@ -108,8 +138,13 @@ function checkIfuserIsConcerned(area, action_result, action_id) {
         onedriveFileDeleted,
         onedriveFileAdded
     ]
-    return actionArray[action_id](area, action_result)
+    console.info("debug");
+    const res = actionArray[action_id](area, action_result);
+    console.info("IT MATCHES --> " + res);
+    return res;
 }
+
+
 
 /**
  * Call a specific serviceController depending on the reaction_id

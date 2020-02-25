@@ -46,7 +46,7 @@ bot.on ('message', msg => {
 bot.on('guildMemberAdd', member => {
     channel = member.guild.channels.find("name","test").send("Welcome!" + member.user.username);
     const action_result = {
-        guildName: member.guild.name,
+        serverName: member.guild.name,
         member: member.user.username
     };
     AreaController.connectActionToReaction(MEMBER_ADD_ID, action_result);
@@ -86,4 +86,29 @@ exports.sendMessage = async function (obj) {
 exports.getBotUrl = async function (req, res) {
     //get bot url to add him to a server
     return BOT_URL;
+}
+
+
+/**
+ * Check if the action_result matches an area's action parameters
+ * @group Discord - DiscordMessageReceived
+ * @return {bool} - true if it does match
+ * @return {bool} - false if it doesn't match
+ */
+exports.discordMessageReceived = async function(area, action_result) {
+    if (action_result.serverName = area.parameters_action.server && action_result.channelName == area.parameters_action.channel)
+        return true
+    return false
+}
+
+/**
+ * Check if the action_result matches an area's action parameters
+ * @group Discord - DiscordNewMember
+ * @return {bool} - true if it does match
+ * @return {bool} - false if it doesn't match
+ */
+exports.discordNewMember = async function(area, action_result) {
+    if (action_result.serverName = area.parameters_action.server)
+        return true
+    return false
 }
