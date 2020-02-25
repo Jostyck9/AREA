@@ -1,54 +1,82 @@
 package com.example.area
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.TextView
 import android.widget.Toast
-import androidx.cardview.widget.CardView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.preference.PreferenceManager
+import com.android.volley.Request
+import com.android.volley.Response
+import com.android.volley.toolbox.JsonObjectRequest
+import com.android.volley.toolbox.Volley
 import com.example.area.presenter.RegisterPresenter
 import com.example.area.view.RegisterView
+import kotlinx.android.synthetic.main.activity_register.*
+import org.json.JSONObject
+
 
 class RegisterActivity : AppCompatActivity(), RegisterView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
-        supportActionBar?.hide()
 
         //Redirection
-        val backButton: ImageView = findViewById(R.id.backRegister)
-        backButton.setOnClickListener {
+        backRegister.setOnClickListener {
             finish()
         }
 
-        //Check Register
-        val emailRegister: EditText = findViewById(R.id.emailRegister)
-        val passwordRegister: EditText = findViewById(R.id.passwordRegister)
-        val confirmPasswordRegister: EditText = findViewById(R.id.confirmPasswordRegister)
-        val registerButton: CardView = findViewById(R.id.registerButton)
-        val loginPresenter = RegisterPresenter(this)
+        val registerPresenter = RegisterPresenter(this)
 
         registerButton.setOnClickListener {
-            loginPresenter.onLogin(emailRegister.text.toString(), passwordRegister.text.toString(), confirmPasswordRegister.text.toString())
+            registerPresenter.onRegister(emailRegister.text.toString(), usernameRegister.text.toString(), passwordRegister.text.toString(), confirmPasswordRegister.text.toString())
         }
     }
 
-    override fun onResult(isEmailSuccess: Boolean, isPasswordSuccess: Boolean, isConfirmPasswordSuccess: Boolean) {
-        val errorText: TextView = findViewById(R.id.errorTextRegister)
+    override fun onResult(isEmailSuccess: Boolean, isUsernameSuccess: Boolean, isPasswordSuccess: Boolean, isConfirmPasswordSuccess: Boolean) {
         if (isEmailSuccess) {
-            if (isPasswordSuccess) {
-                if (isConfirmPasswordSuccess) {
-                    errorText.text = ""
-                    //TODO ajouter la personne a la DB
-                    Toast.makeText(this, "Register Success", Toast.LENGTH_SHORT).show()
+            if (isUsernameSuccess) {
+                if (isPasswordSuccess) {
+                    if (isConfirmPasswordSuccess) {
+                        errorTextRegister.text = ""
+
+                        val url = PreferenceManager.getDefaultSharedPreferences(applicationContext).getString("api", null)!! + "/auth/register/"
+
+                        val jsonObj = JSONObject()
+                        jsonObj.put("name", usernameRegister.text)
+                        jsonObj.put("email", emailRegister.text)
+                        jsonObj.put("password", passwordRegister.text)
+
+                        val queue = Volley.newRequestQueue(this)
+                        val request = JsonObjectRequest(Request.Method.POST, url, jsonObj,
+                            Response.Listener { response ->
+
+                                Log.d("Response", response["token"].toString())
+
+                                val pref = PreferenceManager.getDefaultSharedPreferences(applicationContext)
+                                val editor = pref.edit()
+                                editor.putString("token", response["token"].toString())
+                                editor.apply()
+
+                                val intent = Intent(this, HomeActivity::class.java)
+                                startActivity(intent)
+
+                            },
+                            Response.ErrorListener { error ->
+                                Log.d("Response", error.toString())
+                                Toast.makeText(applicationContext, "Register fail", Toast.LENGTH_SHORT).show()
+                            }
+                        )
+                        queue.add(request)
+
+                    } else
+                    errorTextRegister.text = getString(R.string.errorConfirmPassword)
                 } else
-                    errorText.text = getString(R.string.errorConfirmPassword)
+                    errorTextRegister.text = getString(R.string.errorPasswordRegister)
             } else
-                errorText.text = getString(R.string.errorPasswordRegister)
+                errorTextRegister.text = getString(R.string.errorUsernameRegister)
         } else
-            errorText.text = getString(R.string.errorEmail)
+            errorTextRegister.text = getString(R.string.errorEmail)
     }
 }

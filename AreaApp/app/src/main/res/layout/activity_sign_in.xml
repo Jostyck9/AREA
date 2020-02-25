@@ -21,6 +21,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/enter_in_your_world"
@@ -47,7 +48,7 @@
         android:layout_width="275dp"
         android:layout_height="35dp"
         android:layout_marginBottom="300dp"
-        android:background="#A0FFFFFF"
+        android:background="@color/backgroundText"
         android:drawableStart="@drawable/ic_action_email"
         android:ems="10"
         android:hint="@string/email"
@@ -63,7 +64,7 @@
         android:layout_width="275dp"
         android:layout_height="35dp"
         android:layout_marginTop="50dp"
-        android:background="#A0FFFFFF"
+        android:background="@color/backgroundText"
         android:drawableStart="@drawable/ic_action_password"
         android:ems="10"
         android:hint="@string/password"
@@ -104,10 +105,9 @@
         android:layout_height="wrap_content"
         android:textColor="@color/colorError"
         android:textSize="12sp"
-        app:layout_constraintBottom_toTopOf="@+id/registerRedirection"
+        app:layout_constraintBottom_toTopOf="@+id/emailLogin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signInButton"
-        app:layout_constraintVertical_bias="0.15" />
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

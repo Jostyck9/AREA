@@ -3,6 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.area">
 
+    <!-- Volley -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -13,21 +16,30 @@
         tools:ignore="GoogleAppIndexingWarning">
         <activity
             android:name=".HomeActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
+        </activity>
+
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".MainActivity"
-            android:screenOrientation="portrait"/>
+
         <activity
             android:name=".RegisterActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
+
         <activity
             android:name=".SignInActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ProfileActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

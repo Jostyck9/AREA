@@ -1,6 +1,6 @@
 FROM node:latest
 WORKDIR /app
-EXPOSE 8080
+EXPOSE 8081
 
 COPY ./package.json ./
 RUN yarn install
