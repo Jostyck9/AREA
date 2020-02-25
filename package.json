@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "octonode": "^0.9.5",
+    "twit": "^2.2.11"
+  }
+}
