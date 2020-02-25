@@ -38,13 +38,7 @@ const server = https.createServer({
 	cert: fs.readFileSync('./src/cert.pem')
 }, app);
 
-const token = '1098557912677576704-2fz3FvHUaDs5ccaje09f8YhiWpISEn';
-const secret = 'pdymBZU6dt229qycuNSyAo11cN9adU3yb2Nhkrka8CQnX';
-
 require('./controllers/twitter.controller').init_twitter(app)
-require('./controllers/twitter.controller').add_user_to_twitter_webhook('1098557912677576704', token, secret)
-//require('./controllers/twitter.controller').delete_user_to_twitter_webhook('1098557912677576704', token, secret)
-
 
 server.listen(port, () => {
     console.log(`Server running on port ${port}`)
