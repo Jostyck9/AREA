@@ -1,11 +1,5 @@
 const express = require('express');
-const Services = require('../models/Service.model')
 const ServiceController = require('../controllers/service.controller')
-// const Actions = require('../../models/Action')
-// const Reactions = require('../../models/Reaction')
-
-// const ServiceDetail = require('../../models/ServiceDetail')
-
 const router = express.Router();
 
 /**
@@ -113,15 +107,33 @@ router.get('/services/:nameService/reactions', async (req, res) => {
  */
 router.get('/services/:nameService/reactions/:nameReaction', async (req, res) => {
     //Get a specific action from a speficied service
-    // try {
-    //     var test = await Services.getByName(req.params.nameService)
-    //     resRequest = await Reactions.getByName(req.params.nameReaction)
-    //     restest = {name: resRequest.name, id: resRequest._id, description: resRequest.description, parameters: resRequest.parameters}
-    //     res.status(200).send(restest);
-    // } catch (error) {
-    //     res.status(401).send(error);
-    // }
     await ServiceController.getServiceReaction(req, res)
+})
+
+/**
+ * Get a reaction from a specified service
+ * @route GET /services/reactions/{idAction}
+ * @group Services - Services informations
+ * @param {string} idReaction.path.require - id of the reaction
+ * @returns {Reaction.model} specific reaction of the specified service
+ * @returns {Error}  default - Unexpected error
+ */
+router.get('/services/reactions/:idReaction', async (req, res) => {
+    //Get a specific action from a speficied service
+    await ServiceController.getReaction(req, res)
+})
+
+/**
+ * Get a action from a specified service
+ * @route GET /services/actions/{idAction}
+ * @group Services - Services informations
+ * @param {string} idAction.path.require - id of the reaction
+ * @returns {Reaction.model} specific reaction of the specified service
+ * @returns {Error}  default - Unexpected error
+ */
+router.get('/services/actions/:idAction', async (req, res) => {
+    //Get a specific action from a speficied service
+    await ServiceController.getAction(req, res)
 })
 
 module.exports = router
