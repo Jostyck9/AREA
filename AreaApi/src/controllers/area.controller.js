@@ -92,8 +92,15 @@ exports.connectActionToReaction =  async (action_id, action_result) => {
     }
 }
 
+/**
+ * Call a specific serviceController depending on the reaction_id
+ *
+ * @param {AreaModel} area - AreaModel that contains datas about the current Area
+ * @param {Int} action_id - id of the action that was detected
+ * @param {JSON} action_result - json that contains results of the action (username, message content, ....)
+ */
 async function SendToReactionById(area, action_id, action_result) {
-    // set off the corresponding reaction
+    // Call a specific serviceController depending on the reaction_id
 
     const controllerArray = [
         TwitterController.UseReaction,

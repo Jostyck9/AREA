@@ -107,7 +107,7 @@ INSERT INTO `reactions` VALUES (0, 1, "tweet", "post a new tweet", '{"message": 
 INSERT INTO `reactions` VALUES (1, 2, "add_music", "add a new music to an existing playlist", NULL);
 INSERT INTO `reactions` VALUES (2, 3, "create_event", "create a new event in calendar", NULL);
 INSERT INTO `reactions` VALUES (3, 3, "send_email", "send an email", NULL);
-INSERT INTO `reactions` VALUES (4, 4, "send_message", "send a message to a specific channel", NULL);
+INSERT INTO `reactions` VALUES (4, 4, "send_message", "send a message to a specific channel", '{"server": "string", "channel": "string", "content": "string"}', NULL);
 INSERT INTO `reactions` VALUES (5, 5, "add_card", "add a new card to an existing board", NULL);
 
 /*!40000 ALTER TABLE `reactions` DISABLE KEYS */;
