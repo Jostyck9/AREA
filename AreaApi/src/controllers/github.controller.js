@@ -9,8 +9,8 @@ exports.github = (req, res) => {
     res.send({ token_github: req.query.code, token: req.session.token })
     // res.send({ token: req.session.token })
     res.end()
-} 
-var github = require('octonode');
+}
+//var github = require('octonode');
 
 /*
 client.get('/user', {}, function (err, status, body, headers) {
@@ -18,9 +18,9 @@ client.get('/user', {}, function (err, status, body, headers) {
 }); */
 
 //async function getPullRequests (params) {
-    const client = github.client(params.githubAccessToken);
+ /*   const client = github.client(params.githubAccessToken);
     const repo = client.repo("Area");
 
     const result = await repo.prsAsync({ per_page: 100 });
-    return result[0];
+    return result[0];*/
   //}

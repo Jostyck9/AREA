@@ -3,6 +3,21 @@ const twitterWebhooks = require('twitter-webhooks')
 const CONSUMER_KEY = process.env.TWITTER_API_KEY;
 const CONSUMER_SECRET = process.env.TWITTER_API_SECRET;
 
+exports.twitter = (req, res) => {
+    // const io = req.app.get('io')
+    console.log(req.query.oauth_token)
+    console.log(req.user)
+    // const user = {
+    //     name: req.user.username,
+    //     photo: req.user.photos[0].value.replace(/_normal/, '')
+    // }
+
+    // io.in(req.session.socketId).emit('user', req.user)
+    // res.send({ token_twitter: req.query.oauth_token
+    res.send({ token_twitter: req.query.oauth_token, token: req.session.token })
+    req.session.destroy();
+}
+
 exports.add_user_to_twitter_webhook = async function (userId, userToken, secretToken) {
 	const userActivityWebhook = twitterWebhooks.userActivity({
 		// TODO CHANGE URL !!!
@@ -84,7 +99,7 @@ exports.init_twitter = async function(app) {
 		environment: 'TestArea',
 		app
 	});
-	userActivityWebhook.register()
+	//userActivityWebhook.register()
 	userActivityWebhook.on('event', (event, userId, data) => {
 		console.log (userId + ' ' + event + ' ' + data.text)
 	});
