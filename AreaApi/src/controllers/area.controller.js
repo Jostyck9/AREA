@@ -94,51 +94,23 @@ exports.connectActionToReaction =  async (action_id, action_result) => {
     }
 }
 
-exports.githubPush = async function(area, action_result) {
-    return false;
-}
-exports.githubNewPullRequest = async function(area, action_result) {
-    return false;
-}
-exports.spotifyNewMusic = async function(area, action_result) {
-    return false;
-}
-exports.outlookMailReceived = async function(area, action_result) {
-    return false;
-}
-exports.outlookEventCreated = async function(area, action_result) {
-    return false;
-}
-exports.trelloCardAdded = async function(area, action_result) {
-    return false;
-}
-exports.trelloDeadline = async function(area, action_result) {
-    return false;
-}
-exports.onedriveFileDeleted = async function(area, action_result) {
-    return false;
-}
-exports.onedriveFileAdded = async function(area, action_result) {
-    return false;
-}
-
 function checkIfuserIsConcerned(area, action_result, action_id) {
 
     const actionArray = [
-        githubPush,
-        githubNewPullRequest,
-        twitterTweet,
-        spotifyNewMusic,
-        outlookMailReceived,
-        outlookEventCreated,
-        discordMessageReceived,
-        discordNewMember,
-        trelloCardAdded,
-        trelloDeadline,
-        onedriveFileDeleted,
-        onedriveFileAdded
+        DiscordController.githubPush,
+        DiscordController.githubNewPullRequest,
+        TwitterController.twitterTweet,
+        DiscordController.spotifyNewMusic,
+        DiscordController.outlookMailReceived,
+        DiscordController.outlookEventCreated,
+        DiscordController.discordMessageReceived,
+        DiscordController.discordNewMember,
+        DiscordController.trelloCardAdded,
+        DiscordController.trelloDeadline,
+        DiscordController.onedriveFileDeleted,
+        DiscordController.onedriveFileAdded
     ]
-    console.info("debug");
+    console.info("debug after array declaration");
     const res = actionArray[action_id](area, action_result);
     console.info("IT MATCHES --> " + res);
     return res;
