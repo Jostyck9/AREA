@@ -5,6 +5,7 @@ const auth = require('../middleware/auth')
 const Passport = require('passport')
 
 const TwitterController = require('../controllers/twitter.controller')
+const SpotifyController = require('../controllers/spotify.controller')
 const GithubController = require('../controllers/github.controller')
 const TrelloController = require('../controllers/trello.controller')
 const auth2Middleware = require('../middleware/auth.service')
@@ -15,6 +16,7 @@ const router = express.Router()
 const twitterAuth = Passport.authenticate('twitter')
 const githubAuth = Passport.authenticate('github')
 const trelloAuth = Passport.authenticate('trello')
+const spotifyAuth = Passport.authenticate('spotify')
 
 /**
  * @typedef RegisterData
@@ -80,13 +82,11 @@ router.get('/auth/trello/callback', TrelloController.trello)
 
 /**
  * Log the user to spotify
- * @route POST /auth/login/spotify
+ * @route GET /auth/spotify
  * @group User - User Login
- * @security JWT
  */
-router.post('/auth/login/spotify', async (req, res) => {
-    // await AuthController.login(req, res)
-})
+router.get('/auth/spotify', auth2Middleware, spotifyAuth, SpotifyController.spotify)
+router.get('/auth/spotify/callback', spotifyAuth, SpotifyController.spotify)
 
 /**
  * Log the user to discord

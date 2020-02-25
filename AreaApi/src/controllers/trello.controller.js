@@ -9,4 +9,4 @@ exports.trello = (req, res) => {
     // res.send({ token_github: req.query.code, token: req.session.token })
     res.send({ token: req.session.token })
     res.end()
-} 
+}

@@ -11,6 +11,12 @@ exports.GITHUB_CONFIG = {
     callbackURL: process.env.SERVER_URL + '/auth/github/callback',
 }
 
+exports.SPOTIFY_CONFIG = {
+    clientID: process.env.SPOTIFY_KEY,
+    clientSecret: process.env.SPOTIFY_SECRET,
+    callbackURL: process.env.SERVER_URL + '/auth/spotify/callback',
+}
+
 exports.TRELLO_CONFIG = {
     consumerKey: process.env.TRELLO_KEY,
     consumerSecret: process.env.TRELLO_SECRET,
