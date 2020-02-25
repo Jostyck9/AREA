@@ -3,10 +3,10 @@ const twitterWebhooks = require('twitter-webhooks')
 const CONSUMER_KEY = process.env.TWITTER_API_KEY;
 const CONSUMER_SECRET = process.env.TWITTER_API_SECRET;
 
-var add_user_to_twitter_webhook = async function (userId, userToken, secretToken) {
+exports.add_user_to_twitter_webhook = async function (userId, userToken, secretToken) {
 	const userActivityWebhook = twitterWebhooks.userActivity({
 		// TODO CHANGE URL !!!
-		serverUrl: 'https://42870df0.ngrok.io',
+		serverUrl: 'https://fda9bede.ngrok.io',
 		route: '/',
 		consumerKey: CONSUMER_KEY,
 		consumerSecret: CONSUMER_SECRET,
@@ -33,10 +33,10 @@ var add_user_to_twitter_webhook = async function (userId, userToken, secretToken
 	});
 }
 
-var delete_user_to_twitter_webhook = async function (userId, userToken, secretToken) {
+exports.delete_user_to_twitter_webhook = async function (userId, userToken, secretToken) {
 
 	const userActivityWebhook = twitterWebhooks.userActivity({
-		serverUrl: 'https://42870df0.ngrok.io',
+		serverUrl: 'https://fda9bede.ngrok.io',
 		route: '/',
 		consumerKey: CONSUMER_KEY,
 		consumerSecret: CONSUMER_SECRET,
@@ -50,7 +50,7 @@ var delete_user_to_twitter_webhook = async function (userId, userToken, secretTo
 	})
 }
 
-var post_tweet = async function (userToken, secretToken, message) {
+exports.post_tweet = async function (userToken, secretToken, message) {
 	var twitter = require('twit')
 
 	// TODO change api token
@@ -65,12 +65,27 @@ var post_tweet = async function (userToken, secretToken, message) {
 	T.post('statuses/update', { status: message }, function(err, data, res) {})
 }
 
-exports.add_user_to_twitter_webhook = add_user_to_twitter_webhook;
-exports.delete_user_to_twitter_webhook = delete_user_to_twitter_webhook;
-exports.post_tweet = post_tweet;
-
 exports.UseReaction = async(action_result, area) => {
 	console.info("Twitter useReaction is on");
 	console.info(action_result)
-	//post_tweet('1098557912677576704-2fz3FvHUaDs5ccaje09f8YhiWpISEn', 'pdymBZU6dt229qycuNSyAo11cN9adU3yb2Nhkrka8CQnX', action_result.content)
+
+	console.info(area.parameters_reaction.message)
+	//post_tweet('1098557912677576704-2fz3FvHUaDs5ccaje09f8YhiWpISEn', 'pdymBZU6dt229qycuNSyAo11cN9adU3yb2Nhkrka8CQnX', area.parameters_reaction.message)
+}
+
+exports.init_twitter = async function(app) {
+	const userActivityWebhook = twitterWebhooks.userActivity({
+		serverUrl: 'https://fda9bede.ngrok.io',
+		route: '/',
+		consumerKey: 'GKRASjadiIHwSBs9KkO7KXhIM',
+		consumerSecret: '8dlwneANyz6WJTUR8NOBcYkYVSL9jEVviPfWbHoKcmC8ERnYQ9',
+		accessToken: '1098557912677576704-2fz3FvHUaDs5ccaje09f8YhiWpISEn',
+		accessTokenSecret: 'pdymBZU6dt229qycuNSyAo11cN9adU3yb2Nhkrka8CQnX',
+		environment: 'TestArea',
+		app
+	});
+
+	userActivityWebhook.on('event', (event, userId, data) => {
+		console.log (userId + ' ' + event + ' ' + data.text)
+	});
 }

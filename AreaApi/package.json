@@ -30,6 +30,8 @@
     "env-cmd": "^10.0.1",
     "express": "^4.17.1",
     "express-swagger-generator": "^1.1.17",
+    "fs": "^0.0.1-security",
+    "https": "^1.0.0",
     "jest": "^25.1.0",
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^3.5.2",
