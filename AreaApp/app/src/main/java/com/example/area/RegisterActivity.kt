@@ -18,6 +18,8 @@ import org.json.JSONObject
 
 class RegisterActivity : AppCompatActivity(), RegisterView {
 
+    lateinit var registerPresenter: RegisterPresenter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
@@ -27,8 +29,7 @@ class RegisterActivity : AppCompatActivity(), RegisterView {
             finish()
         }
 
-        val registerPresenter = RegisterPresenter(this)
-
+        registerPresenter = RegisterPresenter(this, applicationContext)
         registerButton.setOnClickListener {
             registerPresenter.onRegister(emailRegister.text.toString(), usernameRegister.text.toString(), passwordRegister.text.toString(), confirmPasswordRegister.text.toString())
         }
@@ -39,34 +40,9 @@ class RegisterActivity : AppCompatActivity(), RegisterView {
             if (isUsernameSuccess) {
                 if (isPasswordSuccess) {
                     if (isConfirmPasswordSuccess) {
+
                         errorTextRegister.text = ""
-
-                        val url = PreferenceManager.getDefaultSharedPreferences(applicationContext).getString("api", null)!! + "/auth/register/"
-
-                        val jsonObj = JSONObject()
-                        jsonObj.put("name", usernameRegister.text)
-                        jsonObj.put("email", emailRegister.text)
-                        jsonObj.put("password", passwordRegister.text)
-
-                        val queue = Volley.newRequestQueue(this)
-                        val request = JsonObjectRequest(Request.Method.POST, url, jsonObj,
-                            Response.Listener { response ->
-
-                                val pref = PreferenceManager.getDefaultSharedPreferences(applicationContext)
-                                val editor = pref.edit()
-                                editor.putString("token", response["token"].toString())
-                                editor.apply()
-
-                                val intent = Intent(this, HomeActivity::class.java)
-                                startActivity(intent)
-
-                            },
-                            Response.ErrorListener { error ->
-                                Log.d("Response", error.toString())
-                                Toast.makeText(applicationContext, "Register fail", Toast.LENGTH_SHORT).show()
-                            }
-                        )
-                        queue.add(request)
+                        registerPresenter.register(usernameRegister, emailRegister, passwordRegister)
 
                     } else
                     errorTextRegister.text = getString(R.string.errorConfirmPassword)
@@ -76,5 +52,9 @@ class RegisterActivity : AppCompatActivity(), RegisterView {
                 errorTextRegister.text = getString(R.string.errorUsernameRegister)
         } else
             errorTextRegister.text = getString(R.string.errorEmail)
+    }
+
+    override fun displayMessage(message: String) {
+        Toast.makeText(applicationContext, message, Toast.LENGTH_SHORT).show()
     }
 }
