@@ -5,9 +5,6 @@ const Token = require('../models/Tokens.model')
 const auth = async (req, res, next) => {
     try {
         console.log('try to connect')
-        // req.session.socketId = req.query.socketId
-        // req.session.token = req.query.token
-        // next()
         const token = req.query.token
         const data = jwt.verify(token, process.env.JWT_KEY)
 

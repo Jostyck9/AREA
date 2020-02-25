@@ -40,6 +40,7 @@
     "onedrive-api": "^0.3.4",
     "passport": "^0.4.1",
     "passport-github": "^1.1.0",
+    "passport-trello": "^0.1.5",
     "passport-twitter": "^1.0.4",
     "socket.io": "^2.3.0",
     "spotify-web-api-node": "^4.0.0",

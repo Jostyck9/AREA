@@ -14,14 +14,6 @@ const areaRouter = require('../routers/area.router');
 const servicesRouter = require('../routers/services.router');
 const userRouter = require('../routers/me.router')
 
-// const TWITTER_CONFIG = {
-//     consumerKey: 'GKRASjadiIHwSBs9KkO7KXhIM',
-//     consumerSecret: '8dlwneANyz6WJTUR8NOBcYkYVSL9jEVviPfWbHoKcmC8ERnYQ9',
-//     // make sure the callbackUrl matches what was set on Twitter
-//     // when registering the app
-//     callbackURL: 'http://areax2.com.ngrok.io/auth/twitter/callback'
-// }
-
 const app = express()
 const server = http.createServer(app)
 
@@ -50,53 +42,6 @@ app.use(aboutRouter);
 app.use(servicesRouter);
 app.use(areaRouter);
 app.use(userRouter);
-
-// allows us to save the user into the session
-// passport.serializeUser((user, cb) => cb(null, user))
-// passport.deserializeUser((obj, cb) => cb(null, obj))
-
-// Basic setup with passport and Twitter
-// passport.use(new TwitterStrategy(
-//     TWITTER_CONFIG,
-//     (accessToken, refreshToken, profile, cb) => {
-
-//         // save the user right here to a database if you want
-//         const user = {
-//             name: profile.username,
-//             photo: profile.photos[0].value.replace(/_normal/, '')
-//         }
-//         console.log(user.name)
-//         cb(null, user)
-//     })
-// )
-
-// Middleware that triggers the PassportJS authentication process
-// const twitterAuth = passport.authenticate('twitter')
-
-// This custom middleware picks off the socket id (that was put on req.query)
-// and stores it in the session so we can send back the right info to the 
-// right socket
-// const addSocketIdToSession = (req, res, next) => {
-//     console.log('try to connect')
-//     // req.session.socketId = req.query.socketId
-//     req.session.token = req.query.token
-//     next()
-// }
-
-// This is endpoint triggered by the popup on the client which starts the whole
-// authentication process
-// app.get('/auth/twitter', addSocketIdToSession, twitterAuth)
-
-// This is the endpoint that Twitter sends the user information to. 
-// The twitterAuth middleware attaches the user to req.user and then
-// the user info is sent to the client via the socket id that is in the 
-// session. 
-// app.get('/auth/twitter/callback', twitterAuth, (req, res) => {
-//     console.log(req.query.oauth_token)
-//     // io.in(req.session.socketId).emit('user', req.user)
-//     res.send({token_twitter: req.query.oauth_token, token: req.session.token})
-//     req.session.destroy();
-// })
 
 // simple route
 app.get("/", (req, res) => {
