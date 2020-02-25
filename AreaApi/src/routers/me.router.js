@@ -47,7 +47,6 @@ router.post('/me/password', auth, async (req, res) => {
  * @returns {Error}  default - Unexpected error
  */
 router.post('/me/username', auth, async (req, res) => {
-    console.log(req.body)
     await UserController.updateUsername(req, res)
 })
 

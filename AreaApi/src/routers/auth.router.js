@@ -2,7 +2,16 @@ const express = require('express')
 const AuthController = require('../controllers/auth.controller')
 const auth = require('../middleware/auth')
 
+const Passport = require('passport')
+const TwitterController = require('../controllers/twitter.controller')
+const GithubController = require('../controllers/github.controller')
+const auth2Middleware = require('../middleware/auth.service')
+
 const router = express.Router()
+
+// Setting up the passport middleware for each of the OAuth providers
+const twitterAuth = Passport.authenticate('twitter')
+const githubAuth = Passport.authenticate('github')
 
 /**
  * @typedef RegisterData
@@ -51,13 +60,12 @@ router.post('/auth/login/microsoft', async (req, res) => {
 
 /**
  * Log the user to github
- * @route POST /auth/login/github
+ * @route GET /auth/github
  * @group User - User Login
  * @security JWT
  */
-router.post('/auth/login/github', async (req, res) => {
-    // await AuthController.login(req, res)
-})
+router.get('/auth/github', auth2Middleware, githubAuth, GithubController.github)
+router.get('/auth/github/callback', githubAuth, GithubController.github)
 
 /**
  * Log the user to trello
@@ -89,15 +97,14 @@ router.post('/auth/login/discord', async (req, res) => {
     // await AuthController.login(req, res)
 })
 
+
 /**
  * Log the user to twitter
- * @route POST /auth/login/twitter
+ * @route GET /auth/login/twitter
  * @group User - User Login
- * @security JWT
  */
-router.post('/auth/login/twitter', async (req, res) => {
-    // await AuthController.login(req, res)
-})
+router.get('/auth/twitter', auth2Middleware, twitterAuth, TwitterController.twitter)
+router.get('/auth/twitter/callback', twitterAuth, TwitterController.twitter)
 
 /**
  * Logout the user

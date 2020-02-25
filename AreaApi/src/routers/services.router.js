@@ -1,11 +1,5 @@
 const express = require('express');
-const Services = require('../models/Service.model')
 const ServiceController = require('../controllers/service.controller')
-// const Actions = require('../../models/Action')
-// const Reactions = require('../../models/Reaction')
-
-// const ServiceDetail = require('../../models/ServiceDetail')
-
 const router = express.Router();
 
 /**
