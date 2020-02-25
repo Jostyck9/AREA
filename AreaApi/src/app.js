@@ -1,4 +1,5 @@
 const app = require('./server')
+const bodyParser = require('body-parser')
 const port = process.env.PORT;
 
 // swagger
@@ -28,8 +29,10 @@ let options = {
     files: ['./routers/**/*.js'] //Path to the API handle folder
 };
 expressSwagger(options);
+app.use(bodyParser.json());
 
 require('./controllers/twitter.controller').init_twitter(app)
+
 
 app.listen(port, () => {
     console.log(`Server running on port ${port}`)
