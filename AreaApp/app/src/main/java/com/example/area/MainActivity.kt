@@ -6,27 +6,32 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.widget.Button
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.preference.PreferenceManager
 import com.android.volley.AuthFailureError
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.example.area.presenter.LoginPresenter
+import com.example.area.presenter.MainPresenter
+import com.example.area.view.MainView
 import kotlinx.android.synthetic.main.activity_main.*
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), MainView {
+
+    private lateinit var mainPresenter : MainPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val pref = PreferenceManager.getDefaultSharedPreferences(applicationContext)
-        val editor = pref.edit()
-        if (!pref.contains("api")) {
-            editor.putString("api", "api")
-        }
-        editor.apply()
+        //Add api to preferences
+        mainPresenter = MainPresenter(this, applicationContext)
+        mainPresenter.addApi()
 
         //Redirection
         val signInRedirection: Button = findViewById(R.id.signInRedirection)
@@ -35,6 +40,7 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        //Get address
         api.addTextChangedListener(object : TextWatcher {
 
             override fun afterTextChanged(s: Editable) {}
@@ -45,50 +51,24 @@ class MainActivity : AppCompatActivity() {
 
             override fun onTextChanged(s: CharSequence, start: Int,
                                        before: Int, count: Int) {
-                val pref = PreferenceManager.getDefaultSharedPreferences(applicationContext)
-                val editor = pref.edit()
-                editor.putString("api", s.toString())
-                editor.apply()
+                mainPresenter.addApi(s.toString())
             }
         })
     }
 
     public override fun onStart() {
+
         super.onStart()
 
         api.setText(PreferenceManager.getDefaultSharedPreferences(applicationContext).getString("api", null)!!)
+        mainPresenter.checkUser()
 
-        if (PreferenceManager.getDefaultSharedPreferences(applicationContext).contains("token")) {
+    }
 
-            val url = PreferenceManager.getDefaultSharedPreferences(applicationContext).getString("api", null)!! + "/me/"
+    override fun changeView() {
 
-            val queue = Volley.newRequestQueue(this)
-            val request = object: StringRequest(
-                Method.GET, url,
-                Response.Listener<String> {
-
-                    val intent = Intent(this, HomeActivity::class.java)
-                    startActivity(intent)
-
-                },
-                Response.ErrorListener {
-                    Log.d("debug", "your token isn't valid")
-                })
-
-            {
-                @Throws(AuthFailureError::class)
-                override fun getHeaders(): Map<String, String> {
-
-                    val params: MutableMap<String, String>
-                    params = HashMap()
-                    params["Content-Type"] = "application/json"
-                    params["Authorization"] = "Bearer " + PreferenceManager.getDefaultSharedPreferences(applicationContext).getString("token", null)!!
-                    return params
-
-                }
-            }
-            queue.add(request)
-        }
+        val intent = Intent(applicationContext, HomeActivity::class.java)
+        startActivity(intent)
 
     }
 }
