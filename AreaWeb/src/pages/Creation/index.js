@@ -24,7 +24,10 @@ export default class Creation extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
     
-    componentDidMount() {
+    componentWillMount() {
+        var services = []
+        var actions = new Map()
+        var reactions = new Map()
         fetch(
             process.env.REACT_APP_SERVER_URI + '/services', {
             method: 'GET'
@@ -34,13 +37,14 @@ export default class Creation extends React.Component {
                 res.json().then(data => {
                     this.setState({data: data})
                     data.forEach(element => {
-                        this.state.services.push(element.name)
+                        services.push(element.name)
                         element.actions.forEach(element2 => {
-                            this.state.actions.push(element.id, element2.name)
+                            actions.set(element2.name, element.name)
                         });
                         element.reactions.forEach(element2 => {
-                            this.state.reactions.push(element.id, element2.name)
+                            reactions.set(element2.name, element.name)
                         });
+                        this.setState({services: services, actions: actions, reactions: reactions})
                     });
                 })
             }
@@ -92,6 +96,18 @@ export default class Creation extends React.Component {
 
     ChooseActionsReactions()
     {
+        let arrayactions = []
+        for (var [key, value] of this.state.actions) {
+            if (value === this.state.valueServAct) {
+                arrayactions.push(<option value={key}>{key}</option>)
+            }
+        }
+        let arrayreactions = []
+        for (var [key, value] of this.state.reactions) {
+            if (value === this.state.valueServRea) {
+                arrayreactions.push(<option value={key}>{key}</option>)
+            }
+        }
         return (
             <table width="100%" height="100%" border="0">
                 <tr height="100%">
@@ -103,11 +119,8 @@ export default class Creation extends React.Component {
                             <Col>
                                 <Form.Label>Pick your action for {this.state.valueServAct}:</Form.Label>
                                 <Form.Control as="select" value={this.state.valueArea} onChange={this.handleChangeAct}>
-                                    <option value="nothing"></option>
-                                    <option value="Send msg">Send msg</option>
-                                    <option value="play music">Play music</option>
-                                    <option value="bonjour">Bonjour</option>
-                                    <option value="test">Test</option>
+                                    <option selected="selected" value="nothing"></option>
+                                    {arrayactions}
                                 </Form.Control>
                             </Col>
 
@@ -116,10 +129,8 @@ export default class Creation extends React.Component {
                             <Col>
                                 <Form.Label>Pick your reaction for {this.state.valueServRea}:</Form.Label>
                                 <Form.Control as="select" value={this.state.valueArea} onChange={this.handleChangeRea}>
-                                    <option value="nothing"></option>
-                                    <option value="tag truc">Tag truc</option>
-                                    <option value="play music">Play music</option>
-                                    <option value="pull">Pull</option>
+                                    <option selected="selected" value="nothing"></option>
+                                    {arrayreactions}
                                 </Form.Control>
                             </Col>
                         </Form.Row>
@@ -138,6 +149,11 @@ export default class Creation extends React.Component {
 
     ChooseServices()
     {
+        let array = []
+        for (let i = 0; i < this.state.services.length; i++) {
+            // alert(this.state.services[i])
+            array.push(<option value={this.state.services[i]}>{this.state.services[i]}</option>)
+        }
         return (
             <table width="100%" height="100%" border="0">
                 <tr height="100%">
@@ -150,13 +166,7 @@ export default class Creation extends React.Component {
                                 <Form.Label>Pick your action service:</Form.Label>
                                 <Form.Control as="select" value={this.state.valueServ} onChange={this.handleChangeServAct}>
                                     <option value="nothing"></option>
-                                    <option value="twitter">Twitter</option>
-                                    <option value="github">Github</option>
-                                    <option value="discord">Discord</option>
-                                    <option value="onedrive">Onedrive</option>
-                                    <option value="trello">Trello</option>
-                                    <option value="outlook">Outlook</option>
-                                    <option value="spotify">Spotify</option>
+                                    {array}
                                 </Form.Control>
                             </Col>
 
@@ -166,13 +176,7 @@ export default class Creation extends React.Component {
                                 <Form.Label>Pick your reaction service:</Form.Label>
                                 <Form.Control as="select"  value={this.state.valueServ} onChange={this.handleChangeServRea}>
                                     <option value="nothing"></option>
-                                    <option value="twitter">Twitter</option>
-                                    <option value="github">Github</option>
-                                    <option value="discord">Discord</option>
-                                    <option value="onedrive">Onedrive</option>
-                                    <option value="trello">Trello</option>
-                                    <option value="outlook">Outlook</option>
-                                    <option value="spotify">Spotify</option>
+                                    {array}
                                 </Form.Control>
                             </Col>
                         </Form.Row>
