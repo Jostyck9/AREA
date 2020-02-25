@@ -33,7 +33,7 @@ class UserRegister(private var registerPresenter: RegisterPresenter, private val
         jsonObj.put("password", passwordRegister.text)
 
         val queue = Volley.newRequestQueue(context)
-        val request = JsonObjectRequest(Request.Method.POST, url, jsonObj,
+        val registerRequest = JsonObjectRequest(Request.Method.POST, url, jsonObj,
             Response.Listener { response ->
                 registerPresenter.onRegisterSuccess(response)
             },
@@ -41,6 +41,6 @@ class UserRegister(private var registerPresenter: RegisterPresenter, private val
                 registerPresenter.onRegisterFail(error)
             }
         )
-        queue.add(request)
+        queue.add(registerRequest)
     }
 }

@@ -20,7 +20,7 @@ class MainModel(private var mainPresenter: MainPresenter) {
             val url = PreferenceManager.getDefaultSharedPreferences(context).getString("api", null)!! + "/me/"
 
             val queue = Volley.newRequestQueue(context)
-            val request = object: StringRequest(
+            val userRequest = object: StringRequest(
                 Method.GET, url,
                 Response.Listener<String> {
                     mainPresenter.checkSuccess()
@@ -41,7 +41,7 @@ class MainModel(private var mainPresenter: MainPresenter) {
 
                 }
             }
-            queue.add(request)
+            queue.add(userRequest)
         }
     }
 

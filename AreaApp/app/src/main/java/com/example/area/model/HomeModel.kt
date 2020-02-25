@@ -16,7 +16,7 @@ class HomeModel(private var homePresenter: HomePresenter) {
         val url = PreferenceManager.getDefaultSharedPreferences(context).getString("api", null)!! + "/area/"
 
         val queue = Volley.newRequestQueue(context)
-        val request = object: StringRequest(
+        val getAreasRequest = object: StringRequest(
             Method.GET, url,
             Response.Listener<String> { response ->
 
@@ -33,7 +33,7 @@ class HomeModel(private var homePresenter: HomePresenter) {
                             Log.d("debug", jsonObject.getString("id"))
                         }
                     }
-
+                    //TODO manage areas
 
                 } else
                     homePresenter.getSuccess(true)
@@ -56,6 +56,6 @@ class HomeModel(private var homePresenter: HomePresenter) {
             }
         }
 
-        queue.add(request)
+        queue.add(getAreasRequest)
     }
 }
