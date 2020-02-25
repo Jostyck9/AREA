@@ -13,23 +13,25 @@ import com.android.volley.toolbox.Volley
 import com.example.area.presenter.ProfilePresenter
 import com.example.area.view.ProfileView
 import kotlinx.android.synthetic.main.activity_profile.*
+import kotlinx.android.synthetic.main.activity_sign_in.*
 import org.json.JSONObject
 
 class ProfileActivity : AppCompatActivity(), ProfileView {
+
+    lateinit var profilePresenter: ProfilePresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
 
-        val profilePresenter = ProfilePresenter(this, applicationContext)
+        profilePresenter = ProfilePresenter(this, applicationContext)
 
         //Init activity
         profilePresenter.getUserInfos()
 
         //Save changes
         saveButton.setOnClickListener {
-            profilePresenter.changeUsername(usernameProfile)
-            profilePresenter.changePassword(passwordProfile)
+            profilePresenter.checkInfos(passwordProfile.text.toString(), confirmPasswordProfile.text.toString(), usernameProfile.text.toString())
         }
 
         //Back Button
@@ -65,5 +67,20 @@ class ProfileActivity : AppCompatActivity(), ProfileView {
         usernameProfile.text = Editable.Factory.getInstance().newEditable(username)
         emailProfile.text = email
 
+    }
+
+    override fun onResult(isPasswordSuccess: Boolean, isConfirmPasswordSuccess: Boolean, isUsernameSuccess: Boolean) {
+        if (isUsernameSuccess) {
+            if (isPasswordSuccess) {
+                if (isConfirmPasswordSuccess) {
+                    errorTextLogin.text = ""
+                    profilePresenter.changeUsername(usernameProfile)
+                    profilePresenter.changePassword(passwordProfile)
+                } else
+                    errorTextProfile.text = getString(R.string.errorConfirmPassword)
+            } else
+                errorTextProfile.text = getString(R.string.errorPasswordRegister)
+        } else
+            errorTextProfile.text = getString(R.string.errorUsernameRegister)
     }
 }

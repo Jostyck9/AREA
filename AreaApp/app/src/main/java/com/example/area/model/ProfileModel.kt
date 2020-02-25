@@ -1,7 +1,9 @@
 package com.example.area.model
 
 import android.content.Context
+import android.text.TextUtils
 import android.util.Log
+import android.util.Patterns
 import android.widget.EditText
 import androidx.preference.PreferenceManager
 import com.android.volley.AuthFailureError
@@ -18,6 +20,17 @@ class ProfileModel(private var profilePresenter: ProfilePresenter, context: Cont
     val sharedPreference = PreferenceManager.getDefaultSharedPreferences(context)!!
     lateinit var url: String
     private val queue: RequestQueue = Volley.newRequestQueue(context)
+
+    var isValidPassword: Boolean = false
+    var isValidConfirmPassword: Boolean = false
+    var isValidUsername: Boolean = false
+
+    fun checkInfos(password: String, confirmPassword: String, username: String) {
+
+        isValidPassword = password.length > 6
+        isValidConfirmPassword = password == confirmPassword
+        isValidUsername = username.length > 1
+    }
 
     fun getUserInfos() {
 

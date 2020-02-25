@@ -101,11 +101,41 @@
         android:ems="10"
         android:hint="@string/password"
         android:inputType="textPassword"
-        android:text="Password"
+        android:text="@string/password"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/passwordText" />
+
+    <TextView
+        android:id="@+id/confirmPasswordText"
+        android:layout_width="275dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="@string/confirm_password"
+        android:textAlignment="viewStart"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/passwordProfile" />
+
+    <EditText
+        android:id="@+id/confirmPasswordProfile"
+        android:layout_width="275dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/backgroundText"
+        android:drawableStart="@drawable/ic_action_password"
+        android:ems="10"
+        android:hint="@string/password"
+        android:inputType="textPassword"
+        android:text="@string/password"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/confirmPasswordText" />
 
     <TextView
         android:id="@+id/errorTextProfile"
@@ -132,7 +162,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.25" />
+        app:layout_constraintVertical_bias="0.15" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/saveButton"
@@ -143,7 +173,7 @@
         app:layout_constraintBottom_toTopOf="@+id/profileRedirection"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/passwordProfile"
+        app:layout_constraintTop_toBottomOf="@+id/confirmPasswordProfile"
         app:layout_constraintVertical_bias="0.8">
 
         <RelativeLayout
