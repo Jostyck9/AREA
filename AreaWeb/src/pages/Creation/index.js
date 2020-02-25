@@ -6,8 +6,17 @@ import { Button, Form , Col} from 'react-bootstrap'
 export default class Creation extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {valueServAct: 'nothing', valueServRea: 'nothing', valueAct: 'nothing', valueRea: 'nothing', state: 0};
-    
+        this.state = {valueServAct: 'nothing',
+        valueServRea: 'nothing',
+        valueAct: 'nothing',
+        valueRea: 'nothing',
+        state: 0,
+        data: [],
+        services: [],
+        actions: [],
+        reactions: []
+    };
+
         this.handleChangeAct = this.handleChangeAct.bind(this);
         this.handleChangeRea = this.handleChangeRea.bind(this);
         this.handleChangeServAct = this.handleChangeServAct.bind(this);
@@ -15,6 +24,29 @@ export default class Creation extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
     
+    componentDidMount() {
+        fetch(
+            process.env.REACT_APP_SERVER_URI + '/services', {
+            method: 'GET'
+            }
+        ).then(res => {
+            if (res.status === 200) {
+                res.json().then(data => {
+                    this.setState({data: data})
+                    data.forEach(element => {
+                        this.state.services.push(element.name)
+                        element.actions.forEach(element2 => {
+                            this.state.actions.push(element.id, element2.name)
+                        });
+                        element.reactions.forEach(element2 => {
+                            this.state.reactions.push(element.id, element2.name)
+                        });
+                    });
+                })
+            }
+        })
+    }
+
     // Handle for service actions reactions 
 
     handleChangeServAct(event) {
