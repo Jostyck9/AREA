@@ -21,7 +21,7 @@ exports.twitter = (req, res) => {
 exports.add_user_to_twitter_webhook = async function (userId, userToken, secretToken) {
 	const userActivityWebhook = twitterWebhooks.userActivity({
 		// TODO CHANGE URL !!!
-		serverUrl: 'https://area.web.fr.ngrok.io',
+		serverUrl: 'https://d41bacbd.ngrok.io',
 		route: '/',
 		consumerKey: CONSUMER_KEY,
 		consumerSecret: CONSUMER_SECRET,
@@ -51,7 +51,7 @@ exports.add_user_to_twitter_webhook = async function (userId, userToken, secretT
 exports.delete_user_to_twitter_webhook = async function (userId, userToken, secretToken) {
 
 	const userActivityWebhook = twitterWebhooks.userActivity({
-		serverUrl: 'https://area.web.fr.ngrok.io',
+		serverUrl: 'https://d41bacbd.ngrok.io',
 		route: '/',
 		consumerKey: CONSUMER_KEY,
 		consumerSecret: CONSUMER_SECRET,
@@ -68,7 +68,6 @@ exports.delete_user_to_twitter_webhook = async function (userId, userToken, secr
 exports.post_tweet = async function (userToken, secretToken, message) {
 	var twitter = require('twit')
 
-	// TODO change api token
 	var T = new twitter({
 		consumer_key: CONSUMER_KEY,
 	  	consumer_secret: CONSUMER_SECRET,
@@ -90,7 +89,7 @@ exports.UseReaction = async(action_result, area) => {
 
 exports.init_twitter = async function(app) {
 	const userActivityWebhook = twitterWebhooks.userActivity({
-		serverUrl: 'https://area.web.fr.ngrok.io',
+		serverUrl: 'https://d41bacbd.ngrok.io',
 		route: '/',
 		consumerKey: 'GKRASjadiIHwSBs9KkO7KXhIM',
 		consumerSecret: '8dlwneANyz6WJTUR8NOBcYkYVSL9jEVviPfWbHoKcmC8ERnYQ9',
@@ -99,7 +98,6 @@ exports.init_twitter = async function(app) {
 		environment: 'TestArea',
 		app
 	});
-	//userActivityWebhook.register()
 	userActivityWebhook.on('event', (event, userId, data) => {
 		console.log (userId + ' ' + event + ' ' + data.text)
 	});

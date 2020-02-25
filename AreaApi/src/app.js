@@ -1,6 +1,3 @@
-const https = require('https')
-const fs = require('fs')
-const bodyParser = require ('body-parser');
 const app = require('./server')
 const port = process.env.PORT;
 
@@ -17,7 +14,7 @@ let options = {
         produces: [
             "application/json"
         ],
-        schemes: ['https'],
+        schemes: ['http'],
         securityDefinitions: {
             JWT: {
                 type: 'apiKey',
@@ -32,14 +29,8 @@ let options = {
 };
 expressSwagger(options);
 
-app.use(bodyParser.json());
-const server = https.createServer({
-	key: fs.readFileSync('./src/key.pem'),
-	cert: fs.readFileSync('./src/cert.pem')
-}, app);
-
 require('./controllers/twitter.controller').init_twitter(app)
 
-server.listen(port, () => {
+app.listen(port, () => {
     console.log(`Server running on port ${port}`)
 });
