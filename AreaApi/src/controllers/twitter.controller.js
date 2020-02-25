@@ -72,4 +72,5 @@ exports.post_tweet = post_tweet;
 exports.UseReaction = async(action_result, area) => {
 	console.info("Twitter useReaction is on");
 	console.info(action_result)
+	//post_tweet('1098557912677576704-2fz3FvHUaDs5ccaje09f8YhiWpISEn', 'pdymBZU6dt229qycuNSyAo11cN9adU3yb2Nhkrka8CQnX', action_result.content)
 }
