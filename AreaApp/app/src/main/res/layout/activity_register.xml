@@ -4,9 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SignInActivity">
+    tools:context=".RegisterActivity">
 
     <TextView
+        android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/enter_in_your_world"
@@ -33,7 +34,7 @@
         android:layout_width="275dp"
         android:layout_height="35dp"
         android:layout_marginBottom="300dp"
-        android:background="#A0FFFFFF"
+        android:background="@color/backgroundText"
         android:drawableStart="@drawable/ic_action_email"
         android:ems="10"
         android:hint="@string/email"
@@ -45,11 +46,26 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
+        android:id="@+id/usernameRegister"
+        android:layout_width="275dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="50dp"
+        android:background="@color/backgroundText"
+        android:drawableStart="@drawable/ic_logo_profile"
+        android:ems="10"
+        android:hint="@string/username"
+        android:inputType="text"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/emailRegister" />
+
+    <EditText
         android:id="@+id/passwordRegister"
         android:layout_width="275dp"
         android:layout_height="35dp"
         android:layout_marginTop="50dp"
-        android:background="#A0FFFFFF"
+        android:background="@color/backgroundText"
         android:drawableStart="@drawable/ic_action_password"
         android:ems="10"
         android:hint="@string/password"
@@ -57,14 +73,14 @@
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/emailRegister" />
+        app:layout_constraintTop_toBottomOf="@+id/usernameRegister" />
 
     <EditText
         android:id="@+id/confirmPasswordRegister"
         android:layout_width="275dp"
         android:layout_height="35dp"
         android:layout_marginTop="50dp"
-        android:background="#A0FFFFFF"
+        android:background="@color/backgroundText"
         android:drawableStart="@drawable/ic_action_password"
         android:ems="10"
         android:hint="@string/confirm_password"
@@ -105,10 +121,9 @@
         android:layout_height="wrap_content"
         android:textColor="@color/colorError"
         android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/emailRegister"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/registerButton"
-        app:layout_constraintVertical_bias="0.15" />
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

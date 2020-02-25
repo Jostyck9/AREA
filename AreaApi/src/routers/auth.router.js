@@ -1,8 +1,20 @@
 const express = require('express')
-const UserController = require('../controllers/auth.controller')
+const AuthController = require('../controllers/auth.controller')
 const auth = require('../middleware/auth')
 
+const Passport = require('passport')
+
+const TwitterController = require('../controllers/twitter.controller')
+const GithubController = require('../controllers/github.controller')
+const TrelloController = require('../controllers/trello.controller')
+const auth2Middleware = require('../middleware/auth.service')
+
 const router = express.Router()
+
+// Setting up the passport middleware for each of the OAuth providers
+const twitterAuth = Passport.authenticate('twitter')
+const githubAuth = Passport.authenticate('github')
+const trelloAuth = Passport.authenticate('trello')
 
 /**
  * @typedef RegisterData
@@ -19,7 +31,7 @@ const router = express.Router()
  * @returns {Error}  default - Unexpected error
  */
 router.post('/auth/register', async (req, res) => {
-    await UserController.create(req, res)
+    await AuthController.create(req, res)
 })
 
 /**
@@ -37,7 +49,7 @@ router.post('/auth/register', async (req, res) => {
  * @returns {Error}  default - Unexpected error
  */
 router.post('/auth/login', async (req, res) => {
-    await UserController.login(req, res)
+    await AuthController.login(req, res)
 })
 
 /**
@@ -46,28 +58,25 @@ router.post('/auth/login', async (req, res) => {
  * @group User - User Login
  */
 router.post('/auth/login/microsoft', async (req, res) => {
-    // await UserController.login(req, res)
+    // await AuthController.login(req, res)
 })
 
 /**
  * Log the user to github
- * @route POST /auth/login/github
+ * @route GET /auth/github
  * @group User - User Login
  * @security JWT
  */
-router.post('/auth/login/github', async (req, res) => {
-    // await UserController.login(req, res)
-})
+router.get('/auth/github', auth2Middleware, githubAuth, GithubController.github)
+router.get('/auth/github/callback', githubAuth, GithubController.github)
 
 /**
  * Log the user to trello
- * @route POST /auth/login/trello
+ * @route GET /auth/trello
  * @group User - User Login
- * @security JWT
  */
-router.post('/auth/login/trello', async (req, res) => {
-    // await UserController.login(req, res)
-})
+router.get('/auth/trello', auth2Middleware, trelloAuth, TrelloController.trello)
+router.get('/auth/trello/callback', TrelloController.trello)
 
 /**
  * Log the user to spotify
@@ -76,7 +85,7 @@ router.post('/auth/login/trello', async (req, res) => {
  * @security JWT
  */
 router.post('/auth/login/spotify', async (req, res) => {
-    // await UserController.login(req, res)
+    // await AuthController.login(req, res)
 })
 
 /**
@@ -86,18 +95,17 @@ router.post('/auth/login/spotify', async (req, res) => {
  * @security JWT
  */
 router.post('/auth/login/discord', async (req, res) => {
-    // await UserController.login(req, res)
+    // await AuthController.login(req, res)
 })
+
 
 /**
  * Log the user to twitter
- * @route POST /auth/login/twitter
+ * @route GET /auth/login/twitter
  * @group User - User Login
- * @security JWT
  */
-router.post('/auth/login/twitter', async (req, res) => {
-    // await UserController.login(req, res)
-})
+router.get('/auth/twitter', auth2Middleware, twitterAuth, TwitterController.twitter)
+router.get('/auth/twitter/callback', twitterAuth, TwitterController.twitter)
 
 /**
  * Logout the user
@@ -107,7 +115,7 @@ router.post('/auth/login/twitter', async (req, res) => {
  * @returns {Error}  default - Unexpected error
  */
 router.post('/auth/logout', auth, async (req, res) => {
-    UserController.logOut(req, res)
+    AuthController.logOut(req, res)
 })
 
 /**
@@ -118,7 +126,7 @@ router.post('/auth/logout', auth, async (req, res) => {
  * @returns {Error}  default - Unexpected error
  */
 router.post('/auth/logoutAll', auth, async (req, res) => {
-    UserController.logOutAll(req, res)
+    AuthController.logOutAll(req, res)
 })
 
 

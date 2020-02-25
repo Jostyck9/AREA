@@ -18,7 +18,21 @@
     <string name="register">Register</string>
     <string name="confirm_password">Confirm Password</string>
     <string name="errorEmail">"Invalid email"</string>
-    <string name="errorPasswordRegister">"Password must have 6 characters at least"</string>
+    <string name="errorUsernameRegister">"Username must have a character at least"</string>
+    <string name="errorPasswordRegister">"Password must have 7 characters at least"</string>
     <string name="errorPasswordLogin">"Invalid password"</string>
     <string name="errorConfirmPassword">"Passwords are not identical"</string>
+    <string name="start_connecting_your_world">Start connecting your world</string>
+    <string name="add">Add</string>
+    <string name="profile">Profile</string>
+    <string name="sign_out">Sign out</string>
+    <string name="change_password">Change password</string>
+    <string name="edit_photo">Edit photo</string>
+    <string name="save_changes">Save changes</string>
+    <string name="username">Username</string>
+    <string name="discord">Discord</string>
+    <string name="trello">Trello</string>
+    <string name="spotify">Spotify</string>
+    <string name="github">Github</string>
+    <string name="api">api</string>
 </resources>
