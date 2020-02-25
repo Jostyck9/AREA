@@ -36,11 +36,11 @@ export default class Creation extends React.Component {
     }
     
     handleSubmit(event) {
-        if (this.state.state === 0) {
+        if (this.state.state === 0 && this.state.valueServAct !== "nothing" && this.state.valueServRea !== "nothing") {
             alert('Service Action : ' + this.state.valueServAct + ' Service Reaction : ' + this.state.valueServRea);
             this.setState({state: 1})
          }
-        else if (this.state.state === 1)
+        else if (this.state.state === 1 && this.state.valueAct !== "nothing" && this.state.valueRea !== "nothing")
             alert('Action : ' + this.state.valueAct + ' Reaction : ' + this.state.valueRea);
         event.preventDefault();
     }
@@ -71,6 +71,7 @@ export default class Creation extends React.Component {
                             <Col>
                                 <Form.Label>Pick your action for {this.state.valueServAct}:</Form.Label>
                                 <Form.Control as="select" value={this.state.valueArea} onChange={this.handleChangeAct}>
+                                    <option value="nothing"></option>
                                     <option value="Send msg">Send msg</option>
                                     <option value="play music">Play music</option>
                                     <option value="bonjour">Bonjour</option>
@@ -83,6 +84,7 @@ export default class Creation extends React.Component {
                             <Col>
                                 <Form.Label>Pick your reaction for {this.state.valueServRea}:</Form.Label>
                                 <Form.Control as="select" value={this.state.valueArea} onChange={this.handleChangeRea}>
+                                    <option value="nothing"></option>
                                     <option value="tag truc">Tag truc</option>
                                     <option value="play music">Play music</option>
                                     <option value="pull">Pull</option>
