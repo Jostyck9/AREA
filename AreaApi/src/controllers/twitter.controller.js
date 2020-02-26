@@ -35,7 +35,7 @@ exports.add_user_to_twitter_webhook = async function (userId, userToken, secretT
 		accessToken: userToken,
 		accessTokenSecret: secretToken
 	}).catch(err => {
-		console.log(err)
+		console.error(err)
 	});
 }
 
@@ -53,7 +53,9 @@ exports.delete_user_to_twitter_webhook = async function (userId, userToken, secr
 		userId: userId,
 		accessToken: userToken,
 		accessTokenSecret: secretToken
-	})
+	}).catch(err => {
+		console.error(err)
+	});
 }
 
 async function post_tweet(userToken, secretToken, message) {
@@ -65,7 +67,9 @@ async function post_tweet(userToken, secretToken, message) {
 	  	timeout_ms: 60*1000,
 	  	strictSSL: true,
 	})
-	T.post('statuses/update', { status: message }, function(err, data, res) {})
+	T.post('statuses/update', { status: message }, function(err, data, res) {}).catch(err => {
+		console.error(err)
+	})
 }
 //exports.post_tweet = post_tweet
 
