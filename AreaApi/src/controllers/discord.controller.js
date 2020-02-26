@@ -1,6 +1,3 @@
-const AreaModel = require('../models/Area.model')
-const ActionModel = require('../models/Action.model')
-const ReactionModel = require('../models/Reaction.model')
 const AreaController = require('../controllers/area.controller')
 
 require('dotenv').config();
@@ -12,7 +9,6 @@ const MSG_RECEIVED_ID = 6;
 const MEMBER_ADD_ID = 7;
 const TOKEN = process.env.DISCORD_TOKEN;
 const BOT_URL = process.env.DISCORD_BOT_URL;
-const TmpMsgArray = [];
 
 bot.login (TOKEN);
 bot.on ('ready', () => {
@@ -24,16 +20,7 @@ bot.on ('ready', () => {
  * @group Discord - Discord receiveMessage Action
  */
 bot.on ('message', msg => {
-    /*
-    if (typeof TmpMsgArray !== 'undefined' && TmpMsgArray.length >= 0) {
-        console.info("looping to print all msgs");
-        TmpMsgArray.forEach(element => {
-            console.info("uno");
-            bot.guilds.find('name', element.server).channels.find('name', element.channel).send(element.content);
-        })
-        TmpMsgArray.length = 0;
-    } */
-    const action_result = {
+     const action_result = {
         serverName: msg.guild.name,
         channelName: msg.channel.name,
         author: msg.author.username,
@@ -115,8 +102,6 @@ exports.discordNewMember = async function(area, action_result) {
 
 
 // TEMPORARY
-
-
 
 exports.githubPush = async function(area, action_result) {
     return false;
