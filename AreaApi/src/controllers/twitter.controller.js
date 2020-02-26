@@ -22,11 +22,19 @@ exports.twitter = (req, res) => {
     req.session.destroy();
 }
 
-async function add_user_to_twitter_webhook(userId, userToken, secretToken) {
+
+/**
+* subscribe a user for the webhooks twitter
+*
+* @param {string} userId user id from twitter
+* @param {string} userToken access token from tiwtter
+* @param {string} secretToken secret token from tiwtter
+*/
+async function subscribe_to_twitter_webhook(userId, userToken, secretToken) {
 	const userActivityWebhook = twitterWebhooks.userActivity({
 		// TODO CHANGE URL !!!
 		serverUrl: SERVER_URL,
-		route: '/',
+		route: '/twitterwebhooks/callback',
 		consumerKey: CONSUMER_KEY,
 		consumerSecret: CONSUMER_SECRET,
 		environment: TWITTER_ENV,
@@ -40,13 +48,20 @@ async function add_user_to_twitter_webhook(userId, userToken, secretToken) {
 		console.error(err)
 	});
 }
-exports.add_user_to_twitter_webhook = add_user_to_twitter_webhook
+exports.subscribe_to_twitter_webhook = subscribe_to_twitter_webhook
 
-async function delete_user_to_twitter_webhook(userId, userToken, secretToken) {
+/**
+* unsubscribe a user for the webhooks twitter
+*
+* @param {string} userId user id from twitter
+* @param {string} userToken access token from tiwtter
+* @param {string} secretToken secret token from tiwtter
+*/
+async function unsubscribe_to_twitter_webhook(userId, userToken, secretToken) {
 
 	const userActivityWebhook = twitterWebhooks.userActivity({
 		serverUrl: SERVER_URL,
-		route: '/',
+		route: '/twitterwebhooks/callback',
 		consumerKey: CONSUMER_KEY,
 		consumerSecret: CONSUMER_SECRET,
 		environment: TWITTER_ENV,
@@ -60,8 +75,15 @@ async function delete_user_to_twitter_webhook(userId, userToken, secretToken) {
 		console.error(err)
 	});
 }
-exports.delete_user_to_twitter_webhook = delete_user_to_twitter_webhook
+exports.unsubscribe_to_twitter_webhook = unsubscribe_to_twitter_webhook
 
+/**
+* post a tweet directly on Twitter
+*
+* @param {string} userToken access token from tiwtter
+* @param {string} secretToken secret token from tiwtter
+* @param {string} message the message to post
+*/
 async function post_tweet(userToken, secretToken, message) {
 	var T = new twitter({
 		consumer_key: CONSUMER_KEY,
@@ -77,6 +99,12 @@ async function post_tweet(userToken, secretToken, message) {
 }
 exports.post_tweet = post_tweet
 
+/**
+* use the reaction of the service twitter
+*
+* @param {json} action_result the data received from the action
+* @param {json} area the area use in here
+*/
 exports.UseReaction = async(action_result, area) => {
 
 	let ts = Date.now();
@@ -90,10 +118,15 @@ exports.UseReaction = async(action_result, area) => {
 	post_tweet('1098557912677576704-2fz3FvHUaDs5ccaje09f8YhiWpISEn', 'pdymBZU6dt229qycuNSyAo11cN9adU3yb2Nhkrka8CQnX', area.parameters_reaction.message + ' ' + current_time)
 }
 
+/**
+* init the webhooks of Twitter and start to catch event
+*
+* @param {Express} app server express
+*/
 exports.init_twitter = async function(app) {
 	const userActivityWebhook = twitterWebhooks.userActivity({
 		serverUrl: 'https://dc5f5967.ngrok.io',
-		route: '/test/callback',
+		route: '/twitterwebhooks/callback',
 		consumerKey: CONSUMER_KEY,
 		consumerSecret: CONSUMER_SECRET,
 		accessToken: '1098557912677576704-2fz3FvHUaDs5ccaje09f8YhiWpISEn',
@@ -101,12 +134,12 @@ exports.init_twitter = async function(app) {
 		environment: TWITTER_ENV,
 		app
 	});
-	//userActivityWebhook.register()
 	// const webhooks = await userActivityWebhook.getWebhook();
 	// console.info(webhooks)
-
+	// if (webhooks.length == 0)
+	// 	userActivityWebhook.register()
 	// userActivityWebhook.unregister({
-	// 	webhookId: '1232709192668020736'
+	// 	webhookId: '1232769693838118915'
 	// })
 	userActivityWebhook.on('event', (event, userId, data) => {
 		if (event == 'tweet_create') {
@@ -119,11 +152,25 @@ exports.init_twitter = async function(app) {
 	});
 }
 
+/**
+* check the action come from him
+*
+* @param {json} area the area use here
+* @param {json} action_result the data received from the action
+* @returns {boolean} if the action come from him or not
+*/
 exports.twitterTweet = function(area, action_result) {
     if (action_result.user == area.parameters_action.user)
         return true
     return false
 }
+
+
+/**
+* create the action twitter
+*
+* @param {json} area the new area in creation
+*/
 // NOTE the area don't must to be in the database
 // NOTE get access token, secret token and user ID from twitter
 exports.createTwitterTweet = async function(area) {
@@ -140,13 +187,17 @@ exports.createTwitterTweet = async function(area) {
 		});
 		const token = '1098557912677576704-2fz3FvHUaDs5ccaje09f8YhiWpISEn';
 		const secret = 'pdymBZU6dt229qycuNSyAo11cN9adU3yb2Nhkrka8CQnX';
-		add_user_to_twitter_webhook(area.parameters_action.user, token, secret)
+		subscribe_to_twitter_webhook(area.parameters_action.user, token, secret)
 	} catch (error) {
 		console.error(error)
 	}
 }
 
-
+/**
+* destroy the action twitter
+*
+* @param {json} area the new area in destruction
+*/
 // NOTE the area don't must to be in the database
 // NOTE get access token, secret token from twitter
 exports.destructionTwitterTweet = async function(area) {
@@ -162,7 +213,7 @@ exports.destructionTwitterTweet = async function(area) {
 		});
 		const token = '1098557912677576704-2fz3FvHUaDs5ccaje09f8YhiWpISEn';
 		const secret = 'pdymBZU6dt229qycuNSyAo11cN9adU3yb2Nhkrka8CQnX';
-		delete_user_to_twitter_webhook(area.parameters_action.user, token, secret)
+		unsubscribe_to_twitter_webhook(area.parameters_action.user, token, secret)
 	} catch (error) {
 		console.error(error)
 	}
