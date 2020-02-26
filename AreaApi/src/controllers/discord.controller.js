@@ -12,6 +12,7 @@ const MSG_RECEIVED_ID = 6;
 const MEMBER_ADD_ID = 7;
 const TOKEN = process.env.DISCORD_TOKEN;
 const BOT_URL = process.env.DISCORD_BOT_URL;
+const TmpMsgArray = [];
 
 bot.login (TOKEN);
 bot.on ('ready', () => {
@@ -23,6 +24,14 @@ bot.on ('ready', () => {
  * @group Discord - Discord receiveMessage Action
  */
 bot.on ('message', msg => {
+    if (typeof TmpMsgArray !== 'undefined' && TmpMsgArray.length >= 0) {
+        console.info("looping to print all msgs");
+        TmpMsgArray.forEach(element => {
+            console.info("uno");
+            bot.guilds.find('name', element.server).channels.find('name', element.channel).send(element.content);
+        })
+        TmpMsgArray.length = 0;
+    }
     const action_result = {
         serverName: msg.guild.name,
         channelName: msg.channel.name,
@@ -63,6 +72,7 @@ exports.UseReaction = async(action_result, area) => {
  * @returns {Error}  default - Unexpected error
  */
 exports.sendMessage = async function (obj) {
+    TmpMsgArray.push(obj);
     //Send a specified message in Discord
     if (obj.server == "dm")
         console.info("sending <<" + obj.content + " >> to : " + obj.channel);
