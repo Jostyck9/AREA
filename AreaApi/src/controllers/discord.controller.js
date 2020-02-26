@@ -30,7 +30,7 @@ bot.on ('message', msg => {
     else
         console.info("There is a new message in " + msg.guild.name + ". In " +  msg.channel.name + " channel. From user : " + msg.author.username + " and it says " + msg.content);
     const action_result = {
-        guildName: msg.guild.name,
+        serverName: msg.guild.name,
         channelName: msg.channel.name,
         author: msg.author.username,
         content: msg.content
@@ -59,8 +59,7 @@ bot.on('guildMemberAdd', member => {
  */
 exports.UseReaction = async(action_result, area) => {
     //Call required reaction
-    console.info("Discord useReaction is on");
-    this.sendMessage(area.parameters_action);
+    this.sendMessage(area.parameters_reaction);
 }
 
 
@@ -73,9 +72,9 @@ exports.UseReaction = async(action_result, area) => {
 exports.sendMessage = async function (obj) {
     //Send a specified message in Discord
     if (obj.server == "dm")
-        console.info("sending " + obj.content + " - to channel : " + obj.channel + " of server : " + obj.server + " //");
+        console.info("sending <<" + obj.content + " >> to : " + obj.channel);
     else
-        console.info("sending " + obj.content + " - to user : " + obj.channel);
+        console.info("sending << " + obj.content + " >> to : " + obj.channel + " of : " + obj.server + " //");
 }
 
 /**
@@ -95,9 +94,10 @@ exports.getBotUrl = async function (req, res) {
  * @return {bool} - true if it does match
  * @return {bool} - false if it doesn't match
  */
-exports.discordMessageReceived = async function(area, action_result) {
-    if (action_result.serverName = area.parameters_action.server && action_result.channelName == area.parameters_action.channel)
-        return true
+exports.discordMessageReceived = function(area, action_result) {
+    if (action_result.serverName == area.parameters_action.server && action_result.channelName == area.parameters_action.channel) {
+        return true;
+    }
     return false
 }
 
