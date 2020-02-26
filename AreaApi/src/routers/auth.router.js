@@ -10,6 +10,7 @@ const SpotifyController = require('../controllers/spotify.controller')
 const GithubController = require('../controllers/github.controller')
 const TrelloController = require('../controllers/trello.controller')
 const DropboxController = require('../controllers/dropbox.controller')
+const FacebookController = require('../controllers/facebook.controller')
 const auth2Middleware = require('../middleware/auth.service')
 
 const router = express.Router()
@@ -19,6 +20,7 @@ const githubAuth = auth2Middleware.githubAuth
 const trelloAuth = auth2Middleware.trelloAuth
 const spotifyAuth = auth2Middleware.spotifyAuth
 const dropboxAuth = auth2Middleware.dropboxAuth
+const facebookAuth = auth2Middleware.facebookAuth
 const microsoftAuth = Passport.authenticate('azure_ad_oauth2')
 
 /**
@@ -80,6 +82,14 @@ router.get('/auth/github/callback', githubAuth, GithubController.github)
  */
 router.get('/auth/dropbox', auth2Middleware.auth, dropboxAuth, DropboxController.dropbox)
 router.get('/auth/dropbox/callback', dropboxAuth, DropboxController.dropbox)
+
+/**
+ * Log the user to facebook
+ * @route GET /auth/facebook
+ * @group User - User Login
+ */
+router.get('/auth/facebook', auth2Middleware.auth, facebookAuth, FacebookController.facebook)
+router.get('/auth/facebook/callback', facebookAuth, FacebookController.facebook)
 
 /**
  * Log the user to trello

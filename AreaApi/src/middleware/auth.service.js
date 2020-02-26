@@ -42,11 +42,16 @@ const dropboxAuth = function (req, res, next){
     Passport.authenticate('dropbox-oauth2', {state: req.query.token})(req, res, next);
 }
 
+const facebookAuth = function (req, res, next){
+    Passport.authenticate('facebook', {state: req.query.token})(req, res, next);
+}
+
 module.exports = {
     auth,
     githubAuth,
     trelloAuth,
     twitterAuth,
     spotifyAuth,
-    dropboxAuth
+    dropboxAuth,
+    facebookAuth
 }

@@ -5,8 +5,9 @@ const { Strategy: TrelloStrategy } = require('passport-trello')
 const { Strategy: SpotifyStrategy } = require('passport-spotify')
 const { Strategy: MicrosoftStrategy } = require('passport-azure-ad-oauth2')
 const { Strategy: DropboxOAuth2Strategy } = require('passport-dropbox-oauth2')
+const { Strategy: FacebookStrategy } = require('passport-facebook')
 const {
-    TWITTER_CONFIG, GITHUB_CONFIG, TRELLO_CONFIG, SPOTIFY_CONFIG, MICROSOFT_CONFIG, DROPBOX_CONFIG
+    TWITTER_CONFIG, GITHUB_CONFIG, TRELLO_CONFIG, SPOTIFY_CONFIG, MICROSOFT_CONFIG, DROPBOX_CONFIG, FACEBOOK_CONFIG
 } = require('./config')
 
 module.exports = () => {
@@ -29,5 +30,6 @@ module.exports = () => {
     passport.use(new SpotifyStrategy(SPOTIFY_CONFIG, callbackSpotify))
     passport.use(new TrelloStrategy(TRELLO_CONFIG, callbackTrello))
     passport.use(new DropboxOAuth2Strategy(DROPBOX_CONFIG, callback))
+    passport.use(new FacebookStrategy(FACEBOOK_CONFIG, callback))
     passport.use(new MicrosoftStrategy(MICROSOFT_CONFIG, callbackMicrosoft))
 }

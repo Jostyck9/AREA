@@ -41,3 +41,9 @@ exports.DROPBOX_CONFIG = {
     clientSecret: process.env.DROPBOX_SECRET,
     callbackURL: process.env.SERVER_URL + '/auth/dropbox/callback'
 }
+
+exports.FACEBOOK_CONFIG = {
+    clientID: process.env.FACEBOOK_KEY,
+    clientSecret: process.env.FACEBOOK_SECRET,
+    callbackURL: process.env.SERVER_URL + '/auth/facebook/callback'
+}
