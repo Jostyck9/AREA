@@ -23,12 +23,6 @@ bot.on ('ready', () => {
  * @group Discord - Discord receiveMessage Action
  */
 bot.on ('message', msg => {
-    if (msg.channel.type === "dm") {
-        console.info("There is a new private message from user : " + msg.author.username + " and it says " + msg.content);
-        return;
-    }
-    else
-        console.info("There is a new message in " + msg.guild.name + ". In " +  msg.channel.name + " channel. From user : " + msg.author.username + " and it says " + msg.content);
     const action_result = {
         serverName: msg.guild.name,
         channelName: msg.channel.name,
@@ -44,7 +38,6 @@ bot.on ('message', msg => {
  * @group Discord - Discord guildMemberAdd Action
  */
 bot.on('guildMemberAdd', member => {
-    channel = member.guild.channels.find("name","test").send("Welcome!" + member.user.username);
     const action_result = {
         serverName: member.guild.name,
         member: member.user.username

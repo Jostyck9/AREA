@@ -81,7 +81,6 @@ exports.connectActionToReaction =  async (action_id, action_result) => {
     //is called by a service.controller that detected an action and Connect an action to its reaction
     try {
         const AreaArray= await AreaModel.findByActionId(action_id);
-        console.info(AreaArray);
         AreaArray.forEach(element => {
             if (checkIfuserIsConcerned(element, action_result, action_id)) {
                 SendToReactionById(element, action_id, action_result);
