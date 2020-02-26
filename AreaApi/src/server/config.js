@@ -8,7 +8,7 @@ exports.TWITTER_CONFIG = {
 exports.GITHUB_CONFIG = {
     clientID: process.env.GITHUB_KEY,
     clientSecret: process.env.GITHUB_SECRET,
-    callbackURL: process.env.SERVER_URL + '/auth/github/callback',
+    callbackURL: 'http://localhost:8081' + '/auth/github/callback',
 }
 
 exports.SPOTIFY_CONFIG = {
@@ -27,4 +27,17 @@ exports.TRELLO_CONFIG = {
         name: "MyApp",
         expiration: "never"
     }
+}
+
+exports.MICROSOFT_CONFIG = {
+    clientID: process.env.MICROSOFT_KEY,
+    clientSecret: process.env.MICROSOFT_SECRET,
+    callbackURL: 'https://areax2.com.ngrok.io/auth/microsoft/callback',
+}
+
+exports.DROPBOX_CONFIG = {
+    apiVersion: '2',
+    clientID: process.env.DROPBOX_KEY,
+    clientSecret: process.env.DROPBOX_SECRET,
+    callbackURL: process.env.SERVER_URL + '/auth/dropbox/callback'
 }

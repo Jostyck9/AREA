@@ -22,14 +22,14 @@ router.get('/me', auth, async (req, res) => {
  */
 /**
  * Update password
- * @route POST /me/password
+ * @route PATCH /me/password
  * @group User - User Login
  * @security JWT
  * @param {Password.model} register.body.required - The user informations
  * @returns {JSON} 200 - JWT for the api
  * @returns {Error}  default - Unexpected error
  */
-router.post('/me/password', auth, async (req, res) => {
+router.patch('/me/password', auth, async (req, res) => {
     await UserController.updatePassword(req, res)
 })
 
@@ -39,14 +39,14 @@ router.post('/me/password', auth, async (req, res) => {
  */
 /**
  * Update username
- * @route POST /me/username
+ * @route PATCH /me/username
  * @group User - User Login
  * @security JWT
  * @param {UserName.model} register.body.required - The user informations
  * @returns {JSON} 200 - JWT for the api
  * @returns {Error}  default - Unexpected error
  */
-router.post('/me/username', auth, async (req, res) => {
+router.patch('/me/username', auth, async (req, res) => {
     await UserController.updateUsername(req, res)
 })
 

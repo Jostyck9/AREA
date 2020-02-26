@@ -18,10 +18,12 @@ const app = express()
 const server = http.createServer(app)
 
 app.use(cors());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(bodyParser.raw());
 app.use(express.json());
 app.use(passport.initialize())
+app.use(passport.session())
 passportInit()
 
 app.set('trust proxy', true);

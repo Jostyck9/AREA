@@ -1,4 +1,4 @@
-exports.github = (req, res) => {
+exports.dropbox = (req, res) => {
     // const io = req.app.get('io')
     // const user = {
     //     name: req.user.username,
@@ -9,7 +9,7 @@ exports.github = (req, res) => {
     console.log(req.user.accessToken)
     console.log(req.user.refreshToken)
     console.log(req)
-    res.send({ token_github: req.query.code, token: req.session.token })
+    res.send({ token_dropbox: req.user.accessToken, token: req.query.state })
     // res.send({ token: req.session.token })
     res.end()
 } 

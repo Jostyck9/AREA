@@ -4,19 +4,22 @@ const auth = require('../middleware/auth')
 
 const Passport = require('passport')
 
+const MicrosoftController = require('../controllers/microsoft.controller')
 const TwitterController = require('../controllers/twitter.controller')
 const SpotifyController = require('../controllers/spotify.controller')
 const GithubController = require('../controllers/github.controller')
 const TrelloController = require('../controllers/trello.controller')
+const DropboxController = require('../controllers/dropbox.controller')
 const auth2Middleware = require('../middleware/auth.service')
 
 const router = express.Router()
 
-// Setting up the passport middleware for each of the OAuth providers
-const twitterAuth = Passport.authenticate('twitter')
-const githubAuth = Passport.authenticate('github')
-const trelloAuth = Passport.authenticate('trello')
-const spotifyAuth = Passport.authenticate('spotify')
+const twitterAuth = auth2Middleware.twitterAuth
+const githubAuth = auth2Middleware.githubAuth
+const trelloAuth = auth2Middleware.trelloAuth
+const spotifyAuth = auth2Middleware.spotifyAuth
+const dropboxAuth = auth2Middleware.dropboxAuth
+const microsoftAuth = Passport.authenticate('azure_ad_oauth2')
 
 /**
  * @typedef RegisterData
@@ -56,43 +59,48 @@ router.post('/auth/login', async (req, res) => {
 
 /**
  * Log the user to microsoft
- * @route POST /auth/login/microsoft
+ * @route GET /auth/login/microsoft
  * @group User - User Login
  */
-router.post('/auth/login/microsoft', async (req, res) => {
-    // await AuthController.login(req, res)
-})
+router.get('/auth/microsoft', auth2Middleware.auth, microsoftAuth, MicrosoftController.microsoft)
+router.get('/auth/microsoft/callback', microsoftAuth, MicrosoftController.microsoft)
 
 /**
  * Log the user to github
  * @route GET /auth/github
  * @group User - User Login
- * @security JWT
  */
-router.get('/auth/github', auth2Middleware, githubAuth, GithubController.github)
+router.get('/auth/github', auth2Middleware.auth, githubAuth, GithubController.github)
 router.get('/auth/github/callback', githubAuth, GithubController.github)
+
+/**
+ * Log the user to dropbox
+ * @route GET /auth/dropbox
+ * @group User - User Login
+ */
+router.get('/auth/dropbox', auth2Middleware.auth, dropboxAuth, DropboxController.dropbox)
+router.get('/auth/dropbox/callback', dropboxAuth, DropboxController.dropbox)
 
 /**
  * Log the user to trello
  * @route GET /auth/trello
  * @group User - User Login
  */
-router.get('/auth/trello', auth2Middleware, trelloAuth, TrelloController.trello)
-router.get('/auth/trello/callback', TrelloController.trello)
+router.get('/auth/trello', auth2Middleware.auth, trelloAuth, TrelloController.trello)
+router.get('/auth/trello/callback', trelloAuth, TrelloController.trello)
 
 /**
  * Log the user to spotify
  * @route GET /auth/spotify
  * @group User - User Login
  */
-router.get('/auth/spotify', auth2Middleware, spotifyAuth, SpotifyController.spotify)
+router.get('/auth/spotify', auth2Middleware.auth, spotifyAuth, SpotifyController.spotify)
 router.get('/auth/spotify/callback', spotifyAuth, SpotifyController.spotify)
 
 /**
  * Log the user to discord
  * @route POST /auth/login/discord
  * @group User - User Login
- * @security JWT
  */
 router.post('/auth/login/discord', async (req, res) => {
     // await AuthController.login(req, res)
@@ -104,7 +112,7 @@ router.post('/auth/login/discord', async (req, res) => {
  * @route GET /auth/login/twitter
  * @group User - User Login
  */
-router.get('/auth/twitter', auth2Middleware, twitterAuth, TwitterController.twitter)
+router.get('/auth/twitter', auth2Middleware.auth, twitterAuth, TwitterController.twitter)
 router.get('/auth/twitter/callback', twitterAuth, TwitterController.twitter)
 
 /**
