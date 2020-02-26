@@ -24,6 +24,7 @@ bot.on ('ready', () => {
  * @group Discord - Discord receiveMessage Action
  */
 bot.on ('message', msg => {
+    /*
     if (typeof TmpMsgArray !== 'undefined' && TmpMsgArray.length >= 0) {
         console.info("looping to print all msgs");
         TmpMsgArray.forEach(element => {
@@ -31,7 +32,7 @@ bot.on ('message', msg => {
             bot.guilds.find('name', element.server).channels.find('name', element.channel).send(element.content);
         })
         TmpMsgArray.length = 0;
-    }
+    } */
     const action_result = {
         serverName: msg.guild.name,
         channelName: msg.channel.name,
@@ -72,12 +73,8 @@ exports.UseReaction = async(action_result, area) => {
  * @returns {Error}  default - Unexpected error
  */
 exports.sendMessage = async function (obj) {
-    TmpMsgArray.push(obj);
     //Send a specified message in Discord
-    if (obj.server == "dm")
-        console.info("sending <<" + obj.content + " >> to : " + obj.channel);
-    else
-        console.info("sending << " + obj.content + " >> to : " + obj.channel + " of : " + obj.server + " //");
+    bot.guilds.find('name', obj.server).channels.find('name', obj.channel).send(obj.content);
 }
 
 /**
