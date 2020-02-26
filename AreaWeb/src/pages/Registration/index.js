@@ -38,7 +38,7 @@ export default class Registration extends React.Component {
                     'Content-Type': 'application/json'
                 }
             }).then(res => {
-                if (res.status === 200 || res.status === 201) {
+                if (res.status >= 200 && res.status <= 204) {
                     res.json().then(data => {
                         alert(data.token)
                         localStorage.setItem('currentUser', JSON.stringify(data.token))

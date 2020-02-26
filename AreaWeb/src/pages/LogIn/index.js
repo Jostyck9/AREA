@@ -31,7 +31,7 @@ export default class LogIn extends React.Component{
                     'Content-Type': 'application/json'
                 }
             }).then(res => {
-                if (res.status === 200) {
+                if (res.status >= 200 && res.status <= 204) {
                     res.json().then(data => {
                         alert(data.token)
                         // global.token = data.token
