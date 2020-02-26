@@ -1,4 +1,6 @@
 const AreaController = require('../controllers/area.controller')
+const GithubController = require('../controllers/github.controller')
+
 
 require('dotenv').config();
 const Discord = require ('discord.js');
@@ -62,6 +64,7 @@ exports.UseReaction = async(action_result, area) => {
 exports.sendMessage = async function (obj) {
     //Send a specified message in Discord
     bot.guilds.find('name', obj.server).channels.find('name', obj.channel).send(obj.content);
+   // GithubController.CreateRepo();
 }
 
 /**

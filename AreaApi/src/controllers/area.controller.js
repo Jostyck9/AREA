@@ -3,6 +3,7 @@ const ActionModel = require('../models/Action.model')
 const ReactionModel = require('../models/Reaction.model')
 const DiscordController = require('../controllers/discord.controller')
 const TwitterController = require('../controllers/twitter.controller')
+const GithubController = require('../controllers/github.controller')
 
 /**
  * Check if the field parameter inside the res.body is good according the action and the reaction

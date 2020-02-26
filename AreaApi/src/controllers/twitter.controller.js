@@ -20,7 +20,7 @@ exports.twitter = (req, res) => {
     req.session.destroy();
 }
 
-exports.add_user_to_twitter_webhook = async function (userId, userToken, secretToken) {
+async function add_user_to_twitter_webhook(userId, userToken, secretToken) {
 	const userActivityWebhook = twitterWebhooks.userActivity({
 		// TODO CHANGE URL !!!
 		serverUrl: 'https://d41bacbd.ngrok.io',
@@ -38,8 +38,9 @@ exports.add_user_to_twitter_webhook = async function (userId, userToken, secretT
 		console.error(err)
 	});
 }
+exports.add_user_to_twitter_webhook = add_user_to_twitter_webhook
 
-exports.delete_user_to_twitter_webhook = async function (userId, userToken, secretToken) {
+async function delete_user_to_twitter_webhook(userId, userToken, secretToken) {
 
 	const userActivityWebhook = twitterWebhooks.userActivity({
 		serverUrl: 'https://d41bacbd.ngrok.io',
@@ -57,6 +58,7 @@ exports.delete_user_to_twitter_webhook = async function (userId, userToken, secr
 		console.error(err)
 	});
 }
+exports.delete_user_to_twitter_webhook = delete_user_to_twitter_webhook
 
 async function post_tweet(userToken, secretToken, message) {
 	var T = new twitter({
@@ -71,7 +73,7 @@ async function post_tweet(userToken, secretToken, message) {
 		console.error(err)
 	})
 }
-//exports.post_tweet = post_tweet
+exports.post_tweet = post_tweet
 
 exports.UseReaction = async(action_result, area) => {
 
@@ -97,6 +99,14 @@ exports.init_twitter = async function(app) {
 		environment: 'TestArea',
 		app
 	});
+
+	//userActivityWebhook.register()
+	// const webhooks = await userActivityWebhook.getWebhook();
+	// console.info(webhooks)
+
+	// userActivityWebhook.unregister({
+	// 	webhookId: '1232410338651492354'
+	// })
 	userActivityWebhook.on('event', (event, userId, data) => {
 		if (event == 'tweet_create') {
 			const action_result = {
@@ -112,4 +122,47 @@ exports.twitterTweet = function(area, action_result) {
     if (action_result.user == area.parameters_action.user)
         return true
     return false
+}
+// NOTE the area don't must to be in the database
+// NOTE get access token, secret token and user ID from twitter
+exports.createTwitterTweet = async function(area) {
+	if (area.action_id != 2)
+		return
+	// TODO get twitter user ID from database
+	area.parameters_action.user = '1098557912677576704'
+	try {
+		const AreaArray= await AreaModel.findByActionId(2);
+		AreaArray.forEach(element => {
+			if (element.client_id == area.client_id) {
+				return
+			}
+		});
+		const token = '1098557912677576704-2fz3FvHUaDs5ccaje09f8YhiWpISEn';
+		const secret = 'pdymBZU6dt229qycuNSyAo11cN9adU3yb2Nhkrka8CQnX';
+		add_user_to_twitter_webhook(area.parameters_action.user, token, secret)
+	} catch (error) {
+		console.error(error)
+	}
+}
+
+
+// NOTE the area don't must to be in the database
+// NOTE get access token, secret token from twitter
+exports.destructionTwitterTweet = async function(area) {
+	if (area.action_id != 2)
+		return
+	// TODO get twitter user ID from database
+	try {
+		const AreaArray= await AreaModel.findByActionId(2);
+		AreaArray.forEach(element => {
+			if (element.client_id == area.client_id) {
+				return
+			}
+		});
+		const token = '1098557912677576704-2fz3FvHUaDs5ccaje09f8YhiWpISEn';
+		const secret = 'pdymBZU6dt229qycuNSyAo11cN9adU3yb2Nhkrka8CQnX';
+		delete_user_to_twitter_webhook(area.parameters_action.user, token, secret)
+	} catch (error) {
+		console.error(error)
+	}
 }
