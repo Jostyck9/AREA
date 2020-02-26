@@ -1,3 +1,5 @@
+var github = require('octonode');
+
 exports.github = (req, res) => {
     // const io = req.app.get('io')
     // const user = {
@@ -10,13 +12,16 @@ exports.github = (req, res) => {
     // res.send({ token: req.session.token })
     res.end()
 }
-//var github = require('octonode');
+const TOKEN = process.env.GITHUB_TOKEN;
 
-/*
-client.get('/user', {}, function (err, status, body, headers) {
-  console.log(body); //json object
-}); */
+var client = github.client(TOKEN);
 
+exports.CreateRepo = async() => {
+    await client.me().repo({
+        "name": "Hello-World",
+        "description": "This is your first repo",
+    });
+ } //repo
 //async function getPullRequests (params) {
  /*   const client = github.client(params.githubAccessToken);
     const repo = client.repo("Area");

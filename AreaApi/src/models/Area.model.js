@@ -80,7 +80,6 @@ AreaModel.findByActionId = async function (action_id) {
     try {
         const [rows, fields] = await sql.query("SELECT * FROM area WHERE action_id = ?", [action_id])
         if (rows.length < 1) {
-            console.log('No area found')
             return null
         }
         return rows
