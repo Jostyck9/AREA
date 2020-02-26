@@ -51,6 +51,5 @@ app.get("/", (req, res) => {
     res.json({ message: "Welcome to Area api. To see documentation go to /api-docs" });
 });
 
-twitterController.init_twitter(app)
 
 module.exports = app;

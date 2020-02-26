@@ -1,4 +1,5 @@
 const app = require('./server')
+const twitterController = require('./controllers/twitter.controller')
 const port = process.env.PORT;
 
 // swagger
@@ -31,5 +32,6 @@ expressSwagger(options);
 
 
 app.listen(port, () => {
+    twitterController.init_twitter(app)
     console.log(`Server running on port ${port}`)
 });

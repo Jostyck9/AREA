@@ -4,6 +4,8 @@ var twitter = require('twit')
 
 const CONSUMER_KEY = process.env.TWITTER_API_KEY;
 const CONSUMER_SECRET = process.env.TWITTER_API_SECRET;
+const SERVER_URL = process.env.SERVER_URL;
+const TWITTER_ENV = process.env.TWITTER_ENV;
 
 exports.twitter = (req, res) => {
     // const io = req.app.get('io')
@@ -23,11 +25,11 @@ exports.twitter = (req, res) => {
 async function add_user_to_twitter_webhook(userId, userToken, secretToken) {
 	const userActivityWebhook = twitterWebhooks.userActivity({
 		// TODO CHANGE URL !!!
-		serverUrl: 'https://d41bacbd.ngrok.io',
+		serverUrl: SERVER_URL,
 		route: '/',
 		consumerKey: CONSUMER_KEY,
 		consumerSecret: CONSUMER_SECRET,
-		environment: 'TestArea',
+		environment: TWITTER_ENV,
 	});
 
 	userActivityWebhook.subscribe({
@@ -43,11 +45,11 @@ exports.add_user_to_twitter_webhook = add_user_to_twitter_webhook
 async function delete_user_to_twitter_webhook(userId, userToken, secretToken) {
 
 	const userActivityWebhook = twitterWebhooks.userActivity({
-		serverUrl: 'https://d41bacbd.ngrok.io',
+		serverUrl: SERVER_URL,
 		route: '/',
 		consumerKey: CONSUMER_KEY,
 		consumerSecret: CONSUMER_SECRET,
-		environment: 'TestArea',
+		environment: TWITTER_ENV,
 	});
 
 	userActivityWebhook.unsubscribe({
@@ -90,22 +92,21 @@ exports.UseReaction = async(action_result, area) => {
 
 exports.init_twitter = async function(app) {
 	const userActivityWebhook = twitterWebhooks.userActivity({
-		serverUrl: 'https://d41bacbd.ngrok.io',
-		route: '/',
+		serverUrl: 'https://dc5f5967.ngrok.io',
+		route: '/test/callback',
 		consumerKey: CONSUMER_KEY,
 		consumerSecret: CONSUMER_SECRET,
 		accessToken: '1098557912677576704-2fz3FvHUaDs5ccaje09f8YhiWpISEn',
 		accessTokenSecret: 'pdymBZU6dt229qycuNSyAo11cN9adU3yb2Nhkrka8CQnX',
-		environment: 'TestArea',
+		environment: TWITTER_ENV,
 		app
 	});
-
 	//userActivityWebhook.register()
 	// const webhooks = await userActivityWebhook.getWebhook();
 	// console.info(webhooks)
 
 	// userActivityWebhook.unregister({
-	// 	webhookId: '1232410338651492354'
+	// 	webhookId: '1232709192668020736'
 	// })
 	userActivityWebhook.on('event', (event, userId, data) => {
 		if (event == 'tweet_create') {
