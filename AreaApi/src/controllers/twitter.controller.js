@@ -1,5 +1,6 @@
 const twitterWebhooks = require('twitter-webhooks')
 const connector = require('./area.controller')
+var twitter = require('twit')
 
 const CONSUMER_KEY = process.env.TWITTER_API_KEY;
 const CONSUMER_SECRET = process.env.TWITTER_API_SECRET;
@@ -55,9 +56,7 @@ exports.delete_user_to_twitter_webhook = async function (userId, userToken, secr
 	})
 }
 
-exports.post_tweet = async function (userToken, secretToken, message) {
-	var twitter = require('twit')
-
+async function post_tweet(userToken, secretToken, message) {
 	var T = new twitter({
 		consumer_key: CONSUMER_KEY,
 	  	consumer_secret: CONSUMER_SECRET,
@@ -68,21 +67,28 @@ exports.post_tweet = async function (userToken, secretToken, message) {
 	})
 	T.post('statuses/update', { status: message }, function(err, data, res) {})
 }
+//exports.post_tweet = post_tweet
 
 exports.UseReaction = async(action_result, area) => {
-	console.info("Twitter useReaction is on");
-	console.info(action_result)
 
-	console.info(area.parameters_reaction.message)
-	//post_tweet('1098557912677576704-2fz3FvHUaDs5ccaje09f8YhiWpISEn', 'pdymBZU6dt229qycuNSyAo11cN9adU3yb2Nhkrka8CQnX', area.parameters_reaction.message)
+	let ts = Date.now();
+	let date_ob = new Date(ts);
+	let hours = date_ob.getHours();
+	let minutes = date_ob.getMinutes();
+	let seconds = date_ob.getSeconds();
+	const current_time = hours + ':' + minutes + ' ' + seconds 
+	console.info(area.parameters_reaction.message + ' ' + current_time)
+	if (action_result.message == area.parameters_reaction.message)
+		return
+	await post_tweet('1098557912677576704-2fz3FvHUaDs5ccaje09f8YhiWpISEn', 'pdymBZU6dt229qycuNSyAo11cN9adU3yb2Nhkrka8CQnX', area.parameters_reaction.message + ' ' + current_time)
 }
 
 exports.init_twitter = async function(app) {
 	const userActivityWebhook = twitterWebhooks.userActivity({
 		serverUrl: 'https://d41bacbd.ngrok.io',
 		route: '/',
-		consumerKey: 'GKRASjadiIHwSBs9KkO7KXhIM',
-		consumerSecret: '8dlwneANyz6WJTUR8NOBcYkYVSL9jEVviPfWbHoKcmC8ERnYQ9',
+		consumerKey: CONSUMER_KEY,
+		consumerSecret: CONSUMER_SECRET,
 		accessToken: '1098557912677576704-2fz3FvHUaDs5ccaje09f8YhiWpISEn',
 		accessTokenSecret: 'pdymBZU6dt229qycuNSyAo11cN9adU3yb2Nhkrka8CQnX',
 		environment: 'TestArea',
@@ -99,7 +105,7 @@ exports.init_twitter = async function(app) {
 	});
 }
 
-exports.twitterTweet = async function(area, action_result) {
+exports.twitterTweet = function(area, action_result) {
     if (action_result.user == area.parameters_action.user)
         return true
     return false
