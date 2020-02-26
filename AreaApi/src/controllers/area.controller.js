@@ -110,10 +110,7 @@ function checkIfuserIsConcerned(area, action_result, action_id) {
         DiscordController.onedriveFileDeleted,
         DiscordController.onedriveFileAdded
     ]
-    console.info("debug after array declaration");
-    const res = actionArray[action_id](area, action_result);
-    console.info("IT MATCHES --> " + res);
-    return res;
+    return actionArray[action_id](area, action_result);
 }
 
 
@@ -137,7 +134,6 @@ async function SendToReactionById(area, action_id, action_result) {
         DiscordController.UseReaction
     ]
     const reactionmodel = await ReactionModel.findById(area.reaction_id);
-    console.info("the service id of the reaction is : " + reactionmodel.service_id);
     controllerArray[reactionmodel.service_id](action_result, area);
 }
 
