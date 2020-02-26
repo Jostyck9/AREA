@@ -52,7 +52,8 @@ class HomeActivity : AppCompatActivity(), HomeView {
             val intentProfile = Intent(this, ProfileActivity::class.java)
             startActivity(intentProfile)
         } else if (id == R.id.add) {
-            Toast.makeText(applicationContext, "Add", Toast.LENGTH_SHORT).show()
+            val intentArea = Intent(this, AreaActivity::class.java)
+            startActivity(intentArea)
         }
         return true
     }
