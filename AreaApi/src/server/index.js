@@ -23,7 +23,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.raw());
 app.use(express.json());
 app.use(passport.initialize())
-app.use(passport.session())
+// app.use(passport.session())
 passportInit()
 
 app.set('trust proxy', true);
@@ -34,7 +34,7 @@ app.set('io', io)
 app.use(session({
     secret: 'KeyboardKittens',
     name: 'id',
-    cookie : { secure: false },
+    cookie: { secure: true },
     resave: true,
     saveUninitialized: true
 }))

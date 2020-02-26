@@ -5690,13 +5690,6 @@ pascalcase@^0.1.1:
   resolved "https://registry.yarnpkg.com/pascalcase/-/pascalcase-0.1.1.tgz#b363e55e8006ca6fe21784d2db22bd15d7917f14"
   integrity sha1-s2PlXoAGym/iF4TS2yK9FdeRfxQ=
 
-passport-azure-ad-oauth2@^0.0.4:
-  version "0.0.4"
-  resolved "https://registry.yarnpkg.com/passport-azure-ad-oauth2/-/passport-azure-ad-oauth2-0.0.4.tgz#1a09d8869efd4afd095116e228941961b3a5c120"
-  integrity sha1-GgnYhp79Sv0JURbiKJQZYbOlwSA=
-  dependencies:
-    passport-oauth "1.0.x"
-
 passport-dropbox-oauth2@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/passport-dropbox-oauth2/-/passport-dropbox-oauth2-1.1.0.tgz#77c737636e4841944dfb82dfc42c3d8ab782c10e"
@@ -5719,7 +5712,7 @@ passport-github@^1.1.0:
   dependencies:
     passport-oauth2 "1.x.x"
 
-passport-oauth1@1.x.x, passport-oauth1@^1.0.1:
+passport-oauth1@1.x.x:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/passport-oauth1/-/passport-oauth1-1.1.0.tgz#a7de988a211f9cf4687377130ea74df32730c918"
   integrity sha1-p96YiiEfnPRoc3cTDqdN8ycwyRg=
@@ -5739,7 +5732,7 @@ passport-oauth2@1.x.x:
     uid2 "0.0.x"
     utils-merge "1.x.x"
 
-passport-oauth@1.0.0, passport-oauth@1.0.x, passport-oauth@^1.0.0:
+passport-oauth@1.0.0, passport-oauth@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/passport-oauth/-/passport-oauth-1.0.0.tgz#90aff63387540f02089af28cdad39ea7f80d77df"
   integrity sha1-kK/2M4dUDwIImvKM2tOep/gNd98=
@@ -5760,13 +5753,6 @@ passport-strategy@1.x.x:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/passport-strategy/-/passport-strategy-1.0.0.tgz#b5539aa8fc225a3d1ad179476ddf236b440f52e4"
   integrity sha1-tVOaqPwiWj0a0XlHbd8ja0QPUuQ=
-
-passport-trello@^0.1.5:
-  version "0.1.5"
-  resolved "https://registry.yarnpkg.com/passport-trello/-/passport-trello-0.1.5.tgz#cc98ce493a4827a6335490acd2c0d995580fd039"
-  integrity sha1-zJjOSTpIJ6YzVJCs0sDZlVgP0Dk=
-  dependencies:
-    passport-oauth1 "^1.0.1"
 
 passport-twitter@^1.0.4:
   version "1.0.4"

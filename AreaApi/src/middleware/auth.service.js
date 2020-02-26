@@ -16,6 +16,28 @@ const auth = async (req, res, next) => {
         const resUser = await User.findById(resToken.client_id)
         if (!resUser)
             throw new Error()
+            console.log('AUTHORIZED')
+        next()
+    } catch (error) {
+        res.status(401).send({ message: 'Not authorized to access this resource' })
+    }
+}
+
+const auth1 = async (req, res, next) => {
+    try {
+        console.log('try to connect')
+        const token = req.query.token
+        const data = jwt.verify(token, process.env.JWT_KEY)
+
+        const resToken = await Token.findByClientToken(token)
+        if (!resToken)
+            throw new Error()
+
+        const resUser = await User.findById(resToken.client_id)
+        if (!resUser)
+            throw new Error()
+            console.log('AUTHORIZED')
+        req.session.token = req.query.token
         next()
     } catch (error) {
         res.status(401).send({ message: 'Not authorized to access this resource' })
@@ -24,10 +46,6 @@ const auth = async (req, res, next) => {
 
 const githubAuth = function (req, res, next){
     Passport.authenticate('github', {state: req.query.token})(req, res, next);
-}
-
-const trelloAuth = function (req, res, next){
-    Passport.authenticate('trello', {state: req.query.token})(req, res, next);
 }
 
 const twitterAuth = function (req, res, next){
@@ -48,8 +66,8 @@ const facebookAuth = function (req, res, next){
 
 module.exports = {
     auth,
+    auth1,
     githubAuth,
-    trelloAuth,
     twitterAuth,
     spotifyAuth,
     dropboxAuth,

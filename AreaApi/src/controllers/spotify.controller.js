@@ -10,5 +10,4 @@ exports.spotify = (req, res) => {
     // io.in(req.session.socketId).emit('user', req.user)
     // res.send({ token_twitter: req.query.oauth_token
     res.send({token: req.session.token })
-    req.session.destroy();
 }

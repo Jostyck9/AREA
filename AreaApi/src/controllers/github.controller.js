@@ -1,15 +1,5 @@
 exports.github = (req, res) => {
-    // const io = req.app.get('io')
-    // const user = {
-    //     name: req.user.username,
-    //     photo: req.user.photos[0].value
-    // }
-    // io.in(req.session.socketId).emit('github', user)
     console.log(req.user.profile)
-    console.log(req.user.accessToken)
-    console.log(req.user.refreshToken)
-    console.log(req)
-    res.send({ token_github: req.query.code, token: req.session.token })
-    // res.send({ token: req.session.token })
-    res.end()
+    res.send({ token_github: req.user.accessToken || 'not found', refresh: req.user.refreshToken || 'not found', token: req.query.state || 'not found'})
+    res.end();
 } 
