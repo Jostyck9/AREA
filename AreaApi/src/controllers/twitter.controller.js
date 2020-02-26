@@ -35,7 +35,7 @@ exports.add_user_to_twitter_webhook = async function (userId, userToken, secretT
 		accessToken: userToken,
 		accessTokenSecret: secretToken
 	}).catch(err => {
-		console.log(err)
+		console.error(err)
 	});
 }
 
@@ -53,7 +53,9 @@ exports.delete_user_to_twitter_webhook = async function (userId, userToken, secr
 		userId: userId,
 		accessToken: userToken,
 		accessTokenSecret: secretToken
-	})
+	}).catch(err => {
+		console.error(err)
+	});
 }
 
 async function post_tweet(userToken, secretToken, message) {
@@ -65,7 +67,9 @@ async function post_tweet(userToken, secretToken, message) {
 	  	timeout_ms: 60*1000,
 	  	strictSSL: true,
 	})
-	T.post('statuses/update', { status: message }, function(err, data, res) {})
+	T.post('statuses/update', { status: message }, function(err, data, res) {}).catch(err => {
+		console.error(err)
+	})
 }
 //exports.post_tweet = post_tweet
 
@@ -77,10 +81,9 @@ exports.UseReaction = async(action_result, area) => {
 	let minutes = date_ob.getMinutes();
 	let seconds = date_ob.getSeconds();
 	const current_time = hours + ':' + minutes + ' ' + seconds 
-	console.info(area.parameters_reaction.message + ' ' + current_time)
 	if (action_result.message == area.parameters_reaction.message)
 		return
-	await post_tweet('1098557912677576704-2fz3FvHUaDs5ccaje09f8YhiWpISEn', 'pdymBZU6dt229qycuNSyAo11cN9adU3yb2Nhkrka8CQnX', area.parameters_reaction.message + ' ' + current_time)
+	post_tweet('1098557912677576704-2fz3FvHUaDs5ccaje09f8YhiWpISEn', 'pdymBZU6dt229qycuNSyAo11cN9adU3yb2Nhkrka8CQnX', area.parameters_reaction.message + ' ' + current_time)
 }
 
 exports.init_twitter = async function(app) {
