@@ -204,6 +204,7 @@ CREATE TABLE `users` (
   `username` varchar(50) NOT NULL,
   `email` varchar(100) NOT NULL,
   `password` varchar(70) NOT NULL,
+  `is_oauth2` boolean NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   UNIQUE KEY `user email` (`email`)
 ) DEFAULT CHARSET=utf8;

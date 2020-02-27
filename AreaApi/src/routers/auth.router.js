@@ -61,15 +61,15 @@ router.post('/auth/login', async (req, res) => {
  * @param {string} token.query.required - The user's api token
  * @group User - User Login
  */
-router.get('/auth/github', auth2Middleware.auth, githubAuth)
-router.get('/auth/github/callback', auth2Middleware.authCallback, githubAuth, GithubController.github)
+router.get('/auth/github', auth2Middleware.authLogin, githubAuth)
+router.get('/auth/github/callback', auth2Middleware.authLoginCallback, githubAuth, GithubController.github)
 
 /**
  * Log the user to dropbox
  * @route GET /auth/dropbox
  * @group User - User Login
  */
-router.get('/auth/dropbox', auth2Middleware.auth, dropboxAuth, DropboxController.dropbox)
+router.get('/auth/dropbox', auth2Middleware.auth, dropboxAuth)
 router.get('/auth/dropbox/callback', auth2Middleware.authCallback, dropboxAuth, DropboxController.dropbox)
 
 /**
@@ -77,7 +77,7 @@ router.get('/auth/dropbox/callback', auth2Middleware.authCallback, dropboxAuth, 
  * @route GET /auth/facebook
  * @group User - User Login
  */
-router.get('/auth/facebook', auth2Middleware.auth, facebookAuth, FacebookController.facebook)
+router.get('/auth/facebook', auth2Middleware.auth, facebookAuth)
 router.get('/auth/facebook/callback', auth2Middleware.authCallback, facebookAuth, FacebookController.facebook)
 
 /**
@@ -85,8 +85,16 @@ router.get('/auth/facebook/callback', auth2Middleware.authCallback, facebookAuth
  * @route GET /auth/spotify
  * @group User - User Login
  */
-router.get('/auth/spotify', auth2Middleware.auth, spotifyAuth, SpotifyController.spotify)
+router.get('/auth/spotify', auth2Middleware.auth, spotifyAuth)
 router.get('/auth/spotify/callback', auth2Middleware.authCallback, spotifyAuth, SpotifyController.spotify)
+
+/**
+ * Log the user to twitter
+ * @route GET /auth/twitter
+ * @group User - User Login
+ */
+router.get('/auth/twitter', auth2Middleware.auth1, twitterAuth, TwitterController.twitter)
+router.get('/auth/twitter/callback', auth2Middleware.auth1Callback, twitterAuth, TwitterController.twitter)
 
 /**
  * Log the user to discord
@@ -96,15 +104,6 @@ router.get('/auth/spotify/callback', auth2Middleware.authCallback, spotifyAuth, 
 router.post('/auth/login/discord', async (req, res) => {
     // await AuthController.login(req, res)
 })
-
-
-/**
- * Log the user to twitter
- * @route GET /auth/login/twitter
- * @group User - User Login
- */
-router.get('/auth/twitter', auth2Middleware.auth1, twitterAuth, TwitterController.twitter)
-router.get('/auth/twitter/callback', auth2Middleware.auth1Callback, twitterAuth, TwitterController.twitter)
 
 /**
  * Logout the user
