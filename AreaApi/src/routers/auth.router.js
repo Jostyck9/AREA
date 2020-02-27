@@ -61,7 +61,7 @@ router.post('/auth/login', async (req, res) => {
  * @param {string} token.query.required - The user's api token
  * @group Auth - User Login
  */
-router.get('/auth/github', auth2Middleware.authLogin, githubAuth)
+router.get('/auth/github', auth2Middleware.authLogin, auth2Middleware.saveUrlCallback, githubAuth)
 router.get('/auth/github/callback', auth2Middleware.authLoginCallback, githubAuth, GithubController.github)
 
 /**
@@ -69,7 +69,7 @@ router.get('/auth/github/callback', auth2Middleware.authLoginCallback, githubAut
  * @route GET /auth/dropbox
  * @group Auth - User Login
  */
-router.get('/auth/dropbox', auth2Middleware.auth, dropboxAuth)
+router.get('/auth/dropbox', auth2Middleware.auth, auth2Middleware.saveUrlCallback, dropboxAuth)
 router.get('/auth/dropbox/callback', auth2Middleware.authCallback, dropboxAuth, DropboxController.dropbox)
 
 /**
@@ -85,7 +85,7 @@ router.get('/auth/dropbox/callback', auth2Middleware.authCallback, dropboxAuth, 
  * @route GET /auth/spotify
  * @group Auth - User Login
  */
-router.get('/auth/spotify', auth2Middleware.auth, spotifyAuth)
+router.get('/auth/spotify', auth2Middleware.auth, auth2Middleware.saveUrlCallback, spotifyAuth)
 router.get('/auth/spotify/callback', auth2Middleware.authCallback, spotifyAuth, SpotifyController.spotify)
 
 /**
@@ -93,7 +93,7 @@ router.get('/auth/spotify/callback', auth2Middleware.authCallback, spotifyAuth, 
  * @route GET /auth/twitter
  * @group Auth - User Login
  */
-router.get('/auth/twitter', auth2Middleware.auth1, twitterAuth, TwitterController.twitter)
+router.get('/auth/twitter', auth2Middleware.auth, auth2Middleware.saveUrlCallback, auth2Middleware.auth1, twitterAuth, TwitterController.twitter)
 router.get('/auth/twitter/callback', auth2Middleware.auth1Callback, twitterAuth, TwitterController.twitter)
 
 /**
