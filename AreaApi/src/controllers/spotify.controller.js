@@ -1,6 +1,12 @@
 const ServiceAuthController = require('./serviceAuth.controller')
 const ServiceModel = require('../models/Service.model')
 
+/**
+ * spotify connect the token received to the database
+ * 
+ * @param {any} req the request
+ * @param {any} res the res
+ */
 exports.spotify = async (req, res) => {
     try {
         const resService = await ServiceModel.findByName('spotify')

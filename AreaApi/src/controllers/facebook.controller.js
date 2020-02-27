@@ -1,3 +1,10 @@
+
+/**
+ * dropobox connect the token received to the database
+ * 
+ * @param {any} req the request
+ * @param {any} res the res
+ */
 exports.facebook = (req, res) => {
     // console.log(req.user.profile)
     console.log(req.userArea)

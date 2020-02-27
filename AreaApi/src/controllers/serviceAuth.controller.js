@@ -2,6 +2,13 @@ const ServiceAuthModel = require('../models/ServiceTokens.model')
 const User = require('../models/User.model')
 const Token = require('../models/Tokens.model')
 
+/**
+ * Connect the service with his token to the database
+ * 
+ * @param {number} user_id the user's id
+ * @param {JSON} serviceTokens the user's token from the service
+ * @param {any} res the res
+ */
 exports.connect = async (user_id, serviceTokens, serviceId, res) => {
     try {
         const foundService = await ServiceAuthModel.findByServiceAndClientId(serviceId, user_id);
@@ -24,30 +31,5 @@ exports.connect = async (user_id, serviceTokens, serviceId, res) => {
             res.status(403).send({ message: err.message || "An error occured" })
         else
             throw err
-    }
-}
-
-exports.loginGithub = async (req, res) => {
-    try {
-        // Create a Customer
-        const user = new User({
-            email: req.user.profile.id,
-            username: req.user.profile.login,
-            password: 'LoginOAuth2'
-        });
-
-        const resUser = await User.create(user)
-        if (!resUser) {
-            res.status(401).send('not authorized')
-        } else {
-            const resToken = await Token.create(resUser.id)
-            if (resToken)
-                res.status(201).send(resToken)
-            else
-                res.status(500).send({ message: "Some error occurred while creating the User." })
-        }
-
-    } catch (error) {
-        res.status(403).send({ message: error.message || "Some error occurred while creating the User." })
     }
 }

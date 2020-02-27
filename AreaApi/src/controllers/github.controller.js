@@ -2,6 +2,12 @@ const ServiceAuthController = require('./serviceAuth.controller')
 const ApiAuth = require('./auth.controller')
 const ServiceModel = require('../models/Service.model')
 
+/**
+ * github connect the token received to the database but also connect or register a user to the api
+ * 
+ * @param {any} req the request
+ * @param {any} res the res
+ */
 exports.github = async (req, res) => {
     try {
         const resService = await ServiceModel.findByName('github')

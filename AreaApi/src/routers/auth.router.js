@@ -77,8 +77,8 @@ router.get('/auth/dropbox/callback', auth2Middleware.authCallback, dropboxAuth, 
  * @route GET /auth/facebook
  * @group User - User Login
  */
-router.get('/auth/facebook', auth2Middleware.auth, facebookAuth)
-router.get('/auth/facebook/callback', auth2Middleware.authCallback, facebookAuth, FacebookController.facebook)
+// router.get('/auth/facebook', auth2Middleware.auth, facebookAuth)
+// router.get('/auth/facebook/callback', auth2Middleware.authCallback, facebookAuth, FacebookController.facebook)
 
 /**
  * Log the user to spotify
