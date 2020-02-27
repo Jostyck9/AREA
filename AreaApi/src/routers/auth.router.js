@@ -28,7 +28,7 @@ const facebookAuth = auth2Middleware.facebookAuth
 /**
  * Register the user inside the db
  * @route POST /auth/register
- * @group User - User Registration
+ * @group Auth - User Registration
  * @param {RegisterData.model} register.body.required - The user informations
  * @returns {JSON} 200 - JWT for the api
  * @returns {Error}  default - Unexpected error
@@ -46,7 +46,7 @@ router.post('/auth/register', async (req, res) => {
 /**
  * Log the user
  * @route POST /auth/login
- * @group User - User Login
+ * @group Auth - User Login
  * @param {LoginData.model} login.body.required - The user informations
  * @returns {JSON} 200 - JWT for the api
  * @returns {Error}  default - Unexpected error
@@ -59,7 +59,7 @@ router.post('/auth/login', async (req, res) => {
  * Log the user to github
  * @route GET /auth/github
  * @param {string} token.query.required - The user's api token
- * @group User - User Login
+ * @group Auth - User Login
  */
 router.get('/auth/github', auth2Middleware.authLogin, githubAuth)
 router.get('/auth/github/callback', auth2Middleware.authLoginCallback, githubAuth, GithubController.github)
@@ -67,7 +67,7 @@ router.get('/auth/github/callback', auth2Middleware.authLoginCallback, githubAut
 /**
  * Log the user to dropbox
  * @route GET /auth/dropbox
- * @group User - User Login
+ * @group Auth - User Login
  */
 router.get('/auth/dropbox', auth2Middleware.auth, dropboxAuth)
 router.get('/auth/dropbox/callback', auth2Middleware.authCallback, dropboxAuth, DropboxController.dropbox)
@@ -75,7 +75,7 @@ router.get('/auth/dropbox/callback', auth2Middleware.authCallback, dropboxAuth, 
 /**
  * Log the user to facebook
  * @route GET /auth/facebook
- * @group User - User Login
+ * @group Auth - User Login
  */
 // router.get('/auth/facebook', auth2Middleware.auth, facebookAuth)
 // router.get('/auth/facebook/callback', auth2Middleware.authCallback, facebookAuth, FacebookController.facebook)
@@ -83,7 +83,7 @@ router.get('/auth/dropbox/callback', auth2Middleware.authCallback, dropboxAuth, 
 /**
  * Log the user to spotify
  * @route GET /auth/spotify
- * @group User - User Login
+ * @group Auth - User Login
  */
 router.get('/auth/spotify', auth2Middleware.auth, spotifyAuth)
 router.get('/auth/spotify/callback', auth2Middleware.authCallback, spotifyAuth, SpotifyController.spotify)
@@ -91,17 +91,18 @@ router.get('/auth/spotify/callback', auth2Middleware.authCallback, spotifyAuth, 
 /**
  * Log the user to twitter
  * @route GET /auth/twitter
- * @group User - User Login
+ * @group Auth - User Login
  */
 router.get('/auth/twitter', auth2Middleware.auth1, twitterAuth, TwitterController.twitter)
 router.get('/auth/twitter/callback', auth2Middleware.auth1Callback, twitterAuth, TwitterController.twitter)
 
 /**
  * Log the user to discord
- * @route POST /auth/login/discord
- * @group User - User Login
+ * @route GET /auth/discord
+ * @group Auth - User Login
  */
-router.post('/auth/login/discord', async (req, res) => {
+router.get('/auth/discord', async (req, res) => {
+    res.status(200).send({message: 'Hello discord'})
     // await AuthController.login(req, res)
 })
 
@@ -109,7 +110,7 @@ router.post('/auth/login/discord', async (req, res) => {
  * Logout the user
  * @route POST /auth/logout
  * @security JWT
- * @group User - User Login
+ * @group Auth - User Login
  * @returns {Error}  default - Unexpected error
  */
 router.post('/auth/logout', auth, async (req, res) => {
@@ -120,7 +121,7 @@ router.post('/auth/logout', auth, async (req, res) => {
  * Logout from all the device the user
  * @route POST /auth/logoutAll
  * @security JWT
- * @group User - User Login
+ * @group Auth - User Login
  * @returns {Error}  default - Unexpected error
  */
 router.post('/auth/logoutAll', auth, async (req, res) => {
