@@ -35,7 +35,7 @@ async function subscribe_to_twitter_webhook(userId, userToken, secretToken) {
 	const userActivityWebhook = twitterWebhooks.userActivity({
 		// TODO CHANGE URL !!!
 		serverUrl: SERVER_URL,
-		route: '/twitterwebhooks/callback',
+		route: '/twitter/webhooks',
 		consumerKey: CONSUMER_KEY,
 		consumerSecret: CONSUMER_SECRET,
 		environment: TWITTER_ENV,
@@ -62,7 +62,7 @@ async function unsubscribe_to_twitter_webhook(userId, userToken, secretToken) {
 
 	const userActivityWebhook = twitterWebhooks.userActivity({
 		serverUrl: SERVER_URL,
-		route: '/twitterwebhooks/callback',
+		route: '/twitter/webhooks',
 		consumerKey: CONSUMER_KEY,
 		consumerSecret: CONSUMER_SECRET,
 		environment: TWITTER_ENV,
@@ -127,7 +127,7 @@ exports.UseReaction = async(action_result, area) => {
 exports.init_twitter = async function(app) {
 	const userActivityWebhook = twitterWebhooks.userActivity({
 		serverUrl: 'https://dc5f5967.ngrok.io',
-		route: '/twitterwebhooks/callback',
+		route: '/twitter/webhooks',
 		consumerKey: CONSUMER_KEY,
 		consumerSecret: CONSUMER_SECRET,
 		accessToken: '1098557912677576704-2fz3FvHUaDs5ccaje09f8YhiWpISEn',
@@ -136,10 +136,11 @@ exports.init_twitter = async function(app) {
 		app
 	});
 	// const webhooks = await userActivityWebhook.getWebhook();
+	// console.info(webhooks)
 	// if (webhooks.length == 0)
 	// 	userActivityWebhook.register()
 	// userActivityWebhook.unregister({
-	// 	webhookId: '1232769693838118915'
+	// 	webhookId: '1232769805637296131'
 	// })
 	userActivityWebhook.on('event', (event, userId, data) => {
 		if (event == 'tweet_create') {
