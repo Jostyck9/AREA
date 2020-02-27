@@ -1,4 +1,5 @@
-var github = require('octonode');
+var Github = require('github-api');
+
 
 exports.github = (req, res) => {
     // const io = req.app.get('io')
@@ -14,18 +15,48 @@ exports.github = (req, res) => {
 }
 const TOKEN = process.env.GITHUB_TOKEN;
 
-var client = github.client(TOKEN);
 
-exports.CreateRepo = async() => {
-    await client.me().repo({
-        "name": "Hello-World",
-        "description": "This is your first repo",
-    });
- } //repo
-//async function getPullRequests (params) {
- /*   const client = github.client(params.githubAccessToken);
-    const repo = client.repo("Area");
 
-    const result = await repo.prsAsync({ per_page: 100 });
-    return result[0];*/
-  //}
+
+// basic auth
+var gh = new Github({
+    token: TOKEN
+ });
+
+exports.readDatas = async function () {
+const client = gh.getUser('Ebailloux');
+client.listStarredRepos()
+   .then(function({data: reposJson}) {
+     console.log(`client has ${reposJson.length} repos!`);
+   });
+}
+
+/*
+ var me = client.getUser(); // no user specified defaults to the user for whom credentials were provided
+ me.listNotifications(function(err, notifications) {
+    // do some stuff
+ });
+
+ var ebailloux = client.getUser('Ebailloux');
+ ebailloux.listStarredRepos(function(err, repos) {
+    // look at all the starred repos!
+ });
+
+
+ /*  var hook = {
+    "name": "web",
+    "active": true,
+    "events": [
+      "push",
+      "pull_request"
+    ],
+    "config": {
+      "content_type": "json",
+      "insecure_ssl": "0",
+      "url": "https://localhost:8080/payloads"
+     }
+    }
+    fork.createHook(hook)
+    .then(function({data: hook}) {
+      console.log("A webhook has been created which will trigger a build on push and pull request events...");
+    }); */
