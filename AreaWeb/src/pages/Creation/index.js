@@ -44,7 +44,7 @@ export default class Creation extends React.Component {
                     this.setState({data: data})
                     data.forEach(element => {
                         services.push(element.name)
-                        alert("Service name = " + element.name + " id of the service = " +  .id)
+                        alert("Service name = " + element.name + " id of the service = " + element.id)
                         element.actions.forEach(element2 => {
                             actions.set(element2.name, element.name)
                         });
