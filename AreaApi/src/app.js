@@ -29,9 +29,8 @@ let options = {
     files: ['./routers/**/*.js'] //Path to the API handle folder
 };
 expressSwagger(options);
-
+twitterController.init_twitter(app)
 
 app.listen(port, () => {
-    twitterController.init_twitter(app)
     console.log(`Server running on port ${port}`)
 });

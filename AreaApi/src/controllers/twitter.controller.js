@@ -1,6 +1,7 @@
 const twitterWebhooks = require('twitter-webhooks')
 const connector = require('./area.controller')
-var twitter = require('twit')
+const twitter = require('twit')
+const app = require('../app')
 
 const CONSUMER_KEY = process.env.TWITTER_API_KEY;
 const CONSUMER_SECRET = process.env.TWITTER_API_SECRET;
@@ -115,7 +116,7 @@ exports.UseReaction = async(action_result, area) => {
 	const current_time = hours + ':' + minutes + ' ' + seconds 
 	if (action_result.message == area.parameters_reaction.message)
 		return
-	post_tweet('1098557912677576704-2fz3FvHUaDs5ccaje09f8YhiWpISEn', 'pdymBZU6dt229qycuNSyAo11cN9adU3yb2Nhkrka8CQnX', area.parameters_reaction.message + ' ' + current_time)
+	post_tweet('1098557912677576704-2fz3FvHUaDs5ccaje09f8YhiWpISEn', 'pdymBZU6dt229qycuNSyAo11cN9adU3yb2Nhkrka8CQnX', area.parameters_reaction.message)
 }
 
 /**
@@ -135,7 +136,6 @@ exports.init_twitter = async function(app) {
 		app
 	});
 	// const webhooks = await userActivityWebhook.getWebhook();
-	// console.info(webhooks)
 	// if (webhooks.length == 0)
 	// 	userActivityWebhook.register()
 	// userActivityWebhook.unregister({

@@ -15,7 +15,7 @@ const aboutRouter = require('../routers/about.router');
 const areaRouter = require('../routers/area.router');
 const servicesRouter = require('../routers/services.router');
 const userRouter = require('../routers/me.router')
-const twitterController = require('../controllers/twitter.controller')
+const dropboxRouter = require('../controllers/dropbox.controller')
 
 const app = express()
 const server = http.createServer(app)
@@ -45,7 +45,7 @@ app.use(aboutRouter);
 app.use(servicesRouter);
 app.use(areaRouter);
 app.use(userRouter);
-
+app.use(dropboxRouter);
 // simple route
 app.get("/", (req, res) => {
     res.json({ message: "Welcome to Area api. To see documentation go to /api-docs" });
