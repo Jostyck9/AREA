@@ -43,13 +43,13 @@ async function GetServiceDetailByName(ServiceName) {
         return null
     const actions = await GetActions(service.id);
     const reactions = await GetReactions(service.id);
-    return { name: service.name, id: service.id, actions: actions, reactions: reactions }
+    return { name: service.name, id: service.id, actions: actions || [], reactions: reactions || [] }
 }
 
 async function GetServiceDetail(service) {
     const actions = await GetActions(service.id);
     const reactions = await GetReactions(service.id)
-    return { name: service.name, id: service.id, actions: actions, reactions: reactions }
+    return { name: service.name, id: service.id, actions: actions || [], reactions: reactions || [] }
 }
 
 async function GetAllServiceDetail() {

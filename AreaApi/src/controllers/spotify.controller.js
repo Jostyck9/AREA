@@ -1,13 +1,25 @@
-exports.spotify = (req, res) => {
-    // const io = req.app.get('io')
-    console.log(req.query.oauth_token)
-    console.log(req.user)
-    // const user = {
-    //     name: req.user.username,
-    //     photo: req.user.photos[0].value.replace(/_normal/, '')
-    // }
+const ServiceAuthController = require('./serviceAuth.controller')
+const ServiceModel = require('../models/Service.model')
 
-    // io.in(req.session.socketId).emit('user', req.user)
-    // res.send({ token_twitter: req.query.oauth_token
-    res.send({token: req.session.token })
+exports.spotify = async (req, res) => {
+    try {
+        const resService = await ServiceModel.findByName('spotify')
+        if (!resService)
+            throw new Error("Unkown service spotify")
+
+        ServiceAuthController.connect(
+            req.userArea,
+            {
+                access_token: req.user.accessToken || null,
+                refresh_token: req.user.refresh_token || null,
+                secret_token: req.user.tokenSecret || null,
+                expires_in: req.user.expiresIn || null,
+            },
+            resService.id,
+            res
+        )
+        req.session.destroy()
+    } catch (err) {
+        res.status(400).send({ message: err.message || 'An internal error occured' });
+    }
 }

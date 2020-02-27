@@ -1,6 +1,6 @@
 const passport = require('passport')
 const { Strategy: TwitterStrategy } = require('passport-twitter')
-const { Strategy: GithubStrategy } = require('passport-github')
+const { Strategy: GithubStrategy } = require('passport-github2')
 const { Strategy: SpotifyStrategy } = require('passport-spotify')
 const { Strategy: DropboxOAuth2Strategy } = require('passport-dropbox-oauth2')
 const { Strategy: FacebookStrategy } = require('passport-facebook')

@@ -61,8 +61,8 @@ router.post('/auth/login', async (req, res) => {
  * @param {string} token.query.required - The user's api token
  * @group User - User Login
  */
-router.get('/auth/github', auth2Middleware.auth, githubAuth, GithubController.github)
-router.get('/auth/github/callback', githubAuth, GithubController.github)
+router.get('/auth/github', auth2Middleware.auth, githubAuth)
+router.get('/auth/github/callback', auth2Middleware.authCallback, githubAuth, GithubController.github)
 
 /**
  * Log the user to dropbox
@@ -70,7 +70,7 @@ router.get('/auth/github/callback', githubAuth, GithubController.github)
  * @group User - User Login
  */
 router.get('/auth/dropbox', auth2Middleware.auth, dropboxAuth, DropboxController.dropbox)
-router.get('/auth/dropbox/callback', dropboxAuth, DropboxController.dropbox)
+router.get('/auth/dropbox/callback', auth2Middleware.authCallback, dropboxAuth, DropboxController.dropbox)
 
 /**
  * Log the user to facebook
@@ -78,7 +78,7 @@ router.get('/auth/dropbox/callback', dropboxAuth, DropboxController.dropbox)
  * @group User - User Login
  */
 router.get('/auth/facebook', auth2Middleware.auth, facebookAuth, FacebookController.facebook)
-router.get('/auth/facebook/callback', facebookAuth, FacebookController.facebook)
+router.get('/auth/facebook/callback', auth2Middleware.authCallback, facebookAuth, FacebookController.facebook)
 
 /**
  * Log the user to spotify
@@ -86,7 +86,7 @@ router.get('/auth/facebook/callback', facebookAuth, FacebookController.facebook)
  * @group User - User Login
  */
 router.get('/auth/spotify', auth2Middleware.auth, spotifyAuth, SpotifyController.spotify)
-router.get('/auth/spotify/callback', spotifyAuth, SpotifyController.spotify)
+router.get('/auth/spotify/callback', auth2Middleware.authCallback, spotifyAuth, SpotifyController.spotify)
 
 /**
  * Log the user to discord
@@ -104,7 +104,7 @@ router.post('/auth/login/discord', async (req, res) => {
  * @group User - User Login
  */
 router.get('/auth/twitter', auth2Middleware.auth1, twitterAuth, TwitterController.twitter)
-router.get('/auth/twitter/callback', twitterAuth, TwitterController.twitter)
+router.get('/auth/twitter/callback', auth2Middleware.auth1Callback, twitterAuth, TwitterController.twitter)
 
 /**
  * Logout the user
