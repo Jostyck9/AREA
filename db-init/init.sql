@@ -292,14 +292,12 @@ INSERT INTO `actions` VALUES (0, 0, "push", "a new push is intended by someone",
 INSERT INTO `actions` VALUES (1, 0, "pull_request", "a new pull request is intended by someone", '{"repository": "string"}', '{"message": "string"}');
 INSERT INTO `actions` VALUES (2, 1, "tweet", "a new tweet has been post", '{"user": "string"}', '{"message": "string"}');
 INSERT INTO `actions` VALUES (3, 2, "music_added", "A new music has been added to a playlist", '{"playlist": "string"}', '{"message": "string"}');
-INSERT INTO `actions` VALUES (4, 3, "email_received", "A new email has been received", '{"from": "string"}', '{"message": "string"}');
-INSERT INTO `actions` VALUES (5, 3, "event_created", "A new event has been created in calendar", '{"calendar": "string"}', '{"message": "string"}');
-INSERT INTO `actions` VALUES (6, 4, "messaged_received", "A new message has been received", '{"server": "string", "channel": "string"}', '{"message": "string"}');
-INSERT INTO `actions` VALUES (7, 4, "a_user_joined", "A new user has joined the server", '{"server": "string"}', '{"message": "string"}');
-INSERT INTO `actions` VALUES (8, 5, "card_added", "A new card has been had to a board", '{"board": "string"}', '{"message": "string"}');
-INSERT INTO `actions` VALUES (9, 5, "deadline_soon", "A card approched a deadline", '{"board": "string"}', '{"message": "string"}');
-INSERT INTO `actions` VALUES (10, 6, "file_deleted", "A file has been delete", '{}', '{"file": "string"}');
-INSERT INTO `actions` VALUES (11, 6, "file_added", "A new file has been add", '{}', '{"message": "string"}');
+INSERT INTO `actions` VALUES (4, 3, "messaged_received", "A new message has been received", '{"server": "string", "channel": "string"}', '{"message": "string"}');
+INSERT INTO `actions` VALUES (5, 3, "a_user_joined", "A new user has joined the server", '{"server": "string"}', '{"message": "string"}');
+INSERT INTO `actions` VALUES (6, 3, "a_user_is_banned", "A user has been ban from the server", '{"server": "string"}', '{"message": "string"}');
+INSERT INTO `actions` VALUES (7, 4, "do_at_interval", "Do an action a each interval of time", '{"interval": "string"}', '{"message": "string"}');
+INSERT INTO `actions` VALUES (8, 5, "file_added", "A file has been add on the server", '{}', '{"message": "string"}');
+INSERT INTO `actions` VALUES (9, 5, "file_deleted", "A file has been deleted on the server", '{}', '{"message": "string"}');
 /*!40000 ALTER TABLE `actions` DISABLE KEYS */;
 /*!40000 ALTER TABLE `actions` ENABLE KEYS */;
 -- UNLOCK TABLES;
@@ -356,10 +354,9 @@ CREATE TABLE `reactions` (
 
 INSERT INTO `reactions` VALUES (0, 1, "tweet", "post a new tweet", '{"message": "string"}');
 INSERT INTO `reactions` VALUES (1, 2, "add_music", "add a new music to an existing playlist", NULL);
-INSERT INTO `reactions` VALUES (2, 3, "create_event", "create a new event in calendar", NULL);
-INSERT INTO `reactions` VALUES (3, 3, "send_email", "send an email", NULL);
-INSERT INTO `reactions` VALUES (4, 4, "send_message", "send a message to a specific channel", NULL);
-INSERT INTO `reactions` VALUES (5, 5, "add_card", "add a new card to an existing board", NULL);
+INSERT INTO `reactions` VALUES (2, 3, "send_message", "send a message to a specific channel", NULL);
+INSERT INTO `reactions` VALUES (3, 3, "create_channel", "create a channel", NULL);
+INSERT INTO `reactions` VALUES (4, 6, "send_mail", "send a mail", '{"to": "string", "message": "string"}');
 
 /*!40000 ALTER TABLE `reactions` DISABLE KEYS */;
 /*!40000 ALTER TABLE `reactions` ENABLE KEYS */;
@@ -389,10 +386,10 @@ CREATE TABLE `services` (
 INSERT INTO `services` VALUES (0,'github');
 INSERT INTO `services` VALUES (1,'twitter');
 INSERT INTO `services` VALUES (2,'spotify');
-INSERT INTO `services` VALUES (3,'outlook');
-INSERT INTO `services` VALUES (4,'discord');
-INSERT INTO `services` VALUES (5,'trello');
-INSERT INTO `services` VALUES (6,'onedrive');
+INSERT INTO `services` VALUES (3,'discord');
+INSERT INTO `services` VALUES (4,'timer');
+INSERT INTO `services` VALUES (5,'dropbox');
+INSERT INTO `services` VALUES (6,'mail');
 /*!40000 ALTER TABLE `services` ENABLE KEYS */;
 -- UNLOCK TABLES;
 
@@ -464,6 +461,7 @@ CREATE TABLE `users` (
   `username` varchar(50) NOT NULL,
   `email` varchar(100) NOT NULL,
   `password` varchar(70) NOT NULL,
+  `is_oauth2` boolean NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   UNIQUE KEY `user email` (`email`)
 ) DEFAULT CHARSET=utf8;
