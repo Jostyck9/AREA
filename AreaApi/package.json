@@ -28,6 +28,7 @@
     "documentation": "^12.1.4",
     "dotenv": "^8.2.0",
     "env-cmd": "^10.0.1",
+    "es6-promise": "^4.2.8",
     "express": "^4.17.1",
     "express-session": "^1.17.0",
     "express-swagger-generator": "^1.1.17",
