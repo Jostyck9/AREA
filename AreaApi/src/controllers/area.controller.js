@@ -3,7 +3,6 @@ const ActionModel = require('../models/Action.model')
 const ReactionModel = require('../models/Reaction.model')
 const DiscordController = require('../controllers/discord.controller')
 const TwitterController = require('../controllers/twitter.controller')
-const GithubController = require('../controllers/github.controller')
 
 /**
  * Check if the field parameter inside the res.body is good according the action and the reaction
@@ -134,7 +133,7 @@ async function SendToReactionById(area, action_id, action_result) {
         DiscordController.UseReaction
     ]
     const reactionmodel = await ReactionModel.findById(area.reaction_id);
-    controllerArray[reactionmodel.service_id](action_result, area);
+    await controllerArray[reactionmodel.service_id](action_result, area);
 }
 
 /**

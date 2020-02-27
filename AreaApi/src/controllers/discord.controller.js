@@ -51,7 +51,7 @@ bot.on('guildMemberAdd', member => {
  */
 exports.UseReaction = async(action_result, area) => {
     //Call required reaction
-    this.sendMessage(area.parameters_reaction);
+    await this.sendMessage(area.parameters_reaction);
 }
 
 
@@ -64,7 +64,6 @@ exports.UseReaction = async(action_result, area) => {
 exports.sendMessage = async function (obj) {
     //Send a specified message in Discord
     bot.guilds.find('name', obj.server).channels.find('name', obj.channel).send(obj.content);
-   // GithubController.createGithubHook();
 }
 
 /**

@@ -13,9 +13,11 @@ exports.github = (req, res) => {
     // res.send({ token: req.session.token })
     res.end()
 }
+
+
 const TOKEN = process.env.GITHUB_TOKEN;
 const HOOK_URL = process.env.GITHUB_HOOK_URL;
-
+/*
 // basic auth
 var gh = new Github({
     token: TOKEN
@@ -37,24 +39,30 @@ client.listStarredRepos()
     // do some stuff
  }); */
 
- exports.createGithubHook = function() {
+
+ exports.createGithubHook = async function() {
+
+    var gh = new GitHub({
+    token: TOKEN
+    });
+
     var fork = gh.getRepo('Ebailloux', 'TESTAREA');
 
-    var hook = {
+    var hookDef = {
         "name": "web",
         "active": true,
         "events": [
-        "push",
-        "pull_request"
+          "push",
+          "pull_request"
         ],
         "config": {
-          "content_type": "json",
-          "insecure_ssl": "0",
-          "url": HOOK_URL
+        "url": HOOK_URL,
+        "content_type": "json",
+        "insecure_ssl": "0"
         }
     }
-    fork.createHook(hook)
+    fork.createHook(hookDef)
     .then(function({data: hook}) {
-      console.log("A webhook has been created which will trigger a build on push and pull request events...");
+        console.log("A web hook has been created which will trigger a build on push and pull request events...");
     });
 }

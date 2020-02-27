@@ -136,4 +136,13 @@ router.get('/services/actions/:idAction', async (req, res) => {
     await ServiceController.getAction(req, res)
 })
 
+router.get('/github/webhook', (req, res) => {
+    res.status(200).send({"Name":"Github's Webhooks reception route", "content": "nothing for now ..."})
+})
+
+router.post('/github/webhook', (req, res) => {
+	console.info(res)
+	console.info(req)
+})
+
 module.exports = router
