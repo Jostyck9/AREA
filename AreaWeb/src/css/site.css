@@ -79,30 +79,46 @@ a.navbar-brand {
     height:50px;
     margin-right:10px;
     display:inline-block;
-}
+  }
+
+  .dispinline{
+    display:inline;
+  }
 
 /* Card colors
 ---------------------------------------------------- */
 
-  .dispinline{
-    display:inline;
-
-  }
-
   .twitter{
     color: #1DA1F2;
-    border-color: #1DA1F2;
+    display:inline;
   }
 
   .spotify{
     color: #1ED760;
-    border-color: #1ED760;
+    display:inline;
   }
 
   .github{
-    color: #24292E
+    color: #24292E;
+    display:inline;
   }
 
   .messenger{
-    color: #018BF0
+    color: #018BF0;
+    display:inline;
+  }
+
+  .discord{
+    color: #7289DA;
+    display:inline;
+  }
+
+  .dropbox{
+    color: #007CE4;
+    display:inline;
+  }
+
+  .mail{
+    color: #EB6464;
+    display:inline;
   }

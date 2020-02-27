@@ -5,6 +5,11 @@ import '../../css/site.css';
 import { Button, Modal, Card } from 'react-bootstrap'
 import Twitter from '../../images/twitter_logo.png'
 import Spotify from '../../images/spotify_logo.png'
+import GitHub from '../../images/github_logo.png'
+import Messenger from '../../images/messenger_logo.png'
+import Discord from '../../images/discord_logo.png'
+import Dropbox from '../../images/dropbox_logo.png'
+import Mailing from '../../images/mail_logo.png'
 
 export default class Home extends React.Component {
     constructor(props) {
@@ -19,7 +24,8 @@ export default class Home extends React.Component {
             areas: [],
             InfoDisplay: [],
             showmodalDeletion: false,
-            showmodalInfo: false
+            showmodalInfo: false,
+            images: new Map()
         };
         this.showModal = e => {
             this.setState({showmodalDeletion: true});
@@ -36,7 +42,6 @@ export default class Home extends React.Component {
     }
 
     componentWillMount() {
-
         // Get all services informations //
 
         var actions = new Map()
@@ -45,6 +50,14 @@ export default class Home extends React.Component {
         var reactionsNames = new Map()
         var actionsDescs = new Map()
         var reactionsDescs = new Map()
+
+        this.state.images.set("twitter", Twitter)
+        this.state.images.set("spotify", Spotify)
+        this.state.images.set("github", GitHub)
+        this.state.images.set("messenger", Messenger)
+        this.state.images.set("discord", Discord)
+        this.state.images.set("dropbox", Dropbox)
+        this.state.images.set("mail", Mailing)
 
         fetch(
             process.env.REACT_APP_SERVER_URI + '/services', {
@@ -183,17 +196,13 @@ export default class Home extends React.Component {
             array.push(
                 <Card className="mb-3" style={{ width: '18rem', margin: '45px' }}>
                     <Card.Header onClick={element => {this.showModalInfo();}}>
-                        <img src={Twitter} height="100" width="100" alt="twitter_logo"/>
-                        <img src={Spotify} height="100" width="100" alt="spotify_logo"/>
+                        <img src={this.state.images.get(this.state.actions.get(element.action_id))} height="100" width="100" alt=""/>
+                        <img src={this.state.images.get(this.state.reactions.get(element.reaction_id))} height="100" width="100" alt=""/>
                     </Card.Header>
                     <Card.Body className="bg_twitter" onClick={element => {this.showModalInfo();}}>
-                        <h4 class="twitter dispinline" >{this.jsUcfirst(this.state.actions.get(element.action_id))}</h4>
+                        <h4 class={this.state.actions.get(element.action_id)} >{this.jsUcfirst(this.state.actions.get(element.action_id))}</h4>
                         <h4 class="dispinline" > x </h4>
-                        <h4 class="spotify dispinline" >{this.jsUcfirst(this.state.reactions.get(element.reaction_id))}</h4>
-                        <Card.Text>
-                            {this.state.actionsDesc.get(element.action_id)}<br/>
-                            {this.state.reactionsDesc.get(element.reaction_id)}
-                        </Card.Text>
+                        <h4 class={this.state.reactions.get(element.reaction_id)} >{this.jsUcfirst(this.state.reactions.get(element.reaction_id))}</h4>
                     </Card.Body>
                     <Card.Body>
                         <Button text="white" variant="danger" id="deletebutton" onClick={() => this.deleteArea(element.id)}>Delete</Button>
