@@ -2,8 +2,7 @@ import '../../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import React from 'react';
 import '../../css/site.css';
 import { Button, Form } from 'react-bootstrap'
-import Microsoft from '../../images/microsoft_logo.png'
-import Twitter from '../../images/twitter_logo.png'
+import GitHub from '../../images/github_logo.png'
 
 export default class LogIn extends React.Component{
     constructor(props) {
@@ -72,11 +71,8 @@ export default class LogIn extends React.Component{
                         <Button variant="secondary" size="lg" active type="submit" value="Submit">Log In</Button><br/>
                     </Form>
                     <div class="text-center">
-                        <br /><Button variant="secondary" size="lg" className="divider" active>
-                            <img src={Microsoft} height="30" width="30" alt="Microsoft" />|Microsoft
-                        </Button>
-                        <Button variant="secondary" size="lg" className="divider" active>
-                            <img src={Twitter} height="30" width="30" alt="Twitter" />|Twitter
+                        <br/><Button variant="secondary" size="lg" className="divider" active>
+                            <img src={GitHub} height="30" width="30" alt="GitHub" />    Github
                         </Button><br/>
                         <br/><p>No account ? <a href='registration'>Create a new account.</a></p>
                     </div>

@@ -14,7 +14,23 @@ import {
 
 function OnSignOut()
 {
+    var token = JSON.parse(localStorage.getItem('currentUser'))
     localStorage.removeItem('currentUser')
+    fetch(
+        process.env.REACT_APP_SERVER_URI + '/auth/logout', {
+        method: 'POST',
+        headers: {
+            "content-type": "application/json",
+            Authorization: "Bearer " + token
+        }
+    }).then(res => {
+        alert(res.status)
+        if (res.status >= 200 && res.status <= 204) {
+            alert("See you next time")
+        } else {
+            alert("Need a token to logout")
+        }
+    })
 }
 
 export default function AuthLayout({ children }) {

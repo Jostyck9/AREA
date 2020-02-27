@@ -80,3 +80,29 @@ a.navbar-brand {
     margin-right:10px;
     display:inline-block;
 }
+
+/* Card colors
+---------------------------------------------------- */
+
+  .dispinline{
+    display:inline;
+
+  }
+
+  .twitter{
+    color: #1DA1F2;
+    border-color: #1DA1F2;
+  }
+
+  .spotify{
+    color: #1ED760;
+    border-color: #1ED760;
+  }
+
+  .github{
+    color: #24292E
+  }
+
+  .messenger{
+    color: #018BF0
+  }
