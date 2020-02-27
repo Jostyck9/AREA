@@ -2,22 +2,22 @@ const ServiceAuthController = require('./serviceAuth.controller')
 const ServiceModel = require('../models/Service.model')
 
 /**
- * twitter connect the token received to the database
+ * dropobox connect the token received to the database
  * 
  * @param {any} req the request
  * @param {any} res the res
  */
-exports.twitter = async (req, res) => {
+exports.dropbox = async (req, res) => {
     try {
-        const resService = await ServiceModel.findByName('twitter')
+        const resService = await ServiceModel.findByName('dropbox')
         if (!resService)
-            throw new Error("Unkown service twitter")
+            throw new Error("Unkown service dropbox")
 
         ServiceAuthController.connect(
             req.userArea,
             {
                 access_token: req.user.accessToken || null,
-                refresh_token: null,
+                refresh_token: req.user.refresh_token || null,
                 secret_token: req.user.tokenSecret || null,
                 expires_in: null,
             },

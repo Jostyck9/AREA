@@ -3,7 +3,7 @@
 const sql = require('../db/db')
 
 /**
-* ServiceModel class manage all the database request for reactions table
+* ServiceModel class manage all the database request for service table
 * @class
 * @classdesc This class connect to the service inside the db
 */

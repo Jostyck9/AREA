@@ -66,7 +66,7 @@ ActionModel.findById = async function (actionId) {
 ActionModel.findByServiceId = async function (serviceId) {
     try {
         const [rows, fields] = await sql.query(`SELECT * FROM actions WHERE service_id = ?`, [serviceId])
-        if (rows[0].length < 1) {
+        if (rows.length < 1) {
             return null
         }
         return (rows)
