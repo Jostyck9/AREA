@@ -28,9 +28,29 @@ UserModel.create = async function (newUser) {
             throw new Error('Invalid Email address');
         if (newUser.password.length < 7)
             throw new Error('Invalid password size, min 7');
-
         newUser.password = await bcrypt.hash(newUser.password, 8)
         var [rows, fields] = await sql.query("INSERT INTO users(username,email,password) VALUES (?,?,?)", [newUser.username, newUser.email, newUser.password])
+        console.log('created')
+        return { message: "created user :" + newUser.username, id: rows.insertId }
+    } catch (err) {
+        // console.log(err)
+        if (err.code && err.code == 'ER_DUP_ENTRY')
+            throw new Error('email already used')
+        throw err
+    }
+};
+
+/**
+ * Create a new user by oauth2 in the database
+ * 
+ * @param {json} newUser New user infos
+ * @returns {json} Json of the result
+ * @throws {error} Contains a message field
+ */
+UserModel.createOAuth2 = async function (newUser) {
+    try {
+        newUser.password = ''
+        var [rows, fields] = await sql.query("INSERT INTO users(username,email,password,is_oauth2) VALUES (?,?,?,1)", [newUser.username, newUser.id, newUser.password])
         console.log('created')
         return { message: "created user :" + newUser.username, id: rows.insertId }
     } catch (err) {
@@ -53,6 +73,9 @@ UserModel.findByCredentials = async function (email, password) {
     var isPasswordMatch = false;
 
     try {
+        if (password.length < 7) {
+            throw new Error('Password must have 7 characters')
+        }
         const [rows, fields] = await sql.query(`SELECT * FROM users WHERE email = ?`, [email])
         if (rows.length < 1) {
             return null
@@ -191,7 +214,7 @@ UserModel.updatePassword = async function (id, password) {
         password = await bcrypt.hash(password, 8)
 
         const [rows, fields] = await sql.query("UPDATE users SET password = ? WHERE id = ?", [password, id])
-        if (resRequest.affectedRows == 0) {
+        if (rows.affectedRows == 0) {
             throw { message: "not_found" }
         }
         return ({ message: 'Password updated' })

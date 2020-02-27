@@ -1,8 +1,23 @@
 const express = require('express')
-const UserController = require('../controllers/auth.controller')
+const AuthController = require('../controllers/auth.controller')
 const auth = require('../middleware/auth')
 
+const Passport = require('passport')
+
+const TwitterController = require('../controllers/twitter.controller')
+const SpotifyController = require('../controllers/spotify.controller')
+const GithubController = require('../controllers/github.controller')
+const DropboxController = require('../controllers/dropbox.controller')
+const FacebookController = require('../controllers/facebook.controller')
+const auth2Middleware = require('../middleware/auth.service')
+
 const router = express.Router()
+
+const twitterAuth = auth2Middleware.twitterAuth
+const githubAuth = auth2Middleware.githubAuth
+const spotifyAuth = auth2Middleware.spotifyAuth
+const dropboxAuth = auth2Middleware.dropboxAuth
+const facebookAuth = auth2Middleware.facebookAuth
 
 /**
  * @typedef RegisterData
@@ -13,13 +28,13 @@ const router = express.Router()
 /**
  * Register the user inside the db
  * @route POST /auth/register
- * @group User - User Registration
+ * @group Auth - User Registration
  * @param {RegisterData.model} register.body.required - The user informations
  * @returns {JSON} 200 - JWT for the api
  * @returns {Error}  default - Unexpected error
  */
 router.post('/auth/register', async (req, res) => {
-    await UserController.create(req, res)
+    await AuthController.create(req, res)
 })
 
 /**
@@ -31,94 +46,86 @@ router.post('/auth/register', async (req, res) => {
 /**
  * Log the user
  * @route POST /auth/login
- * @group User - User Login
+ * @group Auth - User Login
  * @param {LoginData.model} login.body.required - The user informations
  * @returns {JSON} 200 - JWT for the api
  * @returns {Error}  default - Unexpected error
  */
 router.post('/auth/login', async (req, res) => {
-    await UserController.login(req, res)
-})
-
-/**
- * Log the user to microsoft
- * @route POST /auth/login/microsoft
- * @group User - User Login
- */
-router.post('/auth/login/microsoft', async (req, res) => {
-    // await UserController.login(req, res)
+    await AuthController.login(req, res)
 })
 
 /**
  * Log the user to github
- * @route POST /auth/login/github
- * @group User - User Login
- * @security JWT
+ * @route GET /auth/github
+ * @param {string} token.query.required - The user's api token
+ * @group Auth - User Login
  */
-router.post('/auth/login/github', async (req, res) => {
-    // await UserController.login(req, res)
-})
+router.get('/auth/github', auth2Middleware.authLogin, githubAuth)
+router.get('/auth/github/callback', auth2Middleware.authLoginCallback, githubAuth, GithubController.github)
 
 /**
- * Log the user to trello
- * @route POST /auth/login/trello
- * @group User - User Login
- * @security JWT
+ * Log the user to dropbox
+ * @route GET /auth/dropbox
+ * @group Auth - User Login
  */
-router.post('/auth/login/trello', async (req, res) => {
-    // await UserController.login(req, res)
-})
+router.get('/auth/dropbox', auth2Middleware.auth, dropboxAuth)
+router.get('/auth/dropbox/callback', auth2Middleware.authCallback, dropboxAuth, DropboxController.dropbox)
+
+/**
+ * Log the user to facebook
+ * @route GET /auth/facebook
+ * @group Auth - User Login
+ */
+// router.get('/auth/facebook', auth2Middleware.auth, facebookAuth)
+// router.get('/auth/facebook/callback', auth2Middleware.authCallback, facebookAuth, FacebookController.facebook)
 
 /**
  * Log the user to spotify
- * @route POST /auth/login/spotify
- * @group User - User Login
- * @security JWT
+ * @route GET /auth/spotify
+ * @group Auth - User Login
  */
-router.post('/auth/login/spotify', async (req, res) => {
-    // await UserController.login(req, res)
-})
-
-/**
- * Log the user to discord
- * @route POST /auth/login/discord
- * @group User - User Login
- * @security JWT
- */
-router.post('/auth/login/discord', async (req, res) => {
-    // await UserController.login(req, res)
-})
+router.get('/auth/spotify', auth2Middleware.auth, spotifyAuth)
+router.get('/auth/spotify/callback', auth2Middleware.authCallback, spotifyAuth, SpotifyController.spotify)
 
 /**
  * Log the user to twitter
- * @route POST /auth/login/twitter
- * @group User - User Login
- * @security JWT
+ * @route GET /auth/twitter
+ * @group Auth - User Login
  */
-router.post('/auth/login/twitter', async (req, res) => {
-    // await UserController.login(req, res)
+router.get('/auth/twitter', auth2Middleware.auth1, twitterAuth, TwitterController.twitter)
+router.get('/auth/twitter/callback', auth2Middleware.auth1Callback, twitterAuth, TwitterController.twitter)
+
+/**
+ * Log the user to discord
+ * @route GET /auth/discord
+ * @group Auth - User Login
+ */
+router.get('/auth/discord', async (req, res) => {
+    res.status(200).send({message: 'Hello discord'})
+    // await AuthController.login(req, res)
 })
 
 /**
  * Logout the user
  * @route POST /auth/logout
  * @security JWT
- * @group User - User Login
+ * @group Auth - User Login
  * @returns {Error}  default - Unexpected error
  */
 router.post('/auth/logout', auth, async (req, res) => {
-    UserController.logOut(req, res)
+    AuthController.logOut(req, res)
 })
 
 /**
  * Logout from all the device the user
  * @route POST /auth/logoutAll
  * @security JWT
- * @group User - User Login
+ * @group Auth - User Login
  * @returns {Error}  default - Unexpected error
  */
 router.post('/auth/logoutAll', auth, async (req, res) => {
-    UserController.logOutAll(req, res)
+    AuthController.logOutAll(req, res)
 })
 
 

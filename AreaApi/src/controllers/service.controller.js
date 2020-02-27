@@ -135,6 +135,44 @@ exports.getServiceReaction = async (req, res) => {
         }
         res.status(200).send({name: resRequest.name, id: resRequest.id, description: resRequest.description, parameters: resRequest.parameters});
     } catch (error) {
-        res.status(400).send({message: eerrorrr.message || 'An internal error occured'});
+        res.status(400).send({message: error.message || 'An internal error occured'});
+    }
+}
+
+/**
+ * Get a specific action by id
+ * 
+ * @param {Request<ParamsDictionary, any, any>} req The request received with the route
+ * @param {Response<any>} res The result of the request to send after
+ */
+exports.getAction = async (req, res) => {
+    try {
+        resRequest = await Action.findById(req.params.idAction)
+        if (!resRequest) {
+            res.status(404).send({message: 'Unknow action'})
+            return
+        }
+        res.status(200).send(resRequest);
+    } catch (error) {
+        res.status(400).send({message: error.message || 'An internal error occured'});
+    }
+}
+
+/**
+ * Get a specific reaction by id
+ * 
+ * @param {Request<ParamsDictionary, any, any>} req The request received with the route
+ * @param {Response<any>} res The result of the request to send after
+ */
+exports.getReaction = async (req, res) => {
+    try {
+        resRequest = await Reaction.findById(req.params.idReaction)
+        if (!resRequest) {
+            res.status(404).send({message: 'Unknow reaction'})
+            return
+        }
+        res.status(200).send(resRequest);
+    } catch (error) {
+        res.status(400).send({message: error.message || 'An internal error occured'});
     }
 }
