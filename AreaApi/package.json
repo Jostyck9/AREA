@@ -36,6 +36,7 @@
     "mongoose": "^5.8.10",
     "mysql2": "^2.1.0",
     "node-outlook": "^1.1.8",
+    "nodemailer": "^6.4.3",
     "nodemon": "^2.0.2",
     "onedrive-api": "^0.3.4",
     "passport": "^0.4.1",
