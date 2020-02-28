@@ -23,6 +23,7 @@ exports.github = async (req, res) => {
                     expires_in: null,
                 },
                 resService.id,
+                req.urlCallback.url,
                 res
             )
         } else {
@@ -39,6 +40,7 @@ exports.github = async (req, res) => {
                     expires_in: null,
                 },
                 resService.id,
+                req.urlCallback.url,
                 res
             )
         }
