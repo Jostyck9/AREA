@@ -25,7 +25,7 @@ import org.json.JSONArray
 
 class HomeActivity : AppCompatActivity(), HomeView {
 
-    val homePresenter = HomePresenter(this, applicationContext)
+    private lateinit var homePresenter: HomePresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,6 +33,8 @@ class HomeActivity : AppCompatActivity(), HomeView {
 
         val toolbar : Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
+
+        homePresenter = HomePresenter(this, applicationContext)
 
         val data = intent.data
         if (data != null) {
