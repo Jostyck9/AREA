@@ -22,10 +22,10 @@ export default class Home extends React.Component {
             actionsDesc: new Map(),
             reactionsDesc: new Map(),
             areas: [],
-            InfoDisplay: [],
+            InfoDisplay: new Map(),
             showmodalDeletion: false,
             showmodalInfo: false,
-            images: new Map()
+            images: new Map(),
         };
         this.showModal = e => {
             this.setState({showmodalDeletion: true});
@@ -80,8 +80,7 @@ export default class Home extends React.Component {
                     });
                     
                     // Get all areas already created //
-
-                    var token = JSON.parse(localStorage.getItem('currentUser'));
+                    var token = localStorage.getItem('currentUser');
                     fetch(
                         process.env.REACT_APP_SERVER_URI + '/area', {
                         method: 'GET',
@@ -104,7 +103,7 @@ export default class Home extends React.Component {
     }
     
     resetAreas() {
-        var token = JSON.parse(localStorage.getItem('currentUser'));
+        var token = localStorage.getItem('currentUser');
         fetch(
             process.env.REACT_APP_SERVER_URI + '/area', {
             method: 'GET',
@@ -122,7 +121,7 @@ export default class Home extends React.Component {
     }
 
     deleteAllAreas() {
-        var token = JSON.parse(localStorage.getItem('currentUser'))
+        var token = localStorage.getItem('currentUser')
         this.state.areas.forEach(element => {
             fetch(
                 process.env.REACT_APP_SERVER_URI + '/area/' + element.id, {
@@ -145,7 +144,7 @@ export default class Home extends React.Component {
     }
 
     deleteArea(id) {
-        var token = JSON.parse(localStorage.getItem('currentUser'))
+        var token = localStorage.getItem('currentUser')
         fetch(
             process.env.REACT_APP_SERVER_URI + '/area/' + id, {
             method: 'DELETE',
@@ -171,22 +170,95 @@ export default class Home extends React.Component {
             return (string.charAt(0).toUpperCase() + string.slice(1))
     }
     
+    DisplayParamsInfo(params) {
+        var array = []
+        for (var [key, value] of params) {
+            array.push(
+                <div class="text-center">
+                    {key} : {value}
+                </div>
+            )
+        }
+        return (array)
+    }
+
     ModalInfo() {
+        // var params_action = new Map()
+        // var params_reaction = new Map()
+        // for (var [key, value] of this.state.InfoDisplay.get("action_params")) {
+        //     params_action.set(key, value)
+        // }
+        // for (var [key, value] of this.state.InfoDisplay.get("reaction_params")) {
+        //     params_reaction.set(key, value)
+        // }
         return(
-            <Modal id="modalAreaInformation" show={this.state.showmodalInfo}>
-                <Modal.Header closeButton onClick={e => {this.onCloseInfo();}}>
+            <Modal id="modalAreaInformation" show={this.state.showmodalInfo} size="lg" centered>
+                <Modal.Header closeButton onClick={e => {this.state.InfoDisplay.clear();this.onCloseInfo();}}>
                     <Modal.Title>Area informations</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>Service: Action: Description: Parameters:
-                Service: Reaction: Description: Parameters:
+                <Modal.Body className="text-center">
+                    <div class="mb-3 row">
+                        <div class="col-md-4">
+                            <img src={this.state.InfoDisplay.get("action_logo")} height="150" width="150" alt=""/>
+                        </div>
+                        <div class="col-md-8 card-body">
+                            <h3 class={this.state.InfoDisplay.get("service_action")}><b>{this.jsUcfirst(this.state.InfoDisplay.get("service_action"))}</b></h3><br/>
+                            <h4 class={this.state.InfoDisplay.get("service_action")}><u>Action</u> : </h4>
+                            <h4 class={this.state.InfoDisplay.get("service_action")}>{this.state.InfoDisplay.get("action")}</h4><br/><br/>
+                            <h5>{this.state.InfoDisplay.get("action_desc")}</h5><br/>
+                                
+                            Parameters: {this.state.InfoDisplay.get("action_params")}
+                            {/* Parameters: {this.DisplayParamsInfo(params_action)} */}
+                        </div>
+                    </div>
+                </Modal.Body>
+                <Modal.Body className="text-center">
+                    <div class="mb-3 row">
+                        <div class="col-md-4">
+                            <img src={this.state.InfoDisplay.get("reaction_logo")} height="150" width="150" alt=""/>
+                        </div>
+                        <div class="col-md-8 card-body">
+                            <h3 class={this.state.InfoDisplay.get("service_reaction")}><b>{this.jsUcfirst(this.state.InfoDisplay.get("service_reaction"))}</b></h3><br/>
+                            <h4 class={this.state.InfoDisplay.get("service_reaction")}><u>Reaction</u> : </h4>
+                            <h4 class={this.state.InfoDisplay.get("service_reaction")}>{this.state.InfoDisplay.get("reaction")}</h4><br/><br/>
+                            <h5>{this.state.InfoDisplay.get("reaction_desc")}</h5><br/>
+                            
+                            Parameters: {this.state.InfoDisplay.get("reaction_params")}
+                            {/* Parameters: {this.DisplayParamsInfo(params_reaction)} */}
+                        </div>
+                    </div>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={e => {this.onCloseInfo();}}>
+                    <Button variant="secondary" onClick={e => {this.state.InfoDisplay.clear();this.onCloseInfo();}}>
                         Close
                     </Button>
                 </Modal.Footer>
             </Modal>
         )
+    }
+
+    fillInfoToDisplay(element) {
+        this.state.InfoDisplay.set("action_logo", this.state.images.get(this.state.actions.get(element.action_id)))
+        this.state.InfoDisplay.set("reaction_logo", this.state.images.get(this.state.reactions.get(element.reaction_id)))
+        this.state.InfoDisplay.set("service_action", this.state.actions.get(element.action_id))
+        this.state.InfoDisplay.set("service_reaction", this.state.reactions.get(element.reaction_id))
+        this.state.InfoDisplay.set("action", this.state.actionsName.get(element.action_id))
+        this.state.InfoDisplay.set("reaction", this.state.reactionsName.get(element.reaction_id))
+        this.state.InfoDisplay.set("action_desc", this.state.actionsDesc.get(element.action_id))
+        this.state.InfoDisplay.set("reaction_desc", this.state.reactionsDesc.get(element.reaction_id))
+        var mmmmap = JSON.parse(JSON.stringify(element.parameters_action))
+        Object.keys(element.parameters_action).forEach(element2 => {
+            alert(element2)
+            alert(element.parameters_action[element2])
+        });
+        // var mmmmap = new Map()
+        // mmmmap = JSON.parse(element.parameters_action)
+        // element.parameters_action.get("server").forEach(element => {
+        //     alert(element.value)
+        // });
+//        alert(element.parameters_action)
+        // this.state.InfoDisplay.set("action_params", element.parameters_action)
+        // this.state.InfoDisplay.set("reaction_params", element.parameters_reaction)
     }
 
     createAreasCard() {
@@ -195,11 +267,11 @@ export default class Home extends React.Component {
         this.state.areas.forEach(element => {
             array.push(
                 <Card className="mb-3" style={{ width: '18rem', margin: '45px' }}>
-                    <Card.Header onClick={element => {this.showModalInfo();}}>
+                    <Card.Header onClick={e => {this.fillInfoToDisplay(element);this.showModalInfo()}}>
                         <img src={this.state.images.get(this.state.actions.get(element.action_id))} height="100" width="100" alt=""/>
                         <img src={this.state.images.get(this.state.reactions.get(element.reaction_id))} height="100" width="100" alt=""/>
                     </Card.Header>
-                    <Card.Body className="bg_twitter" onClick={element => {this.showModalInfo();}}>
+                    <Card.Body className="bg_twitter" onClick={e => {this.fillInfoToDisplay(element);this.showModalInfo()}}>
                         <h4 class={this.state.actions.get(element.action_id)} >{this.jsUcfirst(this.state.actions.get(element.action_id))}</h4>
                         <h4 class="dispinline" > x </h4>
                         <h4 class={this.state.reactions.get(element.reaction_id)} >{this.jsUcfirst(this.state.reactions.get(element.reaction_id))}</h4>

@@ -14,7 +14,7 @@ import {
 
 function OnSignOut()
 {
-    var token = JSON.parse(localStorage.getItem('currentUser'))
+    var token = localStorage.getItem('currentUser')
     localStorage.removeItem('currentUser')
     fetch(
         process.env.REACT_APP_SERVER_URI + '/auth/logout', {
