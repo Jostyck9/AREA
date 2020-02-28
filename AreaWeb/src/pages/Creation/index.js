@@ -168,7 +168,7 @@ export default class Creation extends React.Component {
         parameters_reaction[params_params_reaction[i]] = params_reaction[i]
     }
     alert("GOING TO FETCH")
-    var token = JSON.parse(localStorage.getItem('currentUser'));
+    var token = localStorage.getItem('currentUser');
     fetch(process.env.REACT_APP_SERVER_URI + '/area', {
         method: 'POST',
         body: JSON.stringify({ action_id: action_id, reaction_id: reaction_id, parameters_action: parameters_action, parameters_reaction: parameters_reaction}),

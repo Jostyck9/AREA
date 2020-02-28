@@ -87,9 +87,6 @@ export default class Home extends React.Component {
                     
                     // Get all areas already created //
                     var token = localStorage.getItem('currentUser');
-                    alert('hello: ' + token)
-                    console.log("Grossse bite juteuse")
-                    alert(typeof(token))
                     fetch(
                         process.env.REACT_APP_SERVER_URI + '/area', {
                         method: 'GET',
@@ -98,10 +95,8 @@ export default class Home extends React.Component {
                             Authorization: "Bearer " + token
                         }
                     }).then(res => {
-                        alert('ok ' + res.status)
                         if (res.status >= 200 && res.status <= 204) {
                             res.json().then(data => {
-                                alert(data.length)
                                 this.setState({areas: data, actions: actions, reactions: reactions, actionsName: actionsNames,
                                     reactionsName: reactionsNames, actionsDesc: actionsDescs, reactionsDesc: reactionsDescs})
                             })
@@ -253,7 +248,7 @@ export default class Home extends React.Component {
                             <h4 class={this.state.InfoDisplay.get("service_reaction")}>{this.state.InfoDisplay.get("reaction")}</h4><br/><br/>
                             <h5>{this.state.InfoDisplay.get("reaction_desc")}</h5><br/>
                             
-                            <h4 class={this.state.InfoDisplay.get("service_action")}>Parameters :</h4> {this.DisplayParamsReactionInfo()}
+                            <h4 class={this.state.InfoDisplay.get("service_reaction")}>Parameters :</h4> {this.DisplayParamsReactionInfo()}
                         </div>
                     </div>
                 </Modal.Body>
