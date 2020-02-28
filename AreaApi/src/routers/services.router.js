@@ -48,7 +48,7 @@ router.get('/services', async (req, res) => {
  * Send info about a service
  * @route GET /services/{nameService}
  * @group Services - Services informations
- * @param {string} nameService.path.require - id of the service
+ * @param {string} nameService.path.require - Name of the service
  * @returns {Service.model} Service's informations
  * @returns {Error}  default - Unexpected error
  */
@@ -62,7 +62,7 @@ router.get('/services/:nameService', async (req, res) => {
  * Get actions from a specified service
  * @route GET /services/{nameService}/actions
  * @group Services - Services informations
- * @param {string} nameService.path.require - id of the service
+ * @param {string} nameService.path.require - Name of the service
  * @returns {Array.<Action>} actions of the specified service
  * @returns {Error}  default - Unexpected error
  */
@@ -75,8 +75,8 @@ router.get('/services/:nameService/actions', async (req, res) => {
  * Get an action from a specified service
  * @route GET /services/{nameService}/actions/{nameAction}
  * @group Services - Services informations
- * @param {string} nameService.path.require - id of the service
- * @param {string} nameAction.path.require - id of the action
+ * @param {string} nameService.path.required - Name of the service
+ * @param {string} nameAction.path.required - Name of the action
  * @returns {Action.model} specified action of the specified service
  * @returns {Error}  default - Unexpected error
  */
@@ -89,7 +89,7 @@ router.get('/services/:nameService/actions/:nameAction', async (req, res) => {
  * Get reactions from a specified service
  * @route GET /services/{nameService}/reactions
  * @group Services - Services informations
- * @param {string} nameService.path.require - id of the service
+ * @param {string} nameService.path.required - Name of the service
  * @returns {Array.<Reaction>} reactions of the specified service
  * @returns {Error}  default - Unexpected error
  */
@@ -102,8 +102,8 @@ router.get('/services/:nameService/reactions', async (req, res) => {
  * Get a reaction from a specified service
  * @route GET /services/{nameService}/reactions/{nameReaction}
  * @group Services - Services informations
- * @param {string} nameService.path.require - id of the service
- * @param {string} nameReaction.path.require - id of the reaction
+ * @param {string} nameService.path.required - Name of the service
+ * @param {string} nameReaction.path.required - Name of the reaction
  * @returns {Reaction.model} specific reaction of the specified service
  * @returns {Error}  default - Unexpected error
  */
@@ -116,7 +116,7 @@ router.get('/services/:nameService/reactions/:nameReaction', async (req, res) =>
  * Get a reaction from a specified service
  * @route GET /services/reactions/{idAction}
  * @group Services - Services informations
- * @param {string} idReaction.path.require - id of the reaction
+ * @param {string} idReaction.path.required - id of the reaction
  * @returns {Reaction.model} specific reaction of the specified service
  * @returns {Error}  default - Unexpected error
  */
@@ -129,7 +129,7 @@ router.get('/services/reactions/:idReaction', async (req, res) => {
  * Get a action from a specified service
  * @route GET /services/actions/{idAction}
  * @group Services - Services informations
- * @param {string} idAction.path.require - id of the reaction
+ * @param {string} idAction.path.required - id of the reaction
  * @returns {Reaction.model} specific reaction of the specified service
  * @returns {Error}  default - Unexpected error
  */
