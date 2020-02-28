@@ -2719,6 +2719,13 @@ dotenv@^8.2.0:
   resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-8.2.0.tgz#97e619259ada750eea3e4ea3e26bceea5424b16a"
   integrity sha512-8sJ78ElpbDJBHNeBzUbUVLsqKdccaa/BXF1uPTw3GrvQTBgrQrtObr2mUrE38vzYd8cEv+m/JBfDLioYcfXoaw==
 
+dropbox-v2-api@^2.4.12:
+  version "2.4.12"
+  resolved "https://registry.yarnpkg.com/dropbox-v2-api/-/dropbox-v2-api-2.4.12.tgz#ef358218655d0e475db73109e3c14995e6a072f6"
+  integrity sha512-CRdZzY+biXHQ2sF/OFjZK48Rcol78jspbrtZes9dsFvxXDc1t9hRFi3Q6CI8QdMILu914DN16/EFmaOGmoiBqA==
+  dependencies:
+    request "2.88.0"
+
 duplexer2@^0.1.2, duplexer2@~0.1.0:
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/duplexer2/-/duplexer2-0.1.4.tgz#8b12dab878c0d69e3e7891051662a32fc6bddcc1"
@@ -6427,7 +6434,7 @@ request-promise@^2.0.1:
     lodash "^4.5.0"
     request "^2.34"
 
-request@^2.34, request@^2.72.0, request@^2.85.0, request@^2.88.0:
+request@2.88.0, request@^2.34, request@^2.72.0, request@^2.85.0, request@^2.88.0:
   version "2.88.0"
   resolved "https://registry.yarnpkg.com/request/-/request-2.88.0.tgz#9c2fca4f7d35b592efe57c7f0a55e81052124fef"
   integrity sha512-NAqBSrijGLZdM0WZNsInLJpkJokL72XYjUpnB0iwsRgxh7dB6COrHnTBNwN0E+lHDAJzu7kLAkDeY08z2/A0hg==

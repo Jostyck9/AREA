@@ -27,6 +27,7 @@
     "discord.js": "^11.5.1",
     "documentation": "^12.1.4",
     "dotenv": "^8.2.0",
+    "dropbox-v2-api": "^2.4.12",
     "env-cmd": "^10.0.1",
     "es6-promise": "^4.2.8",
     "express": "^4.17.1",

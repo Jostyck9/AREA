@@ -126,7 +126,7 @@ exports.UseReaction = async(action_result, area) => {
 */
 exports.init_twitter = async function(app) {
 	const userActivityWebhook = twitterWebhooks.userActivity({
-		serverUrl: 'https://dc5f5967.ngrok.io',
+		serverUrl: SERVER_URL,
 		route: '/twitter/webhooks',
 		consumerKey: CONSUMER_KEY,
 		consumerSecret: CONSUMER_SECRET,
