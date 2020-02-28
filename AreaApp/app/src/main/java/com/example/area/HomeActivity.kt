@@ -25,18 +25,24 @@ import org.json.JSONArray
 
 class HomeActivity : AppCompatActivity(), HomeView {
 
+    val homePresenter = HomePresenter(this, applicationContext)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
         val toolbar : Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
+
+        val data = intent.data
+        if (data != null) {
+            homePresenter.addToken(data)
+        }
     }
 
     override fun onStart() {
         super.onStart()
 
-        val homePresenter = HomePresenter(this, applicationContext)
         homePresenter.getAreas()
     }
 
@@ -67,5 +73,9 @@ class HomeActivity : AppCompatActivity(), HomeView {
 
         treeImage.visibility =  View.INVISIBLE
         startConnecting.visibility = View.INVISIBLE
+    }
+
+    override fun displayMessage(message: String) {
+        Toast.makeText(applicationContext, message, Toast.LENGTH_SHORT).show()
     }
 }
