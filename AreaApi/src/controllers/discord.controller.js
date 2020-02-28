@@ -44,6 +44,13 @@ bot.on('guildMemberAdd', member => {
     AreaController.connectActionToReaction(MEMBER_ADD_ID, action_result);
 });
 
+/**
+ * Notice that a member was added in a Server
+ * @group Discord - Discord guildMemberAdd Action
+ */
+bot.on("guildBanAdd", member => {
+    console.log(`a member is banned from a guild ` + member);
+});
 
 /**
  * Call required reaction
@@ -51,13 +58,28 @@ bot.on('guildMemberAdd', member => {
  */
 exports.UseReaction = async(action_result, area) => {
     //Call required reaction
-    await this.sendMessage(area.parameters_reaction);
+
+    await this.createChannel(area.parameters_reaction);
+    //await this.sendMessage(area.parameters_reaction);
 }
 
 
 /**
+ * Create a new channel in Discord
+ * @group Discord - Discord createChannel Reaction
+ * @property {JSON} params - Message to be sent and in which channel
+ * @returns {Error}  default - Unexpected error
+ */
+exports.createChannel = async function (obj) {
+    //Create a new channel in Discord
+
+    await bot.guilds.find('name', obj.server).createChannel(obj.content, { type: 'text' });
+    bot.guilds.find('name', obj.server).channels.find('name', obj.content).send("coucou");
+}
+
+/**
  * Send a specified message in Discord
- * @group Discord - Discord SendMessage Action
+ * @group Discord - Discord SendMessage Reaction
  * @property {JSON} params - Message to be sent and in which channel
  * @returns {Error}  default - Unexpected error
  */
