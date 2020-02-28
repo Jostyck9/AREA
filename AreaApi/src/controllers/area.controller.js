@@ -97,18 +97,16 @@ exports.connectActionToReaction =  async (action_id, action_result) => {
 function checkIfuserIsConcerned(area, action_result, action_id) {
 
     const actionArray = [
-        GithubController.githubPush,
-        GithubController.githubNewPullRequest,
-        TwitterController.twitterTweet,
-        DiscordController.spotifyNewMusic,
-        DiscordController.outlookMailReceived,
-        DiscordController.outlookEventCreated,
-        DiscordController.discordMessageReceived,
-        DiscordController.discordNewMember,
-        DiscordController.trelloCardAdded,
-        DiscordController.trelloDeadline,
-        DiscordController.onedriveFileDeleted,
-        DiscordController.onedriveFileAdded
+        GithubController.githubPush, // 0
+        GithubController.githubNewPullRequest, // 1
+        TwitterController.twitterTweet, // 2
+        DiscordController.spotifyNewMusic, // 3
+        DiscordController.discordMessageReceived, // 4
+        DiscordController.discordNewMember, // 5
+        DiscordController.discordMemberBan, // 6
+        DiscordController.discordNewMember, // 7 TODO change Timer
+        dropboxController.dropboxFileAdded, // 8
+        dropboxController.dropboxFileDeleted // 9
     ]
     return actionArray[action_id](area, action_result);
 }
@@ -126,12 +124,12 @@ async function SendToReactionById(area, action_id, action_result) {
     // Call a specific serviceController depending on the reaction_id
 
     const controllerArray = [
-        TwitterController.UseReaction,
-        TwitterController.UseReaction,
-        TwitterController.UseReaction,
-        DiscordController.UseReaction,
-        DiscordController.UseReaction,
-        GithubController.UseReaction
+        TwitterController.UseReaction, // 0
+        DiscordController.UseReaction, // 1
+        DiscordController.UseReaction, // 2
+        DiscordController.UseReaction, // 3
+        DiscordController.UseReaction, // 4
+        GithubController.UseReaction // 5
 
     ]
     const reactionmodel = await ReactionModel.findById(area.reaction_id);
