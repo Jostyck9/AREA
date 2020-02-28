@@ -143,7 +143,8 @@ router.get('/github/webhook', (req, res) => {
 
 router.post('/github/webhook', (req, res) => {
 	console.info(res)
-	console.info(req)
+    console.info(req)
+    //call areacontroller we r triggered
 })
 
 /**

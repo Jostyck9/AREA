@@ -14,39 +14,26 @@ exports.github = (req, res) => {
     res.end()
 }
 
-
 const TOKEN = process.env.GITHUB_TOKEN;
 const HOOK_URL = process.env.GITHUB_HOOK_URL;
-/*
-// basic auth
-var gh = new Github({
-    token: TOKEN
- });
 
-
-exports.readDatas = async function () {
-const client = gh.getUser('Ebailloux');
-client.listStarredRepos()
-   .then(function({data: reposJson}) {
-     console.log(`client has ${reposJson.length} repos!`);
-   });
+/**
+ * Call required reaction
+ * @group Github - Github UseReaction
+ */
+exports.UseReaction = async(action_result, area) => {
+    //Call required reaction
+    await this.createGithubWebhook()
 }
 
 
-/*
- var me = client.getUser(); // no user specified defaults to the user for whom credentials were provided
- me.listNotifications(function(err, notifications) {
-    // do some stuff
- }); */
+ exports.createGithubWebhook = async function () {
 
-
- exports.createGithubHook = async function() {
-
-    var gh = new GitHub({
-    token: TOKEN
+     var gh = new Github({
+        token: TOKEN
     });
 
-    var fork = gh.getRepo('Ebailloux', 'TESTAREA');
+    var fork = gh.getRepo('Ebailloux', 'AREATEST');
 
     var hookDef = {
         "name": "web",
@@ -64,5 +51,5 @@ client.listStarredRepos()
     fork.createHook(hookDef)
     .then(function({data: hook}) {
         console.log("A web hook has been created which will trigger a build on push and pull request events...");
-    });
+      });
 }
