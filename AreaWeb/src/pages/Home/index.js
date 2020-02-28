@@ -87,6 +87,9 @@ export default class Home extends React.Component {
                     
                     // Get all areas already created //
                     var token = localStorage.getItem('currentUser');
+                    alert('hello: ' + token)
+                    console.log("Grossse bite juteuse")
+                    alert(typeof(token))
                     fetch(
                         process.env.REACT_APP_SERVER_URI + '/area', {
                         method: 'GET',
@@ -95,8 +98,10 @@ export default class Home extends React.Component {
                             Authorization: "Bearer " + token
                         }
                     }).then(res => {
+                        alert('ok ' + res.status)
                         if (res.status >= 200 && res.status <= 204) {
                             res.json().then(data => {
+                                alert(data.length)
                                 this.setState({areas: data, actions: actions, reactions: reactions, actionsName: actionsNames,
                                     reactionsName: reactionsNames, actionsDesc: actionsDescs, reactionsDesc: reactionsDescs})
                             })

@@ -135,10 +135,12 @@ export default class Creation extends React.Component {
             params_action.push(document.getElementById(test1[i]).value)
         }
         alert("HERE : " + params_action)
+        alert("LENGTH : " + test2.length)
         for (let i = 0; i < test2.length; i++) {
             alert(document.getElementById(test2[i]).value)
             params_reaction.push(document.getElementById(test2[i]).value)
         }
+        alert("END HERE ?")
 
         for (var [key1, value1] of this.state.actions) {
                 if (key1 === valueAct) {
@@ -162,10 +164,11 @@ export default class Creation extends React.Component {
         parameters_action[params_params_action[i]] = params_action[i]
     }
     for (let i = 0; i < params_params_reaction.length; i++) {
-        alert("need to be server : " + params_params_reaction[i] + "need to be my dudes" + params_reaction[i])
+        alert("need to be server : " + params_params_reaction[i] + "need to be hellow" + params_reaction[i])
         parameters_reaction[params_params_reaction[i]] = params_reaction[i]
     }
-    var token = localStorage.getItem('currentUser');
+    alert("GOING TO FETCH")
+    var token = JSON.parse(localStorage.getItem('currentUser'));
     fetch(process.env.REACT_APP_SERVER_URI + '/area', {
         method: 'POST',
         body: JSON.stringify({ action_id: action_id, reaction_id: reaction_id, parameters_action: parameters_action, parameters_reaction: parameters_reaction}),
@@ -191,6 +194,7 @@ export default class Creation extends React.Component {
     }).catch(err => {
         alert(err.message)
     })
+    alert("HELLO ??")
     this.setState({state: 3})
     // HAVE TO FIX REACTIONS (test with Discord for actions and Twitter for reactions)
     }
@@ -267,12 +271,12 @@ export default class Creation extends React.Component {
         }
 
         for (var [key2, value2] of this.state.Map2) {
-            if (key1 !== "") {
+            if (key2 !== "") {
                 arrayreactions.push(<br></br>)
                 arrayreactions.push(<Form.Label>{key2}:</Form.Label>)
                 if (value2 === "string") {
                     let idReaction = "reaction." + key2
-                    arrayreactions.push(<Form.Control id={key2} placeholder="The value must be a string" required/>)
+                    arrayreactions.push(<Form.Control id={idReaction} placeholder="The value must be a string" required/>)
                     array_for_rea_pushing.push(idReaction)
                 }
                 else if (value2 === "number")
