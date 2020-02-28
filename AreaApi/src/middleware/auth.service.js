@@ -34,7 +34,7 @@ const auth = async (req, res, next) => {
     }
 }
 
-const authLogin = async (req, res, next) => {
+const optAuth = async (req, res, next) => {
     try {
         if (!req.query.hasOwnProperty('cb')) {
             res.status(400).send({ message: 'missing cb url' })
@@ -61,79 +61,7 @@ const authLogin = async (req, res, next) => {
     }
 }
 
-const authLoginCallback = async (req, res, next) => {
-    try {
-        if (req.query.state) {
-            const token = req.query.state
-            const data = jwt.verify(token, process.env.JWT_KEY)
-
-            const resToken = await Token.findByClientToken(token)
-            if (!resToken)
-                throw new Error()
-
-            const resUser = await User.findById(resToken.client_id)
-            if (!resUser)
-                throw new Error()
-
-            req.userArea = resUser
-        }
-        next()
-    } catch (error) {
-        res.status(401).send({ message: 'Not authorized to access this resource' })
-    }
-}
-
-const authCallback = async (req, res, next) => {
-    try {
-        const token = req.query.state
-        const data = jwt.verify(token, process.env.JWT_KEY)
-
-        const resToken = await Token.findByClientToken(token)
-        if (!resToken)
-            throw new Error()
-
-        const resUser = await User.findById(resToken.client_id)
-        if (!resUser)
-            throw new Error()
-
-        req.userArea = resUser
-        next()
-    } catch (error) {
-        res.status(401).send({ message: 'Not authorized to access this resource' })
-    }
-}
-
-const auth1 = async (req, res, next) => {
-    try {
-        req.session.urlId = req.urlId
-        console.log('session : ' + req.session.urlId)
-        next()
-    } catch (error) {
-        res.status(401).send({ message: 'Not authorized to access this resource' })
-    }
-}
-
-const auth1Callback = async (req, res, next) => {
-    try {
-        console.log('try to connect')
-        const token = req.session.token
-        const data = jwt.verify(token, process.env.JWT_KEY)
-
-        const resToken = await Token.findByClientToken(token)
-        if (!resToken)
-            throw new Error()
-
-        const resUser = await User.findById(resToken.client_id)
-        if (!resUser)
-            throw new Error()
-        req.userArea = resUser
-        next()
-    } catch (error) {
-        res.status(401).send({ message: 'Not authorized to access this resource' })
-    }
-}
-
-const saveUrlCallback = async (req, res, next) => {
+const saveUrlCB = async (req, res, next) => {
     try {
         let userId = null
         if (req.userArea) {
@@ -144,9 +72,65 @@ const saveUrlCallback = async (req, res, next) => {
             clientId: userId
         });
         const resUrl = await UrlCallbackModel.create(newUrl)
-        console.log(resUrl)
         req.urlId = resUrl.idUrl
-        console.log(req.urlId)
+        next()
+    } catch (error) {
+        res.status(401).send({ message: 'Not authorized to access this resource' })
+    }
+}
+
+const saveToSession = async (req, res, next) => {
+    try {
+        req.session.urlId = req.urlId
+        next()
+    } catch (error) {
+        res.status(401).send({ message: 'Not authorized to access this resource' })
+    }
+}
+
+
+// NOTE from here CALLBACK AUTH2
+
+const getFromSession = async (req, res, next) => {
+    let urlId = null
+    if (req.session) {
+        urlId = req.session.urlId
+        req.query.state = urlId
+    }
+    next()
+}
+
+const getUrlCB = async (req, res, next) => {
+    try {
+        if (!req.query.state) {
+            console.error('No urlId found in query')
+            throw new Error()
+        }
+        const resUrl = await UrlCallbackModel.findByUrlId(req.query.state)
+        if (!resUrl)
+            throw new Error()
+        req.urlCallback = resUrl
+        await UrlCallbackModel.deleteByUrlId(req.query.state)
+        next()
+    } catch (error) {
+        res.status(401).send({ message: 'Not authorized to access this resource' })
+    }
+}
+
+const getUser = async (req, res, next) => {
+    try {
+        console.log("user")
+        if (!req.urlCallback) {
+            console.error('No urlId found in request')
+            throw new Error()
+        }
+
+        const resUser = await User.findById(req.urlCallback.client_id)
+        if (resUser)
+            req.userArea = resUser
+        // console.log(req.urlCallback)
+        // console.log(req.userArea)
+        // console.log('End')
         next()
     } catch (error) {
         res.status(401).send({ message: 'Not authorized to access this resource' })
@@ -175,12 +159,12 @@ const facebookAuth = function (req, res, next) {
 
 module.exports = {
     auth,
-    authCallback,
-    authLogin,
-    authLoginCallback,
-    auth1,
-    auth1Callback,
-    saveUrlCallback,
+    optAuth,
+    saveToSession,
+    getFromSession,
+    getUrlCB,
+    saveUrlCB,
+    getUser,
     githubAuth,
     twitterAuth,
     spotifyAuth,
