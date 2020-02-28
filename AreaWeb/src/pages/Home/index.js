@@ -22,10 +22,10 @@ export default class Home extends React.Component {
             actionsDesc: new Map(),
             reactionsDesc: new Map(),
             areas: [],
-            InfoDisplay: [],
+            InfoDisplay: new Map(),
             showmodalDeletion: false,
             showmodalInfo: false,
-            images: new Map()
+            images: new Map(),
         };
         this.showModal = e => {
             this.setState({showmodalDeletion: true});
@@ -173,20 +173,62 @@ export default class Home extends React.Component {
     
     ModalInfo() {
         return(
-            <Modal id="modalAreaInformation" show={this.state.showmodalInfo}>
-                <Modal.Header closeButton onClick={e => {this.onCloseInfo();}}>
+            <Modal id="modalAreaInformation" show={this.state.showmodalInfo} size="lg" centered>
+                <Modal.Header closeButton onClick={e => {this.state.InfoDisplay.clear();this.onCloseInfo();}}>
                     <Modal.Title>Area informations</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>Service: Action: Description: Parameters:
-                Service: Reaction: Description: Parameters:
+                <Modal.Body className="text-center">
+                    <div class="mb-3">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <img src={this.state.InfoDisplay.get("action_logo")} height="150" width="150" alt=""/>
+                            </div>
+                            <div class="col-md-8 card-body">
+                                <h3 class={this.state.InfoDisplay.get("service_action")} >{this.jsUcfirst(this.state.InfoDisplay.get("service_action"))}</h3>
+                                <h4>Action: {this.state.InfoDisplay.get("action")}</h4>
+                                <h5>{this.state.InfoDisplay.get("action_desc")}</h5><br/>
+                                  
+                                Parameters: {this.state.InfoDisplay.get("action_params")}
+                            </div>
+                        </div>
+                    </div>
+                </Modal.Body>
+                <Modal.Body className="text-center">
+                <div class="mb-3">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <img src={this.state.InfoDisplay.get("reaction_logo")} height="150" width="150" alt=""/>
+                            </div>
+                            <div class="col-md-8 card-body">
+                                <h3 class={this.state.InfoDisplay.get("service_reaction")} >{this.jsUcfirst(this.state.InfoDisplay.get("service_reaction"))}</h3>
+                                <h4>Action: {this.state.InfoDisplay.get("reaction")}</h4>
+                                <h5>{this.state.InfoDisplay.get("reaction_desc")}</h5><br/>
+                                  
+                                Parameters: {this.state.InfoDisplay.get("reaction_params")}
+                            </div>
+                        </div>
+                    </div>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={e => {this.onCloseInfo();}}>
+                    <Button variant="secondary" onClick={e => {this.state.InfoDisplay.clear();this.onCloseInfo();}}>
                         Close
                     </Button>
                 </Modal.Footer>
             </Modal>
         )
+    }
+
+    fillInfoToDisplay(element) {
+        this.state.InfoDisplay.set("action_logo", this.state.images.get(this.state.actions.get(element.action_id)))
+        this.state.InfoDisplay.set("reaction_logo", this.state.images.get(this.state.reactions.get(element.reaction_id)))
+        this.state.InfoDisplay.set("service_action", this.state.actions.get(element.action_id))
+        this.state.InfoDisplay.set("service_reaction", this.state.reactions.get(element.reaction_id))
+        this.state.InfoDisplay.set("action", this.state.actionsName.get(element.action_id))
+        this.state.InfoDisplay.set("reaction", this.state.reactionsName.get(element.reaction_id))
+        this.state.InfoDisplay.set("action_desc", this.state.actionsDesc.get(element.action_id))
+        this.state.InfoDisplay.set("reaction_desc", this.state.reactionsDesc.get(element.reaction_id))
+        this.state.InfoDisplay.set("action_params", 'ouais ouais')
+        this.state.InfoDisplay.set("reaction_params", 'hah hah')
     }
 
     createAreasCard() {
@@ -195,11 +237,11 @@ export default class Home extends React.Component {
         this.state.areas.forEach(element => {
             array.push(
                 <Card className="mb-3" style={{ width: '18rem', margin: '45px' }}>
-                    <Card.Header onClick={element => {this.showModalInfo();}}>
+                    <Card.Header onClick={e => {this.fillInfoToDisplay(element);this.showModalInfo()}}>
                         <img src={this.state.images.get(this.state.actions.get(element.action_id))} height="100" width="100" alt=""/>
                         <img src={this.state.images.get(this.state.reactions.get(element.reaction_id))} height="100" width="100" alt=""/>
                     </Card.Header>
-                    <Card.Body className="bg_twitter" onClick={element => {this.showModalInfo();}}>
+                    <Card.Body className="bg_twitter" onClick={e => {this.fillInfoToDisplay(element);this.showModalInfo()}}>
                         <h4 class={this.state.actions.get(element.action_id)} >{this.jsUcfirst(this.state.actions.get(element.action_id))}</h4>
                         <h4 class="dispinline" > x </h4>
                         <h4 class={this.state.reactions.get(element.reaction_id)} >{this.jsUcfirst(this.state.reactions.get(element.reaction_id))}</h4>
