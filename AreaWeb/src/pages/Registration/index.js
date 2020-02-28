@@ -3,6 +3,8 @@ import React from 'react';
 import '../../css/site.css';
 import { Button, Form } from 'react-bootstrap'
 import GitHub from '../../images/github_logo.png'
+const urlRedirection = process.env.REACT_APP_URI + "/GitHubOAuth"
+const url = process.env.REACT_APP_SERVER_AUTH + '/auth/github?cb=' + urlRedirection
 
 export default class Registration extends React.Component {
     constructor(props) {
@@ -81,7 +83,7 @@ export default class Registration extends React.Component {
                             <Button variant="secondary" size="lg" active type="submit" value="Submit">Register</Button><br />
                         </Form>
                         <div class="text-center">
-                            <br/><Button variant="secondary" size="lg" className="divider" active>
+                            <br/><Button variant="secondary" size="lg" className="divider" href={url}>
                                 <img src={GitHub} height="30" width="30" alt="GitHub" />    Github
                             </Button><br/>
                         </div>

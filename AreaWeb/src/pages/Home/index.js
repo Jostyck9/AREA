@@ -80,8 +80,7 @@ export default class Home extends React.Component {
                     });
                     
                     // Get all areas already created //
-
-                    var token = JSON.parse(localStorage.getItem('currentUser'));
+                    var token = localStorage.getItem('currentUser');
                     fetch(
                         process.env.REACT_APP_SERVER_URI + '/area', {
                         method: 'GET',
@@ -104,7 +103,7 @@ export default class Home extends React.Component {
     }
     
     resetAreas() {
-        var token = JSON.parse(localStorage.getItem('currentUser'));
+        var token = localStorage.getItem('currentUser');
         fetch(
             process.env.REACT_APP_SERVER_URI + '/area', {
             method: 'GET',
@@ -122,7 +121,7 @@ export default class Home extends React.Component {
     }
 
     deleteAllAreas() {
-        var token = JSON.parse(localStorage.getItem('currentUser'))
+        var token = localStorage.getItem('currentUser')
         this.state.areas.forEach(element => {
             fetch(
                 process.env.REACT_APP_SERVER_URI + '/area/' + element.id, {
@@ -145,7 +144,7 @@ export default class Home extends React.Component {
     }
 
     deleteArea(id) {
-        var token = JSON.parse(localStorage.getItem('currentUser'))
+        var token = localStorage.getItem('currentUser')
         fetch(
             process.env.REACT_APP_SERVER_URI + '/area/' + id, {
             method: 'DELETE',
