@@ -8,7 +8,10 @@ const UserModel = require('../models/User.model')
  */
 exports.getMe = async (req, res) => {
     try {
-        res.status(200).send({username: req.user.username, email: req.user.email})
+        if (req.user.is_oauth2)
+            res.status(200).send({username: req.user.username, is_oauth2: req.user.is_oauth2})
+        else
+            res.status(200).send({username: req.user.username, email: req.user.email})
     } catch (error) {
         res.status(403).send({message: error.message || "Some error occurred while getting the User."})
     }
@@ -53,6 +56,8 @@ exports.getUsername = async (req, res) => {
  */
 exports.updatePassword = async (req, res) => {
     try {
+        if (req.user.is_oauth2)
+            throw new Error('Cannot update password because you authentified by oauth2')
         if (!req.body.hasOwnProperty("password"))
             throw new Error('Field password missing')
         const resRequest = await UserModel.updatePassword(req.user.id, req.body.password)

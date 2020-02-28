@@ -7,20 +7,37 @@ const CONSUMER_KEY = process.env.TWITTER_API_KEY;
 const CONSUMER_SECRET = process.env.TWITTER_API_SECRET;
 const SERVER_URL = process.env.SERVER_URL;
 const TWITTER_ENV = process.env.TWITTER_ENV;
+const ServiceAuthController = require('./serviceAuth.controller')
+const ServiceModel = require('../models/Service.model')
 
-exports.twitter = (req, res) => {
-    // const io = req.app.get('io')
-    console.log(req.query.oauth_token)
-    console.log(req.user)
-    // const user = {
-    //     name: req.user.username,
-    //     photo: req.user.photos[0].value.replace(/_normal/, '')
-    // }
+/**
+ * twitter connect the token received to the database
+ * 
+ * @param {any} req the request
+ * @param {any} res the res
+ */
+exports.twitter = async (req, res) => {
+    try {
+        const resService = await ServiceModel.findByName('twitter')
+        if (!resService)
+            throw new Error("Unkown service twitter")
 
-    // io.in(req.session.socketId).emit('user', req.user)
-    // res.send({ token_twitter: req.query.oauth_token
-    res.send({ token_twitter: req.query.oauth_token, token: req.session.token })
-    req.session.destroy();
+        ServiceAuthController.connect(
+            req.userArea.id,
+            {
+                access_token: req.user.accessToken || null,
+                refresh_token: null,
+                secret_token: req.user.tokenSecret || null,
+                expires_in: null,
+            },
+            resService.id,
+            req.urlCallback.url,
+            res
+        )
+        req.session.destroy()
+    } catch (err) {
+        res.status(400).send({ message: err.message || 'An internal error occured' });
+    }
 }
 
 

@@ -1,4 +1,38 @@
 const dropboxV2Api = require('dropbox-v2-api');
+const ServiceAuthController = require('./serviceAuth.controller')
+const ServiceModel = require('../models/Service.model')
+
+
+/**
+ * dropobox connect the token received to the database
+ * 
+ * @param {any} req the request
+ * @param {any} res the res
+ */
+exports.dropbox = async (req, res) => {
+    try {
+        const resService = await ServiceModel.findByName('dropbox')
+        if (!resService)
+            throw new Error("Unkown service dropbox")
+
+        ServiceAuthController.connect(
+            req.userArea.id,
+            {
+                access_token: req.user.accessToken || null,
+                refresh_token: req.user.refresh_token || null,
+                secret_token: req.user.tokenSecret || null,
+                expires_in: null,
+            },
+            resService.id,
+            req.urlCallback.url,
+            res
+        )
+        req.session.destroy()
+    } catch (err) {
+        res.status(400).send({ message: err.message || 'An internal error occured' });
+    }
+}
+
 
 function initDropbox(params) {
 	// NOTE add the cursor in database
