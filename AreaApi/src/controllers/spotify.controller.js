@@ -13,8 +13,9 @@ exports.spotify = async (req, res) => {
         if (!resService)
             throw new Error("Unkown service spotify")
 
+        console.log('Begin')
         ServiceAuthController.connect(
-            req.userArea,
+            req.userArea.id,
             {
                 access_token: req.user.accessToken || null,
                 refresh_token: req.user.refresh_token || null,
@@ -22,6 +23,7 @@ exports.spotify = async (req, res) => {
                 expires_in: req.user.expiresIn || null,
             },
             resService.id,
+            req.urlCallback.url,
             res
         )
         req.session.destroy()
