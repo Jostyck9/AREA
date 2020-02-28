@@ -17,7 +17,7 @@
         app:srcCompat="@drawable/back" />
 
     <TextView
-        android:id="@+id/Action"
+        android:id="@+id/actionText"
         android:layout_width="275dp"
         android:layout_height="wrap_content"
         android:text="@string/action"
@@ -32,9 +32,9 @@
         app:layout_constraintVertical_bias="0.25" />
 
     <Button
-        android:id="@+id/action_button"
+        android:id="@+id/actionButton"
         android:layout_width="275dp"
-        android:layout_height="35dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:background="@color/backgroundText"
         android:ems="10"
@@ -42,13 +42,13 @@
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Action" />
+        app:layout_constraintTop_toBottomOf="@+id/actionText" />
 
     <TextView
-        android:id="@+id/Reaction"
+        android:id="@+id/reactionText"
         android:layout_width="275dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="200dp"
         android:text="@string/reaction"
         android:textAlignment="viewStart"
         android:textColor="@color/colorPrimaryDark"
@@ -56,12 +56,12 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/action_button" />
+        app:layout_constraintTop_toBottomOf="@+id/actionText" />
 
     <Button
-        android:id="@+id/reaction_button"
+        android:id="@+id/reactionButton"
         android:layout_width="275dp"
-        android:layout_height="35dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:background="@color/backgroundText"
         android:ems="10"
@@ -69,7 +69,7 @@
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Reaction" />
+        app:layout_constraintTop_toBottomOf="@+id/reactionText" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/saveAreaButton"
@@ -95,5 +95,53 @@
                 android:textSize="17sp" />
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
+
+    <ListView
+        android:id="@+id/servicesActionList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" >
+
+    </ListView>
+
+    <ListView
+        android:id="@+id/actionsList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" >
+
+    </ListView>
+
+    <ListView
+        android:id="@+id/servicesReactionList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" >
+
+    </ListView>
+
+    <ListView
+        android:id="@+id/reactionsList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" >
+
+    </ListView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
