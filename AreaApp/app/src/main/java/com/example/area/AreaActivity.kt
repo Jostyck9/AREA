@@ -70,9 +70,40 @@ class AreaActivity : AppCompatActivity(), AreaView {
             finish()
     }
 
-    override fun showArea() {
+    override fun addActionServicesAdapter(actionAdapter: ArrayAdapter<String>, actionServicesList: ArrayList<String>) {
+        areaList.adapter = actionAdapter
+        areaList.setOnItemClickListener { _, _, position, _ ->
+            showActionList(actionServicesList[position])
+        }
+    }
 
+    override fun addReactionServicesAdapter(reactionAdapter: ArrayAdapter<String>, reactionServicesList: ArrayList<String>) {
+        areaList.adapter = reactionAdapter
+        areaList.setOnItemClickListener { _, _, position, _ ->
+            showReactionList(reactionServicesList[position])
+        }
+    }
+
+    override fun addActionAdapter(actionAdapter: ArrayAdapter<String>, actionList: ArrayList<String>) {
+        areaList.adapter = actionAdapter
+        areaList.setOnItemClickListener { _, _, position, _ ->
+            actionButton.text = actionList[position]
+            showArea()
+
+        }
+    }
+
+    override fun addReactionAdapter(reactionAdapter: ArrayAdapter<String>, reactionList: ArrayList<String>) {
+        areaList.adapter = reactionAdapter
+        areaList.setOnItemClickListener { _, _, position, _ ->
+            reactionButton.text = reactionList[position]
+            showArea()
+        }
+    }
+
+    override fun showArea() {
         actualScene = 0
+        areaList.adapter = null
 
         actionText.visibility = View.VISIBLE
         actionButton.visibility = View.VISIBLE
@@ -80,123 +111,42 @@ class AreaActivity : AppCompatActivity(), AreaView {
         reactionButton.visibility = View.VISIBLE
         saveAreaButton.visibility = View.VISIBLE
 
-        servicesActionList.visibility = View.INVISIBLE
-        servicesReactionList.visibility = View.INVISIBLE
+        areaList.visibility = View.INVISIBLE
+    }
 
-        actionsList.visibility = View.INVISIBLE
-        reactionsList.visibility = View.INVISIBLE
+    override fun showList() {
+        areaList.adapter = null
 
+        actionText.visibility = View.INVISIBLE
+        actionButton.visibility = View.INVISIBLE
+        reactionText.visibility = View.INVISIBLE
+        reactionButton.visibility = View.INVISIBLE
+        saveAreaButton.visibility = View.INVISIBLE
+
+        areaList.visibility = View.VISIBLE
     }
 
     override fun showActionServicesList() {
-
         actualScene = 1
-        servicesActionList.adapter = null
         areaPresenter.getServicesActionList()
-
-        actionText.visibility = View.INVISIBLE
-        actionButton.visibility = View.INVISIBLE
-        reactionText.visibility = View.INVISIBLE
-        reactionButton.visibility = View.INVISIBLE
-        saveAreaButton.visibility = View.INVISIBLE
-
-        servicesActionList.visibility = View.VISIBLE
-        servicesReactionList.visibility = View.INVISIBLE
-
-        actionsList.visibility = View.INVISIBLE
-        reactionsList.visibility = View.INVISIBLE
-
-    }
-
-    override fun addActionServicesAdapter(actionAdapter: ArrayAdapter<String>, actionServicesList: ArrayList<String>) {
-        servicesActionList.adapter = actionAdapter
-        servicesActionList.setOnItemClickListener { parent, view, position, id ->
-            showActionList(actionServicesList[position])
-        }
+        showList()
     }
 
     override fun showReactionServicesList() {
-
         actualScene = 3
-        servicesReactionList.adapter = null
         areaPresenter.getServicesReactionList()
-
-        actionText.visibility = View.INVISIBLE
-        actionButton.visibility = View.INVISIBLE
-        reactionText.visibility = View.INVISIBLE
-        reactionButton.visibility = View.INVISIBLE
-        saveAreaButton.visibility = View.INVISIBLE
-
-        servicesActionList.visibility = View.INVISIBLE
-        servicesReactionList.visibility = View.VISIBLE
-
-        actionsList.visibility = View.INVISIBLE
-        reactionsList.visibility = View.INVISIBLE
-    }
-
-    override fun addReactionServicesAdapter(reactionAdapter: ArrayAdapter<String>, reactionServicesList: ArrayList<String>) {
-        servicesReactionList.adapter = reactionAdapter
-        servicesReactionList.setOnItemClickListener { parent, view, position, id ->
-            showReactionList(reactionServicesList[position])
-        }
+        showList()
     }
 
     override fun showActionList(serviceName: String) {
-
         actualScene = 2
-        actionsList.adapter = null
         areaPresenter.getActionList(serviceName)
-
-        actionText.visibility = View.INVISIBLE
-        actionButton.visibility = View.INVISIBLE
-        reactionText.visibility = View.INVISIBLE
-        reactionButton.visibility = View.INVISIBLE
-        saveAreaButton.visibility = View.INVISIBLE
-
-        servicesActionList.visibility = View.INVISIBLE
-        servicesReactionList.visibility = View.INVISIBLE
-
-        actionsList.visibility = View.VISIBLE
-        reactionsList.visibility = View.INVISIBLE
-    }
-
-    override fun addActionAdapter(actionAdapter: ArrayAdapter<String>, actionList: ArrayList<String>) {
-
-        actionsList.adapter = actionAdapter
-        actionsList.setOnItemClickListener { parent, view, position, id ->
-            actionButton.text = actionList[position]
-            showArea()
-        }
-
+        showList()
     }
 
     override fun showReactionList(serviceName: String) {
-
         actualScene = 4
-        reactionsList.adapter = null
         areaPresenter.getReactionList(serviceName)
-
-        actionText.visibility = View.INVISIBLE
-        actionButton.visibility = View.INVISIBLE
-        reactionText.visibility = View.INVISIBLE
-        reactionButton.visibility = View.INVISIBLE
-        saveAreaButton.visibility = View.INVISIBLE
-
-        servicesActionList.visibility = View.INVISIBLE
-        servicesReactionList.visibility = View.INVISIBLE
-
-        actionsList.visibility = View.INVISIBLE
-        reactionsList.visibility = View.VISIBLE
+        showList()
     }
-
-    override fun addReactionAdapter(reactionAdapter: ArrayAdapter<String>, reactionList: ArrayList<String>) {
-
-        reactionsList.adapter = reactionAdapter
-        reactionsList.setOnItemClickListener { parent, view, position, id ->
-            reactionButton.text = reactionList[position]
-            showArea()
-        }
-
-    }
-
 }

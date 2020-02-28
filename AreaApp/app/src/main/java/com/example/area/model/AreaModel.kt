@@ -37,13 +37,6 @@ class AreaModel(private var areaPresenter: AreaPresenter, private var context: C
                             val actionsJsonArray = jsonObject.getJSONArray("actions")
                             if (actionsJsonArray.toString() != "[]") {
                                 actionServicesList.add(jsonObject.getString("name"))
-
-/*                              for (y in 0 until actionsJsonArray.length()) {
-                                    val newJsonObject = actionsJsonArray.getJSONObject(y)
-                                    if (newJsonObject.has("name")) {
-                                        Log.d("debug3", newJsonObject.getString("name"))
-                                    }
-                                }*/
                             }
                         }
                     }

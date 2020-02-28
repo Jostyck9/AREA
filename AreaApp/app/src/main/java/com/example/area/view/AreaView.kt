@@ -5,6 +5,7 @@ import android.widget.ArrayAdapter
 interface AreaView {
 
     fun showArea()
+    fun showList()
 
     fun showActionServicesList()
     fun addActionServicesAdapter(actionAdapter: ArrayAdapter<String>, actionServicesList: ArrayList<String>)
