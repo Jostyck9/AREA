@@ -62,4 +62,29 @@ router.get('/me/username', auth, async (req, res) => {
     await UserController.getUsername(req, res)
 })
 
+/**
+ * Get all the services auth and their status
+ * @group User - User Data
+ * @route GET /me/auth
+ * @security JWT
+ * @returns {JSON} 200 - JWT for the api
+ * @returns {Error}  default - Unexpected error
+ */
+router.get('/me/auth', auth, async (req, res) => {
+    await UserController.getAllAuthServiceStatus(req, res)
+})
+
+/**
+ * Get all the services auth and their status
+ * @group User - User Data
+ * @route GET /me/auth/{nameService}
+ * @param {string} nameService.path.required - Name of the service
+ * @security JWT
+ * @returns {JSON} 200 - JWT for the api
+ * @returns {Error}  default - Unexpected error
+ */
+router.get('/me/auth/:nameService', auth, async (req, res) => {
+    await UserController.getAuthServiceStatus(req, res)
+})
+
 module.exports = router
