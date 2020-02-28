@@ -97,8 +97,8 @@ exports.connectActionToReaction =  async (action_id, action_result) => {
 function checkIfuserIsConcerned(area, action_result, action_id) {
 
     const actionArray = [
-        DiscordController.githubPush,
-        DiscordController.githubNewPullRequest,
+        GithubController.githubPush,
+        GithubController.githubNewPullRequest,
         TwitterController.twitterTweet,
         DiscordController.spotifyNewMusic,
         DiscordController.outlookMailReceived,

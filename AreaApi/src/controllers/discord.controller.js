@@ -105,12 +105,6 @@ exports.discordNewMember = async function(area, action_result) {
 
 // TEMPORARY
 
-exports.githubPush = async function(area, action_result) {
-    return false;
-}
-exports.githubNewPullRequest = async function(area, action_result) {
-    return false;
-}
 exports.spotifyNewMusic = async function(area, action_result) {
     return false;
 }

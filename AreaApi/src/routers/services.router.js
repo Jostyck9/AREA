@@ -1,6 +1,7 @@
 const express = require('express');
 const ServiceController = require('../controllers/service.controller')
 const dropboxController = require('../controllers/dropbox.controller')
+const githubController = require('../controllers/github.controller')
 const router = express.Router();
 
 /**
@@ -137,14 +138,24 @@ router.get('/services/actions/:idAction', async (req, res) => {
     await ServiceController.getAction(req, res)
 })
 
+/**
+* Get a the verification of github webhook
+* @route GET /github/webhook
+* @group Services - Services informations
+* @returns {Error}  default - Unexpected error
+*/
 router.get('/github/webhook', (req, res) => {
-    res.status(200).send({"Name":"Github's Webhooks reception route", "content": "nothing for now ..."})
+    res.status(200).send({"Name":"Github's Webhooks reception route", "content": "..."})
 })
 
+/**
+* Post when Github receives a trigger on webhook
+* @route GET /github/webhook
+* @group Services - Services informations
+* @returns {Error}  default - Unexpected error
+*/
 router.post('/github/webhook', (req, res) => {
-	console.info(res)
-    console.info(req)
-    //call areacontroller we r triggered
+    githubController.webhookTriggered(req, res)
 })
 
 /**
