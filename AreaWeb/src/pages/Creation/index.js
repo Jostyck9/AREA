@@ -2,6 +2,8 @@ import '../../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import React from 'react';
 import '../../css/site.css';
 import { Button, Form , Col} from 'react-bootstrap'
+import JSONPretty from 'react-json-pretty'
+
 
 export default class Creation extends React.Component {
     constructor(props) {
@@ -13,7 +15,8 @@ export default class Creation extends React.Component {
         valueRea: 'nothing',
         state: 0,
         data: [],
-        id: [],
+        id_act: [],
+        id_rea: [],
         services: [],
         actions: [],
         reactions: [],
@@ -32,6 +35,8 @@ export default class Creation extends React.Component {
     
     componentWillMount() {
         var services = []
+        var id_act = []
+        var id_rea = []
         var actions = new Map()
         var reactions = new Map()
         fetch(
@@ -44,14 +49,16 @@ export default class Creation extends React.Component {
                     this.setState({data: data})
                     data.forEach(element => {
                         services.push(element.name)
-                        alert("Service name = " + element.name + " id of the service = " + element.id)
                         element.actions.forEach(element2 => {
                             actions.set(element2.name, element.name)
+                            id_act.push(element2.id)
+                            // alert("Service name = " + element.name + " ation name ? " + element2.name + " id ? = " + element2.id)
                         });
                         element.reactions.forEach(element2 => {
                             reactions.set(element2.name, element.name)
+                            id_rea.push(element2.id)
                         });
-                        this.setState({services: services, actions: actions, reactions: reactions})
+                        this.setState({services: services, actions: actions, reactions: reactions, id_act: id_act, id_rea: id_rea})
                     });
                 })
             }
@@ -97,39 +104,94 @@ export default class Creation extends React.Component {
     }
 
     onSubmit = (test1, test2) => {
-        alert("HI = " + test1)
-        const {valueServAct, valueServRea, valueAct, valueRea} = this.state;
-        alert("Size of params_actions: " + test1.length)
+        var action_id;
+        var reaction_id;
+        var x = 0;
+        var params_action = []
+        var params_reaction = []
+        var params_params_action = []
+        var params_params_reaction = []
+        var parameters_action = {}
+        var parameters_reaction = {}
+
+        const {valueAct, valueRea} = this.state;
+
+        for (let i = 0; i < test1.length; i++)
+            params_params_action.push(test1[i].split('.').pop())
+        for (let i = 0; i < test2.length; i++)
+            params_params_reaction.push(test2[i].split('.').pop())
+        
+        if (test1.length === 0) {
+            alert("test1 set to null")
+            parameters_action = null
+        }
+        if (test2.length === 0) {
+            alert("test2 set to null")
+            parameters_reaction = null
+        }
+
         for (let i = 0; i < test1.length; i++) {
             alert(document.getElementById(test1[i]).value)
+            params_action.push(document.getElementById(test1[i]).value)
         }
-//        for (let i = 0; i <)
+        alert("HERE : " + params_action)
+        for (let i = 0; i < test2.length; i++) {
+            alert(document.getElementById(test2[i]).value)
+            params_reaction.push(document.getElementById(test2[i]).value)
+        }
 
-    //     fetch(process.env.REACT_APP_SERVER_URI + '/auth/login', {
-    //             method: 'POST',
-    //             body: JSON.stringify({ email: email, password: password }),
-    //             headers: {
-    //                 'Content-Type': 'application/json'
-    //             }
-    //         }).then(res => {
-    //             if (res.status >= 200 && res.status <= 204) {
-    //                 res.json().then(data => {
-    //                     alert(data.token)
-    //                     // global.token = data.token
-    //                     // global.signed = true
-    //                     localStorage.setItem('currentUser', JSON.stringify(data.token))
-    //                     this.props.history.push('/');
-    //                 })
-    //             } else {
-    //                 res.json().then(data => {
-    //                     alert(data.message || 'Unknow server error')
-    //                 }).catch(err => {
-    //                     alert('Invalid data format for error')
-    //                 })
-    //             }
-    //         }).catch(err => {
-    //             alert(err.message)
-    //         })
+        for (var [key1, value1] of this.state.actions) {
+                if (key1 === valueAct) {
+                    action_id = this.state.id_act[x]
+                    alert("Action = " + action_id)
+                }
+
+                x += 1
+        }
+        x = 0
+        for (var [key2, value1] of this.state.reactions) {
+            if (key2 === valueRea) {
+                reaction_id = this.state.id_rea[x]
+                alert("Reaction = " + reaction_id)
+            }
+            x += 1
+    }
+
+    for (let i = 0; i < params_params_action.length; i++) {
+        alert("need to be server : " + params_params_action[i] + "need to be my dudes" + params_action[i])
+        parameters_action[params_params_action[i]] = params_action[i]
+    }
+    for (let i = 0; i < params_params_reaction.length; i++) {
+        alert("need to be server : " + params_params_reaction[i] + "need to be my dudes" + params_reaction[i])
+        parameters_reaction[params_params_reaction[i]] = params_reaction[i]
+    }
+    var token = JSON.parse(localStorage.getItem('currentUser'));
+    fetch(process.env.REACT_APP_SERVER_URI + '/area', {
+        method: 'POST',
+        body: JSON.stringify({ action_id: action_id, reaction_id: reaction_id, parameters_action: parameters_action, parameters_reaction: parameters_reaction}),
+        headers: {
+            "content-type": "application/json",
+            Authorization: "Bearer " + token
+        }
+    }).then(res => {
+        alert(res.status)
+        if (res.status >= 200 && res.status <= 204) {
+            res.json().then(data => {
+                alert(data.token)
+                // global.token = data.token
+                // global.signed = true
+            })
+        } else {
+            res.json().then(data => {
+                alert(data.message || 'Unknow server error')
+            }).catch(err => {
+                alert('Invalid data format for error')
+            })
+        }
+    }).catch(err => {
+        alert(err.message)
+    })
+    this.setState({state: 3})
     }
 
     //================================================
@@ -372,6 +434,13 @@ export default class Creation extends React.Component {
         )
     }
 
+    succes()
+    {
+        return (
+            <div>Hello</div>
+        )
+    }
+
 
     // Show a choosen page from a state
 
@@ -383,6 +452,8 @@ export default class Creation extends React.Component {
             return (this.ChooseActionsReactions())
         else if (this.state.state === 2)
             return (this.ShowParamsPage())
+        else if (this.state.state === 3)
+            return (this.succes())
         else
             return (this.ErrorPage())
     }
