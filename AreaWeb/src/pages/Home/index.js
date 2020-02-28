@@ -23,6 +23,8 @@ export default class Home extends React.Component {
             reactionsDesc: new Map(),
             areas: [],
             InfoDisplay: new Map(),
+            InfoParamAction: new Map(),
+            InfoParamReaction: new Map(),
             showmodalDeletion: false,
             showmodalInfo: false,
             images: new Map(),
@@ -35,9 +37,13 @@ export default class Home extends React.Component {
           };
         this.showModalInfo = e => {
             this.setState({showmodalInfo: true});
+
         }
         this.onCloseInfo = e => {
             this.setState({showmodalInfo: false});
+            this.state.InfoDisplay.clear()
+            this.state.InfoParamAction.clear()
+            this.state.InfoParamReaction.clear()
         };
     }
 
@@ -170,12 +176,40 @@ export default class Home extends React.Component {
             return (string.charAt(0).toUpperCase() + string.slice(1))
     }
     
-    DisplayParamsInfo(params) {
+    DisplayParamsActionInfo() {
         var array = []
-        for (var [key, value] of params) {
+        if (this.state.InfoParamAction.size === 0) {
             array.push(
                 <div class="text-center">
-                    {key} : {value}
+                    <h6><b>No parameters</b></h6>
+                </div>
+            )
+            return(array)
+        }
+        for (var [key, value] of this.state.InfoParamAction) {
+            array.push(
+                <div class="text-center">
+                    <u>{key}</u> : {value}
+                </div>
+            )
+        }
+        return (array)
+    }
+
+    DisplayParamsReactionInfo() {
+        var array = []
+        if (this.state.InfoParamReaction.size === 0) {
+            array.push(
+                <div class="text-center">
+                    <h6><b>No parameters</b></h6>
+                </div>
+            )
+            return(array)
+        }
+        for (var [key, value] of this.state.InfoParamReaction) {
+            array.push(
+                <div class="text-center">
+                    <u>{key}</u> : {value}
                 </div>
             )
         }
@@ -183,14 +217,6 @@ export default class Home extends React.Component {
     }
 
     ModalInfo() {
-        // var params_action = new Map()
-        // var params_reaction = new Map()
-        // for (var [key, value] of this.state.InfoDisplay.get("action_params")) {
-        //     params_action.set(key, value)
-        // }
-        // for (var [key, value] of this.state.InfoDisplay.get("reaction_params")) {
-        //     params_reaction.set(key, value)
-        // }
         return(
             <Modal id="modalAreaInformation" show={this.state.showmodalInfo} size="lg" centered>
                 <Modal.Header closeButton onClick={e => {this.state.InfoDisplay.clear();this.onCloseInfo();}}>
@@ -199,7 +225,7 @@ export default class Home extends React.Component {
                 <Modal.Body className="text-center">
                     <div class="mb-3 row">
                         <div class="col-md-4">
-                            <img src={this.state.InfoDisplay.get("action_logo")} height="150" width="150" alt=""/>
+                            <img src={this.state.InfoDisplay.get("action_logo")} height="200" width="200" alt=""/>
                         </div>
                         <div class="col-md-8 card-body">
                             <h3 class={this.state.InfoDisplay.get("service_action")}><b>{this.jsUcfirst(this.state.InfoDisplay.get("service_action"))}</b></h3><br/>
@@ -207,15 +233,14 @@ export default class Home extends React.Component {
                             <h4 class={this.state.InfoDisplay.get("service_action")}>{this.state.InfoDisplay.get("action")}</h4><br/><br/>
                             <h5>{this.state.InfoDisplay.get("action_desc")}</h5><br/>
                                 
-                            Parameters: {this.state.InfoDisplay.get("action_params")}
-                            {/* Parameters: {this.DisplayParamsInfo(params_action)} */}
+                            <h4 class={this.state.InfoDisplay.get("service_action")}>Parameters :</h4>{this.DisplayParamsActionInfo()}
                         </div>
                     </div>
                 </Modal.Body>
                 <Modal.Body className="text-center">
                     <div class="mb-3 row">
                         <div class="col-md-4">
-                            <img src={this.state.InfoDisplay.get("reaction_logo")} height="150" width="150" alt=""/>
+                            <img src={this.state.InfoDisplay.get("reaction_logo")} height="200" width="200" alt=""/>
                         </div>
                         <div class="col-md-8 card-body">
                             <h3 class={this.state.InfoDisplay.get("service_reaction")}><b>{this.jsUcfirst(this.state.InfoDisplay.get("service_reaction"))}</b></h3><br/>
@@ -223,8 +248,7 @@ export default class Home extends React.Component {
                             <h4 class={this.state.InfoDisplay.get("service_reaction")}>{this.state.InfoDisplay.get("reaction")}</h4><br/><br/>
                             <h5>{this.state.InfoDisplay.get("reaction_desc")}</h5><br/>
                             
-                            Parameters: {this.state.InfoDisplay.get("reaction_params")}
-                            {/* Parameters: {this.DisplayParamsInfo(params_reaction)} */}
+                            <h4 class={this.state.InfoDisplay.get("service_action")}>Parameters :</h4> {this.DisplayParamsReactionInfo()}
                         </div>
                     </div>
                 </Modal.Body>
@@ -246,19 +270,16 @@ export default class Home extends React.Component {
         this.state.InfoDisplay.set("reaction", this.state.reactionsName.get(element.reaction_id))
         this.state.InfoDisplay.set("action_desc", this.state.actionsDesc.get(element.action_id))
         this.state.InfoDisplay.set("reaction_desc", this.state.reactionsDesc.get(element.reaction_id))
-        var mmmmap = JSON.parse(JSON.stringify(element.parameters_action))
-        Object.keys(element.parameters_action).forEach(element2 => {
-            alert(element2)
-            alert(element.parameters_action[element2])
-        });
-        // var mmmmap = new Map()
-        // mmmmap = JSON.parse(element.parameters_action)
-        // element.parameters_action.get("server").forEach(element => {
-        //     alert(element.value)
-        // });
-//        alert(element.parameters_action)
-        // this.state.InfoDisplay.set("action_params", element.parameters_action)
-        // this.state.InfoDisplay.set("reaction_params", element.parameters_reaction)
+        if (element.parameters_action) {
+            Object.keys(element.parameters_action).forEach(element2 => {
+                this.state.InfoParamAction.set(element2, element.parameters_action[element2])
+            });
+        }
+        if (element.parameters_reaction) {
+            Object.keys(element.parameters_reaction).forEach(element2 => {
+                this.state.InfoParamReaction.set(element2, element.parameters_reaction[element2])
+            });
+        }
     }
 
     createAreasCard() {
