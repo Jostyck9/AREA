@@ -84,6 +84,18 @@ CREATE TABLE `area` (
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `dropbox` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `client_id` int(11) NOT NULL,
+  `dropbox_id` varchar(200) NOT NULL,
+  `dropbox_cursor` varchar(200) NOT NULL,
+  UNIQUE KEY `service client_id` (`client_id`)
+  PRIMARY KEY (`id`)
+) DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `url_callback` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `url_id` varchar(15) NOT NULL,
