@@ -1,6 +1,7 @@
 const ServiceAuthController = require('./serviceAuth.controller')
 const User = require('../models/User.model')
 const Token = require('../models/Tokens.model')
+const UrlConstruct = require('../models/UrlContructor.model')
 
 /**
  * Create a user
@@ -58,7 +59,7 @@ exports.create = async (req, res) => {
  * @param {number} service_id The id of the service
  * @param {Response<any>} res The result of the request to send after
  */
-exports.loginRegisterOAuth2 = async (userInfo, tokens, service_id, res) => {
+exports.loginRegisterOAuth2 = async (userInfo, tokens, service_id, redirectUrl, res) => {
     try {
         if (!userInfo.hasOwnProperty('username'))
             throw new Error('No username given for login by service')
@@ -78,6 +79,7 @@ exports.loginRegisterOAuth2 = async (userInfo, tokens, service_id, res) => {
             userId,
             tokens,
             service_id,
+            redirectUrl,
             null
         )
 
@@ -85,13 +87,13 @@ exports.loginRegisterOAuth2 = async (userInfo, tokens, service_id, res) => {
         //create token
         const resToken = await Token.create(userId)
         if (resToken)
-            res.status(201).send(resToken)
+            res.redirect(UrlConstruct.createRedirect(redirectUrl, 'OK', resToken.token, null))
         else
-            res.status(500).send({ message: "Some error occurred while creating the User." })
+            res.redirect(UrlConstruct.createRedirect(redirectUrl, 'KO', null, null))
         
     } catch (error) {
         console.log(error)
-        res.status(403).send({ message: error.message || "Some error occurred while creating the User." })
+        res.redirect(UrlConstruct.createRedirect(redirectUrl, 'KO', null, null))
     }
 }
 

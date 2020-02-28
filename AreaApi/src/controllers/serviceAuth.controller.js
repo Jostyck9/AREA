@@ -1,6 +1,7 @@
 const ServiceAuthModel = require('../models/ServiceTokens.model')
 const User = require('../models/User.model')
 const Token = require('../models/Tokens.model')
+const UrlConstruct = require('../models/UrlContructor.model')
 
 /**
  * Connect the service with his token to the database
@@ -9,7 +10,7 @@ const Token = require('../models/Tokens.model')
  * @param {JSON} serviceTokens the user's token from the service
  * @param {any} res the res
  */
-exports.connect = async (user_id, serviceTokens, serviceId, res) => {
+exports.connect = async (user_id, serviceTokens, serviceId, redirectUrl, res) => {
     try {
         const foundService = await ServiceAuthModel.findByServiceAndClientId(serviceId, user_id);
         if (foundService) {
@@ -24,11 +25,13 @@ exports.connect = async (user_id, serviceTokens, serviceId, res) => {
             expires_in: serviceTokens.expires_in || null
         })
         const resRequest = await ServiceAuthModel.create(toSave)
-        if (res)
-            res.status(200).send({ message: 'connected' })
+        if (res) {
+            // res.status(200).send({ message: 'connected' })
+            res.redirect(UrlConstruct.createRedirect(redirectUrl, 'OK', null, 'connected'))
+        }
     } catch (err) {
         if (res)
-            res.status(403).send({ message: err.message || "An error occured" })
+            res.redirect(UrlConstruct.createRedirect(redirectUrl, 'KO', null, 'errorTokens'))
         else
             throw err
     }

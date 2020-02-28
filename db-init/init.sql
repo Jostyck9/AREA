@@ -82,6 +82,18 @@ CREATE TABLE `area` (
 -- Table structure for table `reactions`
 --
 
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `url_callback` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `url_id` varchar(15) NOT NULL,
+  `url` varchar(200) NOT NULL,
+  `client_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `service name` (`url_id`)
+) DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
 DROP TABLE IF EXISTS `reactions`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;

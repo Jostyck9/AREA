@@ -14,7 +14,7 @@ exports.twitter = async (req, res) => {
             throw new Error("Unkown service twitter")
 
         ServiceAuthController.connect(
-            req.userArea,
+            req.userArea.id,
             {
                 access_token: req.user.accessToken || null,
                 refresh_token: null,
@@ -22,6 +22,7 @@ exports.twitter = async (req, res) => {
                 expires_in: null,
             },
             resService.id,
+            req.urlCallback.url,
             res
         )
         req.session.destroy()
