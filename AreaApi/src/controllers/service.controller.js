@@ -148,7 +148,6 @@ exports.getServiceReaction = async (req, res) => {
 exports.getAction = async (req, res) => {
     try {
         resRequest = await Action.findById(req.params.idAction)
-        console.log(resRequest)
         if (!resRequest) {
             res.status(404).send({message: 'Unknow action'})
             return

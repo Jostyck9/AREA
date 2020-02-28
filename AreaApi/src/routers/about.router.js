@@ -46,7 +46,8 @@ router.get('/about.json', async (req, res) => {
         var about = new AboutJs(req.ip);
         res.status(200).send(await about.getAboutJson())
     } catch (error) {
-        res.status(401).send({ error: 'Failed to catch json object' })
+        console.log(error)
+        res.status(400).send({ error: error.message || 'Failed to catch json object' })
     }
 })
 

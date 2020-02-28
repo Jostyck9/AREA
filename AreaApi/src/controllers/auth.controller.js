@@ -1,3 +1,4 @@
+const ServiceAuthController = require('./serviceAuth.controller')
 const User = require('../models/User.model')
 const Token = require('../models/Tokens.model')
 
@@ -11,19 +12,19 @@ exports.create = async (req, res) => {
     // Create a new user
     try {
         if (!req.body) {
-            res.status(400).send({message: "Content can not be empty!"});
+            res.status(400).send({ message: "Content can not be empty!" });
             return
         }
         if (!req.body.hasOwnProperty('email')) {
-            res.status(400).send({message: "An email field is required"});
+            res.status(400).send({ message: "An email field is required" });
             return
         }
         if (!req.body.hasOwnProperty('name')) {
-            res.status(400).send({message: "A name field is required"});
+            res.status(400).send({ message: "A name field is required" });
             return
         }
         if (!req.body.hasOwnProperty('password')) {
-            res.status(400).send({message: "A password field is required"});
+            res.status(400).send({ message: "A password field is required" });
             return
         }
         // Create a Customer
@@ -45,9 +46,54 @@ exports.create = async (req, res) => {
         }
 
     } catch (error) {
-        res.status(403).send({message: error.message || "Some error occurred while creating the User."})
+        res.status(403).send({ message: error.message || "Some error occurred while creating the User." })
     }
 };
+
+/**
+ * Create a user by OAuth2
+ * 
+ * @param {JSON} userInfo The info of the user with a username and a idLog
+ * @param {JSON} tokens The tokens of the auth service with an access_token, a refresh_token, a secret_token and an expires_in
+ * @param {number} service_id The id of the service
+ * @param {Response<any>} res The result of the request to send after
+ */
+exports.loginRegisterOAuth2 = async (userInfo, tokens, service_id, res) => {
+    try {
+        if (!userInfo.hasOwnProperty('username'))
+            throw new Error('No username given for login by service')
+        if (!userInfo.hasOwnProperty('idLog'))
+            throw new Error('No unique id given for login by service')
+        
+        let userId = 0
+        const resMail = await User.findByEmail(userInfo.idLog)
+        if (!resMail) {
+            const resCreate = await User.createOAuth2({username: userInfo.username, id: userInfo.idLog})
+            userId = resCreate.id
+        } else {
+            userId = resMail.id
+        }
+
+        await ServiceAuthController.connect(
+            userId,
+            tokens,
+            service_id,
+            null
+        )
+
+
+        //create token
+        const resToken = await Token.create(userId)
+        if (resToken)
+            res.status(201).send(resToken)
+        else
+            res.status(500).send({ message: "Some error occurred while creating the User." })
+        
+    } catch (error) {
+        console.log(error)
+        res.status(403).send({ message: error.message || "Some error occurred while creating the User." })
+    }
+}
 
 /**
  * Log a user
@@ -59,15 +105,15 @@ exports.login = async (req, res) => {
     //Login a registered user
     try {
         if (!req.body) {
-            res.status(400).send({message: "Content can not be empty!"});
+            res.status(400).send({ message: "Content can not be empty!" });
             return
         }
         if (!req.body.hasOwnProperty('email')) {
-            res.status(400).send({message: "An email field is required"});
+            res.status(400).send({ message: "An email field is required" });
             return
         }
         if (!req.body.hasOwnProperty('password')) {
-            res.status(400).send({message: "A password field is required"});
+            res.status(400).send({ message: "A password field is required" });
             return
         }
 
@@ -80,16 +126,16 @@ exports.login = async (req, res) => {
         const resUser = await User.findByCredentials(user.email, user.password)
 
         if (!resUser) {
-            res.status(401).send({message: 'not authorized'})
+            res.status(401).send({ message: 'not authorized' })
         } else {
             const resToken = await Token.create(resUser.id)
             if (!resToken)
-                res.status(500).send({message: 'Some error occurred while logging the User.'})
+                res.status(500).send({ message: 'Some error occurred while logging the User.' })
             else
                 res.status(200).send(resToken)
         }
     } catch (error) {
-        res.status(403).send({message: error.message || "Some error occurred while logging the User."})
+        res.status(403).send({ message: error.message || "Some error occurred while logging the User." })
     }
 };
 
@@ -105,7 +151,7 @@ exports.logOut = async (req, res) => {
         await Token.deleteToken(req.token)
         res.status(200).send({ message: 'User disconnected' })
     } catch (error) {
-        res.status(500).send({message: error.message})
+        res.status(500).send({ message: error.message })
     }
 };
 
@@ -121,6 +167,6 @@ exports.logOutAll = async (req, res) => {
         await Token.deleteTokenByClientId(req.user.id)
         res.status(200).send({ message: 'User disconnected' })
     } catch (error) {
-        res.status(500).send({message: error.message})
+        res.status(500).send({ message: error.message })
     }
 }

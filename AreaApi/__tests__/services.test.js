@@ -77,9 +77,9 @@ describe('Services', () => {
 })
 
 describe('Services', () => {
-    it('should get the service with Trello', async () => {
+    it('should get the service with mail', async () => {
         let res = await request(app)
-            .get('/services/trello')
+            .get('/services/mail')
             .send()
         expect(res.statusCode).toEqual(200)
         expect(res.body).toHaveProperty('name')
@@ -100,7 +100,7 @@ describe('Services', () => {
         })
 
         res = await request(app)
-            .get('/services/TreLLo')
+            .get('/services/Mail')
             .send()
         expect(res.statusCode).toEqual(200)
         expect(res.body).toHaveProperty('name')
@@ -215,9 +215,9 @@ describe('Services', () => {
 })
 
 describe('Services', () => {
-    it('should get the service with OneDrive', async () => {
+    it('should get the service with timer', async () => {
         let res = await request(app)
-            .get('/services/onedrive')
+            .get('/services/timer')
             .send()
         expect(res.statusCode).toEqual(200)
         expect(res.body).toHaveProperty('name')
@@ -238,7 +238,7 @@ describe('Services', () => {
         })
 
         res = await request(app)
-            .get('/services/OneDrIve')
+            .get('/services/timEr')
             .send()
         expect(res.statusCode).toEqual(200)
         expect(res.body).toHaveProperty('name')
@@ -261,9 +261,9 @@ describe('Services', () => {
 })
 
 describe('Services', () => {
-    it('should get the service with Outlook', async () => {
+    it('should get the service with dropbox', async () => {
         let res = await request(app)
-            .get('/services/outlook')
+            .get('/services/dropbox')
             .send()
         expect(res.statusCode).toEqual(200)
         expect(res.body).toHaveProperty('name')
@@ -284,7 +284,7 @@ describe('Services', () => {
         })
 
         res = await request(app)
-            .get('/services/OutLook')
+            .get('/services/dRopBox')
             .send()
         expect(res.statusCode).toEqual(200)
         expect(res.body).toHaveProperty('name')
