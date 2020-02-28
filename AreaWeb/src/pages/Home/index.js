@@ -170,41 +170,61 @@ export default class Home extends React.Component {
             return (string.charAt(0).toUpperCase() + string.slice(1))
     }
     
+    DisplayParamsInfo(params) {
+        var array = []
+        for (var [key, value] of params) {
+            array.push(
+                <div class="text-center">
+                    {key} : {value}
+                </div>
+            )
+        }
+        return (array)
+    }
+
     ModalInfo() {
+        // var params_action = new Map()
+        // var params_reaction = new Map()
+        // for (var [key, value] of this.state.InfoDisplay.get("action_params")) {
+        //     params_action.set(key, value)
+        // }
+        // for (var [key, value] of this.state.InfoDisplay.get("reaction_params")) {
+        //     params_reaction.set(key, value)
+        // }
         return(
             <Modal id="modalAreaInformation" show={this.state.showmodalInfo} size="lg" centered>
                 <Modal.Header closeButton onClick={e => {this.state.InfoDisplay.clear();this.onCloseInfo();}}>
                     <Modal.Title>Area informations</Modal.Title>
                 </Modal.Header>
                 <Modal.Body className="text-center">
-                    <div class="mb-3">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <img src={this.state.InfoDisplay.get("action_logo")} height="150" width="150" alt=""/>
-                            </div>
-                            <div class="col-md-8 card-body">
-                                <h3 class={this.state.InfoDisplay.get("service_action")} >{this.jsUcfirst(this.state.InfoDisplay.get("service_action"))}</h3>
-                                <h4>Action: {this.state.InfoDisplay.get("action")}</h4>
-                                <h5>{this.state.InfoDisplay.get("action_desc")}</h5><br/>
-                                  
-                                Parameters: {this.state.InfoDisplay.get("action_params")}
-                            </div>
+                    <div class="mb-3 row">
+                        <div class="col-md-4">
+                            <img src={this.state.InfoDisplay.get("action_logo")} height="150" width="150" alt=""/>
+                        </div>
+                        <div class="col-md-8 card-body">
+                            <h3 class={this.state.InfoDisplay.get("service_action")}><b>{this.jsUcfirst(this.state.InfoDisplay.get("service_action"))}</b></h3><br/>
+                            <h4 class={this.state.InfoDisplay.get("service_action")}><u>Action</u> : </h4>
+                            <h4 class={this.state.InfoDisplay.get("service_action")}>{this.state.InfoDisplay.get("action")}</h4><br/><br/>
+                            <h5>{this.state.InfoDisplay.get("action_desc")}</h5><br/>
+                                
+                            Parameters: {this.state.InfoDisplay.get("action_params")}
+                            {/* Parameters: {this.DisplayParamsInfo(params_action)} */}
                         </div>
                     </div>
                 </Modal.Body>
                 <Modal.Body className="text-center">
-                <div class="mb-3">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <img src={this.state.InfoDisplay.get("reaction_logo")} height="150" width="150" alt=""/>
-                            </div>
-                            <div class="col-md-8 card-body">
-                                <h3 class={this.state.InfoDisplay.get("service_reaction")} >{this.jsUcfirst(this.state.InfoDisplay.get("service_reaction"))}</h3>
-                                <h4>Action: {this.state.InfoDisplay.get("reaction")}</h4>
-                                <h5>{this.state.InfoDisplay.get("reaction_desc")}</h5><br/>
-                                  
-                                Parameters: {this.state.InfoDisplay.get("reaction_params")}
-                            </div>
+                    <div class="mb-3 row">
+                        <div class="col-md-4">
+                            <img src={this.state.InfoDisplay.get("reaction_logo")} height="150" width="150" alt=""/>
+                        </div>
+                        <div class="col-md-8 card-body">
+                            <h3 class={this.state.InfoDisplay.get("service_reaction")}><b>{this.jsUcfirst(this.state.InfoDisplay.get("service_reaction"))}</b></h3><br/>
+                            <h4 class={this.state.InfoDisplay.get("service_reaction")}><u>Reaction</u> : </h4>
+                            <h4 class={this.state.InfoDisplay.get("service_reaction")}>{this.state.InfoDisplay.get("reaction")}</h4><br/><br/>
+                            <h5>{this.state.InfoDisplay.get("reaction_desc")}</h5><br/>
+                            
+                            Parameters: {this.state.InfoDisplay.get("reaction_params")}
+                            {/* Parameters: {this.DisplayParamsInfo(params_reaction)} */}
                         </div>
                     </div>
                 </Modal.Body>
@@ -226,8 +246,19 @@ export default class Home extends React.Component {
         this.state.InfoDisplay.set("reaction", this.state.reactionsName.get(element.reaction_id))
         this.state.InfoDisplay.set("action_desc", this.state.actionsDesc.get(element.action_id))
         this.state.InfoDisplay.set("reaction_desc", this.state.reactionsDesc.get(element.reaction_id))
-        this.state.InfoDisplay.set("action_params", 'ouais ouais')
-        this.state.InfoDisplay.set("reaction_params", 'hah hah')
+        var mmmmap = JSON.parse(JSON.stringify(element.parameters_action))
+        Object.keys(element.parameters_action).forEach(element2 => {
+            alert(element2)
+            alert(element.parameters_action[element2])
+        });
+        // var mmmmap = new Map()
+        // mmmmap = JSON.parse(element.parameters_action)
+        // element.parameters_action.get("server").forEach(element => {
+        //     alert(element.value)
+        // });
+//        alert(element.parameters_action)
+        // this.state.InfoDisplay.set("action_params", element.parameters_action)
+        // this.state.InfoDisplay.set("reaction_params", element.parameters_reaction)
     }
 
     createAreasCard() {

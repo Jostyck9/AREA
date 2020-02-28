@@ -6,7 +6,10 @@ export default class GithubOAuth extends React.Component {
 
     componentWillMount() {
         const parsedUrl = new URL(window.location.href);
-        localStorage.setItem('currentUser', parsedUrl.searchParams.get("token"))
+        if (parsedUrl.searchParams.get("status") === "OK")
+            alert("OKKKKKKKKKKKK")
+        if (parsedUrl.searchParams.get("status") === "KO")
+            alert("KOOOOOOOOOOOO")
         this.props.history.push("/")
     }
 

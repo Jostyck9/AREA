@@ -3,7 +3,7 @@ import React from 'react';
 import '../../css/site.css';
 import { Button, Form } from 'react-bootstrap'
 import GitHub from '../../images/github_logo.png'
-const urlRedirection = process.env.REACT_APP_URI + "/GitHubOAuth"
+const urlRedirection = process.env.REACT_APP_URI + "/GitHubOAuth2"
 const url = process.env.REACT_APP_SERVER_AUTH + '/auth/github?cb=' + urlRedirection
 
 export default class Registration extends React.Component {
