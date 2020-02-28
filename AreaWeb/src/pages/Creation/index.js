@@ -192,6 +192,7 @@ export default class Creation extends React.Component {
         alert(err.message)
     })
     this.setState({state: 3})
+    // HAVE TO FIX REACTIONS (test with Discord for actions and Twitter for reactions)
     }
 
     //================================================
