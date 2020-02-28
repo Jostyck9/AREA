@@ -166,7 +166,6 @@ exports.twitterTweet = function(area, action_result) {
     return false
 }
 
-
 /**
 * create the action twitter
 *
