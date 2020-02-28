@@ -9,6 +9,7 @@ const bot = new Discord.Client ();
 
 const MSG_RECEIVED_ID = 6;
 const MEMBER_ADD_ID = 7;
+const MEMBER_BAN_ID = 10;
 const TOKEN = process.env.DISCORD_TOKEN;
 const BOT_URL = process.env.DISCORD_BOT_URL;
 
@@ -48,8 +49,12 @@ bot.on('guildMemberAdd', member => {
  * Notice that a member was added in a Server
  * @group Discord - Discord guildMemberAdd Action
  */
-bot.on("guildBanAdd", member => {
-    console.log(`a member is banned from a guild ` + member);
+bot.on("guildBanAdd", function(guild, user){
+    const action_result = {
+        serverName: guild.name,
+        member: user.username
+    };
+    //AreaController.connectActionToReaction(MEMBER_BAN_ID, action_result);
 });
 
 /**
@@ -59,8 +64,8 @@ bot.on("guildBanAdd", member => {
 exports.UseReaction = async(action_result, area) => {
     //Call required reaction
 
-    await this.createChannel(area.parameters_reaction);
-    //await this.sendMessage(area.parameters_reaction);
+    //await this.createChannel(area.parameters_reaction);
+    await this.sendMessage(area.parameters_reaction);
 }
 
 
@@ -73,8 +78,8 @@ exports.UseReaction = async(action_result, area) => {
 exports.createChannel = async function (obj) {
     //Create a new channel in Discord
 
-    await bot.guilds.find('name', obj.server).createChannel(obj.content, { type: 'text' });
-    bot.guilds.find('name', obj.server).channels.find('name', obj.content).send("coucou");
+    await bot.guilds.find('name', obj.server).createChannel(obj.channel, { type: 'text' });
+    bot.guilds.find('name', obj.server).channels.find('name', obj.channel).send(obj.content);
 }
 
 /**
@@ -119,6 +124,18 @@ exports.discordMessageReceived = function(area, action_result) {
  * @return {bool} - false if it doesn't match
  */
 exports.discordNewMember = async function(area, action_result) {
+    if (action_result.serverName = area.parameters_action.server)
+        return true
+    return false
+}
+
+/**
+ * Check if the action_result matches an area's action parameters
+ * @group Discord - DiscordMemberBan
+ * @return {bool} - true if it does match
+ * @return {bool} - false if it doesn't match
+ */
+exports.discordMemberBan = async function(area, action_result) {
     if (action_result.serverName = area.parameters_action.server)
         return true
     return false
