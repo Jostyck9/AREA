@@ -89,7 +89,7 @@ CREATE TABLE `dropbox` (
   `client_id` int(11) NOT NULL,
   `dropbox_id` varchar(200) NOT NULL,
   `dropbox_cursor` varchar(200) NOT NULL,
-  UNIQUE KEY `service client_id` (`client_id`)
+  UNIQUE KEY `service client_id` (`client_id`),
   PRIMARY KEY (`id`)
 ) DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -146,6 +146,7 @@ DROP TABLE IF EXISTS `services`;
 CREATE TABLE `services` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
+  `oauth` boolean NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   UNIQUE KEY `service name` (`name`)
 ) DEFAULT CHARSET=utf8;
@@ -157,13 +158,13 @@ CREATE TABLE `services` (
 
 -- LOCK TABLES `services` WRITE;
 /*!40000 ALTER TABLE `services` DISABLE KEYS */;
-INSERT INTO `services` VALUES (0,'github');
-INSERT INTO `services` VALUES (1,'twitter');
-INSERT INTO `services` VALUES (2,'spotify');
-INSERT INTO `services` VALUES (3,'discord');
-INSERT INTO `services` VALUES (4,'timer');
-INSERT INTO `services` VALUES (5,'dropbox');
-INSERT INTO `services` VALUES (6,'mail');
+INSERT INTO `services` VALUES (0,'github', 1);
+INSERT INTO `services` VALUES (1,'twitter', 1);
+INSERT INTO `services` VALUES (2,'spotify', 1);
+INSERT INTO `services` VALUES (3,'discord', 0);
+INSERT INTO `services` VALUES (4,'timer', 0);
+INSERT INTO `services` VALUES (5,'dropbox', 1);
+INSERT INTO `services` VALUES (6,'mail', 0);
 
 /*!40000 ALTER TABLE `services` ENABLE KEYS */;
 -- UNLOCK TABLES;
