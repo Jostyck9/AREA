@@ -4,6 +4,7 @@ const ReactionModel = require('../models/Reaction.model')
 const DiscordController = require('../controllers/discord.controller')
 const TwitterController = require('../controllers/twitter.controller')
 const GithubController = require('../controllers/github.controller')
+const DropboxController = require('../controllers/dropbox.controller')
 
 /**
  * Check if the field parameter inside the res.body is good according the action and the reaction
@@ -105,8 +106,8 @@ function checkIfuserIsConcerned(area, action_result, action_id) {
         DiscordController.discordNewMember, // 5
         DiscordController.discordMemberBan, // 6
         DiscordController.discordNewMember, // 7 TODO change Timer
-        dropboxController.dropboxFileAdded, // 8
-        dropboxController.dropboxFileDeleted // 9
+        DropboxController.dropboxFileAdded, // 8
+        DropboxController.dropboxFileDeleted // 9
     ]
     return actionArray[action_id](area, action_result);
 }
