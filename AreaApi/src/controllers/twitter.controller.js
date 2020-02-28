@@ -125,12 +125,12 @@ exports.post_tweet = post_tweet
 */
 exports.UseReaction = async(action_result, area) => {
 
-	let ts = Date.now();
-	let date_ob = new Date(ts);
-	let hours = date_ob.getHours();
-	let minutes = date_ob.getMinutes();
-	let seconds = date_ob.getSeconds();
-	const current_time = hours + ':' + minutes + ' ' + seconds 
+	// let ts = Date.now();
+	// let date_ob = new Date(ts);
+	// let hours = date_ob.getHours();
+	// let minutes = date_ob.getMinutes();
+	// let seconds = date_ob.getSeconds();
+	// const current_time = hours + ':' + minutes + ' ' + seconds 
 	if (action_result.message == area.parameters_reaction.message)
 		return
 	post_tweet('1098557912677576704-2fz3FvHUaDs5ccaje09f8YhiWpISEn', 'pdymBZU6dt229qycuNSyAo11cN9adU3yb2Nhkrka8CQnX', area.parameters_reaction.message)

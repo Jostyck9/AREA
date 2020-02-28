@@ -128,16 +128,9 @@ CREATE TABLE `reactions` (
 
 INSERT INTO `reactions` VALUES (0, 1, "tweet", "post a new tweet", '{"message": "string"}');
 INSERT INTO `reactions` VALUES (1, 2, "add_music", "add a new music to an existing playlist", NULL);
-<<<<<<< HEAD
-INSERT INTO `reactions` VALUES (2, 3, "create_event", "create a new event in calendar", NULL);
-INSERT INTO `reactions` VALUES (3, 3, "send_email", "send an email", NULL);
-INSERT INTO `reactions` VALUES (4, 4, "send_message", "send a message to a specific channel", '{"server": "string", "channel": "string", "content": "string"}');
-INSERT INTO `reactions` VALUES (5, 5, "add_card", "add a new card to an existing board", NULL);
-=======
 INSERT INTO `reactions` VALUES (2, 3, "send_message", "send a message to a specific channel", NULL);
 INSERT INTO `reactions` VALUES (3, 3, "create_channel", "create a channel", NULL);
 INSERT INTO `reactions` VALUES (4, 6, "send_mail", "send a mail", '{"to": "string", "subject": "string", "message": "string"}');
->>>>>>> master
 
 /*!40000 ALTER TABLE `reactions` DISABLE KEYS */;
 /*!40000 ALTER TABLE `reactions` ENABLE KEYS */;
