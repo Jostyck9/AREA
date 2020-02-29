@@ -74,6 +74,11 @@ a.navbar-brand {
     width: 33.33%;
   }
 
+  .columnEnd {
+    float: left;
+    width: 33.33%;
+  }
+
   .divider{
     width:170px;
     height:50px;

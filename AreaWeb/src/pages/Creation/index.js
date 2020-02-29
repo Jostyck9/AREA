@@ -1,8 +1,16 @@
 import '../../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import React from 'react';
 import '../../css/site.css';
-import { Button, Form , Col} from 'react-bootstrap'
-import JSONPretty from 'react-json-pretty'
+import { Button, Form , Col, Card} from 'react-bootstrap'
+import Alert from 'react-bootstrap/Alert'
+
+import Twitter from '../../images/twitter_logo.png'
+import Spotify from '../../images/spotify_logo.png'
+import GitHub from '../../images/github_logo.png'
+import Messenger from '../../images/messenger_logo.png'
+import Discord from '../../images/discord_logo.png'
+import Dropbox from '../../images/dropbox_logo.png'
+import Mailing from '../../images/mail_logo.png'
 
 
 export default class Creation extends React.Component {
@@ -20,10 +28,14 @@ export default class Creation extends React.Component {
         services: [],
         actions: [],
         reactions: [],
+        params_action: [],
+        params_reaction: [],
         params_actions: [],
         params_reactions: [],
         Map1: new Map(),
-        Map2: new Map()
+        Map2: new Map(),
+        results_parsed: new Map(),
+        images: new Map()
     };
 
         this.handleChangeAct = this.handleChangeAct.bind(this);
@@ -63,18 +75,35 @@ export default class Creation extends React.Component {
                 })
             }
         })
+        this.state.images.set("twitter", Twitter)
+        this.state.images.set("spotify", Spotify)
+        this.state.images.set("github", GitHub)
+        this.state.images.set("messenger", Messenger)
+        this.state.images.set("discord", Discord)
+        this.state.images.set("dropbox", Dropbox)
+        this.state.images.set("mail", Mailing)
     }
 
     getSpecificParams() {
         var ActParams = {}
         var ReaParams = {}
+        var results = {}
         var load1 = new Map()
         var load2 = new Map()
+        var results_parsed = new Map()
 
         this.state.data.forEach(element => {
             if (element.name === this.state.valueServAct) {
                 element.actions.forEach(element2 => {
                     if (element2.name === this.state.valueAct) {
+                        if (element2.results) {
+                            results = (JSON.stringify(element2.results))
+                            results = JSON.parse(results, (key, value) => {
+                                if (key !== '')
+                                    results_parsed.set(key, value)
+                            })
+//                            alert(results_parsed)
+                        }
                         if (element2.parameters) {
                             ActParams = (JSON.stringify(element2.parameters))
                             ActParams = JSON.parse(ActParams, (key, value) => {
@@ -85,6 +114,7 @@ export default class Creation extends React.Component {
                     }
                 });
             }
+            this.setState({results_parsed: results_parsed})
         })
         this.state.data.forEach(element => {
             if (element.name === this.state.valueServRea) {
@@ -121,54 +151,35 @@ export default class Creation extends React.Component {
         for (let i = 0; i < test2.length; i++)
             params_params_reaction.push(test2[i].split('.').pop())
         
-        if (test1.length === 0) {
-            alert("test1 set to null")
+        if (test1.length === 0)
             parameters_action = null
-        }
-        if (test2.length === 0) {
-            alert("test2 set to null")
+        if (test2.length === 0)
             parameters_reaction = null
-        }
 
-        for (let i = 0; i < test1.length; i++) {
-            alert(document.getElementById(test1[i]).value)
+        for (let i = 0; i < test1.length; i++)
             params_action.push(document.getElementById(test1[i]).value)
-        }
-        alert("HERE : " + params_action)
-        alert("LENGTH : " + test2.length)
-        for (let i = 0; i < test2.length; i++) {
-            alert(document.getElementById(test2[i]).value)
+        for (let i = 0; i < test2.length; i++)
             params_reaction.push(document.getElementById(test2[i]).value)
-        }
-        alert("END HERE ?")
 
         for (var [key1, value1] of this.state.actions) {
-                if (key1 === valueAct) {
-                    action_id = this.state.id_act[x]
-                    alert("Action = " + action_id)
-                }
-
-                x += 1
+            if (key1 === valueAct)
+                action_id = this.state.id_act[x]
+            x += 1
         }
         x = 0
         for (var [key2, value1] of this.state.reactions) {
-            if (key2 === valueRea) {
+            if (key2 === valueRea)
                 reaction_id = this.state.id_rea[x]
-                alert("Reaction = " + reaction_id)
-            }
             x += 1
     }
 
-    for (let i = 0; i < params_params_action.length; i++) {
-        alert("need to be server : " + params_params_action[i] + "need to be my dudes" + params_action[i])
+    for (let i = 0; i < params_params_action.length; i++)
         parameters_action[params_params_action[i]] = params_action[i]
-    }
-    for (let i = 0; i < params_params_reaction.length; i++) {
-        alert("need to be server : " + params_params_reaction[i] + "need to be hellow" + params_reaction[i])
+    for (let i = 0; i < params_params_reaction.length; i++)
         parameters_reaction[params_params_reaction[i]] = params_reaction[i]
-    }
-    alert("GOING TO FETCH")
+
     var token = localStorage.getItem('currentUser');
+
     fetch(process.env.REACT_APP_SERVER_URI + '/area', {
         method: 'POST',
         body: JSON.stringify({ action_id: action_id, reaction_id: reaction_id, parameters_action: parameters_action, parameters_reaction: parameters_reaction}),
@@ -177,10 +188,8 @@ export default class Creation extends React.Component {
             Authorization: "Bearer " + token
         }
     }).then(res => {
-        alert(res.status)
         if (res.status >= 200 && res.status <= 204) {
             res.json().then(data => {
-                alert(data.token)
                 // global.token = data.token
                 // global.signed = true
             })
@@ -194,9 +203,9 @@ export default class Creation extends React.Component {
     }).catch(err => {
         alert(err.message)
     })
-    alert("HELLO ??")
-    this.setState({state: 3})
-    // HAVE TO FIX REACTIONS (test with Discord for actions and Twitter for reactions)
+
+    this.setState({state: 3, params_action: params_action, params_reaction, params_reaction})
+    
     }
 
     //================================================
@@ -252,8 +261,11 @@ export default class Creation extends React.Component {
 
         let arrayactions = []
         let arrayreactions = []
+        let arrayparams = []
         let array_for_act_pushing = []
         let array_for_rea_pushing = []
+        let bracket1 = "{{"
+        let bracket2 = "}}"
 
         for (var [key1, value1] of this.state.Map1) {
             if (key1 !== "") {
@@ -284,10 +296,21 @@ export default class Creation extends React.Component {
                 else;
             }
         }
-
-        alert("Here1 : " + array_for_act_pushing)
+        if (this.state.results_parsed.size !== 0) {
+            arrayparams.push(<Alert.Heading>There is things you don't know</Alert.Heading>)
+            arrayparams.push(<p>You can use tag from you're action in your reactions.</p>)
+            arrayparams.push(<hr/>)
+            arrayparams.push(<p>Here for exemple you can use some cools stuffs to custom your differents reactions, so use it !</p>)
+            arrayparams.push(<p>Here the different(s) parameter(s) :</p>)
+            for (var [key3, value3] of this.state.results_parsed) {
+                if (key3 !== "") {
+                    arrayparams.push(<p>You can use {bracket1}{key3}{bracket2} from {this.state.valueServAct}</p>)
+                }
+            }
+        }
 
         return (
+            <div>
             <Form className="text-center" onSubmit={() => this.onSubmit(array_for_act_pushing, array_for_rea_pushing)}>
 
             <Form.Row>
@@ -309,6 +332,20 @@ export default class Creation extends React.Component {
 
             <Button variant="secondary" size="lg" active type="submit" value="Submit">Valid your parameters</Button><br/>
             </Form>
+            <br></br>
+            <br></br>
+            <table width="100%" height="100%" border="0">
+                <tr height="100%">
+                    <td width="20%"></td>
+                    <td width="60%">
+                        <Alert variant="success">
+                        {arrayparams}
+                        </Alert>
+                        </td>
+                    <td width="20%"></td>
+                </tr>
+            </table>
+          </div>
         );
     }
 
@@ -439,13 +476,90 @@ export default class Creation extends React.Component {
         )
     }
 
-    succes()
-    {
+    createAreasCard() {
+        let array = []
+        let arrayactions = []
+        let arrayreactions = []
+        let x = 0;
+
+
+        for (var [key1, value1] of this.state.Map1) {
+            if (key1 !== "") {
+                arrayactions.push(<u>{key1}:</u>)
+                arrayactions.push(<b> </b>)
+                arrayactions.push( this.state.params_action[x])
+                arrayactions.push(<br/>)
+                x++;
+            }
+        }
+        x = 0;
+        for (var [key2, value1] of this.state.Map2) {
+            if (key2 !== "") {
+                arrayreactions.push(<u>{key2}:</u>)
+                arrayreactions.push(<b> </b>)
+                arrayreactions.push( this.state.params_reaction[x])
+                arrayreactions.push(<br/>)
+                x++;
+            }
+        }
+        if (arrayactions.length === 0)
+            arrayactions.push(<b>X</b>)
+        if (arrayreactions.length === 0)
+            arrayreactions.push(<b>X</b>)
+
+        array.push(
+            <Card className="mb-3">
+                <Card.Header>
+                    <table width="100%" height="100%" border="0">
+                        <tr height="100%">
+                            <td width="10%"></td>
+                            <td width="30%">
+                                <div class="columnEnd">
+                                    <img src={this.state.images.get(this.state.valueServAct)} height="170" width="170" alt=""/>
+                                </div>
+                            </td>
+                            <td width="20%"></td>
+                            <td width="30%">
+                                <div class="columnEnd">
+                                    <img src={this.state.images.get(this.state.valueServRea)} height="170" width="170" alt=""/>
+                                </div>
+                            </td>
+                            <td width="10%"></td>
+                        </tr>
+                    </table>
+                </Card.Header>
+                <Card.Body>
+                    <h4 class={this.state.valueServAct} >{this.jsUcfirst(this.state.valueServAct)}:</h4><br/><br/>
+                    <h5 class={this.state.valueServAct}>Action: {this.state.valueAct}</h5><br/><br/>
+                    <h5 class={this.state.valueServAct}>Parameters: </h5><br/>
+                    {arrayactions}
+                </Card.Body>
+                <Card.Body>
+                    <h4 class={this.state.valueServRea} >{this.jsUcfirst(this.state.valueServRea)}:</h4><br/><br/>
+                    <h5 class={this.state.valueServRea}>Reaction: {this.state.valueRea}</h5><br/><br/>
+                    <h5 class={this.state.valueServRea}>Parameters: </h5><br/>
+                    {arrayreactions}
+                </Card.Body>
+            </Card>
+        )
+        array.push(<Button variant="secondary" size="lg" active href='home'>Return to home</Button>)
         return (
-            <div>Hello</div>
+            <div>
+                <br></br>
+                <table width="100%" height="100%" border="0">
+                    <tr height="100%">
+                        <td width="25%"></td>
+                        <td width="50%">
+                            <div class="text-center">
+                                {array}
+                            </div>
+                        </td>
+                        <td width="25%"></td>
+                    </tr>
+                </table>
+            </div>
         )
     }
-
 
     // Show a choosen page from a state
 
@@ -458,9 +572,15 @@ export default class Creation extends React.Component {
         else if (this.state.state === 2)
             return (this.ShowParamsPage())
         else if (this.state.state === 3)
-            return (this.succes())
+            return (this.createAreasCard())
         else
             return (this.ErrorPage())
+    }
+
+    jsUcfirst(string) 
+    {
+        if (string)
+            return (string.charAt(0).toUpperCase() + string.slice(1))
     }
 
     render() {
