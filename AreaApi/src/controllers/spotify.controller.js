@@ -3,7 +3,7 @@ const ServiceModel = require('../models/Service.model')
 
 /**
  * spotify connect the token received to the database
- * 
+ *
  * @param {any} req the request
  * @param {any} res the res
  */
@@ -30,4 +30,10 @@ exports.spotify = async (req, res) => {
     } catch (err) {
         res.status(400).send({ message: err.message || 'An internal error occured' });
     }
+}
+
+
+
+exports.spotifyNewMusic = async function(area, action_result) {
+    return false;
 }

@@ -5,6 +5,7 @@ const DiscordController = require('../controllers/discord.controller')
 const TwitterController = require('../controllers/twitter.controller')
 const GithubController = require('../controllers/github.controller')
 const DropboxController = require('../controllers/dropbox.controller')
+const SpotifyController = require('../controllers/spotify.controller')
 
 /**
  * Check if the field parameter inside the res.body is good according the action and the reaction
@@ -101,7 +102,7 @@ function checkIfuserIsConcerned(area, action_result, action_id) {
         GithubController.githubPush, // 0
         GithubController.githubNewPullRequest, // 1
         TwitterController.twitterTweet, // 2
-        DiscordController.spotifyNewMusic, // 3
+        SpotifyController.spotifyNewMusic, // 3
         DiscordController.discordMessageReceived, // 4
         DiscordController.discordNewMember, // 5
         DiscordController.discordMemberBan, // 6
@@ -161,7 +162,6 @@ exports.create = async (req, res) => {
             parameters_action: req.body.parameters_action,
             parameters_reaction: req.body.parameters_reaction
         });
-
         const resCheck = await checkParameters(newArea, res)
         if (!resCheck)
             return

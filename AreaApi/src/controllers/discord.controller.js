@@ -144,28 +144,3 @@ exports.discordMemberBan = async function(area, action_result) {
         return true
     return false
 }
-
-
-// TEMPORARY
-
-exports.spotifyNewMusic = async function(area, action_result) {
-    return false;
-}
-exports.outlookMailReceived = async function(area, action_result) {
-    return false;
-}
-exports.outlookEventCreated = async function(area, action_result) {
-    return false;
-}
-exports.trelloCardAdded = async function(area, action_result) {
-    return false;
-}
-exports.trelloDeadline = async function(area, action_result) {
-    return false;
-}
-exports.onedriveFileDeleted = async function(area, action_result) {
-    return false;
-}
-exports.onedriveFileAdded = async function(area, action_result) {
-    return false;
-}
