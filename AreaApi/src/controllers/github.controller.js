@@ -5,6 +5,7 @@ const ServiceAuthController = require('./serviceAuth.controller')
 const ApiAuth = require('./auth.controller')
 const ServiceModel = require('../models/Service.model')
 const GithubModel = require('../models/github.model')
+const ServiceToken = require('../models/ServiceTokens.model')
 
 const TOKEN = process.env.GITHUB_TOKEN;
 const HOOK_URL = process.env.GITHUB_HOOK_URL;
@@ -76,10 +77,8 @@ exports.webhookTriggered = async(req, res) => {
 
     //pour savoir si c'ets un push ou pull --> checker l'id ?
     const action_result = {
-        "user" : "Ebailloux",
-        "repo" : "TESTAREA",
-        "webhook_id" : req.id,
     }
+    //console.info(req);
     AreaController.connectActionToReaction(NEW_PUSH, action_result)
 }
 
@@ -89,21 +88,20 @@ exports.webhookTriggered = async(req, res) => {
  */
 exports.createGithubWebhook = async function (newArea) {
 
+    var action_webhook_type = "empty";
     if (newArea.action_id === 0)
-        var webhook_type = "push";
+        action_webhook_type = "push";
     else
-        var webhook_type = "pull_request";
+        action_webhook_type = "pull_request";
     var serviceId = await ServiceModel.findByName('github')
 	if (serviceId == null)
 		return
-	//var UserToken = await ServiceToken.findByServiceAndClientId(serviceId.id, newArea.client_id)
+    var UserToken = await ServiceToken.findByServiceAndClientId(serviceId.id, newArea.client_id)
 	var gh = new Github({
-        token: TOKEN
+        token: UserToken.access_token
     });
-
-    var fork = gh.getRepo(newArea.parameters_action.username, newArea.parameters_action.repo_name);
-
-    if (webhook_type == "push") {
+    var fork = gh.getRepo(newArea.parameters_action.username, newArea.parameters_action.repository);
+    if (action_webhook_type == "push") {
         var hookDef = {
             "name": "web",
             "active": true,
@@ -111,7 +109,7 @@ exports.createGithubWebhook = async function (newArea) {
               "push",
             ],
             "config": {
-            "url": "https://b138bac2.ngrok.io/github/webhook",
+            "url": HOOK_URL,
             "content_type": "json",
             "insecure_ssl": "0"
             }
@@ -124,28 +122,25 @@ exports.createGithubWebhook = async function (newArea) {
               "pull_request"
             ],
             "config": {
-            "url": "https://b138bac2.ngrok.io/github/webhook",
+            "url": HOOK_URL,
             "content_type": "json",
             "insecure_ssl": "0"
             }
         }
     }
-    try {
     fork.createHook(hookDef)
     .then(function({data: hook}) {
        // var webhook_id = hook.id ?
     });
-    } catch (error) {
-        console.err( {message: err.message || "We were unable to create a github Webhook"});
-    }
     var webhook_id = 0;
-    const gModel = new GithubModel({
+    const newGModel = new GithubModel({
         client_id: newArea.client_id,
         username: newArea.parameters_action.username,
-        repo_name: newArea.parameters_action.repo_name,
+        repo_name: newArea.parameters_action.repository,
         webhook_id: webhook_id,
-        webhook_type: webhook_type
+        webhook_type: action_webhook_type
     });
+    const gModel = await GithubModel.create(newGModel);
 }
 
 /**

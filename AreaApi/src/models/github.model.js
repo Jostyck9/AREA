@@ -23,7 +23,7 @@ const GithubModel = function (github) {
  */
 GithubModel.create = async function (newGithub) {
     try {
-        var [rows, fields] = await sql.query("INSERT INTO github(client_id,username,repo_name,webhook_id,webhook_type) VALUES (?,?,?,?,?)", [newGithub.client_id, JSON.stringify(newGithub.username), JSON.stringify(newGithub.repo_name), newGithub.webhook_id, JSON.stringify(newGithub.repo_name)])
+        var [rows, fields] = await sql.query("INSERT INTO github(client_id,username,repo_name,webhook_id,webhook_type) VALUES (?,?,?,?,?)", [newGithub.client_id, JSON.stringify(newGithub.username), JSON.stringify(newGithub.repo_name), newGithub.webhook_id, JSON.stringify(newGithub.webhook_type)])
         if (rows.affectedRows == 0) {
             throw('Error trying to create an githubObject')
         }
