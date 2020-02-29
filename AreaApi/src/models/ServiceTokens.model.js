@@ -134,7 +134,7 @@ ServiceTokensModel.findByServiceAndClientId = async function (serviceId, clientI
         if (rows.length < 1) {
             return null
         }
-        return rows
+        return rows[0]
     } catch (err) {
         // console.log(err);
         return err
