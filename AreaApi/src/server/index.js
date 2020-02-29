@@ -5,6 +5,8 @@ const session = require('express-session')
 const socketio = require('socket.io')
 const http = require('http')
 const passport = require('passport')
+const https = require('https')
+const fs = require('fs')
 
 const passportInit = require('./passport.init')
 
@@ -44,7 +46,6 @@ app.use(aboutRouter);
 app.use(servicesRouter);
 app.use(areaRouter);
 app.use(userRouter);
-
 // simple route
 app.get("/", (req, res) => {
     res.json({ message: "Welcome to Area api. To see documentation go to /api-docs" });
