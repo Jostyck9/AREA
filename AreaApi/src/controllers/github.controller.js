@@ -65,8 +65,6 @@ exports.github = async (req, res) => {
  * @group Github - Github UseReaction
  */
 exports.UseReaction = async(action_result, area) => {
-    //Call required reaction
-    await this.createGithubWebhook()
 }
 
 /**
@@ -113,7 +111,7 @@ exports.createGithubWebhook = async function (newArea) {
               "push",
             ],
             "config": {
-            "url": HOOK_URL,
+            "url": "https://b138bac2.ngrok.io/github/webhook",
             "content_type": "json",
             "insecure_ssl": "0"
             }
@@ -126,18 +124,22 @@ exports.createGithubWebhook = async function (newArea) {
               "pull_request"
             ],
             "config": {
-            "url": HOOK_URL,
+            "url": "https://b138bac2.ngrok.io/github/webhook",
             "content_type": "json",
             "insecure_ssl": "0"
             }
         }
     }
+    try {
     fork.createHook(hookDef)
     .then(function({data: hook}) {
        // var webhook_id = hook.id ?
     });
+    } catch (error) {
+        console.err( {message: err.message || "We were unable to create a github Webhook"});
+    }
     var webhook_id = 0;
-    const gModel = new githubModel({
+    const gModel = new GithubModel({
         client_id: newArea.client_id,
         username: newArea.parameters_action.username,
         repo_name: newArea.parameters_action.repo_name,

@@ -86,7 +86,7 @@ exports.connectActionToReaction =  async (action_id, action_result) => {
         const AreaArray= await AreaModel.findByActionId(action_id);
         AreaArray.forEach(element => {
             if (checkIfuserIsConcerned(element, action_result, action_id)) {
-                SendToReactionById(element, action_id, action_result);
+                SendToReactionById(element, action_result);
             }
         });
 
@@ -117,10 +117,9 @@ function checkIfuserIsConcerned(area, action_result, action_id) {
  * Call a specific serviceController depending on the reaction_id
  *
  * @param {AreaModel} area - AreaModel that contains datas about the current Area
- * @param {Int} action_id - id of the action that was detected
  * @param {JSON} action_result - json that contains results of the action (username, message content, ....)
  */
-async function SendToReactionById(area, action_id, action_result) {
+exports.SendToReactionById = async function (area, action_result) {
     // Call a specific serviceController depending on the reaction_id
 
     const controllerArray = [
@@ -129,12 +128,13 @@ async function SendToReactionById(area, action_id, action_result) {
         DiscordController.UseReaction, // 2
         DiscordController.UseReaction, // 3
         DiscordController.UseReaction, // 4
-        GithubController.UseReaction // 5
+        DiscordController.UseReaction // 5
 
     ]
     const reactionmodel = await ReactionModel.findById(area.reaction_id);
     await controllerArray[reactionmodel.service_id](action_result, area);
 }
+
 
 /**
  * Create a reaction according to the request for a specific user

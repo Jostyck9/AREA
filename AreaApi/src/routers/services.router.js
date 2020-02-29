@@ -139,16 +139,6 @@ router.get('/services/actions/:idAction', async (req, res) => {
 })
 
 /**
-* Get a the verification of github webhook
-* @route GET /github/webhook
-* @group Services - Services informations
-* @returns {Error}  default - Unexpected error
-*/
-router.get('/github/webhook', (req, res) => {
-    res.status(200).send('success');
-})
-
-/**
 * Post when Github receives a trigger on webhook
 * @route GET /github/webhook
 * @group Services - Services informations

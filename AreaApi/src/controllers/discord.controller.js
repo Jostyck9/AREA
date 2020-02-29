@@ -79,7 +79,7 @@ exports.UseReaction = async(action_result, area) => {
  * @property {JSON} params - Message to be sent and in which channel
  * @returns {Error}  default - Unexpected error
  */
-exports.createChannel = async function (obj) {
+async function createChannel(obj) {
     //Create a new channel in Discord
 
     await bot.guilds.find('name', obj.server).createChannel(obj.channel, { type: 'text' });
@@ -92,7 +92,7 @@ exports.createChannel = async function (obj) {
  * @property {JSON} params - Message to be sent and in which channel
  * @returns {Error}  default - Unexpected error
  */
-exports.sendMessage = async function (obj, action_result) {
+async function sendMessage(obj, action_result) {
     //Send a specified message in Discord
     bot.guilds.find('name', obj.server).channels.find('name', obj.channel).send(obj.content);
 }
@@ -102,7 +102,7 @@ exports.sendMessage = async function (obj, action_result) {
  * @group Discord - Discord get bot url
  * @return {string} - bot's url
  */
-exports.getBotUrl = async function (req, res) {
+exports.getBotUrl = function () {
     //get bot url to add him to a server
     return BOT_URL;
 }
@@ -131,7 +131,7 @@ exports.discordMessageReceived = function(area, action_result) {
  * @return {bool} - true if it does match
  * @return {bool} - false if it doesn't match
  */
-exports.discordNewMember = async function(area, action_result) {
+exports.discordNewMember = function(area, action_result) {
     if (action_result.serverName = area.parameters_action.server)
         return true
     return false
@@ -145,7 +145,7 @@ exports.discordNewMember = async function(area, action_result) {
  * @return {bool} - true if it does match
  * @return {bool} - false if it doesn't match
  */
-exports.discordMemberBan = async function(area, action_result) {
+exports.discordMemberBan = function(area, action_result) {
     if (action_result.serverName = area.parameters_action.server)
         return true
     return false
