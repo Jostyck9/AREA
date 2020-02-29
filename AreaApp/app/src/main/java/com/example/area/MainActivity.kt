@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity(), MainView {
 
         val githubButton: CardView = findViewById(R.id.githubButton)
         githubButton.setOnClickListener {
-            val uriCb = "testoauth://callback/github"
+            val uriCb = "home://callback/github"
             val intent: Intent = Intent(Intent.ACTION_VIEW,
                 Uri.parse(PreferenceManager.getDefaultSharedPreferences(applicationContext).getString("api", null)!! + "/auth/github?cb=$uriCb"))
             startActivity(intent)

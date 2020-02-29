@@ -62,10 +62,16 @@ class ProfileActivity : AppCompatActivity(), ProfileView {
     override fun changeUserInfos(response: String) {
 
         val person = JSONObject(response)
-        val username = person.getString("username")
-        val email = person.getString("email")
-        usernameProfile.text = Editable.Factory.getInstance().newEditable(username)
-        emailProfile.text = email
+
+        if (person.has("username")) {
+            val username = person.getString("username")
+            usernameProfile.text = Editable.Factory.getInstance().newEditable(username)
+        }
+
+        if (person.has("email")) {
+            val email = person.getString("email")
+            emailProfile.text = email
+        }
 
     }
 
