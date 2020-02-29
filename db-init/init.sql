@@ -45,8 +45,9 @@ INSERT INTO `actions` VALUES (4, 3, "messaged_received", "A new message has been
 INSERT INTO `actions` VALUES (5, 3, "a_user_joined", "A new user has joined the server", '{"server": "string"}', '{"message": "string"}');
 INSERT INTO `actions` VALUES (6, 3, "a_user_is_banned", "A user has been ban from the server", '{"server": "string"}', '{"message": "string"}');
 INSERT INTO `actions` VALUES (7, 4, "is_date", "Do an action at a precise date", '{"date": "date"}', '{"message": "string"}');
-INSERT INTO `actions` VALUES (8, 5, "file_added", "A file has been add on the server", '{}', '{"message": "string"}');
-INSERT INTO `actions` VALUES (9, 5, "file_deleted", "A file has been deleted on the server", '{}', '{"message": "string"}');
+INSERT INTO `actions` VALUES (8, 4, "timer", "Do an action at min interval", '{"interval": "int"}', '{"message": "string"}');
+INSERT INTO `actions` VALUES (9, 5, "file_added", "A file has been add on the server", '{}', '{"message": "string"}');
+INSERT INTO `actions` VALUES (10, 5, "file_deleted", "A file has been deleted on the server", '{}', '{"message": "string"}');
 
 /*!40000 ALTER TABLE `actions` DISABLE KEYS */;
 /*!40000 ALTER TABLE `actions` ENABLE KEYS */;
@@ -96,6 +97,19 @@ CREATE TABLE `dropbox` (
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `timer` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `client_id` int(11) NOT NULL,
+  `area_id` int(11) NOT NULL,
+  `interval_timer` int(11) NOT NULL,
+  `current_timer` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `url_callback` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `url_id` varchar(15) NOT NULL,
@@ -127,9 +141,9 @@ CREATE TABLE `reactions` (
 -- LOCK TABLES `reactions` WRITE;
 
 INSERT INTO `reactions` VALUES (0, 1, "tweet", "post a new tweet", '{"message": "string"}');
-INSERT INTO `reactions` VALUES (1, 2, "add_music", "add a new music to an existing playlist", NULL);
-INSERT INTO `reactions` VALUES (2, 3, "send_message", "send a message to a specific channel", NULL);
-INSERT INTO `reactions` VALUES (3, 3, "create_channel", "create a channel", NULL);
+INSERT INTO `reactions` VALUES (1, 2, "add_music", "add a new music to an existing playlist", '{"music": "string", "playlist": "string"}');
+INSERT INTO `reactions` VALUES (2, 3, "send_message", "send a message to a specific channel", '{"message": "string", "channel": "string"}');
+INSERT INTO `reactions` VALUES (3, 3, "create_channel", "create a channel", '{"channel": "string"}');
 INSERT INTO `reactions` VALUES (4, 6, "send_mail", "send a mail", '{"to": "string", "subject": "string", "message": "string"}');
 
 /*!40000 ALTER TABLE `reactions` DISABLE KEYS */;
