@@ -146,7 +146,7 @@ const twitterAuth = function (req, res, next) {
 }
 
 const spotifyAuth = function (req, res, next) {
-    Passport.authenticate('spotify', { state: req.urlId })(req, res, next);
+    Passport.authenticate('spotify', { state: req.urlId, scope: ['user-modify-playback-state', 'playlist-modify-public', 'playlist-modify-private', 'app-remote-control', 'playlist-read-private'] })(req, res, next);
 }
 
 const dropboxAuth = function (req, res, next) {

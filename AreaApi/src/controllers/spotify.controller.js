@@ -1,3 +1,4 @@
+var SpotifyWebApi = require('spotify-web-api-node');
 const ServiceAuthController = require('./serviceAuth.controller')
 const ServiceModel = require('../models/Service.model')
 
@@ -33,10 +34,110 @@ exports.spotify = async (req, res) => {
 
 
 // TODO REMOVE HERE !
-exports.spotifyNewMusic = async function(area, action_result) {
+exports.spotifyNewMusic = async function (area, action_result) {
     return false;
 }
 
+// NOTE Reaction
+async function startMusic(accessToken, name) {
+    try {
+        var spotifyApi = new SpotifyWebApi({ accessToken: accessToken });
+
+        spotifyApi.searchTracks(name).then(
+            function (data) {
+                // data.body.tracks.items[0].uri
+                console.log(data.body.tracks.items[0].uri)
+
+                spotifyApi.play({ uris: [data.body.tracks.items[0].uri] }).then(function (data) {
+                },
+                    function (error) {
+                        console.log(error)
+                    })
+            },
+            function (error) {
+                console.log(error)
+            }
+        )
+    } catch (err) {
+        console.error(err.message)
+    }
+}
+
+// NOTE Reaction
+async function pauseMusic(accessToken) {
+    try {
+        var spotifyApi = new SpotifyWebApi({ accessToken: accessToken });
+        spotifyApi.pause().then(function (data) {
+        }, function (error) {
+            console.log(error)
+        })
+    } catch (err) {
+        console.error(err.message)
+    }
+}
+
+// NOTE Reaction
+async function setMusicPlaylist(accessToken, music, playlist) {
+    try {
+        var spotifyApi = new SpotifyWebApi({ accessToken: accessToken });
+        var musicUri = null
+        var playlistId = null
+        var userId = null
+
+        console.log('try')
+        //search the music track
+        spotifyApi.searchTracks(music).then(
+            function (musics) {
+                if (musics.body.tracks.items.length == 0)
+                    return
+                musicUri = musics.body.tracks.items[0].uri
+
+                //user info
+                spotifyApi.getMe().then(
+                    function (resUser) {
+                        userId = resUser.body.id
+                        if (!userId)
+                            return
+
+                        //Search the playlist
+                        spotifyApi.getUserPlaylists({ limit: 50, offset: 0 }).then(
+                            function (data) {
+                                data.body.items.forEach(element => {
+                                    if (element.name == playlist) {
+                                        playlistId = element.id
+                                        console.log(element.name)
+                                    }
+                                });
+                                if (!playlistId) {
+
+                                    //create playlist
+                                    spotifyApi.createPlaylist(userId, playlist, { public: false }).then(
+                                        function (playlistRes) {
+                                            playlistId = playlistRes.body.id
+
+                                            //add music
+                                            spotifyApi.addTracksToPlaylist(playlistId, [musicUri])
+                                        },
+                                        function (errPlaylist) { console.log(errPlaylist.message) }
+                                    )
+                                } else {
+
+                                    //add music
+                                    spotifyApi.addTracksToPlaylist(playlistId, [musicUri])
+                                }
+                            },
+                            function (error) { console.log(error.message) }
+                        )
+                    },
+                    function (errUser) { console.log(errUser.message) }
+                )
+            },
+            function (err) { console.log("music:", err.message) }
+        )
+    } catch (err) {
+        console.error(err.message)
+    }
+}
 
 //NOTE =======================================================================
 
