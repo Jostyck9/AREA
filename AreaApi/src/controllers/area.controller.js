@@ -1,13 +1,24 @@
 const AreaModel = require('../models/Area.model')
 const ActionModel = require('../models/Action.model')
 const ReactionModel = require('../models/Reaction.model')
-const DiscordController = require('../controllers/discord.controller')
-const TwitterController = require('../controllers/twitter.controller')
-const GithubController = require('../controllers/github.controller')
-const DropboxController = require('../controllers/dropbox.controller')
-const SpotifyController = require('../controllers/spotify.controller')
+const ServiceModel = require('../models/Service.model')
+const DiscordController = require('./discord.controller')
+const TwitterController = require('./twitter.controller')
+const GithubController = require('./github.controller')
+const DropboxController = require('./dropbox.controller')
+const SpotifyController = require('./spotify.controller')
 const TimerController = require('./timer.contoller')
 const MailController = require('./nodemailer.controller')
+
+const controllerArray = [
+    GithubController, // 0
+    TwitterController, // 1
+    SpotifyController, // 2
+    DiscordController, // 3
+    TimerController, // 4
+    DropboxController, // 5
+    MailController
+]
 
 /**
  * Check if the field parameter inside the res.body is good according the action and the reaction
@@ -74,75 +85,6 @@ async function checkParameters(newArea, res) {
     return resKeys
 }
 
-// NOTE <<<<<<<<<<<<<<<<<<<<<<<<<< A deplacer dans les services
-
-/**
- * Connect an action to its reaction
- * @group area.controller - connectActionToReaction
- * @param {Int} action_id - id of the action that was detected
- * @param {JSON} action_result - json that contains results of the action (username, message content, ....)
- * @returns {Error}  default - Unexpected error
- */
-exports.connectActionToReaction =  async (action_id, action_result) => {
-    //is called by a service.controller that detected an action and Connect an action to its reaction
-    try {
-        const AreaArray= await AreaModel.findByActionId(action_id);
-        AreaArray.forEach(element => {
-            if (checkIfuserIsConcerned(element, action_result, action_id)) {
-                SendToReactionById(element, action_id, action_result);
-            }
-        });
-
-    }
-    catch (error) {
-
-    }
-}
-
-function checkIfuserIsConcerned(area, action_result, action_id) {
-
-    // TODO faire une fonction par service pour vider la chose car c'est trop le bordel
-    const actionArray = [
-        GithubController.githubPush, // 0
-        GithubController.githubNewPullRequest, // 1
-        TwitterController.twitterTweet, // 2
-        SpotifyController.spotifyNewMusic, // 3
-        DiscordController.discordMessageReceived, // 4
-        DiscordController.discordNewMember, // 5
-        DiscordController.discordMemberBan, // 6
-        DiscordController.discordNewMember, // 7 TODO change Timer
-        DropboxController.dropboxFileAdded, // 8
-        DropboxController.dropboxFileDeleted // 9
-    ]
-    return actionArray[action_id](area, action_result);
-}
-
-// NOTE ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-/**
- * Call a specific serviceController depending on the reaction_id
- *
- * @param {AreaModel} area - AreaModel that contains datas about the current Area
- * @param {Int} action_id - id of the action that was detected
- * @param {JSON} action_result - json that contains results of the action (username, message content, ....)
- */
-exports.SendToReactionById = async (area, action_id, action_result) => {
-    // Call a specific serviceController depending on the reaction_id
-
-    // TODO Add the Use reaction of other services
-    const controllerArray = [
-        GithubController.UseReaction, // 0
-        TwitterController.UseReaction, // 1
-        SpotifyController.UseReaction, // 2
-        DiscordController.UseReaction, // 3
-        TimerController.UseReaction, // 4
-        DropboxController.UseReaction, // 5
-        MailController.UseReaction
-    ]
-    const reactionmodel = await ReactionModel.findById(area.reaction_id);
-    await controllerArray[reactionmodel.service_id](action_result, area);
-}
-
 /**
  * Create a reaction according to the request for a specific user
  *
@@ -172,10 +114,8 @@ exports.create = async (req, res) => {
             return
 
         const resRequest = await AreaModel.create(newArea)
-        // TODO refrecator
-        if (newArea.action_id === 8 || newArea.action_id === 9)
-            DropboxController.createArea(newArea)
-        res.status(201).send(resRequest);
+        await SendCreatedToService(resRequest)
+        res.status(201).send({ message: 'area created' });
     } catch (error) {
         res.status(400).send({ message: error.message || 'An error  occured' });
     }
@@ -224,11 +164,109 @@ exports.get = async (req, res) => {
  */
 exports.delete = async (req, res) => {
     try {
+        const resArea = await AreaModel.findById(req.user.id, req.params.id)
+        if (!resArea)
+            throw new Error("No area found")
+
         const resRequest = await AreaModel.delete(req.user.id, req.params.id)
         if (!resRequest)
             throw new Error("No area found")
+        await SendDeletedToService(resArea)
         res.status(200).send(resRequest);
     } catch (error) {
         res.status(400).send({ message: error.message || 'An error  occured' });
+    }
+}
+
+
+// NOTE <<<<<<<<<<<<<<<<<<<<<<<<<< A deplacer dans les services
+
+/**
+ * Connect an action to its reaction
+ * @group area.controller - connectActionToReaction
+ * @param {Int} action_id - id of the action that was detected
+ * @param {JSON} action_result - json that contains results of the action (username, message content, ....)
+ * @returns {Error}  default - Unexpected error
+ */
+exports.connectActionToReaction = async (action_id, action_result) => {
+    //is called by a service.controller that detected an action and Connect an action to its reaction
+    try {
+        const AreaArray = await AreaModel.findByActionId(action_id);
+        AreaArray.forEach(element => {
+            if (checkIfuserIsConcerned(element, action_result, action_id)) {
+                SendToReactionById(element, action_id, action_result);
+            }
+        });
+
+    }
+    catch (error) {
+
+    }
+}
+
+function checkIfuserIsConcerned(area, action_result, action_id) {
+
+    // TODO faire une fonction par service pour vider la chose car c'est trop le bordel
+    const actionArray = [
+        GithubController.githubPush, // 0
+        GithubController.githubNewPullRequest, // 1
+        TwitterController.twitterTweet, // 2
+        SpotifyController.spotifyNewMusic, // 3
+        DiscordController.discordMessageReceived, // 4
+        DiscordController.discordNewMember, // 5
+        DiscordController.discordMemberBan, // 6
+        DiscordController.discordNewMember, // 7 TODO change Timer
+        DropboxController.dropboxFileAdded, // 8
+        DropboxController.dropboxFileDeleted // 9
+    ]
+    return actionArray[action_id](area, action_result);
+}
+
+// NOTE ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+/**
+ * Call a specific serviceController depending on the reaction_id
+ *
+ * @param {AreaModel} area - AreaModel that contains datas about the current Area
+ * @param {Int} action_id - id of the action that was detected
+ * @param {JSON} action_result - json that contains results of the action (username, message content, ....)
+ */
+exports.SendToReactionById = async (area, action_id, action_result) => {
+    // Call a specific serviceController depending on the reaction_id
+    const reactionmodel = await ReactionModel.findById(area.reaction_id); // NOTE controllerArray is global
+    console.log(reactionmodel)
+    await controllerArray[reactionmodel.service_id].useReaction(action_result, area);
+}
+
+/**
+ * Send the area to the appropriate service for initialisation
+ * 
+ * @param {JSON} newArea 
+ */
+async function SendCreatedToService(newArea) {
+    try {
+        // TODO refrecator
+        const reqService = await ActionModel.findById(newArea.action_id)
+        if (reqService) {
+            controllerArray[reqService.service_id].createArea(newArea)
+        }
+    } catch (err) {
+        console.error(err)
+    }
+}
+
+/**
+ * Send the deleted area to the appropriate service to delete by their side
+ * 
+ * @param {JSON} areaToDelete 
+ */
+async function SendDeletedToService(areaToDelete) {
+    try {
+        const reqService = await ActionModel.findById(areaToDelete.action_id)
+        if (reqService) {
+            controllerArray[reqService.service_id].deleteArea(areaToDelete)
+        }
+    } catch (err) {
+        console.error(err)
     }
 }

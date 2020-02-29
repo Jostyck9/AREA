@@ -5,16 +5,27 @@ const session = require('express-session')
 const socketio = require('socket.io')
 const http = require('http')
 const passport = require('passport')
-const https = require('https')
-const fs = require('fs')
 
 const passportInit = require('./passport.init')
 
+
+// NOTE ROUTERS
 const oauthRouter = require('../routers/auth.router');
 const aboutRouter = require('../routers/about.router');
 const areaRouter = require('../routers/area.router');
 const servicesRouter = require('../routers/services.router');
 const userRouter = require('../routers/me.router')
+
+// NOTE SERVICES
+const MailController = require('../controllers/nodemailer.controller')
+const SpotifyController = require('../controllers/spotify.controller')
+const DropBoxController = require('../controllers/dropbox.controller')
+const TwitterController = require('../controllers/twitter.controller')
+const DiscordController = require('../controllers/discord.controller')
+const GithubController = require('../controllers/github.controller')
+const TimerController = require('../controllers/timer.contoller')
+const ArrayController = [MailController, SpotifyController, DropBoxController, TwitterController, DiscordController, GithubController, TimerController]
+
 
 const app = express()
 const server = http.createServer(app)
@@ -51,9 +62,8 @@ app.get("/", (req, res) => {
     res.json({ message: "Welcome to Area api. To see documentation go to /api-docs" });
 });
 
-const twitterController = require('../controllers/twitter.controller')
-const TimerController = require('../controllers/timer.contoller')
-twitterController.init_twitter(app)
-TimerController.init(app)
+for (const element of ArrayController) {
+    element.init(app)
+}
 
 module.exports = app;

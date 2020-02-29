@@ -26,8 +26,8 @@ AreaModel.create = async function (newArea) {
         if (rows.affectedRows == 0) {
             throw('Error trying to create an area')
         }
-
-        return { message: "created area" }
+        newArea.id = rows.insertId
+        return newArea
     } catch (err) {
         throw err
     }

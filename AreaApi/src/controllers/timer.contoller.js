@@ -56,7 +56,7 @@ async function checkInterval() {
                     let newTimerElement = element.current_timer - 1
                     if (newTimerElement === 0) {
                         newTimerElement = element.interval_timer
-                        const elementArea = await AreaModel.findById(element.client_id, elementArea.id)
+                        const elementArea = await AreaModel.findById(element.client_id, element.area_id)
                         if (elementArea) {
                             // NOTE Send the area to trigger it
                             await AreaController.SendToReactionById(elementArea, resAction.id, {message: 'Your timer has been triggered'})
@@ -82,8 +82,10 @@ async function checkInterval() {
  */
 exports.createArea = async (area) => {
     try {
+        console.log(area)
         if (area.action_id == 8) {
             const newTimer = new TimerModel({
+                area_id: area.id,
                 client_id: area.client_id,
                 interval: area.parameters_action.interval
             })
@@ -103,7 +105,7 @@ exports.createArea = async (area) => {
 exports.deleteArea = async (area) => {
     try {
         if (area.action_id == 8) {
-            await TimerModel.deleteByAreaId(area)
+            await TimerModel.deleteByAreaId(area.id)
         }
     } catch (err) {
         console.error(err)

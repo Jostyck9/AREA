@@ -80,6 +80,4 @@ exports.useReaction = async (actionResult, area) => {
  * @param {Express} app server express
  */
 exports.init = async (app) => {
-    await checkDate()
-    await checkInterval()
 }
