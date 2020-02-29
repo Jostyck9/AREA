@@ -7,9 +7,11 @@ const Discord = require ('discord.js');
 
 const bot = new Discord.Client ();
 
-const MSG_RECEIVED_ID = 6;
-const MEMBER_ADD_ID = 7;
-const MEMBER_BAN_ID = 10;
+const MSG_RECEIVED_ID = 4;
+const MEMBER_ADD_ID = 5;
+const MEMBER_BAN_ID = 6;
+const SEND_MESSAGE_ID = 2;
+const CREATE_CHANNEL_ID = 3;
 const TOKEN = process.env.DISCORD_TOKEN;
 const BOT_URL = process.env.DISCORD_BOT_URL;
 
@@ -54,7 +56,7 @@ bot.on("guildBanAdd", function(guild, user){
         serverName: guild.name,
         member: user.username
     };
-    //AreaController.connectActionToReaction(MEMBER_BAN_ID, action_result);
+    AreaController.connectActionToReaction(MEMBER_BAN_ID, action_result);
 });
 
 /**
@@ -64,8 +66,10 @@ bot.on("guildBanAdd", function(guild, user){
 exports.UseReaction = async(action_result, area) => {
     //Call required reaction
 
-    //await this.createChannel(area.parameters_reaction);
-    await this.sendMessage(area.parameters_reaction);
+    if (area.reaction_id == SEND_MESSAGE_ID)
+        await this.sendMessage(area.parameters_reaction, action_result);
+    if (area.reaction_id == CREATE_CHANNEL_ID)
+        await this.createChannel(area.parameters_reaction);
 }
 
 
@@ -88,7 +92,7 @@ exports.createChannel = async function (obj) {
  * @property {JSON} params - Message to be sent and in which channel
  * @returns {Error}  default - Unexpected error
  */
-exports.sendMessage = async function (obj) {
+exports.sendMessage = async function (obj, action_result) {
     //Send a specified message in Discord
     bot.guilds.find('name', obj.server).channels.find('name', obj.channel).send(obj.content);
 }
