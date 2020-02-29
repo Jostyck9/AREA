@@ -138,7 +138,7 @@ const getUser = async (req, res, next) => {
 }
 
 const githubAuth = function (req, res, next) {
-    Passport.authenticate('github', { state: req.urlId, scope: ['user:email'] })(req, res, next);
+    Passport.authenticate('github', { state: req.urlId, scope: ['user:email', 'repo', 'admin:repo_hook'] })(req, res, next);
 }
 
 const twitterAuth = function (req, res, next) {

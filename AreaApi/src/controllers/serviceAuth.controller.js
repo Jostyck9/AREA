@@ -27,6 +27,7 @@ exports.connect = async (user_id, serviceTokens, serviceId, redirectUrl, res) =>
         const resRequest = await ServiceAuthModel.create(toSave)
         if (res) {
             // res.status(200).send({ message: 'connected' })
+            console.log(UrlConstruct.createRedirect(redirectUrl, 'OK', null, 'connected'))
             res.redirect(UrlConstruct.createRedirect(redirectUrl, 'OK', null, 'connected'))
         }
     } catch (err) {

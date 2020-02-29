@@ -1,4 +1,5 @@
 const app = require('./server')
+const twitterController = require('./controllers/twitter.controller')
 const port = process.env.PORT;
 
 // swagger
@@ -28,8 +29,7 @@ let options = {
     files: ['./routers/**/*.js'] //Path to the API handle folder
 };
 expressSwagger(options);
-
-
+twitterController.init_twitter(app)
 
 app.listen(port, () => {
     console.log(`Server running on port ${port}`)

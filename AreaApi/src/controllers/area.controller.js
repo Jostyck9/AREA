@@ -1,13 +1,18 @@
 const AreaModel = require('../models/Area.model')
 const ActionModel = require('../models/Action.model')
 const ReactionModel = require('../models/Reaction.model')
+const DiscordController = require('../controllers/discord.controller')
+const TwitterController = require('../controllers/twitter.controller')
+const GithubController = require('../controllers/github.controller')
+const DropboxController = require('../controllers/dropbox.controller')
+const SpotifyController = require('../controllers/spotify.controller')
 
 /**
  * Check if the field parameter inside the res.body is good according the action and the reaction
- * 
+ *
  * @param {AreaModel} newArea The request received with the route
  * @param {Response<any>} res The result of the request to send after
- * @returns {boolean} is the request is valid or not 
+ * @returns {boolean} is the request is valid or not
  */
 async function checkParameters(newArea, res) {
     const reactionParameters = await ReactionModel.findById(newArea.reaction_id)
@@ -20,7 +25,6 @@ async function checkParameters(newArea, res) {
         res.status(400).send({ message: "No action found with id " + newArea.action_id });
         return false
     }
-
 
     //if no parameters are necessaries
     if (reactionParameters.parameters === null && actionParameters.parameters === null) {
@@ -68,9 +72,75 @@ async function checkParameters(newArea, res) {
     return resKeys
 }
 
+
+/**
+ * Connect an action to its reaction
+ * @group area.controller - connectActionToReaction
+ * @param {Int} action_id - id of the action that was detected
+ * @param {JSON} action_result - json that contains results of the action (username, message content, ....)
+ * @returns {Error}  default - Unexpected error
+ */
+exports.connectActionToReaction =  async (action_id, action_result) => {
+    //is called by a service.controller that detected an action and Connect an action to its reaction
+    try {
+        const AreaArray= await AreaModel.findByActionId(action_id);
+        AreaArray.forEach(element => {
+            if (checkIfuserIsConcerned(element, action_result, action_id)) {
+                SendToReactionById(element, action_id, action_result);
+            }
+        });
+
+    }
+    catch (error) {
+
+    }
+}
+
+function checkIfuserIsConcerned(area, action_result, action_id) {
+
+    const actionArray = [
+        GithubController.githubPush, // 0
+        GithubController.githubNewPullRequest, // 1
+        TwitterController.twitterTweet, // 2
+        SpotifyController.spotifyNewMusic, // 3
+        DiscordController.discordMessageReceived, // 4
+        DiscordController.discordNewMember, // 5
+        DiscordController.discordMemberBan, // 6
+        DiscordController.discordNewMember, // 7 TODO change Timer
+        DropboxController.dropboxFileAdded, // 8
+        DropboxController.dropboxFileDeleted // 9
+    ]
+    return actionArray[action_id](area, action_result);
+}
+
+
+
+/**
+ * Call a specific serviceController depending on the reaction_id
+ *
+ * @param {AreaModel} area - AreaModel that contains datas about the current Area
+ * @param {Int} action_id - id of the action that was detected
+ * @param {JSON} action_result - json that contains results of the action (username, message content, ....)
+ */
+async function SendToReactionById(area, action_id, action_result) {
+    // Call a specific serviceController depending on the reaction_id
+
+    const controllerArray = [
+        TwitterController.UseReaction, // 0
+        DiscordController.UseReaction, // 1
+        DiscordController.UseReaction, // 2
+        DiscordController.UseReaction, // 3
+        DiscordController.UseReaction, // 4
+        GithubController.UseReaction // 5
+
+    ]
+    const reactionmodel = await ReactionModel.findById(area.reaction_id);
+    await controllerArray[reactionmodel.service_id](action_result, area);
+}
+
 /**
  * Create a reaction according to the request for a specific user
- * 
+ *
  * @param {Request<ParamsDictionary, any, any>} req The request received with the route
  * @param {Response<any>} res The result of the request to send after
  */
@@ -92,12 +162,14 @@ exports.create = async (req, res) => {
             parameters_action: req.body.parameters_action,
             parameters_reaction: req.body.parameters_reaction
         });
-
         const resCheck = await checkParameters(newArea, res)
         if (!resCheck)
             return
 
         const resRequest = await AreaModel.create(newArea)
+        // TODO refrecator
+        if (newArea.action_id === 8 || newArea.action_id === 9)
+            DropboxController.creationDropboxArea(newArea)
         res.status(201).send(resRequest);
     } catch (error) {
         res.status(400).send({ message: error.message || 'An error  occured' });
@@ -106,7 +178,7 @@ exports.create = async (req, res) => {
 
 /**
  * Get all the user's area
- * 
+ *
  * @param {Request<ParamsDictionary, any, any>} req The request received with the route
  * @param {Response<any>} res The result of the request to send after
  */
@@ -124,7 +196,7 @@ exports.getAll = async (req, res) => {
 
 /**
  * Get a specific user's area by his id
- * 
+ *
  * @param {Request<ParamsDictionary, any, any>} req The request received with the route
  * @param {Response<any>} res The result of the request to send after
  */
@@ -141,7 +213,7 @@ exports.get = async (req, res) => {
 
 /**
  * Delete a specific user's area from id
- * 
+ *
  * @param {Request<ParamsDictionary, any, any>} req The request received with the route
  * @param {Response<any>} res The result of the request to send after
  */

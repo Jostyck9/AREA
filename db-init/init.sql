@@ -84,6 +84,18 @@ CREATE TABLE `area` (
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `dropbox` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `client_id` int(11) NOT NULL,
+  `dropbox_id` varchar(200) NOT NULL,
+  `dropbox_cursor` varchar(200) NOT NULL,
+  UNIQUE KEY `service client_id` (`client_id`),
+  PRIMARY KEY (`id`)
+) DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `url_callback` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `url_id` varchar(15) NOT NULL,
@@ -118,7 +130,7 @@ INSERT INTO `reactions` VALUES (0, 1, "tweet", "post a new tweet", '{"message": 
 INSERT INTO `reactions` VALUES (1, 2, "add_music", "add a new music to an existing playlist", NULL);
 INSERT INTO `reactions` VALUES (2, 3, "send_message", "send a message to a specific channel", NULL);
 INSERT INTO `reactions` VALUES (3, 3, "create_channel", "create a channel", NULL);
-INSERT INTO `reactions` VALUES (4, 6, "send_mail", "send a mail", '{"to": "string", "message": "string"}');
+INSERT INTO `reactions` VALUES (4, 6, "send_mail", "send a mail", '{"to": "string", "subject": "string", "message": "string"}');
 
 /*!40000 ALTER TABLE `reactions` DISABLE KEYS */;
 /*!40000 ALTER TABLE `reactions` ENABLE KEYS */;
@@ -134,6 +146,7 @@ DROP TABLE IF EXISTS `services`;
 CREATE TABLE `services` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
+  `oauth` boolean NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   UNIQUE KEY `service name` (`name`)
 ) DEFAULT CHARSET=utf8;
@@ -145,13 +158,13 @@ CREATE TABLE `services` (
 
 -- LOCK TABLES `services` WRITE;
 /*!40000 ALTER TABLE `services` DISABLE KEYS */;
-INSERT INTO `services` VALUES (0,'github');
-INSERT INTO `services` VALUES (1,'twitter');
-INSERT INTO `services` VALUES (2,'spotify');
-INSERT INTO `services` VALUES (3,'discord');
-INSERT INTO `services` VALUES (4,'timer');
-INSERT INTO `services` VALUES (5,'dropbox');
-INSERT INTO `services` VALUES (6,'mail');
+INSERT INTO `services` VALUES (0,'github', 1);
+INSERT INTO `services` VALUES (1,'twitter', 1);
+INSERT INTO `services` VALUES (2,'spotify', 1);
+INSERT INTO `services` VALUES (3,'discord', 0);
+INSERT INTO `services` VALUES (4,'timer', 0);
+INSERT INTO `services` VALUES (5,'dropbox', 1);
+INSERT INTO `services` VALUES (6,'mail', 0);
 
 /*!40000 ALTER TABLE `services` ENABLE KEYS */;
 -- UNLOCK TABLES;
