@@ -31,12 +31,12 @@ async function checkParameters(newArea, res) {
         return true
     }
 
-    if (newArea.parameters_action === null && reactionParameters.parameters !== null) {
+    if (newArea.parameters_action === null && (actionParameters.parameters !== null && Object.keys(actionParameters.parameters).length !== 0)) {
         res.status(400).send({ message: "parameters invalid for action" });
         return false
     }
 
-    if (newArea.parameters_reaction === null && reactionParameters.parameters !== null) {
+    if (newArea.parameters_reaction === null && (reactionParameters.parameters !== null && Object.keys(reactionParameters.parameters).length !== 0)) {
         res.status(400).send({ message: "parameters invalid for reaction" });
         return false
     }

@@ -44,6 +44,20 @@ exports.sendMail = async (to, subject, message) => {
 }
 
 /**
+ * Create specific data for the area (for exemple init a timer for this area)
+ */
+exports.createArea = (area) => {
+}
+
+/**
+ * Delete the area (specific for each service (for exemple , delete the timer inthe time table))
+ * 
+ * @param {JSON} - area
+ */
+exports.deleteArea = (area) => {
+}
+
+/**
  * Use the appropriate reaction of the mail controller
  * 
  * @param {JSON} actionResult - Result of the triggered action
@@ -52,4 +66,10 @@ exports.sendMail = async (to, subject, message) => {
  */
 exports.useReaction = (actionResult, area) => {
     this.sendMail(area.parameters_reaction.to, area.parameters_reaction.subject, area.parameters_reaction.message)
+}
+
+/**
+ * Init all the timers of the Service
+ */
+exports.init = async () => {
 }

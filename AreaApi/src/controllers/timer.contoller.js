@@ -6,7 +6,7 @@ const INTERVAL = 10000
 let idIntervalDate = 0
 let idInterval = 0
 
-exports.checkDate = () => {
+async function checkDate() {
     if (idIntervalDate) {
         clearInterval(idIntervalDate)
     }
@@ -36,7 +36,7 @@ exports.checkDate = () => {
     }, INTERVAL);
 }
 
-exports.checkInterval = () => {
+async function checkInterval() {
     if (idInterval) {
         clearInterval(idInterval)
     }
@@ -116,7 +116,7 @@ exports.useReaction = (actionResult, area) => {
 /**
  * Init all the timers of the Service
  */
-exports.init = () => {
-    this.checkDate()
-    this.checkInterval()
+exports.init = async () => {
+    await checkDate()
+    await checkInterval()
 }
