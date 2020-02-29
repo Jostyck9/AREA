@@ -55,7 +55,7 @@ exports.github = async (req, res) => {
 } 
 
 const TOKEN = process.env.GITHUB_TOKEN;
-const HOOK_URL = process.env.GITHUB_HOOK_URL;
+const HOOK_URL = process.env.SERVER_URL + '/github/webhook';
 const NEW_PUSH = 0;
 const NEW_PULLREQUEST = 1;
 
