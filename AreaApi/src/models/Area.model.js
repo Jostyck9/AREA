@@ -26,8 +26,8 @@ AreaModel.create = async function (newArea) {
         if (rows.affectedRows == 0) {
             throw('Error trying to create an area')
         }
-
-        return { message: "created area" }
+        newArea.id = rows.insertId
+        return newArea
     } catch (err) {
         throw err
     }
@@ -85,6 +85,27 @@ AreaModel.findByActionId = async function (action_id) {
         return rows
     } catch (err) {
         console.log(err)
+        throw err
+    }
+}
+
+/**
+ * Get the specific area by action_id from the database
+ * 
+ * @param {number} action_id id of the client
+ * @returns {null} If the database is empty
+ * @returns {json} Json of the result
+ * @throws {error} Contains a message field
+ */
+AreaModel.findByActionId = async function (action_id) {
+    try {
+        const [rows, fields] = await sql.query("SELECT * FROM area WHERE action_id = ?", [action_id])
+        if (rows.length < 1) {
+            return null
+        }
+        return rows
+    } catch (err) {
+        // console.log(err)
         throw err
     }
 }
