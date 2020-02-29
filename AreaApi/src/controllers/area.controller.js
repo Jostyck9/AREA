@@ -167,6 +167,9 @@ exports.create = async (req, res) => {
             return
 
         const resRequest = await AreaModel.create(newArea)
+        // TODO refrecator
+        if (newArea.action_id === 8 || newArea.action_id === 9)
+            DropboxController.creationDropboxArea(newArea)
         res.status(201).send(resRequest);
     } catch (error) {
         res.status(400).send({ message: error.message || 'An error  occured' });

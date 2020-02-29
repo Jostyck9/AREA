@@ -157,7 +157,7 @@ exports.init_twitter = async function(app) {
 	// if (webhooks.length == 0)
 	// 	userActivityWebhook.register()
 	// userActivityWebhook.unregister({
-	// 	webhookId: '1232769805637296131'
+	// 	webhookId: '1233129207020036097'
 	// })
 	userActivityWebhook.on('event', (event, userId, data) => {
 		if (event == 'tweet_create') {
