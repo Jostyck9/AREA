@@ -1,11 +1,12 @@
 var Github = require('github-api');
+var typeGithubEvent = require('typeof-github-event');
 var Promise = require("es6-promise").Promise;
-const AreaController = require('../controllers/area.controller')
-const ServiceAuthController = require('./serviceAuth.controller')
-const ApiAuth = require('./auth.controller')
-const ServiceModel = require('../models/Service.model')
-const GithubModel = require('../models/github.model')
-const ServiceToken = require('../models/ServiceTokens.model')
+const AreaController = require('../controllers/area.controller');
+const ServiceAuthController = require('./serviceAuth.controller');
+const ApiAuth = require('./auth.controller');
+const ServiceModel = require('../models/Service.model');
+const GithubModel = require('../models/github.model');
+const ServiceToken = require('../models/ServiceTokens.model');
 
 const TOKEN = process.env.GITHUB_TOKEN;
 const HOOK_URL = process.env.GITHUB_HOOK_URL;
@@ -72,14 +73,19 @@ exports.UseReaction = async(action_result, area) => {
  * Interpret webhook trigger post
  * @group Github - Github webhook triggered
  */
-exports.webhookTriggered = async(req, res) => {
+exports.webhookTriggered = async(payload) => {
     //webhook trigger action
 
-    //pour savoir si c'ets un push ou pull --> checker l'id ?
+    var type = typeGithubEvent.typeof(payload);
     const action_result = {
+        repository: payload.repository.name
+    };
+    if (typeGithubEvent.isPush(payload)) {
+        AreaController.connectActionToReaction(NEW_PUSH, action_result)
     }
-    //console.info(req);
-    AreaController.connectActionToReaction(NEW_PUSH, action_result)
+    else if (typeGithubEvent.is('pull_request', payload)) {
+        AreaController.connectActionToReaction(NEW_PULLREQUEST, action_result)
+    }
 }
 
 /**
@@ -128,19 +134,19 @@ exports.createGithubWebhook = async function (newArea) {
             }
         }
     }
-    fork.createHook(hookDef)
-    .then(function({data: hook}) {
-       // var webhook_id = hook.id ?
-    });
-    var webhook_id = 0;
+    try {
+        fork.createHook(hookDef)
+        .then(function({data: hook}) {});
+    } catch (error) {
+        console.err( {message: error.message || 'An internal error occured' });
+    }
     const newGModel = new GithubModel({
         client_id: newArea.client_id,
         username: newArea.parameters_action.username,
         repo_name: newArea.parameters_action.repository,
-        webhook_id: webhook_id,
         webhook_type: action_webhook_type
     });
-    const gModel = await GithubModel.create(newGModel);
+    await GithubModel.create(newGModel);
 }
 
 /**
@@ -150,7 +156,6 @@ exports.createGithubWebhook = async function (newArea) {
  */
 exports.deleteGithubWebhook = async function (githubModel) {
     var fork = gh.getRepo(githubModel.username, githubModel.repo_name);
-    //  fork.deleteHook(githubModel.webhook_id)
     console.info("delete webhook github");
 }
 
@@ -164,7 +169,7 @@ exports.githubPush = async function(area, action_result) {
     //check if hook if is similar to client's hooks
 
     const githubModel = await GithubModel.getGithubObject(area.client_id);
-    if (action_result.webhook_id == githubModel.webhook_id)
+    if (action_result.repository == githubModel.repo_name)
         return true;
     else
         return false;
@@ -179,7 +184,7 @@ exports.githubPush = async function(area, action_result) {
 exports.githubNewPullRequest = async function(area, action_result) {
     //check if hook if is similar to client's hooks
     const githubModel = await GithubModel.getGithubObject(area.client_id);
-    if (action_result.webhook_id == githubModel.webhook_id)
+    if (action_result.repository == githubModel.repo_name)
         return true;
     else
         return false;

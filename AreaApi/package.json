@@ -59,6 +59,7 @@
     "twit": "^2.2.11",
     "twitter": "^1.7.1",
     "twitter-webhooks": "^0.3.3",
+    "typeof-github-event": "^1.0.0",
     "validator": "^12.2.0"
   }
 }

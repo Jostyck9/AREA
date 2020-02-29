@@ -63,7 +63,6 @@ CREATE TABLE `github` (
   `client_id` int(11) NOT NULL,
   `username` varchar(50) NOT NULL,
   `repo_name` varchar(50) NOT NULL,
-  `webhook_id` int(11) NOT NULL,
   `webhook_type`varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
 ) DEFAULT CHARSET=utf8;
