@@ -139,3 +139,45 @@ exports.githubNewPullRequest = async function(area, action_result) {
         return false*/
         return true;
 }
+
+//NOTE ========================================================================
+
+/**
+ * Create specific data for the area (for exemple init a timer for this area)
+ */
+exports.createArea = async (area) => {
+    try {
+    } catch (err) {
+        console.error(err)
+        console.error('Ignoring')
+    }
+}
+
+/**
+ * Delete the area (specific for each service (for exemple , delete the timer inthe time table))
+ * 
+ * @param {JSON} - area
+ */
+exports.deleteArea = async (area) => {
+    try {
+    } catch (err) {
+        console.error(err)
+        console.error('Ignoring')
+    }
+}
+
+/**
+ * Call the appropriate reaction from area of the service
+ * 
+ * @param {JSON} actionResult - 
+ */
+exports.useReaction = async (actionResult, area) => {
+}
+
+/**
+ * Init all the timers of the Service
+ * 
+ * @param {Express} app server express
+ */
+exports.init = async (app) => {
+}

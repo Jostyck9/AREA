@@ -43,10 +43,12 @@ exports.sendMail = async (to, subject, message) => {
     console.log("Message sent: %s to %s", info.messageId, to);
 }
 
+//NOTE ================================================================
+
 /**
  * Create specific data for the area (for exemple init a timer for this area)
  */
-exports.createArea = (area) => {
+exports.createArea = async (area) => {
 }
 
 /**
@@ -54,7 +56,7 @@ exports.createArea = (area) => {
  * 
  * @param {JSON} - area
  */
-exports.deleteArea = (area) => {
+exports.deleteArea = async (area) => {
 }
 
 /**
@@ -64,12 +66,20 @@ exports.deleteArea = (area) => {
  * @param {JSON} area - The area configuration
  * @throws - Error with a message field
  */
-exports.useReaction = (actionResult, area) => {
-    this.sendMail(area.parameters_reaction.to, area.parameters_reaction.subject, area.parameters_reaction.message)
+exports.useReaction = async (actionResult, area) => {
+    try {
+        await this.sendMail(area.parameters_reaction.to, area.parameters_reaction.subject, area.parameters_reaction.message)
+    } catch (err) {
+        console.error(err)
+    }
 }
 
 /**
  * Init all the timers of the Service
+ * 
+ * @param {Express} app server express
  */
-exports.init = async () => {
+exports.init = async (app) => {
+    await checkDate()
+    await checkInterval()
 }

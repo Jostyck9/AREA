@@ -1,4 +1,5 @@
 const AreaModel = require('../models/Area.model')
+const AreaController = require('./area.controller')
 const ActionModel = require('../models/Action.model')
 const TimerModel = require('../models/Timer.model')
 
@@ -55,11 +56,13 @@ async function checkInterval() {
                     let newTimerElement = element.current_timer - 1
                     if (newTimerElement === 0) {
                         newTimerElement = element.interval_timer
-                        const elementArea = await AreaModel.getArea(elementArea.id)
-                        // console.log('Action for : ' + element.id)
-                        // TODO envoyer cette area ?
+                        const elementArea = await AreaModel.findById(element.client_id, elementArea.id)
+                        if (elementArea) {
+                            // NOTE Send the area to trigger it
+                            await AreaController.SendToReactionById(elementArea, resAction.id, {message: 'Your timer has been triggered'})
+                        }
+                        
                     }
-                    // console.log('element timer: ' + element.current_timer)
                     await TimerModel.updateTimer(newTimerElement, element.id)
                 } catch (err) {
                     console.error(err.message)
@@ -71,17 +74,20 @@ async function checkInterval() {
     }, 60000);
 }
 
+
+//NOTE ============================================================
+
 /**
  * Create specific data for the area (for exemple init a timer for this area)
  */
-exports.createArea = (area) => {
+exports.createArea = async (area) => {
     try {
         if (area.action_id == 8) {
             const newTimer = new TimerModel({
                 client_id: area.client_id,
                 interval: area.parameters_action.interval
             })
-            TimerModel.create(newTimer)
+            await TimerModel.create(newTimer)
         }
     } catch (err) {
         console.error(err)
@@ -94,10 +100,10 @@ exports.createArea = (area) => {
  * 
  * @param {JSON} - area
  */
-exports.deleteArea = (area) => {
+exports.deleteArea = async (area) => {
     try {
         if (area.action_id == 8) {
-            TimerModel.deleteByAreaId(area)
+            await TimerModel.deleteByAreaId(area)
         }
     } catch (err) {
         console.error(err)
@@ -110,13 +116,15 @@ exports.deleteArea = (area) => {
  * 
  * @param {JSON} actionResult - 
  */
-exports.useReaction = (actionResult, area) => {
+exports.useReaction = async (actionResult, area) => {
 }
 
 /**
  * Init all the timers of the Service
+ * 
+ * @param {Express} app server express
  */
-exports.init = async () => {
+exports.init = async (app) => {
     await checkDate()
     await checkInterval()
 }

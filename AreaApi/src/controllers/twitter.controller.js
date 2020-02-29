@@ -118,29 +118,11 @@ async function post_tweet(userToken, secretToken, message) {
 exports.post_tweet = post_tweet
 
 /**
-* use the reaction of the service twitter
-*
-* @param {json} action_result the data received from the action
-* @param {json} area the area use in here
-*/
-exports.UseReaction = async(action_result, area) => {
-
-	// let ts = Date.now();
-	// let date_ob = new Date(ts);
-	// let hours = date_ob.getHours();
-	// let minutes = date_ob.getMinutes();
-	// let seconds = date_ob.getSeconds();
-	// const current_time = hours + ':' + minutes + ' ' + seconds 
-	if (action_result.message == area.parameters_reaction.message)
-		return
-	post_tweet('1098557912677576704-2fz3FvHUaDs5ccaje09f8YhiWpISEn', 'pdymBZU6dt229qycuNSyAo11cN9adU3yb2Nhkrka8CQnX', area.parameters_reaction.message)
-}
-
-/**
 * init the webhooks of Twitter and start to catch event
 *
 * @param {Express} app server express
 */
+// TODO get from env access token
 exports.init_twitter = async function(app) {
 	const userActivityWebhook = twitterWebhooks.userActivity({
 		serverUrl: SERVER_URL,
@@ -234,4 +216,55 @@ exports.destructionTwitterTweet = async function(area) {
 	} catch (error) {
 		console.error(error)
 	}
+}
+
+//NOTE =====================================================================
+
+/**
+ * Create specific data for the area (for exemple init a timer for this area)
+ */
+exports.createArea = async (area) => {
+    try {
+    } catch (err) {
+        console.error(err)
+        console.error('Ignoring')
+    }
+}
+
+/**
+ * Delete the area (specific for each service (for exemple , delete the timer inthe time table))
+ * 
+ * @param {JSON} - area
+ */
+exports.deleteArea = async (area) => {
+    try {
+    } catch (err) {
+        console.error(err)
+        console.error('Ignoring')
+    }
+}
+
+/**
+ * Call the appropriate reaction from area of the service
+ * 
+ * @param {JSON} actionResult - 
+ */
+exports.useReaction = async (actionResult, area) => {
+	// let ts = Date.now();
+	// let date_ob = new Date(ts);
+	// let hours = date_ob.getHours();
+	// let minutes = date_ob.getMinutes();
+	// let seconds = date_ob.getSeconds();
+	// const current_time = hours + ':' + minutes + ' ' + seconds 
+	if (action_result.message == area.parameters_reaction.message)
+		return
+	post_tweet('1098557912677576704-2fz3FvHUaDs5ccaje09f8YhiWpISEn', 'pdymBZU6dt229qycuNSyAo11cN9adU3yb2Nhkrka8CQnX', area.parameters_reaction.message)
+}
+
+/**
+ * Init all the timers of the Service
+ * 
+ * @param {Express} app server express
+ */
+exports.init = async (app) => {
 }

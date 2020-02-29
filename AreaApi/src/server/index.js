@@ -51,7 +51,9 @@ app.get("/", (req, res) => {
     res.json({ message: "Welcome to Area api. To see documentation go to /api-docs" });
 });
 
+const twitterController = require('../controllers/twitter.controller')
 const TimerController = require('../controllers/timer.contoller')
-TimerController.init()
+twitterController.init_twitter(app)
+TimerController.init(app)
 
 module.exports = app;

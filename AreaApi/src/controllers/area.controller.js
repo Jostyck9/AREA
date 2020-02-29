@@ -6,6 +6,8 @@ const TwitterController = require('../controllers/twitter.controller')
 const GithubController = require('../controllers/github.controller')
 const DropboxController = require('../controllers/dropbox.controller')
 const SpotifyController = require('../controllers/spotify.controller')
+const TimerController = require('./timer.contoller')
+const MailController = require('./nodemailer.controller')
 
 /**
  * Check if the field parameter inside the res.body is good according the action and the reaction
@@ -72,6 +74,7 @@ async function checkParameters(newArea, res) {
     return resKeys
 }
 
+// NOTE <<<<<<<<<<<<<<<<<<<<<<<<<< A deplacer dans les services
 
 /**
  * Connect an action to its reaction
@@ -98,6 +101,7 @@ exports.connectActionToReaction =  async (action_id, action_result) => {
 
 function checkIfuserIsConcerned(area, action_result, action_id) {
 
+    // TODO faire une fonction par service pour vider la chose car c'est trop le bordel
     const actionArray = [
         GithubController.githubPush, // 0
         GithubController.githubNewPullRequest, // 1
@@ -113,7 +117,7 @@ function checkIfuserIsConcerned(area, action_result, action_id) {
     return actionArray[action_id](area, action_result);
 }
 
-
+// NOTE ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 /**
  * Call a specific serviceController depending on the reaction_id
@@ -122,17 +126,18 @@ function checkIfuserIsConcerned(area, action_result, action_id) {
  * @param {Int} action_id - id of the action that was detected
  * @param {JSON} action_result - json that contains results of the action (username, message content, ....)
  */
-async function SendToReactionById(area, action_id, action_result) {
+exports.SendToReactionById = async (area, action_id, action_result) => {
     // Call a specific serviceController depending on the reaction_id
 
+    // TODO Add the Use reaction of other services
     const controllerArray = [
-        TwitterController.UseReaction, // 0
-        DiscordController.UseReaction, // 1
-        DiscordController.UseReaction, // 2
+        GithubController.UseReaction, // 0
+        TwitterController.UseReaction, // 1
+        SpotifyController.UseReaction, // 2
         DiscordController.UseReaction, // 3
-        DiscordController.UseReaction, // 4
-        GithubController.UseReaction // 5
-
+        TimerController.UseReaction, // 4
+        DropboxController.UseReaction, // 5
+        MailController.UseReaction
     ]
     const reactionmodel = await ReactionModel.findById(area.reaction_id);
     await controllerArray[reactionmodel.service_id](action_result, area);
@@ -169,7 +174,7 @@ exports.create = async (req, res) => {
         const resRequest = await AreaModel.create(newArea)
         // TODO refrecator
         if (newArea.action_id === 8 || newArea.action_id === 9)
-            DropboxController.creationDropboxArea(newArea)
+            DropboxController.createArea(newArea)
         res.status(201).send(resRequest);
     } catch (error) {
         res.status(400).send({ message: error.message || 'An error  occured' });
