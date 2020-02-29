@@ -16,7 +16,7 @@ const ReactionModel = function (reaction) {
 
 /**
  * Get all the reactions from the database
- * 
+ *
  * @returns {null} If the database is empty
  * @returns {array.<json>} Json of the result
  * @throws {error} Contains a message field
@@ -36,15 +36,15 @@ ReactionModel.getAll = async function () {
 
 /**
  * Get the reaction with id from the database
- * 
+ *
  * @param {number} actionId id of the reaction
  * @returns {null} If the database is empty
  * @returns {json} Json of the result
  * @throws {error} Contains a message field
  */
-ReactionModel.findById = async function (actionId) {
+ReactionModel.findById = async function (reactionId) {
     try {
-        const [rows, fields] = await sql.query(`SELECT * FROM reactions WHERE id = ?`, [actionId])
+        const [rows, fields] = await sql.query(`SELECT * FROM reactions WHERE id = ?`, [reactionId])
         if (rows.length < 1) {
             return null
         }
@@ -57,7 +57,7 @@ ReactionModel.findById = async function (actionId) {
 
 /**
  * Get all the reaction from the service from the database
- * 
+ *
  * @param {number} serviceId id of the service
  * @returns {null} If the database is empty
  * @returns {array.<json>} Json of the result
@@ -78,7 +78,7 @@ ReactionModel.findByServiceId = async function (serviceId) {
 
 /**
  * Get the reaction with name from the database
- * 
+ *
  * @param {number} client_id id of the client
  * @returns {null} If the database is empty
  * @returns {json} Json of the result
