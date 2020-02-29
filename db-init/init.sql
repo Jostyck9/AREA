@@ -44,7 +44,7 @@ INSERT INTO `actions` VALUES (3, 2, "music_added", "A new music has been added t
 INSERT INTO `actions` VALUES (4, 3, "messaged_received", "A new message has been received", '{"server": "string", "channel": "string"}', '{"message": "string"}');
 INSERT INTO `actions` VALUES (5, 3, "a_user_joined", "A new user has joined the server", '{"server": "string"}', '{"message": "string"}');
 INSERT INTO `actions` VALUES (6, 3, "a_user_is_banned", "A user has been ban from the server", '{"server": "string"}', '{"message": "string"}');
-INSERT INTO `actions` VALUES (7, 4, "do_at_interval", "Do an action a each interval of time", '{"interval": "string"}', '{"message": "string"}');
+INSERT INTO `actions` VALUES (7, 4, "is_date", "Do an action at a precise date", '{"date": "date"}', '{"message": "string"}');
 INSERT INTO `actions` VALUES (8, 5, "file_added", "A file has been add on the server", '{}', '{"message": "string"}');
 INSERT INTO `actions` VALUES (9, 5, "file_deleted", "A file has been deleted on the server", '{}', '{"message": "string"}');
 

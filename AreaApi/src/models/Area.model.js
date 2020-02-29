@@ -76,6 +76,27 @@ AreaModel.findById = async function (client_id, area_id) {
 }
 
 /**
+ * Get the specific area by action_id from the database
+ * 
+ * @param {number} action_id id of the client
+ * @returns {null} If the database is empty
+ * @returns {json} Json of the result
+ * @throws {error} Contains a message field
+ */
+AreaModel.findByActionId = async function (action_id) {
+    try {
+        const [rows, fields] = await sql.query("SELECT * FROM area WHERE action_id = ?", [action_id])
+        if (rows.length < 1) {
+            return null
+        }
+        return rows
+    } catch (err) {
+        // console.log(err)
+        throw err
+    }
+}
+
+/**
  * Delete a specific area from the user from the database
  * 
  * @param {number} client_id id of the client

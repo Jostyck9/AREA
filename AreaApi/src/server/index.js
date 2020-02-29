@@ -50,4 +50,7 @@ app.get("/", (req, res) => {
     res.json({ message: "Welcome to Area api. To see documentation go to /api-docs" });
 });
 
+const TimerController = require('../controllers/timer.contoller')
+TimerController.init()
+
 module.exports = app;
