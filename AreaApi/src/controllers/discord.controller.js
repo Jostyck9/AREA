@@ -34,7 +34,6 @@ bot.on ('message', msg => {
     AreaController.connectActionToReaction(MSG_RECEIVED_ID, action_result);
 });
 
-
 /**
  * Notice that a member was added in a Server
  * @group Discord - Discord guildMemberAdd Action
@@ -166,7 +165,7 @@ exports.createArea = async (area) => {
 
 /**
  * Delete the area (specific for each service (for exemple , delete the timer inthe time table))
- * 
+ *
  * @param {JSON} - area
  */
 exports.deleteArea = async (area) => {
@@ -179,15 +178,15 @@ exports.deleteArea = async (area) => {
 
 /**
  * Call the appropriate reaction from area of the service
- * 
- * @param {JSON} actionResult - 
+ *
+ * @param {JSON} actionResult -
  */
 exports.useReaction = async (actionResult, area) => {
 }
 
 /**
  * Init all the timers of the Service
- * 
+ *
  * @param {Express} app server express
  */
 exports.init = async (app) => {

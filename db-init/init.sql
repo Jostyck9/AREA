@@ -158,8 +158,8 @@ CREATE TABLE `reactions` (
 
 INSERT INTO `reactions` VALUES (0, 1, "tweet", "post a new tweet", '{"message": "string"}');
 INSERT INTO `reactions` VALUES (1, 2, "add_music", "add a new music to an existing playlist", '{"music": "string", "playlist": "string"}');
-INSERT INTO `reactions` VALUES (2, 3, "send_message", "send a message to a specific channel", '{"message": "string", "channel": "string"}');
-INSERT INTO `reactions` VALUES (3, 3, "create_channel", "create a channel", '{"channel": "string"}');
+INSERT INTO `reactions` VALUES (2, 3, "send_message", "send a message to a specific channel", '{"server" : "string", "channel": "string", "message": "string"}');
+INSERT INTO `reactions` VALUES (3, 3, "create_channel", "create a channel", '{"server" : "string", "channel": "string"}');
 INSERT INTO `reactions` VALUES (4, 6, "send_mail", "send a mail", '{"to": "string", "subject": "string", "message": "string"}');
 
 /*!40000 ALTER TABLE `reactions` DISABLE KEYS */;

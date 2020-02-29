@@ -8,8 +8,7 @@ const ServiceModel = require('../models/Service.model');
 const GithubModel = require('../models/github.model');
 const ServiceToken = require('../models/ServiceTokens.model');
 
-const TOKEN = process.env.GITHUB_TOKEN;
-const HOOK_URL = process.env.GITHUB_HOOK_URL;
+const HOOK_URL = process.env.SERVER_URL + "/github/webhook";
 const NEW_PUSH = 0;
 const NEW_PULLREQUEST = 1;
 
@@ -197,6 +196,7 @@ exports.githubNewPullRequest = async function(area, action_result) {
  */
 exports.createArea = async (area) => {
     try {
+        createGithubWebhook(area);
     } catch (err) {
         console.error(err)
         console.error('Ignoring')
@@ -205,11 +205,12 @@ exports.createArea = async (area) => {
 
 /**
  * Delete the area (specific for each service (for exemple , delete the timer inthe time table))
- * 
+ *
  * @param {JSON} - area
  */
 exports.deleteArea = async (area) => {
     try {
+        this.deleteGithubWebhook();
     } catch (err) {
         console.error(err)
         console.error('Ignoring')
@@ -218,15 +219,15 @@ exports.deleteArea = async (area) => {
 
 /**
  * Call the appropriate reaction from area of the service
- * 
- * @param {JSON} actionResult - 
+ *
+ * @param {JSON} actionResult -
  */
 exports.useReaction = async (actionResult, area) => {
 }
 
 /**
  * Init all the timers of the Service
- * 
+ *
  * @param {Express} app server express
  */
 exports.init = async (app) => {
