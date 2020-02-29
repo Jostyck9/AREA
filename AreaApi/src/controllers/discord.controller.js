@@ -110,6 +110,8 @@ exports.getBotUrl = async function (req, res) {
 
 /**
  * Check if the action_result matches an area's action parameters
+ * @param {area} area - area concerned
+ * @param {JSON} action_result - action result of the concerned area
  * @group Discord - DiscordMessageReceived
  * @return {bool} - true if it does match
  * @return {bool} - false if it doesn't match
@@ -123,6 +125,8 @@ exports.discordMessageReceived = function(area, action_result) {
 
 /**
  * Check if the action_result matches an area's action parameters
+ * @param {area} area - area concerned
+ * @param {JSON} action_result - action result of the concerned area
  * @group Discord - DiscordNewMember
  * @return {bool} - true if it does match
  * @return {bool} - false if it doesn't match
@@ -135,6 +139,8 @@ exports.discordNewMember = async function(area, action_result) {
 
 /**
  * Check if the action_result matches an area's action parameters
+ * @param {area} area - area concerned
+ * @param {JSON} action_result - action result of the concerned area
  * @group Discord - DiscordMemberBan
  * @return {bool} - true if it does match
  * @return {bool} - false if it doesn't match

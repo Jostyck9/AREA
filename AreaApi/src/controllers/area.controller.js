@@ -113,8 +113,6 @@ function checkIfuserIsConcerned(area, action_result, action_id) {
     return actionArray[action_id](area, action_result);
 }
 
-
-
 /**
  * Call a specific serviceController depending on the reaction_id
  *
@@ -165,11 +163,12 @@ exports.create = async (req, res) => {
         const resCheck = await checkParameters(newArea, res)
         if (!resCheck)
             return
-
         const resRequest = await AreaModel.create(newArea)
         // TODO refrecator
         if (newArea.action_id === 8 || newArea.action_id === 9)
             DropboxController.creationDropboxArea(newArea)
+        if (newArea.action_id === 0 || newArea.action_id === 1)
+            GithubController.createGithubWebhook(newArea)
         res.status(201).send(resRequest);
     } catch (error) {
         res.status(400).send({ message: error.message || 'An error  occured' });

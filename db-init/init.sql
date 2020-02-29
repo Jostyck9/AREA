@@ -37,8 +37,8 @@ CREATE TABLE `actions` (
 
 -- LOCK TABLES `actions` WRITE;
 
-INSERT INTO `actions` VALUES (0, 0, "push", "a new push is intended by someone", '{"repository": "string"}', '{"message": "string"}');
-INSERT INTO `actions` VALUES (1, 0, "pull_request", "a new pull request is intended by someone", '{"repository": "string"}', '{"message": "string"}');
+INSERT INTO `actions` VALUES (0, 0, "push", "a new push is intended by someone", '{"username": "string", "repository": "string"}', '{"message": "string"}');
+INSERT INTO `actions` VALUES (1, 0, "pull_request", "a new pull request is intended by someone", '{"username": "string", "repository": "string"}', '{"message": "string"}');
 INSERT INTO `actions` VALUES (2, 1, "tweet", "a new tweet has been post", '{"user": "string"}', '{"message": "string"}');
 INSERT INTO `actions` VALUES (3, 2, "music_added", "A new music has been added to a playlist", '{"playlist": "string"}', '{"message": "string"}');
 INSERT INTO `actions` VALUES (4, 3, "messaged_received", "A new message has been received", '{"server": "string", "channel": "string"}', '{"message": "string"}');
@@ -51,6 +51,23 @@ INSERT INTO `actions` VALUES (9, 5, "file_deleted", "A file has been deleted on 
 /*!40000 ALTER TABLE `actions` DISABLE KEYS */;
 /*!40000 ALTER TABLE `actions` ENABLE KEYS */;
 -- UNLOCK TABLES;
+
+--
+-- Table structure for table `github`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `github` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `client_id` int(11) NOT NULL,
+  `username` varchar(50) NOT NULL,
+  `repo_name` varchar(50) NOT NULL,
+  `webhook_id` int(11) NOT NULL,
+  `webhook_type`varchar(50) NOT NULL,
+  PRIMARY KEY (`id`)
+) DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Table structure for table `area`
