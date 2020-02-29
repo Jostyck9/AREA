@@ -145,7 +145,7 @@ router.get('/services/actions/:idAction', async (req, res) => {
 * @returns {Error}  default - Unexpected error
 */
 router.get('/github/webhook', (req, res) => {
-    res.status(200).send({"Name":"Github's Webhooks reception route", "content": "..."})
+    res.status(200).send('success');
 })
 
 /**
@@ -156,6 +156,7 @@ router.get('/github/webhook', (req, res) => {
 */
 router.post('/github/webhook', (req, res) => {
     githubController.webhookTriggered(req, res)
+    res.status(200).send('success')
 })
 
 /**
