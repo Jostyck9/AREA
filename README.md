@@ -37,8 +37,50 @@ $ cd ./AreaApi/
 $ nano .env
 ```
 For Twitter, click [here](https://developer.twitter.com/en/apps)
+```sh
+* Visit [Twitter](https://developer.twitter.com/en/apps)
+* Sign in with your twitter account
+* Click on 'Create an app'
+    * Fill your Application details
+    * Enable Sign in with Twitter
+    * Add Callback URL = https://your-url-ngrok.io/auth/twitter/callback
+* Click on 'Keys and tokens'
+    * Click on 'Generate' access token and access secrete token
+    * Add your access token, access secret token, API key and API secret key inside the .env file
+* Click on 'Permissions'
+    * Click on 'Edit'
+    * Add 'Read, write, and Direct Messages' permissions
+* Click on 'Dev environments'
+    * Click on 'Set up dev environment' for 'Account Activity API' section
+    * Select a name for your environment
+    * Select your app
+    * Add your environment name selected in the .env
+```
+
 For Spotify, click [here](https://developer.spotify.com/dashboard/login)
+```sh
+Spotify:
+- Aller sur la platforme developper : https://developer.spotify.com/dashboard/login
+- Connectez-vous
+- Créer une application et remplissez les champs demandés (rien de special)
+- Vous êtes apres redirigé sur la page de l'application
+- Vous pouvez y voir le client-id et le client-secret mais caché (vous pouvez le montrer qd vs voulez), ce sont les CLES à mettre dans le .env de /AreaApi
+- Faites "Edit settings"
+- Mettez en url callback l'url en "https://...ngrok.io/auth/spotify/callback" de ngrok qu'il a généré
+```
+
 For Github, click [here](https://github.com/settings/developers)
+```sh
+* Visit [Github] (https://github.com/settings/developers)
+* Sign in with your github account
+* Create an 'OAuth AP'
+    * Fill the required fields (Application name, Homepage URL)
+    * Add Callback URL = https://your-url-ngrok.io/auth/github/callback
+* Add your access tokens in your .env file
+    * Client ID as GITHUB_KEY
+    * Client secret as GITHUB_SECRET
+```
+
 For Discord, click [here](https://discordapp.com/developers/applications):
 ```sh
 * Sign in with your Discord account
@@ -57,7 +99,26 @@ For Discord, click [here](https://discordapp.com/developers/applications):
     * Read Message History
 * Add the url that appeared on the 'scopes' panel in your .env file as DISCORD_BOT_URL (ex: https://discordapp.com/api/oauth2/authorize?client_id=0000000000&permissions=00000&scope=bot)
 ```
+
 For Dropbox, click [here](https://www.dropbox.com/developers/apps/ )
+```sh
+* Visit [Dropbox](https://www.dropbox.com/developers)
+* Click on 'Create apps'
+* Sign in with your Dropbox account
+* Create a new app
+    * Select 'Dropbox API'
+    * Select 'Full Dropbox'
+    * Select a name for your app
+    * Click on 'Create app'
+* Set up your app
+    * Add Redirect URI's = https://your-url-ngrok.io/auth/dropbox/callback
+    * Generated access token
+    * Click on 'Enable additional users'
+    * Click on 'Apply for production'
+    * Add 'App key' and 'App secret' inside the .env file
+    * Add Webhook URI's = https://your-url-ngrok.io/dropbox/webhook
+        * the server API and ngrok must be launch for this action (do this action at the end)
+```
 ```sh
 SERVER_URL=https://ID.ngrok.io
 
