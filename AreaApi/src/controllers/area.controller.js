@@ -1,7 +1,6 @@
 const AreaModel = require('../models/Area.model')
 const ActionModel = require('../models/Action.model')
 const ReactionModel = require('../models/Reaction.model')
-const ServiceModel = require('../models/Service.model')
 const DiscordController = require('./discord.controller')
 const TwitterController = require('./twitter.controller')
 const GithubController = require('./github.controller')
@@ -9,6 +8,8 @@ const DropboxController = require('./dropbox.controller')
 const SpotifyController = require('./spotify.controller')
 const TimerController = require('./timer.contoller')
 const MailController = require('./nodemailer.controller')
+const ServiceTokenModel = require('../models/ServiceTokens.model')
+const ServiceModel = require('../models/Service.model')
 
 const controllerArray = [
     GithubController, // 0
@@ -45,6 +46,9 @@ exports.create = async (req, res) => {
             parameters_action: req.body.parameters_action,
             parameters_reaction: req.body.parameters_reaction
         });
+        const resConnect = await checkServiceConnection(newArea, req.user.id, res)
+        if (!resConnect)
+            return
         const resCheck = await checkParameters(newArea, res)
         if (!resCheck)
             return
@@ -204,12 +208,54 @@ async function SendDeletedToService(areaToDelete) {
 }
 
 /**
+ * Check if the user is connected to the services for the area
+ * 
+ * @async 
+ * @param {JSON} newArea 
+ * @param {number} client_id 
+ * @param {Response<any>} res The result of the request to send after
+ * @returns {boolean} is the request is valid or not
+ */
+async function checkServiceConnection(newArea, client_id, res) {
+    const reactionParameters = await ReactionModel.findById(newArea.reaction_id)
+    if (!reactionParameters) {
+        res.status(400).send({ message: "No reaction found with id " + newArea.reaction_id });
+        return false
+    }
+    const actionParameters = await ActionModel.findById(newArea.action_id)
+    if (!actionParameters) {
+        res.status(400).send({ message: "No action found with id " + newArea.action_id });
+        return false
+    }
+
+    var resService = await ServiceModel.findById(actionParameters.service_id)
+    if (resService.oauth) {
+        const tokenAction = await ServiceTokenModel.findByServiceAndClientId(actionParameters.service_id, client_id)
+        if (!tokenAction) {
+            res.status(400).send({ message: "You have to connect you account for service: '" + resService.name + "'" });
+            return false
+        }
+    }
+
+    var resService = await ServiceModel.findById(reactionParameters.service_id)
+    if (resService.oauth) {
+        const tokenReaction = await ServiceTokenModel.findByServiceAndClientId(reactionParameters.service_id, client_id)
+        if (!tokenReaction) {
+            const resService = await ServiceModel.findById(reactionParameters.service_id)
+            res.status(400).send({ message: "You have to connect you account for service: '" + resService.name + "'" });
+            return false
+        }
+    }
+    return true
+}
+
+/**
  * Check if the field parameter inside the res.body is good according the action and the reaction
  *
  * @async
  * @param {AreaModel} newArea The request received with the route
  * @param {Response<any>} res The result of the request to send after
- * @returns {boolean} is the request is valid or not
+ * @returns {boolean} if the request is valid or not
  */
 async function checkParameters(newArea, res) {
     const reactionParameters = await ReactionModel.findById(newArea.reaction_id)
