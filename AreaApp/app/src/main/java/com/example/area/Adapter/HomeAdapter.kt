@@ -1,7 +1,6 @@
 package com.example.area.Adapter
 
 import android.graphics.Color
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,20 +21,15 @@ class HomeAdapter (private val homeActivity: HomeActivity, private val areasList
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-
-        Log.d("REQUEST UPDATE", position.toString())
-        //Log.d("debug", areasList[position].actionDescription)
-
         holder.actionService.text = areasList[position].actionService
         holder.reactionService.text = areasList[position].reactionService
         holder.actionService.setTextColor(Color.parseColor(areasList[position].actionColor))
         holder.reactionService.setTextColor(Color.parseColor(areasList[position].reactionColor))
-        holder.actionLogo.setImageResource(R.drawable.discord_logo)
-        holder.reactionLogo.setImageResource(R.drawable.discord_logo)
+        holder.actionLogo.setImageResource(areasList[position].actionImage)
+        holder.reactionLogo.setImageResource(areasList[position].reactionImage)
     }
 
     override fun getItemCount(): Int {
-        Log.d("REQUEST UPDATE", "GETITEMCOUNT   " + areasList.size.toString())
         return areasList.size
     }
 

@@ -12,6 +12,7 @@ import com.example.area.presenter.HomePresenter
 import com.example.area.DataClass.ActionModel
 import com.example.area.DataClass.ReactionModel
 import com.example.area.DataClass.AreasModel
+import com.example.area.R
 import org.json.JSONArray
 
 class HomeModel(private var homePresenter: HomePresenter, private var context: Context) {
@@ -19,11 +20,12 @@ class HomeModel(private var homePresenter: HomePresenter, private var context: C
     private val queue = Volley.newRequestQueue(context)
 
     fun getAreas(actionInfo: MutableList<ActionModel>, reactionInfo: MutableList<ReactionModel>) {
-        Log.d("REQUEST HOME", "Start getAreas")
         val url = PreferenceManager.getDefaultSharedPreferences(context).getString("api", null)!! + "/area/"
 
         val areasInfo: MutableList<AreasModel> = mutableListOf<AreasModel>()
         val colormap = mapOf("discord" to "#7289DA", "spotify" to "#1ED760", "twitter" to "#1DA1F2", "github" to "#24292E", "dropbox" to "#007CE4", "mail" to "#EB6464")
+        val imagemap = mapOf("discord" to R.drawable.discord_img, "spotify" to R.drawable.spotify_img, "twitter" to R.drawable.twitter_img,
+            "github" to R.drawable.github_img, "dropbox" to R.drawable.dropbox_img, "mail" to R.drawable.mail_img)
         val getAreasRequest = object: StringRequest(
             Method.GET, url,
             Response.Listener<String> { response ->
@@ -47,14 +49,17 @@ class HomeModel(private var homePresenter: HomePresenter, private var context: C
                             var reactName: String = ""
                             var actDescription: String = ""
                             var reactDescription: String = ""
-                            var actcolor: String = ""
-                            var reactcolor: String = ""
+                            var actColor: String = ""
+                            var reactColor: String = ""
+                            var actImg: Int = 0
+                            var reactImg: Int = 0
                             for (j in 0 until actionInfo.size) {
                                 if (actionInfo[j].actionId == jsonObject.getInt("action_id")) {
                                     actService = actionInfo[j].serviceName
                                     actName = actionInfo[j].actionName
                                     actDescription = actionInfo[j].description
-                                    actcolor = colormap.get(actService).toString()
+                                    actColor = colormap.get(actService).toString()
+                                    actImg = imagemap.getValue(actService)
                                 }
                             }
                             for (j in 0 until reactionInfo.size) {
@@ -62,18 +67,15 @@ class HomeModel(private var homePresenter: HomePresenter, private var context: C
                                     reactService = reactionInfo[j].serviceName
                                     reactName = reactionInfo[j].reactionName
                                     reactDescription = reactionInfo[j].description
-                                    reactcolor = colormap.get(reactService).toString()
+                                    reactColor = colormap.get(reactService).toString()
+                                    reactImg = imagemap.getValue(actService)
                                 }
                             }
-//                            val imagemap = mapOf("discord" to "x", "spotify" to "y", "twitter" to "zz", "github" to "x", "dropbox" to "y", "mail" to "zz")
-//                            var actcolor: String = ""
-//                            var reactcolor: String = ""
                             areasInfo.add(AreasModel(jsonObject.getInt("id"), jsonObject.getInt("action_id"), jsonObject.getInt("reaction_id"),
-                                paramsAction, paramsReaction, actService, reactService, actName, reactName, actDescription, reactDescription, actcolor, reactcolor));
+                                paramsAction, paramsReaction, actService, reactService, actName, reactName, actDescription, reactDescription, actColor, reactColor, actImg, reactImg));
 
                         }
                     }
-                    Log.d("REQUEST HOME", "END getAreas")
                     homePresenter.getSuccess(false)
                     homePresenter.onFinished(areasInfo)
 
@@ -85,7 +87,6 @@ class HomeModel(private var homePresenter: HomePresenter, private var context: C
 
             },
             Response.ErrorListener {
-                Log.d("debug", "ERRROR Home model request")
                 homePresenter.getFail()
             })
 
@@ -107,15 +108,12 @@ class HomeModel(private var homePresenter: HomePresenter, private var context: C
 
     fun getServices() {
         val url = PreferenceManager.getDefaultSharedPreferences(context).getString("api", null)!! + "/services/"
-        Log.d("debug", "coucou")
 
         val actionsInfo: MutableList<ActionModel> = mutableListOf<ActionModel>()
         val reactionsInfo: MutableList<ReactionModel> = mutableListOf<ReactionModel>()
         val actionServicesRequest = StringRequest(
             Request.Method.GET, url,
             Response.Listener { response ->
-
-                Log.d("debug", "coucou50")
 
                 val jsonArray = JSONArray(response)
 
@@ -149,6 +147,5 @@ class HomeModel(private var homePresenter: HomePresenter, private var context: C
                 Log.d("Debug", "Fail to get the services")
             })
         queue.add(actionServicesRequest)
-        Log.d("debug", "end")
     }
 }

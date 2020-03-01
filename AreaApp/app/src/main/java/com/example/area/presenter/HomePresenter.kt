@@ -15,7 +15,6 @@ class HomePresenter(private var homeView: HomeView, var context: Context) {
     var homeModel = HomeModel(this, context)
 
     fun getServices() {
-        Log.d("debug", "coucou")
         homeModel.getServices()
     }
 
@@ -24,8 +23,6 @@ class HomePresenter(private var homeView: HomeView, var context: Context) {
     }
 
     fun onFinished(areasInfo: MutableList<AreasModel>) {
-        Log.d("REQUEST HOME", "DISPLAY")
-        Log.d("REQUEST HOME", areasInfo.size.toString())
         homeView.setDataToRecyclerView(areasInfo)
     }
 

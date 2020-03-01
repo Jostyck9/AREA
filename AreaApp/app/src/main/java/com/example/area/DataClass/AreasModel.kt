@@ -13,5 +13,7 @@ data class AreasModel(
     val actionDescription: String,
     val reactionDescription: String,
     val actionColor: String,
-    val reactionColor: String
+    val reactionColor: String,
+    val actionImage: Int,
+    val reactionImage: Int
 )

@@ -2,7 +2,6 @@ package com.example.area
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
@@ -50,16 +49,11 @@ class HomeActivity : AppCompatActivity(), HomeView {
 
     override fun onStart() {
         super.onStart()
-        //Log.d("debug", "aftersetListeners")
 
         homePresenter.getServices()
-        //Log.d("debug", "aftergetservices")
-
     }
 
     private fun initUI() {
-        //Log.d("debug", "INIT UI")
-        Log.d("REQUEST UPDATE", "init")
         rvDiscoverList = findViewById(R.id.rv_areas)
         homeAdapter = HomeAdapter(this, areasList)
         mLayoutManager = GridLayoutManager(this, 1)
@@ -69,27 +63,18 @@ class HomeActivity : AppCompatActivity(), HomeView {
     }
 
     override fun setDataToRecyclerView(areasInfo: MutableList<AreasModel>) {
-        Log.d("REQUEST HOME", areasInfo.size.toString())
         for (area in areasInfo) {
-            //Log.d("debug", area.actionDescription)
             areasList.add(area)
         }
-        //Log.d("debug", "SIZE AREASLIST" + areasList.size.toString())
-        //Log.d("debug", "beforenotify")
-        Log.d("REQUEST HOME end", areasList.size.toString())
         this.homeAdapter?.notifyDataSetChanged()
-        //Log.d("debug", "afternotify")
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        Log.d("debug", "onCreateOptionsMenu")
         menuInflater.inflate(R.menu.menu, menu)
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        //Log.d("debug", "onOptionsItemSelected")
-
         val id = item.itemId
 
         if (id == R.id.profile) {
