@@ -87,7 +87,7 @@ exports.githubPush = async function(area, action_result) {
 
 /**
  * Check if the action_result matches an area's action parameters
- * @param {area} area - area concerned
+ * @param {JSON} area - area concerned
  * @param {JSON} action_result - action result of the concerned area
  * @group Github - Github githubNewPullRequest
  */
@@ -102,6 +102,7 @@ exports.githubNewPullRequest = async function(area, action_result) {
 
 /**
  * Interpret webhook trigger post
+ * @param {JSON} payload - data receive after github post request
  * @group Github - Github webhook triggered
  */
 exports.webhookTriggered = async(payload) => {
@@ -128,6 +129,8 @@ exports.webhookTriggered = async(payload) => {
 /**
  * ConnectAction to reaction
  * @group Github - Github connect Action to reaction
+ * @param {string} action_id id of the action
+ * @param {json} actionResult the result from the action
  */
 exports.connectActionToReaction = async function (action_id, action_result) {
     try {
@@ -146,6 +149,9 @@ exports.connectActionToReaction = async function (action_id, action_result) {
 /**
  * Check if user is concerned by action
  * @group Github - Github checkIfuserIsConcerned
+ * @param {JSON} area Area
+ * @param {json} actionResult the result from the action
+ * @param {string} action_id id of the action
  */
 exports.checkIfuserIsConcerned = function (area, action_result, action_id) {
     switch (action_id) {
@@ -162,6 +168,7 @@ exports.checkIfuserIsConcerned = function (area, action_result, action_id) {
 /**
  * create github Webhook
  * @group Github - Github createGithubwebhook
+ * @param {JSON} area Area
  */
 exports.createGithubWebhook = async function (newArea) {
 
@@ -234,10 +241,9 @@ exports.deleteGithubWebhook = async function (githubModel) {
     console.info("delete webhook github");
 }
 
-//NOTE ========================================================================
-
 /**
  * Create specific data for the area (for exemple init a timer for this area)
+ * * @param {JSON} area Area
  */
 exports.createArea = async (area) => {
     try {
