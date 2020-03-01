@@ -187,39 +187,6 @@ exports.delete = async (req, res) => {
  * @param {JSON} action_result - json that contains results of the action (username, message content, ....)
  * @returns {Error}  default - Unexpected error
  */
-exports.connectActionToReaction = async (action_id, action_result) => {
-    //is called by a service.controller that detected an action and Connect an action to its reaction
-    try {
-        const AreaArray = await AreaModel.findByActionId(action_id);
-        AreaArray.forEach(element => {
-            if (checkIfuserIsConcerned(element, action_result, action_id)) {
-                SendToReactionById(element, action_id, action_result);
-            }
-        });
-
-    }
-    catch (error) {
-
-    }
-}
-
-function checkIfuserIsConcerned(area, action_result, action_id) {
-
-    // TODO faire une fonction par service pour vider la chose car c'est trop le bordel
-    const actionArray = [
-        GithubController.githubPush, // 0
-        GithubController.githubNewPullRequest, // 1
-        TwitterController.twitterTweet, // 2
-        SpotifyController.spotifyNewMusic, // 3
-        DiscordController.discordMessageReceived, // 4
-        DiscordController.discordNewMember, // 5
-        DiscordController.discordMemberBan, // 6
-        DiscordController.discordNewMember, // 7 TODO change Timer
-        DropboxController.dropboxFileAdded, // 8
-        DropboxController.dropboxFileDeleted // 9
-    ]
-    return actionArray[action_id](area, action_result);
-}
 
 // NOTE ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
