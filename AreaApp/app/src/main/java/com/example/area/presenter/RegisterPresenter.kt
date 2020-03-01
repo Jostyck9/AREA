@@ -12,19 +12,45 @@ import com.example.area.model.UserRegister
 import com.example.area.view.RegisterView
 import org.json.JSONObject
 
-class RegisterPresenter(var registerView: RegisterView, var context: Context) {
+/**
+ * Presenter for the register activity
+ *
+ * @param registerView: View of the area
+ * @param context: Context of the application
+ */
+class RegisterPresenter(private var registerView: RegisterView, var context: Context) {
 
-    lateinit var user : UserRegister
+    private lateinit var user : UserRegister
 
+    /**
+     * Check the informations of the user for register
+     *
+     * @param confirmPassword: Confirm password enter by the user
+     * @param email: Email enter by the user
+     * @param password: Password enter by the user
+     * @param username: Username enter by the user
+     */
     fun onRegister(email: String?, username: String?, password: String?, confirmPassword: String?) {
         user = UserRegister(this, email!!, username!!, password!!, confirmPassword!!)
         registerView.onResult(user.isValidEmail, user.isValidUsername, user.isValidPassword, user.isValidConfirmPassword)
     }
 
+    /**
+     * Register
+     *
+     * @param emailRegister: Email enter by the user
+     * @param passwordRegister: Password enter by the user
+     * @param usernameRegister: Username enter by the user
+     */
     fun register(usernameRegister: EditText, emailRegister: EditText, passwordRegister: EditText) {
         user.register(context,usernameRegister, emailRegister, passwordRegister)
     }
 
+    /**
+     * Register is successful
+     *
+     * @param response: Response of the API
+     */
     fun onRegisterSuccess(response: JSONObject) {
 
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
@@ -36,6 +62,11 @@ class RegisterPresenter(var registerView: RegisterView, var context: Context) {
         ContextCompat.startActivity(context, intent, null)
     }
 
+    /**
+     * Register fail
+     *
+     * @param error: Error send by the API
+     */
     fun onRegisterFail(error: VolleyError) {
         Log.d("Response", error.toString())
         registerView.displayMessage("Register fail")

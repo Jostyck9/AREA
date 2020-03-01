@@ -1,19 +1,25 @@
 package com.example.area.model
 
 import android.content.Context
-import android.content.Intent
-import android.util.Log
-import androidx.core.content.ContextCompat.startActivity
 import androidx.preference.PreferenceManager
 import com.android.volley.AuthFailureError
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
-import com.example.area.HomeActivity
 import com.example.area.presenter.MainPresenter
 
+/**
+ * Model for the Main activity
+ *
+ * @param mainPresenter: Presenter of the main activity
+ */
 class MainModel(private var mainPresenter: MainPresenter) {
 
+    /**
+     * Check if the user is already connected
+     *
+     * @param context: Context of the application
+     */
     fun checkUser(context: Context) {
         if (PreferenceManager.getDefaultSharedPreferences(context).contains("token")) {
 

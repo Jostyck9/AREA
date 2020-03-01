@@ -10,34 +10,63 @@ import androidx.preference.PreferenceManager
 import com.example.area.model.HomeModel
 import com.example.area.view.HomeView
 
+/**
+ * Presenter for the home activity
+ *
+ * @param homeView: View of the area
+ * @param context: Context of the application
+ */
 class HomePresenter(private var homeView: HomeView, var context: Context) {
 
-    var homeModel = HomeModel(this, context)
+    private var homeModel = HomeModel(this, context)
 
+    /**
+     * Get the services
+     */
     fun getServices() {
         homeModel.getServices()
     }
 
+    /**
+     * Get the areas
+     *
+     * @param actionInfo: Infos about the action of the area
+     * @param reactionInfo: Infos about the reaction of the area
+     */
     fun getAreas(actionInfo: MutableList<ActionModel>, reactionInfo: MutableList<ReactionModel>) {
         homeModel.getAreas(actionInfo, reactionInfo)
     }
 
+    /**
+     * Call when finish the API call
+     *
+     * @param areasInfo: Info about the areas send to the view
+     */
     fun onFinished(areasInfo: MutableList<AreasModel>) {
         homeView.setDataToRecyclerView(areasInfo)
     }
 
+    /**
+     * Delete an area
+     *
+     * @param areaId: Id of the area to delete
+     */
     fun deleteAnArea(areaId: Int) {
         homeModel.deleteArea(areaId)
     }
 
+    /**
+     * On failure, display an error
+     */
     fun getFail() {
         Log.d("Debug", "Get areas fail")
     }
 
-    fun onDestroy() {
-        homeView.downVisibility()
-    }
-
+    /**
+     * On success, change display
+     *
+     * @param empty: Is the areas empty
+     */
     fun getSuccess(empty : Boolean) {
         if (empty) {
             homeView.upVisibility()
@@ -46,6 +75,9 @@ class HomePresenter(private var homeView: HomeView, var context: Context) {
         }
     }
 
+    /**
+     * Add token to shared preferences
+     */
     fun addToken(data : Uri) {
 
         val status = data.getQueryParameter("status")

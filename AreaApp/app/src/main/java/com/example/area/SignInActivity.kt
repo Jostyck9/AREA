@@ -3,21 +3,17 @@ package com.example.area
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.*
-import androidx.preference.PreferenceManager
-import com.android.volley.Request
-import com.android.volley.Response
-import com.android.volley.toolbox.JsonObjectRequest
-import com.android.volley.toolbox.Volley
 import com.example.area.presenter.LoginPresenter
 import com.example.area.view.LoginView
 import kotlinx.android.synthetic.main.activity_sign_in.*
-import org.json.JSONObject
 
+/**
+ * Sign in activity
+ */
 class SignInActivity : AppCompatActivity(), LoginView {
 
-    lateinit var loginPresenter: LoginPresenter
+    private lateinit var loginPresenter: LoginPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

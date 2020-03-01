@@ -7,12 +7,17 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.area.HomeActivity
 import com.example.area.dataClass.AreasModel
 import com.example.area.R
 
+/**
+ * Adapter of the recycler view for display Areas
+ *
+ * @param homeActivity: Instance of the activity who contains the recycler view
+ * @param areasList: List of all the area to display in the recycler view
+ */
 class HomeAdapter (private val homeActivity: HomeActivity, private val areasList: MutableList<AreasModel>) : RecyclerView.Adapter<HomeAdapter.MyViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -39,6 +44,11 @@ class HomeAdapter (private val homeActivity: HomeActivity, private val areasList
         return areasList.size
     }
 
+    /**
+     * Holder for the recycler view of the areas
+     *
+     * @param itemView: View who contain the recycler view
+     */
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var actionLogo = itemView.findViewById(R.id.logo_action) as ImageView
         var reactionLogo = itemView.findViewById(R.id.logo_reaction) as ImageView

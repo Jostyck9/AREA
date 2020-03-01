@@ -2,7 +2,6 @@ package com.example.area.model
 
 import android.content.Context
 import android.util.Log
-import android.widget.Toast
 import androidx.preference.PreferenceManager
 import com.android.volley.AuthFailureError
 import com.android.volley.Request
@@ -16,17 +15,29 @@ import com.example.area.dataClass.AreasModel
 import com.example.area.R
 import org.json.JSONArray
 
+/**
+ * Model for the home activity
+ *
+ * @param context: Context of the application
+ * @param homePresenter: Presenter of the home activity
+ */
 class HomeModel(private var homePresenter: HomePresenter, private var context: Context) {
 
     private val queue = Volley.newRequestQueue(context)
 
+    /**
+     * Get the areas of the user
+     *
+     * @param actionInfo: List of informations about the actions of the user
+     * @param reactionInfo: List of informations about the reactions of the user
+     */
     fun getAreas(actionInfo: MutableList<ActionModel>, reactionInfo: MutableList<ReactionModel>) {
         val url = PreferenceManager.getDefaultSharedPreferences(context).getString(
             "api",
             null
         )!! + "/area/"
 
-        val areasInfo: MutableList<AreasModel> = mutableListOf<AreasModel>()
+        val areasInfo: MutableList<AreasModel> = mutableListOf()
         val colormap = mapOf(
             "discord" to "#7289DA",
             "spotify" to "#1ED760",
@@ -62,22 +73,22 @@ class HomeModel(private var homePresenter: HomePresenter, private var context: C
                             paramsAction.add(jsonObject.get("parameters_action").toString())
                             val paramsReaction: MutableList<String> = mutableListOf()
                             paramsReaction.add(jsonObject.get("parameters_reaction").toString())
-                            var actService: String = ""
-                            var reactService: String = ""
-                            var actName: String = ""
-                            var reactName: String = ""
-                            var actDescription: String = ""
-                            var reactDescription: String = ""
-                            var actColor: String = ""
-                            var reactColor: String = ""
-                            var actImg: Int = 0
-                            var reactImg: Int = 0
+                            var actService = ""
+                            var reactService = ""
+                            var actName = ""
+                            var reactName = ""
+                            var actDescription = ""
+                            var reactDescription = ""
+                            var actColor = ""
+                            var reactColor = ""
+                            var actImg = 0
+                            var reactImg = 0
                             for (j in 0 until actionInfo.size) {
                                 if (actionInfo[j].actionId == jsonObject.getInt("action_id")) {
                                     actService = actionInfo[j].serviceName
                                     actName = actionInfo[j].actionName
                                     actDescription = actionInfo[j].description
-                                    actColor = colormap.get(actService).toString()
+                                    actColor = colormap[actService].toString()
                                     actImg = imagemap.getValue(actService).toInt()
                                 }
                             }
@@ -86,7 +97,7 @@ class HomeModel(private var homePresenter: HomePresenter, private var context: C
                                     reactService = reactionInfo[j].serviceName
                                     reactName = reactionInfo[j].reactionName
                                     reactDescription = reactionInfo[j].description
-                                    reactColor = colormap.get(reactService).toString()
+                                    reactColor = colormap[reactService].toString()
                                     reactImg = imagemap.getValue(reactService).toInt()
                                 }
                             }
@@ -108,14 +119,12 @@ class HomeModel(private var homePresenter: HomePresenter, private var context: C
                                     actImg,
                                     reactImg
                                 )
-                            );
+                            )
 
                         }
                     }
                     homePresenter.getSuccess(false)
                     homePresenter.onFinished(areasInfo)
-
-                    //TODO manage areas
 
                 } else {
                     homePresenter.getSuccess(true)
@@ -144,14 +153,17 @@ class HomeModel(private var homePresenter: HomePresenter, private var context: C
         queue.add(getAreasRequest)
     }
 
+    /**
+     * Get the services
+     */
     fun getServices() {
         val url = PreferenceManager.getDefaultSharedPreferences(context).getString(
             "api",
             null
         )!! + "/services/"
 
-        val actionsInfo: MutableList<ActionModel> = mutableListOf<ActionModel>()
-        val reactionsInfo: MutableList<ReactionModel> = mutableListOf<ReactionModel>()
+        val actionsInfo: MutableList<ActionModel> = mutableListOf()
+        val reactionsInfo: MutableList<ReactionModel> = mutableListOf()
         val actionServicesRequest = StringRequest(
             Request.Method.GET, url,
             Response.Listener { response ->
@@ -204,6 +216,11 @@ class HomeModel(private var homePresenter: HomePresenter, private var context: C
         queue.add(actionServicesRequest)
     }
 
+    /**
+     * Delete an area
+     *
+     * @param areaId: Id of the area to the delete
+     */
     fun deleteArea(areaId: Int) {
         val url = PreferenceManager.getDefaultSharedPreferences(context).getString(
             "api",
@@ -213,8 +230,7 @@ class HomeModel(private var homePresenter: HomePresenter, private var context: C
             Method.DELETE, url,
             Response.Listener<String> { response ->
 
-                if (response.toString() != "[]") {
-                } else {
+                if (response.toString() == "[]") {
                     Log.d("Debug", "Failed to delete the area")
                 }
                 homePresenter.getServices()

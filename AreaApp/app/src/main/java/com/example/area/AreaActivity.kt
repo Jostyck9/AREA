@@ -2,12 +2,10 @@ package com.example.area
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.core.view.get
-import androidx.core.view.size
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.area.adapter.AreaAdapter
@@ -18,9 +16,12 @@ import com.example.area.view.AreaView
 import kotlinx.android.synthetic.main.activity_area.*
 import kotlinx.android.synthetic.main.parameter_page.view.*
 
+/**
+ * Area activity
+ */
 class AreaActivity : AppCompatActivity(), AreaView {
 
-    lateinit var areaPresenter: AreaPresenter
+    private lateinit var areaPresenter: AreaPresenter
     private var actualScene: Int = 0
 
     /*
