@@ -16,7 +16,6 @@ exports.github = async (req, res) => {
         const resService = await ServiceModel.findByName('github')
         if (!resService)
             throw new Error("Unkown service github")
-        console.log(req.user)
         if (req.userArea) {
             ServiceAuthController.connect(
                 req.userArea.id,
@@ -31,7 +30,6 @@ exports.github = async (req, res) => {
                 res
             )
         } else {
-            console.log("login")
             await ApiAuth.loginRegisterOAuth2(
                 {
                     username: req.user.profile.username,

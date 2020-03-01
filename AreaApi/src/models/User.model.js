@@ -30,10 +30,8 @@ UserModel.create = async function (newUser) {
             throw new Error('Invalid password size, min 7');
         newUser.password = await bcrypt.hash(newUser.password, 8)
         var [rows, fields] = await sql.query("INSERT INTO users(username,email,password) VALUES (?,?,?)", [newUser.username, newUser.email, newUser.password])
-        console.log('created')
         return { message: "created user :" + newUser.username, id: rows.insertId }
     } catch (err) {
-        // console.log(err)
         if (err.code && err.code == 'ER_DUP_ENTRY')
             throw new Error('email already used')
         throw err
@@ -49,13 +47,10 @@ UserModel.create = async function (newUser) {
  */
 UserModel.createOAuth2 = async function (newUser) {
     try {
-        console.log('creation')
         newUser.password = ''
         var [rows, fields] = await sql.query("INSERT INTO users(username,email,password,is_oauth2) VALUES (?,?,?,1)", [newUser.username, newUser.id, newUser.password])
-        console.log('created')
         return { message: "created user :" + newUser.username, id: rows.insertId }
     } catch (err) {
-        console.log(err)
         if (err.code && err.code == 'ER_DUP_ENTRY')
             throw new Error('email already used')
         throw err
@@ -86,7 +81,6 @@ UserModel.findByCredentials = async function (email, password) {
         }
         return null
     } catch (err) {
-        // console.log(err)
         throw err
     }
 }
@@ -108,7 +102,6 @@ UserModel.findByEmail = async function (userEmail) {
         return rows[0]
 
     } catch (err) {
-        // console.log(err)
         throw err
     }
 };
@@ -131,7 +124,6 @@ UserModel.findById = async function (userId) {
         return rows[0]
 
     } catch (err) {
-        // console.log(err)
         throw err
     }
 };
@@ -152,7 +144,6 @@ UserModel.findByName = async function (userName) {
         }
         return rows[0]
     } catch (err) {
-        // console.log(err)
         throw err;
     }
 };
@@ -172,7 +163,6 @@ UserModel.remove = async function (id) {
         }
         return { message: 'User deleted ' + id }
     } catch (err) {
-        // console.log(err)
         throw err
     }
 };
@@ -195,7 +185,6 @@ UserModel.updateUsername = async function (id, userName) {
         }
         return { message: 'User updated' }
     } catch (err) {
-        // console.log(err)
         throw err
     }
 };
@@ -220,7 +209,6 @@ UserModel.updatePassword = async function (id, password) {
         }
         return ({ message: 'Password updated' })
     } catch (err) {
-        // console.log(err)
         throw err
     }
 };
