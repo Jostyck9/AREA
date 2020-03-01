@@ -12,6 +12,13 @@ import com.android.volley.toolbox.Volley
 import com.example.area.presenter.LoginPresenter
 import org.json.JSONObject
 
+/**
+ * Model for the Login activity
+ *
+ * @param email: Email enter by the user
+ * @param password: Password enter by the user
+ * @param loginPresenter: Presenter of the login activity
+ */
 class UserLogin(private var loginPresenter: LoginPresenter, private val email: String, private val password: String) {
 
     val isValidEmail: Boolean
@@ -20,6 +27,13 @@ class UserLogin(private var loginPresenter: LoginPresenter, private val email: S
     val isValidPassword: Boolean
         get() = password.length > 6
 
+    /**
+     * Sign in
+     *
+     * @param context: Context of the application
+     * @param emailLogin: Email enter by the user
+     * @param passwordLogin: Password enter by the user
+     */
     fun signIn(context: Context, emailLogin: EditText, passwordLogin: EditText) {
 
         val url = PreferenceManager.getDefaultSharedPreferences(context).getString("api", null)!! + "/auth/login/"

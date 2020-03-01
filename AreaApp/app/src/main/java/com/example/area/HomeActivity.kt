@@ -17,6 +17,9 @@ import kotlinx.android.synthetic.main.activity_home.*
 import android.view.View
 import android.widget.Toast
 
+/**
+ * Home activity
+ */
 class HomeActivity : AppCompatActivity(), HomeView {
 
     private lateinit var homePresenter: HomePresenter

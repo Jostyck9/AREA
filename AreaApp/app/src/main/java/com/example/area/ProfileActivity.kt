@@ -14,6 +14,9 @@ import kotlinx.android.synthetic.main.activity_profile.*
 import kotlinx.android.synthetic.main.activity_sign_in.*
 import org.json.JSONObject
 
+/**
+ * Profile activity
+ */
 class ProfileActivity : AppCompatActivity(), ProfileView {
 
     private lateinit var profilePresenter: ProfilePresenter

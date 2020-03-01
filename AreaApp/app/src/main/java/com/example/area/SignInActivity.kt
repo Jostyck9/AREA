@@ -8,6 +8,9 @@ import com.example.area.presenter.LoginPresenter
 import com.example.area.view.LoginView
 import kotlinx.android.synthetic.main.activity_sign_in.*
 
+/**
+ * Sign in activity
+ */
 class SignInActivity : AppCompatActivity(), LoginView {
 
     private lateinit var loginPresenter: LoginPresenter

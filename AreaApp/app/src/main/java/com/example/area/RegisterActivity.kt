@@ -7,6 +7,9 @@ import com.example.area.presenter.RegisterPresenter
 import com.example.area.view.RegisterView
 import kotlinx.android.synthetic.main.activity_register.*
 
+/**
+ * Register activity
+ */
 class RegisterActivity : AppCompatActivity(), RegisterView {
 
     lateinit var registerPresenter: RegisterPresenter

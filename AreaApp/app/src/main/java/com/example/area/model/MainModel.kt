@@ -8,8 +8,18 @@ import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.example.area.presenter.MainPresenter
 
+/**
+ * Model for the Main activity
+ *
+ * @param mainPresenter: Presenter of the main activity
+ */
 class MainModel(private var mainPresenter: MainPresenter) {
 
+    /**
+     * Check if the user is already connected
+     *
+     * @param context: Context of the application
+     */
     fun checkUser(context: Context) {
         if (PreferenceManager.getDefaultSharedPreferences(context).contains("token")) {
 

@@ -16,6 +16,9 @@ import com.example.area.view.AreaView
 import kotlinx.android.synthetic.main.activity_area.*
 import kotlinx.android.synthetic.main.parameter_page.view.*
 
+/**
+ * Area activity
+ */
 class AreaActivity : AppCompatActivity(), AreaView {
 
     private lateinit var areaPresenter: AreaPresenter

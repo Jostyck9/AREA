@@ -13,6 +13,12 @@ import com.android.volley.toolbox.Volley
 import com.example.area.presenter.ProfilePresenter
 import org.json.JSONObject
 
+/**
+ * Model for the Profile activity
+ *
+ * @param context: Context of the application
+ * @param profilePresenter: Presenter of the profile activity
+ */
 class ProfileModel(private var profilePresenter: ProfilePresenter, context: Context) {
 
     val sharedPreference = PreferenceManager.getDefaultSharedPreferences(context)!!
@@ -23,6 +29,13 @@ class ProfileModel(private var profilePresenter: ProfilePresenter, context: Cont
     var isValidConfirmPassword: Boolean = false
     var isValidUsername: Boolean = false
 
+    /**
+     * Check the informations of the user
+     *
+     * @param password: Password enter by the user
+     * @param confirmPassword: Confirm password enter by the user
+     * @param username: Username enter by the user
+     */
     fun checkInfos(password: String, confirmPassword: String, username: String) {
 
         isValidPassword = password.length > 6
@@ -30,6 +43,9 @@ class ProfileModel(private var profilePresenter: ProfilePresenter, context: Cont
         isValidUsername = username.length > 1
     }
 
+    /**
+     * Get the user informations
+     */
     fun getUserInfos() {
 
         url = sharedPreference.getString("api", null)!! + "/me/"
@@ -58,6 +74,9 @@ class ProfileModel(private var profilePresenter: ProfilePresenter, context: Cont
         queue.add(userRequest)
     }
 
+    /**
+     * Sign out
+     */
     fun signOut() {
 
         url = sharedPreference.getString("api", null)!! + "/auth/logout/"
@@ -92,6 +111,11 @@ class ProfileModel(private var profilePresenter: ProfilePresenter, context: Cont
         queue.add(signOutRequest)
     }
 
+    /**
+     * Change the username of the user
+     *
+     * @param usernameProfile: Username enter by the user
+     */
     fun changeUsername(usernameProfile: EditText) {
 
         url = sharedPreference.getString("api", null)!! + "/me/username/"
@@ -123,6 +147,11 @@ class ProfileModel(private var profilePresenter: ProfilePresenter, context: Cont
         queue.add(saveUsernameRequest)
     }
 
+    /**
+     * Change password of the user
+     *
+     * @param passwordProfile: Password enter by the user
+     */
     fun changePassword(passwordProfile: EditText) {
 
         url = sharedPreference.getString("api", null)!! + "/me/password/"

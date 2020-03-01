@@ -15,10 +15,22 @@ import com.example.area.dataClass.AreasModel
 import com.example.area.R
 import org.json.JSONArray
 
+/**
+ * Model for the home activity
+ *
+ * @param context: Context of the application
+ * @param homePresenter: Presenter of the home activity
+ */
 class HomeModel(private var homePresenter: HomePresenter, private var context: Context) {
 
     private val queue = Volley.newRequestQueue(context)
 
+    /**
+     * Get the areas of the user
+     *
+     * @param actionInfo: List of informations about the actions of the user
+     * @param reactionInfo: List of informations about the reactions of the user
+     */
     fun getAreas(actionInfo: MutableList<ActionModel>, reactionInfo: MutableList<ReactionModel>) {
         val url = PreferenceManager.getDefaultSharedPreferences(context).getString(
             "api",
@@ -141,6 +153,9 @@ class HomeModel(private var homePresenter: HomePresenter, private var context: C
         queue.add(getAreasRequest)
     }
 
+    /**
+     * Get the services
+     */
     fun getServices() {
         val url = PreferenceManager.getDefaultSharedPreferences(context).getString(
             "api",
@@ -201,6 +216,11 @@ class HomeModel(private var homePresenter: HomePresenter, private var context: C
         queue.add(actionServicesRequest)
     }
 
+    /**
+     * Delete an area
+     *
+     * @param areaId: Id of the area to the delete
+     */
     fun deleteArea(areaId: Int) {
         val url = PreferenceManager.getDefaultSharedPreferences(context).getString(
             "api",

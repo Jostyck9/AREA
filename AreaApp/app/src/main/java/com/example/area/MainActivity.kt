@@ -13,6 +13,9 @@ import com.example.area.presenter.MainPresenter
 import com.example.area.view.MainView
 import kotlinx.android.synthetic.main.activity_main.*
 
+/**
+ * Main activity
+ */
 class MainActivity : AppCompatActivity(), MainView {
 
     private lateinit var mainPresenter : MainPresenter

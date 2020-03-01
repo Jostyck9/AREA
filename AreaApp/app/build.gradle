@@ -4,6 +4,7 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'com.google.gms.google-services'
+apply plugin: 'org.jetbrains.dokka-android'
 
 android {
     compileSdkVersion 29
@@ -33,10 +34,26 @@ android {
             signingConfig signingConfigs.release
         }
     }
+    dokka {
+        outputFormat = 'html'
+        outputDirectory = "$buildDir/javadoc"
+    }
 }
 
 repositories {
     jcenter()
+}
+
+buildscript {
+    ext {
+        dokkaVersion = '0.9.17'
+    }
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath "org.jetbrains.dokka:dokka-android-gradle-plugin:$dokkaVersion"
+    }
 }
 
 dependencies {

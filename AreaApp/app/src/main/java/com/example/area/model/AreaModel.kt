@@ -18,6 +18,12 @@ import com.example.area.presenter.AreaPresenter
 import org.json.JSONArray
 import org.json.JSONObject
 
+/**
+ * Model for the area activity
+ *
+ * @param context: Context of the application
+ * @param registerPresenter: Presenter of the area activity
+ */
 class AreaModel(private var areaPresenter: AreaPresenter, private var context: Context) {
 
     private var prefSharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
@@ -26,6 +32,9 @@ class AreaModel(private var areaPresenter: AreaPresenter, private var context: C
 
     var isEditTextValid: Boolean = false
 
+    /**
+     * Get the services with action
+     */
     fun getServicesActionList() {
 
         url = prefSharedPreferences.getString("api", null)!! + "/services/"
@@ -65,6 +74,9 @@ class AreaModel(private var areaPresenter: AreaPresenter, private var context: C
         queue.add(actionServicesRequest)
     }
 
+    /**
+     * Get the services with reaction
+     */
     fun getServicesReactionList() {
 
         url = prefSharedPreferences.getString("api", null)!! + "/services/"
@@ -103,6 +115,11 @@ class AreaModel(private var areaPresenter: AreaPresenter, private var context: C
         queue.add(reactionServicesRequest)
     }
 
+    /**
+     * Get the actions of a service
+     *
+     * @param serviceName: Name of the service
+     */
     fun getActionList(serviceName: String) {
 
         url = prefSharedPreferences.getString("api", null)!! + "/services/"
@@ -146,6 +163,11 @@ class AreaModel(private var areaPresenter: AreaPresenter, private var context: C
         queue.add(actionsRequest)
     }
 
+    /**
+     * Get the reactions of a service
+     *
+     * @param serviceName: Name of the service
+     */
     fun getReactionList(serviceName: String) {
 
         url = prefSharedPreferences.getString("api", null)!! + "/services/"
@@ -190,6 +212,12 @@ class AreaModel(private var areaPresenter: AreaPresenter, private var context: C
         queue.add(reactionsRequest)
     }
 
+    /**
+     * Get the parameters of the action
+     *
+     * @param actionDescription: Description of the action
+     * @param serviceName: Name of the service
+     */
     fun getParamsActionLit(actionDescription: String, serviceName: String) {
 
         url = prefSharedPreferences.getString("api", null)!! + "/services/"
@@ -242,6 +270,12 @@ class AreaModel(private var areaPresenter: AreaPresenter, private var context: C
         queue.add(paramsActionRequest)
     }
 
+    /**
+     * Get the parameters of the reaction
+     *
+     * @param reactionDescription: Description of the reaction
+     * @param serviceName: Name of the service
+     */
     fun getParamsReactionLit(reactionDescription: String, serviceName: String) {
 
         url = prefSharedPreferences.getString("api", null)!! + "/services/"
@@ -294,6 +328,11 @@ class AreaModel(private var areaPresenter: AreaPresenter, private var context: C
         queue.add(paramsReactionRequest)
     }
 
+    /**
+     * Check if the user is connect to the service
+     *
+     * @param serviceName: Name of the service
+     */
     fun checkActionConnection(serviceName: String) {
 
         url = prefSharedPreferences.getString("api", null)!! + "/me/auth/$serviceName"
@@ -341,6 +380,11 @@ class AreaModel(private var areaPresenter: AreaPresenter, private var context: C
         queue.add(connectionRequest)
     }
 
+    /**
+     * Check if the user is connect to the service
+     *
+     * @param serviceName: Name of the service
+     */
     fun checkReactionConnection(serviceName: String) {
 
         url = prefSharedPreferences.getString("api", null)!! + "/me/auth/$serviceName"
@@ -388,10 +432,25 @@ class AreaModel(private var areaPresenter: AreaPresenter, private var context: C
         queue.add(connectionRequest)
     }
 
+    /**
+     * Check the informations of the user
+     *
+     * @param editText: Parameter enter by the user
+     */
     fun checkInfos(editText: String) {
         isEditTextValid = editText.isNotEmpty()
     }
 
+    /**
+     * Create an area
+     *
+     * @param actionId: Id of the action
+     * @param nameParametersAction: Names of the parameters of the action
+     * @param nameParametersReaction : Names of the parameters of the reaction
+     * @param reactionId: Id of the reaction
+     * @param resParametersAction: Parameters enter by the user for the action
+     * @param resParametersReaction: Parameters enter by the user for the reaction
+     */
     fun createArea(actionId: Int, reactionId: Int, nameParametersAction: ArrayList<String>, resParametersAction: ArrayList<String>, nameParametersReaction: ArrayList<String>, resParametersReaction: ArrayList<String>) {
 
         val actionParams = JSONObject()
