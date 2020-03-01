@@ -2,7 +2,7 @@ const AreaController = require('../controllers/area.controller')
 const GithubController = require('../controllers/github.controller')
 const AreaModel = require('../models/Area.model')
 const ActionModel = require('../models/Action.model')
-
+const ReactionModel = require('../models/Reaction.model')
 
 require('dotenv').config();
 const Discord = require ('discord.js');
@@ -13,8 +13,6 @@ const MSG_RECEIVED_ID = 4;
 const MEMBER_ADD_ID = 5;
 const MEMBER_BAN_ID = 6;
 const CHANNEL_CREATE = 11;
-const SEND_MESSAGE_ID = 2;
-const CREATE_CHANNEL_ID = 3;
 const TOKEN = process.env.DISCORD_TOKEN;
 const BOT_URL = process.env.DISCORD_BOT_URL;
 
@@ -119,9 +117,10 @@ bot.on('channelCreate', channel => {
  */
 exports.useReaction = async(action_result, area) => {
     //Call required reaction
-    if (area.reaction_id == SEND_MESSAGE_ID)
+    const reaction = await ReactionModel.findById(area.reaction_id);
+    if (reaction.name == "send_message")
         await this.sendMessage(area.parameters_reaction, action_result);
-    if (area.reaction_id == CREATE_CHANNEL_ID)
+    if (reaction.name == "create_channel")
         await this.createChannel(area.parameters_reaction);
 }
 
