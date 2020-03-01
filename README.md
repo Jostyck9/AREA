@@ -112,7 +112,186 @@ You want to do it and your smartphone ? Go here and download our free apk. **Soo
 |Dropbox		|`File is added` `File deleted`|`X`|
 |Twitch			|`X` | `Stream started`
 
+# API Routes
 
+## About
+
+### GET - /about.json
+#### Description
+Get the about.json file with all the informations about the services
+#### Response format
+ - A completed request will return a `200` response code, and inside the body a Json with the API informations as the services availables and the their actions / reactions
+ - When performing an action that is restricted, `400` will be returned together with a json containing a message field.
+
+## Area
+
+### `GET` - /area
+#### Description
+Send a list of the user's Areas
+#### Header fields
+|HEADER FIELD| VALUE |
+|--          |--     |
+| Authorization | ***Required*** A valid access token from the Area Auth service |
+#### Response format
+ - A completed request will return a `200` response code, and inside the body a Json with an array of all the area created by the user
+ - When performing an action that is restricted, `404` or `401` will be returned together with a json containing a message field.
+
+### `POST`- /area
+#### Description
+Create an area between an action and a reaction
+#### Header fields
+|HEADER FIELD| VALUE |
+|--          |--     |
+| Authorization | ***Required*** A valid access token from the Area Auth service |
+#### Body fields
+| BODY FIELD          | VALUE |
+|--                   |--     |
+| action_id           | ***Required*** The id of the action to trigger |
+| reaction_id         | ***Required*** The id of the reaction to perform |
+| action_parameters   | ***Required*** The json with the action's parameters |
+| reaction_parameters | ***Required*** The json with the reaction's parameters |
+#### Response format
+ - A completed request will return a `200` response code, and inside the body a Json with a message
+ - When performing an action that is restricted, `404` or `401` will be returned together with a json containing a message field.
+ 
+### `GET` - /area/{id}
+#### Description
+Get informations for a specific area
+#### Header fields
+|HEADER FIELD| VALUE |
+|--          |--     |
+| Authorization | ***Required*** A valid access token from the Area Auth service |
+#### Path fields
+|Path FIELD| VALUE |
+|--        |--     |
+| id       | ***Required*** id of the area |
+#### Response format
+ - A completed request will return a `200` response code, and inside the body a json containingthe area created by the user
+ - When performing an action that is restricted, `404` or `401` or `403` will be returned together with a json containing a message field.
+ 
+### `DELETE` - /area/{id}
+#### Description
+Delete a specific area
+#### Header fields
+|HEADER FIELD| VALUE |
+|--          |--     |
+| Authorization | ***Required*** A valid access token from the Area Auth service |
+#### Path fields
+|Path FIELD| VALUE |
+|--        |--     |
+| id       | ***Required*** id of the area |
+#### Response format
+ - A completed request will return a `200` response code, and inside the body a json with a message field
+ - When performing an action that is restricted, `404` or `401` or `403` will be returned together with a json containing a message field.
+ 
+## AUTH
+
+### `POST`- /auth/register
+#### Description
+Register the user inside our service
+#### Body fields
+| BODY FIELD | VALUE |
+|--|--|
+| name | ***Required*** The name of the user |
+| email | ***Required*** The email of the email |
+| password | ***Required*** The password of the user |
+#### Response format
+ - A completed request will return a `200` response code, and inside the body a Json with a token field and the token to use
+ - When performing an action that is restricted, `404` or `401`  will be returned together with a json containing a message field.
+
+### `POST`- /auth/login
+#### Description
+Login the user inside our service
+#### Body fields
+| BODY FIELD | VALUE |
+|--|--|
+| email | ***Required*** The email of the email |
+| password | ***Required*** The password of the user |
+#### Response format
+ - A completed request will return a `200` response code, and inside the body a Json with a token field and the token to use
+ - When performing an action that is restricted, `404` or `401`  will be returned together with a json containing a message field.
+
+### `GET`- /auth/github
+#### Description
+Login the user with github or associate his account with github 
+(If no token given, create or log the user)
+#### Query fields
+| QUERY FIELD | VALUE |
+|--|--|
+| cb | ***Required*** The callback to redirect the user after loging |
+| token | ***Optional*** The token of the user |
+#### Response format
+ - A completed request will redirect the user, and after completing connection, he will be redirect to the url given in `cb` with in query the `status` that can be `OK` || `KO` and if he is connecting, a `token` field with our api token
+ - When performing an action that is restricted, `404` or `401`  will be returned together with a json containing a message field.
+ 
+### `GET`- /auth/dropbox
+#### Description
+Associate account with dropbox
+#### Query fields
+| QUERY FIELD | VALUE |
+|--|--|
+| cb | ***Required*** The callback to redirect the user after loging |
+| token | ***Required*** The token of the user |
+#### Response format
+ - A completed request will redirect the user, and after completing connection, he will be redirect to the url given in `cb` with in query the `status` that can be `OK` || `KO` and  a `token` field with our api token
+ - When performing an action that is restricted, `404` or `401`  will be returned together with a json containing a message field.
+ 
+### `GET`- /auth/spotify
+#### Description
+Associate account with spotify
+#### Query fields
+| QUERY FIELD | VALUE |
+|--|--|
+| cb | ***Required*** The callback to redirect the user after loging |
+| token | ***Required*** The token of the user |
+#### Response format
+ - A completed request will redirect the user, and after completing connection, he will be redirect to the url given in `cb` with in query the `status` that can be `OK` || `KO` and  a `token` field with our api token
+ - When performing an action that is restricted, `404` or `401`  will be returned together with a json containing a message field.
+
+### `GET`- (NGROK url base)/auth/twitter
+#### Description
+Associate account with twitter, needs to use the ngrok base url in `https`
+#### Query fields
+| QUERY FIELD | VALUE |
+|--|--|
+| cb | ***Required*** The callback to redirect the user after loging |
+| token | ***Required*** The token of the user |
+#### Response format
+ - A completed request will redirect the user, and after completing connection, he will be redirect to the url given in `cb` with in query the `status` that can be `OK` || `KO` and  a `token` field with our api token
+ - When performing an action that is restricted, `404` or `401`  will be returned together with a json containing a message field. 
+
+### `GET`- /auth/discord
+#### Description
+Associate account with discord
+#### Query fields
+| QUERY FIELD | VALUE |
+|--|--|
+| token | ***Required*** The token of the user |
+#### Response format
+ - A completed request will redirect the user to the discord auth
+ - When performing an action that is restricted, `404` or `401`  will be returned together with a json containing a message field.
+
+### `POST`- /auth/logout
+#### Description
+Log out the user out of our service api
+#### Header fields
+|HEADER FIELD| VALUE |
+|--|--|
+| Authorization | ***Required*** A valid access token from the Area Auth service |
+#### Response format
+ - A completed request will return a `200` response code, and inside the body a Json with a message field 
+ - When performing an action that is restricted, `404` or `401`  will be returned together with a json containing a message field.
+
+### `POST`- /auth/logoutAll
+#### Description
+Log out the user out of our service api from all his device
+#### Header fields
+|HEADER FIELD| VALUE |
+|--|--|
+| Authorization | ***Required*** A valid access token from the Area Auth service |
+#### Response format
+ - A completed request will return a `200` response code, and inside the body a Json with a message field 
+ - When performing an action that is restricted, `404` or `401`  will be returned together with a json containing a message field.
 
 # Documentation
 

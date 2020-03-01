@@ -114,7 +114,7 @@ router.get('/services/:nameService/reactions/:nameReaction', async (req, res) =>
 
 /**
  * Get a reaction from a specified service
- * @route GET /services/reactions/{idAction}
+ * @route GET /services/reactions/{idReaction}
  * @group Services - Services informations
  * @param {string} idReaction.path.required - id of the reaction
  * @returns {Reaction.model} specific reaction of the specified service
