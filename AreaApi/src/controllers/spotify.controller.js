@@ -1,6 +1,15 @@
-var SpotifyWebApi = require('spotify-web-api-node');
+const SpotifyWebApi = require('spotify-web-api-node');
 const ServiceAuthController = require('./serviceAuth.controller')
 const ServiceModel = require('../models/Service.model')
+const SpotifyModel = require('../models/Spotify.model')
+const ServicesTokenModel = require('../models/ServiceTokens.model')
+const AreaModel = require('../models/Area.model')
+const ActionModel = require('../models/Action.model')
+const ReactionModel = require('../models/Reaction.model')
+const AreaController = require('./area.controller')
+
+let idInterval = 0
+let INTERVAL = 60000
 
 /**
  * spotify connect the token received to the database
@@ -36,6 +45,50 @@ exports.spotify = async (req, res) => {
 // TODO REMOVE HERE !
 exports.spotifyNewMusic = async function (area, action_result) {
     return false;
+}
+
+// NOTE Reaction
+async function checkPlaylistUpdate() {
+    if (idInterval) {
+        clearInterval(idInterval)
+    }
+    idInterval = setInterval(async function () {
+        try {
+            const resAction = await ActionModel.findByName('playlist_modified')
+            if (!resAction) {
+                console.error('Action playlist_modified not found')
+                clearInterval(idInterval)
+                idInterval = 0
+                return
+            }
+
+            const allTracks = await SpotifyModel.getAll()
+            if (allTracks) {
+                allTracks.forEach(async (element) => {
+                    try {
+                        const accessToken = await getClientSpotifyToken(element.client_id)
+                        if (!accessToken)
+                            return
+
+                        var areaRes = await AreaModel.findById(element.client_id, element.area_id)
+                        if (!areaRes)
+                            return
+
+                        var newTracks = await getPlaylistTracks(areaRes.parameters_action.playlistId, accessToken, true)
+                        if (newTracks !== element.tracks) {
+                            const name = await getPlaylistName(areaRes.parameters_action.playlistId, accessToken)
+                            await SpotifyModel.updateTracks(element.id, SpotifyModel.convertTracksToArray(newTracks))
+                            await AreaController.SendToReactionById(areaRes, resAction.id, { message: foundChangementTracks(element.tracks, newTracks, name) })
+                        }
+                    } catch (errorFor) {
+                        console.log(errorFor)
+                    }
+                });
+            }
+        } catch (err) {
+            console.error(err.message)
+        }
+    }, INTERVAL);
 }
 
 // NOTE Reaction
@@ -141,11 +194,121 @@ async function setMusicPlaylist(accessToken, music, playlist) {
 
 //NOTE =======================================================================
 
+function foundChangementTracks(oldTracks, newTracks, playlistName) {
+    const arrayOld = SpotifyModel.convertTracksToArray(oldTracks)
+    const arrayNew = SpotifyModel.convertTracksToArray(newTracks)
+    const deleted = []
+    const added = []
+    var message = "Your playlist '" + playlistName + "' has changed !\n"
+
+    try {
+        arrayOld.forEach(element => {
+            if (!arrayNew.includes(element)) {
+                deleted.push(element)
+            }
+        });
+        arrayNew.forEach(element => {
+            if (!arrayOld.includes(element)) {
+                added.push(element)
+            }
+        })
+        if (deleted.length > 0) {
+            message += "Deleted:\n"
+            deleted.forEach(element => {
+                message += "- " + element + "\n"
+            });
+        }
+        if (added.length > 0) {
+            message += "Added:\n"
+            added.forEach(element => {
+                message += "- " + element + "\n"
+            });
+        }
+    } catch (err) {
+        console.log(err)
+    }
+    return message
+}
+
+async function getPlaylistName(playlistId, accessToken) {
+    var spotifyApi = new SpotifyWebApi({ accessToken: accessToken });
+    playlistId = playlistId.replace("spotify:playlist:", "")
+
+    return await spotifyApi.getPlaylist(playlistId, { fields: 'name' }).then(function (data) {
+        return data.body.name
+    },
+        function (err) {
+            return null
+        })
+}
+
+async function getClientSpotifyToken(client_id) {
+    const service = await ServiceModel.findByName('spotify')
+    if (!service) {
+        throw new Error()
+    }
+    const res = await ServicesTokenModel.findByServiceAndClientId(service.id, client_id);
+    return res.access_token;
+}
+
+/**
+ * Get the playlist tracks
+ * @param {string} playlistId 
+ * @param {string} accessToken 
+ * @throws
+ */
+async function getPlaylistTracks(playlistId, accessToken, toString = false) {
+    var spotifyApi = new SpotifyWebApi({ accessToken: accessToken });
+    var res = []
+    var resString = ""
+    var tracks = { next: 'hey' }
+    var offset = 0
+    playlistId = playlistId.replace("spotify:playlist:", "")
+    while (tracks.next) {
+        tracks = await spotifyApi.getPlaylistTracks(playlistId, { offset: offset }).then(function (data) {
+            return data.body
+        },
+            function (error) {
+                console.log(error)
+                throw (error)
+            }
+        )
+        if (toString) {
+            tracks.items.forEach(element => {
+                if (resString !== "") {
+                    resString += ";"
+                }
+                resString += element.track.name
+            });
+        } else {
+            tracks.items.forEach(element => {
+                res.push(element.track.name)
+            });
+        }
+        offset += 100
+    }
+    if (toString)
+        return resString
+    return res
+}
+
 /**
  * Create specific data for the area (for exemple init a timer for this area)
  */
 exports.createArea = async (area) => {
     try {
+        //TODO check if the user is connected BEFORE to the service
+        if (!area.parameters_action.playlistId)
+            return
+
+        const access_token = await getClientSpotifyToken(area.client_id)
+        const tracks = await getPlaylistTracks(area.parameters_action.playlistId, access_token)
+        var newTracks = new SpotifyModel({
+            client_id: area.client_id,
+            area_id: area.id,
+            tracks: tracks
+        })
+        SpotifyModel.create(newTracks)
     } catch (err) {
         console.error(err)
         console.error('Ignoring')
@@ -159,6 +322,7 @@ exports.createArea = async (area) => {
  */
 exports.deleteArea = async (area) => {
     try {
+        SpotifyModel.deleteByClientAndAreaId(area.client_id, area.id)
     } catch (err) {
         console.error(err)
         console.error('Ignoring')
@@ -171,6 +335,28 @@ exports.deleteArea = async (area) => {
  * @param {JSON} actionResult - 
  */
 exports.useReaction = async (actionResult, area) => {
+    try {
+        const reaction = await ReactionModel.findById(area.reaction_id)
+        if (!reaction)
+            throw ("No reaction found for spotify")
+        const token = await getClientSpotifyToken(area.client_id)
+        switch (reaction.name) {
+            case "add_music":
+                setMusicPlaylist(token, area.parameters_reaction.music, area.parameters_reaction.playlist)
+                break;
+            case "play_music":
+                startMusic(token, area.parameters_reaction.music)
+                break;
+
+            case "pause_music":
+                pauseMusic(token)
+                break;
+            default:
+                break;
+        }
+    } catch (err) {
+        console.error(err)
+    }
 }
 
 /**
@@ -179,4 +365,5 @@ exports.useReaction = async (actionResult, area) => {
  * @param {Express} app server express
  */
 exports.init = async (app) => {
+    checkPlaylistUpdate()
 }

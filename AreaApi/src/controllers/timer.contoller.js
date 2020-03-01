@@ -17,6 +17,7 @@ async function checkDate() {
             if (!resAction) {
                 console.error('Action is_date not found')
                 clearInterval(idIntervalDate)
+                idIntervalDate = 0
                 return
             }
 
@@ -47,6 +48,7 @@ async function checkInterval() {
             if (!resAction) {
                 console.error('Action timer not found')
                 clearInterval(idInterval)
+                idInterval = 0
                 return
             }
 

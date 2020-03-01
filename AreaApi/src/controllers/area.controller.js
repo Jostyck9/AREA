@@ -246,7 +246,9 @@ exports.SendToReactionById = async (area, action_id, action_result) => {
 async function SendCreatedToService(newArea) {
     try {
         // TODO refrecator
+        console.log('OK HERE')
         const reqService = await ActionModel.findById(newArea.action_id)
+        console.log(reqService)
         if (reqService) {
             controllerArray[reqService.service_id].createArea(newArea)
         }
