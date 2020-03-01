@@ -1,10 +1,12 @@
 package com.example.area
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.cardview.widget.CardView
 import androidx.preference.PreferenceManager
 import com.android.volley.AuthFailureError
 import com.android.volley.Response
@@ -43,6 +45,16 @@ class ProfileActivity : AppCompatActivity(), ProfileView {
         profileRedirection.setOnClickListener {
             profilePresenter.signOut()
         }
+
+        //Discord
+        val discordButton: CardView = findViewById(R.id.discordButton)
+        discordButton.setOnClickListener {
+            val sharedPref = PreferenceManager.getDefaultSharedPreferences(applicationContext)
+            val token = sharedPref.getString("token", null)
+            val intent: Intent = Intent(Intent.ACTION_VIEW,
+                Uri.parse(sharedPref.getString("api", null)!! + "/auth/discord?token=$token"))
+            startActivity(intent)
+        }
     }
 
     override fun displayMessage(message: String) {
@@ -62,10 +74,16 @@ class ProfileActivity : AppCompatActivity(), ProfileView {
     override fun changeUserInfos(response: String) {
 
         val person = JSONObject(response)
-        val username = person.getString("username")
-        val email = person.getString("email")
-        usernameProfile.text = Editable.Factory.getInstance().newEditable(username)
-        emailProfile.text = email
+
+        if (person.has("username")) {
+            val username = person.getString("username")
+            usernameProfile.text = Editable.Factory.getInstance().newEditable(username)
+        }
+
+        if (person.has("email")) {
+            val email = person.getString("email")
+            emailProfile.text = email
+        }
 
     }
 

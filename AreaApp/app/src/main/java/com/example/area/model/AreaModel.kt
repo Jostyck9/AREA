@@ -1,15 +1,21 @@
 package com.example.area.model
 
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.util.Log
 import android.widget.ArrayAdapter
+import androidx.core.content.ContextCompat.startActivity
 import androidx.preference.PreferenceManager
+import com.android.volley.AuthFailureError
 import com.android.volley.Request
+import com.android.volley.RequestQueue
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.example.area.presenter.AreaPresenter
 import org.json.JSONArray
+import org.json.JSONObject
 
 class AreaModel(private var areaPresenter: AreaPresenter, private var context: Context) {
 
@@ -106,9 +112,9 @@ class AreaModel(private var areaPresenter: AreaPresenter, private var context: C
                             val actionsJsonArray = jsonObject.getJSONArray("actions")
                             if (actionsJsonArray.toString() != "[]") {
                                 for (y in 0 until actionsJsonArray.length()) {
-                                     val newJsonObject = actionsJsonArray.getJSONObject(y)
-                                     if (newJsonObject.has("description"))
-                                         actionsList.add(newJsonObject.getString("description"))
+                                    val newJsonObject = actionsJsonArray.getJSONObject(y)
+                                    if (newJsonObject.has("description"))
+                                        actionsList.add(newJsonObject.getString("description"))
                                 }
                             }
                         }
@@ -118,8 +124,7 @@ class AreaModel(private var areaPresenter: AreaPresenter, private var context: C
                 //create actions adapter
                 val actionAdapter = ArrayAdapter<String>(context, android.R.layout.simple_expandable_list_item_1, actionsList)
                 areaPresenter.addActionsAdapter(actionAdapter, actionsList)
-            },
-            Response.ErrorListener {
+            }, Response.ErrorListener {
                 Log.d("Debug", "Fail to get the actions")
             })
         queue.add(actionsRequest)
@@ -163,5 +168,85 @@ class AreaModel(private var areaPresenter: AreaPresenter, private var context: C
                 Log.d("Debug", "Fail to get the actions")
             })
         queue.add(reactionsRequest)
+    }
+
+    fun checkActionConnection(serviceName: String) {
+
+        url = prefSharedPreferences.getString("api", null)!! + "/me/auth/$serviceName"
+
+        val connectionRequest = object: StringRequest(
+            Method.GET, url,
+            Response.Listener { response ->
+
+                val jsonObject = JSONObject(response)
+                if (jsonObject.has("isConnected")) {
+                    if (jsonObject.get("isConnected") == true) {
+                        areaPresenter.showActionList(serviceName)
+                    } else {
+                        val uriCb = "wait://callback/$serviceName"
+                        val token = PreferenceManager.getDefaultSharedPreferences(context).getString("token", null)
+                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(PreferenceManager.getDefaultSharedPreferences(context).getString("api", null)!!
+                                + "/auth/$serviceName?token=$token&cb=$uriCb"))
+                        startActivity(context, intent, null)
+                    }
+                }
+            },
+            Response.ErrorListener {
+                Log.d("Debug", "Connection check fail")
+            })
+
+        {
+            @Throws(AuthFailureError::class)
+            override fun getHeaders(): Map<String, String> {
+
+                val params: MutableMap<String, String>
+                params = HashMap()
+                params["Content-Type"] = "application/json"
+                params["Authorization"] = "Bearer " + prefSharedPreferences.getString("token", null)!!
+                return params
+
+            }
+        }
+        queue.add(connectionRequest)
+    }
+
+    fun checkReactionConnection(serviceName: String) {
+
+        url = prefSharedPreferences.getString("api", null)!! + "/me/auth/$serviceName"
+
+        val connectionRequest = object: StringRequest(
+            Method.GET, url,
+            Response.Listener { response ->
+
+                val jsonObject = JSONObject(response)
+                if (jsonObject.has("isConnected")) {
+                    if (jsonObject.get("isConnected") == true) {
+                        areaPresenter.showReactionList(serviceName)
+                    } else {
+                        val uriCb = "wait://callback/$serviceName"
+                        val token = PreferenceManager.getDefaultSharedPreferences(context).getString("token", null)
+                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(PreferenceManager.getDefaultSharedPreferences(context).getString("api", null)!!
+                                + "/auth/$serviceName?token=$token&cb=$uriCb"))
+                        startActivity(context, intent, null)
+                    }
+                }
+            },
+            Response.ErrorListener {
+                Log.d("Debug", "Connection check fail")
+            })
+
+        {
+            @Throws(AuthFailureError::class)
+            override fun getHeaders(): Map<String, String> {
+
+                val params: MutableMap<String, String>
+                params = HashMap()
+                params["Content-Type"] = "application/json"
+                params["Authorization"] = "Bearer " + prefSharedPreferences.getString("token", null)!!
+                return params
+
+            }
+        }
+        queue.add(connectionRequest)
     }
 }

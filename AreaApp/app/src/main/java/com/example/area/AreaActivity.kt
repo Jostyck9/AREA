@@ -1,5 +1,7 @@
 package com.example.area
 
+import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -7,7 +9,9 @@ import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.preference.PreferenceManager
+import com.android.volley.AuthFailureError
 import com.android.volley.Request
+import com.android.volley.RequestQueue
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
@@ -15,6 +19,7 @@ import com.example.area.presenter.AreaPresenter
 import com.example.area.view.AreaView
 import kotlinx.android.synthetic.main.activity_area.*
 import org.json.JSONArray
+import org.json.JSONObject
 
 class AreaActivity : AppCompatActivity(), AreaView {
 
@@ -73,14 +78,14 @@ class AreaActivity : AppCompatActivity(), AreaView {
     override fun addActionServicesAdapter(actionAdapter: ArrayAdapter<String>, actionServicesList: ArrayList<String>) {
         areaList.adapter = actionAdapter
         areaList.setOnItemClickListener { _, _, position, _ ->
-            showActionList(actionServicesList[position])
+            areaPresenter.checkActionConnection(actionServicesList[position])
         }
     }
 
     override fun addReactionServicesAdapter(reactionAdapter: ArrayAdapter<String>, reactionServicesList: ArrayList<String>) {
         areaList.adapter = reactionAdapter
         areaList.setOnItemClickListener { _, _, position, _ ->
-            showReactionList(reactionServicesList[position])
+            areaPresenter.checkReactionConnection(reactionServicesList[position])
         }
     }
 
@@ -148,5 +153,9 @@ class AreaActivity : AppCompatActivity(), AreaView {
         actualScene = 4
         areaPresenter.getReactionList(serviceName)
         showList()
+    }
+
+    override fun displayMessage(message: String) {
+        Toast.makeText(applicationContext, message, Toast.LENGTH_SHORT).show()
     }
 }

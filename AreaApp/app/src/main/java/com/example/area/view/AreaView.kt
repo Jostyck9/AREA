@@ -16,4 +16,7 @@ interface AreaView {
     fun addActionAdapter(actionAdapter: ArrayAdapter<String>, actionList: ArrayList<String>)
     fun showReactionList(serviceName: String)
     fun addReactionAdapter(reactionAdapter: ArrayAdapter<String>, reactionList: ArrayList<String>)
+
+    fun displayMessage(message: String)
+
 }

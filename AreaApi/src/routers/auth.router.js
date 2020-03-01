@@ -102,8 +102,10 @@ router.get('/auth/twitter/callback', auth2Mid.getFromSession, auth2Mid.getUrlCB,
  * @group Auth - User Login
  */
 router.get('/auth/discord', async (req, res) => {
-    res.status(200).send({message: 'Hello discord'})
-    // await AuthController.login(req, res)
+    if (process.env.DISCORD_BOT_URL)
+        res.redirect(process.env.DISCORD_BOT_URL)
+    else
+        res.status(404).send({message: 'Discord url not found'})
 })
 
 /**

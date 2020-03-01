@@ -16,10 +16,11 @@ import com.example.area.presenter.HomePresenter
 import com.example.area.view.HomeView
 import kotlinx.android.synthetic.main.activity_home.*
 import android.view.View
+import android.widget.Toast
 
 class HomeActivity : AppCompatActivity(), HomeView {
 
-    lateinit var homePresenter: HomePresenter
+    private lateinit var homePresenter: HomePresenter
     private var rvDiscoverList: RecyclerView? = null
     private var areasList = mutableListOf<AreasModel>()
     private var mLayoutManager: GridLayoutManager? = null
@@ -39,9 +40,12 @@ class HomeActivity : AppCompatActivity(), HomeView {
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
         initUI()
-        setListeners()
         homePresenter = HomePresenter(this, applicationContext)
 
+        val data = intent.data
+        if (data != null) {
+            homePresenter.addToken(data)
+        }
     }
 
     override fun onStart() {
@@ -62,42 +66,6 @@ class HomeActivity : AppCompatActivity(), HomeView {
         rvDiscoverList?.layoutManager = mLayoutManager
         rvDiscoverList?.itemAnimator = DefaultItemAnimator()
         rvDiscoverList?.adapter = homeAdapter
-    }
-
-    private fun setListeners() {
-        //Log.d("debug", "setListeners")
-
-        /*rvDiscoverList!!.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
-                //Log.d("debug", "1")
-
-                visibleItemCount = rvDiscoverList!!.childCount
-                //Log.d("debug", "2")
-                totalItemCount = mLayoutManager!!.itemCount
-                //Log.d("debug", "3")
-                firstVisibleItem = mLayoutManager!!.findFirstVisibleItemPosition()
-                //Log.d("debug", "4")
-
-                // Handling the infinite scroll
-                if (loading) {
-                    //Log.d("debug", "5")
-                    if (totalItemCount > previousTotal) {
-                        //Log.d("debug", "6")
-                        loading = false
-                        previousTotal = totalItemCount
-                    }
-                }
-
-                if (!loading && totalItemCount - visibleItemCount <= firstVisibleItem + visibleThreshold) {
-                    //Log.d("debug", "7")
-                    homePresenter.getServices()
-                    loading = true
-                }
-
-            }
-        })*/
     }
 
     override fun setDataToRecyclerView(areasInfo: MutableList<AreasModel>) {
@@ -145,5 +113,9 @@ class HomeActivity : AppCompatActivity(), HomeView {
 
         treeImage.visibility = View.INVISIBLE
         startConnecting.visibility = View.INVISIBLE
+    }
+
+    override fun displayMessage(message: String) {
+        Toast.makeText(applicationContext, message, Toast.LENGTH_SHORT).show()
     }
 }

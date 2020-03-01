@@ -41,4 +41,19 @@ class AreaPresenter(var areaView: AreaView, var context: Context) {
     fun addReactionsAdapter(reactionAdapter: ArrayAdapter<String>, reactionList: ArrayList<String>) {
         areaView.addReactionAdapter(reactionAdapter, reactionList)
     }
+
+    fun checkActionConnection(serviceName: String) {
+        areaModel.checkActionConnection(serviceName)
+    }
+
+    fun showActionList(serviceName: String) {
+        areaView.showActionList(serviceName)
+    }
+
+    fun checkReactionConnection(serviceName: String) {
+        areaModel.checkReactionConnection(serviceName)
+    }
+    fun showReactionList(serviceName: String) {
+        areaView.showReactionList(serviceName)
+    }
 }
