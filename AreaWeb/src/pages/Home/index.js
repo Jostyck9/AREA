@@ -90,21 +90,23 @@ export default class Home extends React.Component {
                     
                     // Get all areas already created //
                     var token = localStorage.getItem('currentUser');
-                    fetch(
-                        process.env.REACT_APP_SERVER_URI + '/area', {
-                        method: 'GET',
-                        headers: {
-                            "content-type": "application/json",
-                            Authorization: "Bearer " + token
-                        }
-                    }).then(res => {
-                        if (res.status >= 200 && res.status <= 204) {
-                            res.json().then(data => {
-                                this.setState({areas: data, actions: actions, reactions: reactions, actionsName: actionsNames,
-                                    reactionsName: reactionsNames, actionsDesc: actionsDescs, reactionsDesc: reactionsDescs})
-                            })
-                        }
-                    })
+                    if (token !== null) {
+                        fetch(
+                            process.env.REACT_APP_SERVER_URI + '/area', {
+                            method: 'GET',
+                            headers: {
+                                "content-type": "application/json",
+                                Authorization: "Bearer " + token
+                            }
+                        }).then(res => {
+                            if (res.status >= 200 && res.status <= 204) {
+                                res.json().then(data => {
+                                    this.setState({areas: data, actions: actions, reactions: reactions, actionsName: actionsNames,
+                                        reactionsName: reactionsNames, actionsDesc: actionsDescs, reactionsDesc: reactionsDescs})
+                                })
+                            }
+                        })
+                    }
                 })
             }
         })
