@@ -39,7 +39,7 @@ CREATE TABLE `actions` (
 
 INSERT INTO `actions` VALUES (0, 0, "push", "a new push is intended by someone", '{"username": "string", "repository": "string"}', '{"message": "string"}');
 INSERT INTO `actions` VALUES (1, 0, "pull_request", "a new pull request is intended by someone", '{"username": "string", "repository": "string"}', '{"message": "string"}');
-INSERT INTO `actions` VALUES (2, 1, "tweet", "a new tweet has been post", '{}', '{"user": "string", "message: "string"}');
+INSERT INTO `actions` VALUES (2, 1, "tweet", "a new tweet has been post", '{}', '{"user": "string", "message": "string"}');
 INSERT INTO `actions` VALUES (3, 2, "playlist_modified", "A music has been added or deleted from a playlist", '{"playlistId": "string"}', '{"message": "string"}');
 INSERT INTO `actions` VALUES (4, 3, "messaged_received", "A new message has been received", '{"server": "string", "channel": "string"}', '{"message": "string"}');
 INSERT INTO `actions` VALUES (5, 3, "a_user_joined", "A new user has joined the server", '{"server": "string"}', '{"message": "string"}');
