@@ -49,12 +49,13 @@ UserModel.create = async function (newUser) {
  */
 UserModel.createOAuth2 = async function (newUser) {
     try {
+        console.log('creation')
         newUser.password = ''
         var [rows, fields] = await sql.query("INSERT INTO users(username,email,password,is_oauth2) VALUES (?,?,?,1)", [newUser.username, newUser.id, newUser.password])
         console.log('created')
         return { message: "created user :" + newUser.username, id: rows.insertId }
     } catch (err) {
-        // console.log(err)
+        console.log(err)
         if (err.code && err.code == 'ER_DUP_ENTRY')
             throw new Error('email already used')
         throw err

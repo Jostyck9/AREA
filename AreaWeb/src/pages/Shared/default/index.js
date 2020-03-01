@@ -7,6 +7,11 @@ import {
   } from "react-router-dom";
 import { Navbar, Nav } from 'react-bootstrap'
 
+    /**
+     * Render the default layout
+     * @returns the default layout
+     */
+
 export default function DefaultLayout({ children }) {
     return (
         <Router>
@@ -26,11 +31,7 @@ export default function DefaultLayout({ children }) {
                     { children }
                 </main>
             </div>
-            <footer class="border-top footer text-muted">
-                <div class="container">
-                    &copy; 2020 - Area - <a href='about.json'>About</a>
-                </div>
-            </footer>
+
         </Router>
     );
 }

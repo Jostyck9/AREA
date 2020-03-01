@@ -9,6 +9,10 @@ export default class About extends React.Component {
         };
     }
 
+    /**
+     * Do some things before the render
+     * 
+     */
     componentDidMount() {
         fetch(
             process.env.REACT_APP_SERVER_URI + '/about.json', {
@@ -22,6 +26,12 @@ export default class About extends React.Component {
             }
         })
     }
+
+    /**
+     * Render the about page
+     * 
+     * @returns the about page
+     */
 
     render() {
         return <JSONPretty id="json-pretty" data={this.state.data}></JSONPretty>

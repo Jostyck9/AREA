@@ -12,6 +12,10 @@ import {
     BrowserRouter as Router,
 } from "react-router-dom";
 
+    /**
+     * Sign out an user
+     */
+
 function OnSignOut()
 {
     var token = localStorage.getItem('currentUser')
@@ -32,6 +36,11 @@ function OnSignOut()
         }
     })
 }
+
+    /**
+     * Render the Auth Layout
+     * @returns the Auth Layoutpage
+     */
 
 export default function AuthLayout({ children }) {
     return (
@@ -56,11 +65,6 @@ export default function AuthLayout({ children }) {
                     { children }
                 </main>
             </div>
-            <footer class="border-top footer text-muted">
-                <div class="container">
-                &copy; 2020 - Area - <a href='about.json'>About</a>
-                </div>
-            </footer>
         </Router>
     );
 }

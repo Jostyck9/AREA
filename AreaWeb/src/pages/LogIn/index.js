@@ -15,6 +15,10 @@ export default class LogIn extends React.Component {
         };
     }
 
+    /**
+     * Handle an input event
+     * @param event
+     */
     handleInputChange = (event) => {
         const { value, name } = event.target;
         this.setState({
@@ -22,6 +26,10 @@ export default class LogIn extends React.Component {
         });
     }
 
+    /**
+     * When submitting a form
+     * @param event
+     */
     onSubmit = (event) => {
         event.preventDefault();
         const { email, password } = this.state;
@@ -34,7 +42,6 @@ export default class LogIn extends React.Component {
         }).then(res => {
             if (res.status >= 200 && res.status <= 204) {
                 res.json().then(data => {
-                    alert(data.token)
                     localStorage.setItem('currentUser', data.token)
                     this.props.history.push('/');
                 })
@@ -50,6 +57,10 @@ export default class LogIn extends React.Component {
         })
     }
 
+    /**
+     * Render the login page
+     * @returns the login page
+     */
     render() {
         return (
             <table width="100%" height="100%" border="0">

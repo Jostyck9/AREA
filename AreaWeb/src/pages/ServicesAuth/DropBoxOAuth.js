@@ -4,6 +4,10 @@ import '../../css/site.css';
 
 export default class DropBoxOAuth extends React.Component {
 
+    /**
+     * DO things before the render
+     */
+
     componentWillMount() {
         const parsedUrl = new URL(window.location.href);
         if (parsedUrl.searchParams.get("status") === "OK")
@@ -13,6 +17,10 @@ export default class DropBoxOAuth extends React.Component {
         this.props.history.push("/")
     }
 
+    /**
+     * Render the dropbox page
+     * @returns DropBoxOAuth page
+     */
     render() {
         return (
             <h1>DropBox OAuth</h1>

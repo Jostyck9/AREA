@@ -4,15 +4,27 @@ import '../../css/site.css';
 
 export default class GithubOAuth2 extends React.Component {
 
+    /**
+     * Do things before the render
+     */
+
     componentWillMount() {
         const parsedUrl = new URL(window.location.href);
-        if (parsedUrl.searchParams.get("status") === "OK")
+        if (parsedUrl.searchParams.get("status") === "OK") {
             alert("OKKKKKKKKKKKK")
-        if (parsedUrl.searchParams.get("status") === "KO")
+            localStorage.setItem('currentUser', JSON.stringify(parsedUrl.searchParams.get("token")))
+            this.props.history.push("/")
+        }
+        if (parsedUrl.searchParams.get("status") === "KO") {
             alert("KOOOOOOOOOOOO")
-        localStorage.setItem('currentUser', JSON.stringify(parsedUrl.searchParams.get("token")))
-        this.props.history.push("/")
+            this.props.history.push("/login")
+        }
     }
+
+    /**
+     * Render the github Auth 2 page
+     * @returns the github Auth 2 page
+     */
 
     render() {
         return (

@@ -18,6 +18,10 @@ export default class Registration extends React.Component {
         };
     }
     
+    /**
+     * Handle an input
+     * @param event
+     */
     handleInputChange = (event) => {
         const { value, name } = event.target;
         this.setState({
@@ -25,13 +29,16 @@ export default class Registration extends React.Component {
         });
     }
 
+    /**
+     * When submitting a form
+     * @param event
+     */
     onSubmit = (event) => {
         event.preventDefault();
         const { email, username, password, confirmpassword } = this.state;
         if (password !== confirmpassword)
         alert("Passwords don't match");
         else {
-            alert(process.env.REACT_APP_SERVER_URI)
             fetch(process.env.REACT_APP_SERVER_URI + '/auth/register', {
                 method: 'POST',
                 body: JSON.stringify({ name: username, email: email, password: password }),
@@ -41,7 +48,6 @@ export default class Registration extends React.Component {
             }).then(res => {
                 if (res.status >= 200 && res.status <= 204) {
                     res.json().then(data => {
-                        alert(data.token)
                         localStorage.setItem('currentUser', JSON.stringify(data.token))
                         this.props.history.push('/');
                     })
@@ -58,6 +64,10 @@ export default class Registration extends React.Component {
         }
     }
 
+    /**
+     * Render the registration page
+     * @returns the registration page
+     */
     render() {
         return (
             <table width="100%" height="100%" border="0">

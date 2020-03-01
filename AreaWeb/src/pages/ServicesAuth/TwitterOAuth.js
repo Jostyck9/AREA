@@ -4,6 +4,9 @@ import '../../css/site.css';
 
 export default class TwitterOAuth extends React.Component {
 
+    /**
+     * Do things before the render
+     */
     componentWillMount() {
         const parsedUrl = new URL(window.location.href);
         if (parsedUrl.searchParams.get("status") === "OK")
@@ -12,6 +15,11 @@ export default class TwitterOAuth extends React.Component {
             alert("KOOOOOOOOOOOO")
         this.props.history.push("/")
     }
+
+    /**
+     * Render the Twitter Auth page
+     * @returns a the Twitter Auth page
+     */
 
     render() {
         return (

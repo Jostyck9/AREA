@@ -47,6 +47,9 @@ export default class Home extends React.Component {
         };
     }
 
+    /**
+     * Do things before the render
+     */
     componentWillMount() {
         // Get all services informations //
 
@@ -108,6 +111,9 @@ export default class Home extends React.Component {
 
     }
     
+    /**
+     * Removing a specific Area when calling (linked with a card)
+     */
     resetAreas() {
         var token = localStorage.getItem('currentUser');
         fetch(
@@ -126,6 +132,10 @@ export default class Home extends React.Component {
         })
     }
 
+
+    /**
+     * Removing all Areas when called.
+     */
     deleteAllAreas() {
         var token = localStorage.getItem('currentUser')
         this.state.areas.forEach(element => {
@@ -149,6 +159,10 @@ export default class Home extends React.Component {
         });
     }
 
+    /**
+     * Remove a specific Area from an id
+     * @param id
+     */
     deleteArea(id) {
         var token = localStorage.getItem('currentUser')
         fetch(
@@ -170,12 +184,20 @@ export default class Home extends React.Component {
         })
     }
 
+    /**
+     * Change the first letter into maj
+     * @returns a string
+     */
     jsUcfirst(string) 
     {
         if (string)
             return (string.charAt(0).toUpperCase() + string.slice(1))
     }
     
+    /**
+     * Display all params from an action
+     * @returns an array of paramters
+     */
     DisplayParamsActionInfo() {
         var array = []
         if (this.state.InfoParamAction.size === 0) {
@@ -196,6 +218,10 @@ export default class Home extends React.Component {
         return (array)
     }
 
+    /**
+     * Display all params from an reaction
+     * @returns an array of parameters
+     */
     DisplayParamsReactionInfo() {
         var array = []
         if (this.state.InfoParamReaction.size === 0) {
@@ -216,6 +242,10 @@ export default class Home extends React.Component {
         return (array)
     }
 
+    /**
+     * Create a modal
+     * @returns a modal
+     */
     ModalInfo() {
         return(
             <Modal id="modalAreaInformation" show={this.state.showmodalInfo} size="lg" centered>
@@ -261,6 +291,10 @@ export default class Home extends React.Component {
         )
     }
 
+    /**
+     * Get all actions and reactions to be displayed
+     * @param element
+     */
     fillInfoToDisplay(element) {
         this.state.InfoDisplay.set("action_logo", this.state.images.get(this.state.actions.get(element.action_id)))
         this.state.InfoDisplay.set("reaction_logo", this.state.images.get(this.state.reactions.get(element.reaction_id)))
@@ -282,6 +316,10 @@ export default class Home extends React.Component {
         }
     }
 
+    /**
+     * Create all card from state areas
+     * @returns an array of card
+     */
     createAreasCard() {
         let array = []
 
@@ -306,6 +344,10 @@ export default class Home extends React.Component {
         return (array)
     }
 
+    /**
+     * Render the home page
+     * @returns the home page
+     */
     render() {
         var islogged;
         var areas;

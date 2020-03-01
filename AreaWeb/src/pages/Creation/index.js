@@ -1,7 +1,7 @@
 import '../../../node_modules/bootstrap/dist/css/bootstrap.min.css';
-import React from 'react';
+import React , { useRef, useState } from 'react';
 import '../../css/site.css';
-import { Button, Form , Col, Card} from 'react-bootstrap'
+import { Button, Form , Col, Card,Modal} from 'react-bootstrap'
 import Alert from 'react-bootstrap/Alert'
 
 import Twitter from '../../images/twitter_logo.png'
@@ -35,6 +35,7 @@ export default class Creation extends React.Component {
         Map1: new Map(),
         Map2: new Map(),
         results_parsed: new Map(),
+        AllLinkedAccount : [],
         images: new Map()
     };
 
@@ -43,14 +44,21 @@ export default class Creation extends React.Component {
         this.handleChangeServAct = this.handleChangeServAct.bind(this);
         this.handleChangeServRea = this.handleChangeServRea.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.checkIfServiceIsLinked = this.checkIfServiceIsLinked.bind(this);
     }
     
+    /**
+     * Do things before the render
+     */
     componentWillMount() {
         var services = []
         var id_act = []
         var id_rea = []
         var actions = new Map()
         var reactions = new Map()
+        var linkedAccount = []
+        const token = localStorage.getItem('currentUser').replace('"', '').replace('"', '')
+
         fetch(
             process.env.REACT_APP_SERVER_URI + '/services', {
             method: 'GET'
@@ -75,6 +83,7 @@ export default class Creation extends React.Component {
                 })
             }
         })
+
         this.state.images.set("twitter", Twitter)
         this.state.images.set("spotify", Spotify)
         this.state.images.set("github", GitHub)
@@ -82,8 +91,32 @@ export default class Creation extends React.Component {
         this.state.images.set("discord", Discord)
         this.state.images.set("dropbox", Dropbox)
         this.state.images.set("mail", Mailing)
+
+        fetch(process.env.REACT_APP_SERVER_URI + '/me/auth', {
+            method: 'GET',
+            headers: {
+                "content-type": "application/json",
+                Authorization: "Bearer " + token
+            }
+        }).then(res => {
+            if (res.status >= 200 && res.status <= 204) {
+                res.json().then(datax => {
+                    for (let i = 0; i < datax.length; i++) {
+                        if (datax[i].isConnected === true)
+                        linkedAccount.push(datax[i].name)
+                    }
+                    this.setState({AllLinkedAccount: linkedAccount})
+                })
+            }
+        })
+
+
+
     }
 
+    /**
+     * Get specifics params 
+    */
     getSpecificParams() {
         var ActParams = {}
         var ReaParams = {}
@@ -133,6 +166,11 @@ export default class Creation extends React.Component {
         })
     }
 
+    /**
+     * Handle the submit of the final form
+     * @param test1 id of actions
+     * @param test2 id of reactions
+     */
     onSubmit = (test1, test2) => {
         var action_id;
         var reaction_id;
@@ -178,7 +216,7 @@ export default class Creation extends React.Component {
     for (let i = 0; i < params_params_reaction.length; i++)
         parameters_reaction[params_params_reaction[i]] = params_reaction[i]
 
-    var token = localStorage.getItem('currentUser');
+    var token = localStorage.getItem('currentUser').replace('"', '').replace('"', '')
 
     fetch(process.env.REACT_APP_SERVER_URI + '/area', {
         method: 'POST',
@@ -215,24 +253,44 @@ export default class Creation extends React.Component {
 
     // Handle for service actions reactions 
 
+    /**
+     * Handle the change of service action and set the state of service action
+     * @param event
+     */
     handleChangeServAct(event) {
         this.setState({valueServAct: event.target.value});  
     }
 
+    /**
+     * Handle the change of service reaction and set the state of service reaction
+     * @param event
+     */
     handleChangeServRea(event) {
         this.setState({valueServRea: event.target.value});
     }
 
     // Handle for actions reactions 
 
+    /**
+     * Handle the change of action and set the state of action
+     * @param event
+     */
     handleChangeAct(event) {
         this.setState({valueAct: event.target.value});  
     }
 
+    /**
+     * Handle the change of reaction and set the state of reaction
+     * @param event
+     */
     handleChangeRea(event) {
         this.setState({valueRea: event.target.value});
     }
     
+    /**
+     * Handle the submit and check the state of actions reactions
+     * @param event
+     */
     handleSubmit(event) {
         if (this.state.state === 0 && this.state.valueServAct !== "nothing" && this.state.valueServRea !== "nothing") {
             this.setState({state: 1})
@@ -255,7 +313,10 @@ export default class Creation extends React.Component {
  
  
 
-    
+    /**
+     * Return the page of choose params
+     * @returns the page to render
+     */
     ShowParamsPage()
     {
 
@@ -349,6 +410,10 @@ export default class Creation extends React.Component {
         );
     }
 
+    /**
+     * Return the page of choose actions reactions
+     * @returns a page to render
+     */
     ChooseActionsReactions()
     {
         let arrayactions = []
@@ -407,35 +472,57 @@ export default class Creation extends React.Component {
         );
     }
 
+    /**
+     * Return the page of choose services
+     * @returns {boolean}
+     */
+    checkIfServiceIsLinked(HaveToCheck) {
+        for (let i = 0; i < this.state.AllLinkedAccount.length; i++) {
+            if (HaveToCheck === this.state.AllLinkedAccount[i])
+                return (true)
+        }
+        return (false);
+    }
+
+    /**
+     * Return the page of choose services
+     * @returns a page to render
+     */
     ChooseServices()
     {
         let arrayAct = []
         let arrayRea = []
+        let array = []
         let check = false
+
         for (let i = 0; i < this.state.services.length; i++) {
             for (var [key1, value1] of this.state.actions) {
-                if (check === false && this.state.services[i] === value1) {
+                if (check === false && this.state.services[i] === value1 && this.checkIfServiceIsLinked(this.state.services[i]) === true) {
                     arrayAct.push(<option value={this.state.services[i]}>{this.state.services[i]}</option>)
                     check = true
+
                 }
             }
             check = false
         }
         for (let i = 0; i < this.state.services.length; i++) {
             for (var [key2, value2] of this.state.reactions) {
-                if (check === false && this.state.services[i] === value2) {
+                if (check === false && this.state.services[i] === value2 && this.checkIfServiceIsLinked(this.state.services[i]) === true) {
                     arrayRea.push(<option value={this.state.services[i]}>{this.state.services[i]}</option>)
                     check = true
                 }
             }
             check = false
         }
-
+        array.push(<div class="alert alert-warning alert-dismissible text-center"><strong>Missing services ? You're not probably logged to all services !</strong> <div>Go to your account and connect yourself ! You need help to log yourself. Go here <a href="account">Account</a></div></div>)
         return (
             <table width="100%" height="100%" border="0">
                 <tr height="100%">
                     <td width="10%"></td>
                     <td width="80%">
+                        <br></br>
+                        {array}
+                        <br></br>
                         <Form className="text-center" onSubmit={this.handleSubmit}>
                         
                         <Form.Row>
@@ -458,6 +545,7 @@ export default class Creation extends React.Component {
                             </Col>
                         </Form.Row>
 
+
                         <br></br>
 
                         <Button variant="secondary" size="lg" active type="submit" value="Submit">Valid your services</Button><br/>
@@ -470,12 +558,21 @@ export default class Creation extends React.Component {
         );
     }
 
+    /**
+     * Render the error page
+     * @returns the error page
+     */
+
     ErrorPage() {
         return (
             <div>Error</div>
         )
     }
 
+    /**
+     * Show on the page the action reaction card that you've just created
+     * @returns a page with the final card
+     */
     createAreasCard() {
         let array = []
         let arrayactions = []
@@ -563,6 +660,10 @@ export default class Creation extends React.Component {
 
     // Show a choosen page from a state
 
+    /**
+     * Render the page by a state
+     * @returns a page
+     */
     showFromState()
     {
         if (this.state.state === 0)
@@ -577,12 +678,20 @@ export default class Creation extends React.Component {
             return (this.ErrorPage())
     }
 
+    /**
+     * Change the first letter into a maj
+     * @returns a string
+     */
     jsUcfirst(string) 
     {
         if (string)
             return (string.charAt(0).toUpperCase() + string.slice(1))
     }
 
+    /**
+     * Render the creation page
+     * @returns the creation page
+     */
     render() {
         return (this.showFromState());
     }
