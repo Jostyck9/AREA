@@ -347,7 +347,6 @@ exports.useReaction = async (actionResult, area) => {
             case "play_music":
                 startMusic(token, area.parameters_reaction.music)
                 break;
-
             case "pause_music":
                 pauseMusic(token)
                 break;

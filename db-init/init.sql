@@ -39,8 +39,8 @@ CREATE TABLE `actions` (
 
 INSERT INTO `actions` VALUES (0, 0, "push", "a new push is intended by someone", '{"repository": "string"}', '{"message": "string"}');
 INSERT INTO `actions` VALUES (1, 0, "pull_request", "a new pull request is intended by someone", '{"repository": "string"}', '{"message": "string"}');
-INSERT INTO `actions` VALUES (2, 1, "tweet", "a new tweet has been post", '{"user": "string"}', '{"message": "string"}');
-INSERT INTO `actions` VALUES (3, 2, "music_added", "A new music has been added to a playlist", '{"playlist": "string"}', '{"message": "string"}');
+INSERT INTO `actions` VALUES (2, 1, "tweet", "a new tweet has been post", '{}', '{"message": "string"}');
+INSERT INTO `actions` VALUES (3, 2, "playlist_modified", "A music has been added or deleted from a playlist", '{"playlistId": "string"}', '{"message": "string"}');
 INSERT INTO `actions` VALUES (4, 3, "messaged_received", "A new message has been received", '{"server": "string", "channel": "string"}', '{"message": "string"}');
 INSERT INTO `actions` VALUES (5, 3, "a_user_joined", "A new user has joined the server", '{"server": "string"}', '{"message": "string"}');
 INSERT INTO `actions` VALUES (6, 3, "a_user_is_banned", "A user has been ban from the server", '{"server": "string"}', '{"message": "string"}');
@@ -107,6 +107,17 @@ CREATE TABLE `timer` (
 ) DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `spotify` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `client_id` int(11) NOT NULL,
+  `area_id` int(11) NOT NULL,
+  `tracks` TEXT NOT NULL,
+  PRIMARY KEY (`id`)
+) DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -142,9 +153,11 @@ CREATE TABLE `reactions` (
 
 INSERT INTO `reactions` VALUES (0, 1, "tweet", "post a new tweet", '{"message": "string"}');
 INSERT INTO `reactions` VALUES (1, 2, "add_music", "add a new music to an existing playlist", '{"music": "string", "playlist": "string"}');
-INSERT INTO `reactions` VALUES (2, 3, "send_message", "send a message to a specific channel", '{"message": "string", "channel": "string"}');
-INSERT INTO `reactions` VALUES (3, 3, "create_channel", "create a channel", '{"channel": "string"}');
-INSERT INTO `reactions` VALUES (4, 6, "send_mail", "send a mail", '{"to": "string", "subject": "string", "message": "string"}');
+INSERT INTO `reactions` VALUES (2, 2, "play_music", "play a music on your devise", '{"music": "string"}');
+INSERT INTO `reactions` VALUES (3, 2, "pause_music", "pause the music on your devise if playing", '{}');
+INSERT INTO `reactions` VALUES (4, 3, "send_message", "send a message to a specific channel", '{"message": "string", "channel": "string"}');
+INSERT INTO `reactions` VALUES (5, 3, "create_channel", "create a channel", '{"channel": "string"}');
+INSERT INTO `reactions` VALUES (6, 6, "send_mail", "send a mail", '{"to": "string", "subject": "string", "message": "string"}');
 
 /*!40000 ALTER TABLE `reactions` DISABLE KEYS */;
 /*!40000 ALTER TABLE `reactions` ENABLE KEYS */;

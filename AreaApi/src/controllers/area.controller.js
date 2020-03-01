@@ -233,9 +233,24 @@ function checkIfuserIsConcerned(area, action_result, action_id) {
  */
 exports.SendToReactionById = async (area, action_id, action_result) => {
     // Call a specific serviceController depending on the reaction_id
-    const reactionmodel = await ReactionModel.findById(area.reaction_id); // NOTE controllerArray is global
-    console.log(reactionmodel)
-    await controllerArray[reactionmodel.service_id].useReaction(action_result, area);
+    try {
+        // NOTE set dynamic parameters
+        if (action_result && area.parameters_reaction) {
+            Object.keys(area.parameters_reaction).forEach(element_reaction => {
+                Object.keys(action_result).forEach(element_action => {
+                    let tampon = "{{" + element_action + "}}"
+                    while (area.parameters_reaction[element_reaction].includes(tampon)) {
+                        area.parameters_reaction[element_reaction] = area.parameters_reaction[element_reaction].replace("{{" + element_action + "}}", action_result[element_action])
+                    }
+                });
+            });
+        }
+
+        const reactionmodel = await ReactionModel.findById(area.reaction_id); // NOTE controllerArray is global
+        await controllerArray[reactionmodel.service_id].useReaction(action_result, area);
+    } catch (err) {
+        console.error(err.message)
+    }
 }
 
 /**
@@ -246,7 +261,6 @@ exports.SendToReactionById = async (area, action_id, action_result) => {
 async function SendCreatedToService(newArea) {
     try {
         // TODO refrecator
-        console.log('OK HERE')
         const reqService = await ActionModel.findById(newArea.action_id)
         console.log(reqService)
         if (reqService) {

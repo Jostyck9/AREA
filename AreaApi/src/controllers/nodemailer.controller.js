@@ -31,13 +31,18 @@ exports.sendMail = async (to, subject, message) => {
         }
     });
 
+    let messageHtml = message
+    while (messageHtml.includes("\n")) {
+        messageHtml = messageHtml.replace("\n", "<br>")
+    }
+    console.log("Message mail : " + messageHtml)
     // send mail with defined transport object
     let info = await transporter.sendMail({
         from: '<areax.epitech@hotmail.com>', // sender address
         to: to, // list of receivers
         subject: subject, // Subject line
         text: message, // plain text body
-        html: "<b>" + message + "</b><br><br><br>This is an automatic message, do not respond" // html body
+        html: "<b>" + messageHtml + "</b><br><br><br>This is an automatic message, do not respond" // html body
     });
 
     console.log("Message sent: %s to %s", info.messageId, to);
