@@ -13,7 +13,7 @@ const Token = require('../models/Tokens.model')
 const auth = async (req, res, next) => {
     try {
         const token = req.header('Authorization').replace('Bearer ', '')
-        const data = jwt.verify(token, process.env.JWT_KEY)
+        const data = jwt.verify(token, process.env.JWT_KEY || '')
 
         const resToken = await Token.findByClientToken(token)
         if (!resToken)

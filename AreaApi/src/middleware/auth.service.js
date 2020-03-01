@@ -24,7 +24,7 @@ const auth = async (req, res, next) => {
         }
         console.log('try to connect')
         const token = req.query.token
-        const data = jwt.verify(token, process.env.JWT_KEY)
+        const data = jwt.verify(token, process.env.JWT_KEY || '')
 
         const resToken = await Token.findByClientToken(token)
         if (!resToken)
@@ -59,7 +59,7 @@ const optAuth = async (req, res, next) => {
         console.log('try to connect')
         if (req.query.token) {
             const token = req.query.token
-            const data = jwt.verify(token, process.env.JWT_KEY)
+            const data = jwt.verify(token, process.env.JWT_KEY || '')
 
             const resToken = await Token.findByClientToken(token)
             if (!resToken)

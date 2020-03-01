@@ -22,7 +22,7 @@ const TokenModel = function (token) {
  */
 TokenModel.refresh = async function (id) {
     try {
-        var newToken = jwt.sign(id, process.env.JWT_KEY)
+        var newToken = jwt.sign(id, process.env.JWT_KEY || '')
 
         const [rows, fields] = await sql.query("UPDATE tokens SET token = ? WHERE id = ?", [newToken, id])
         if (rows.affectedRows == 0) {

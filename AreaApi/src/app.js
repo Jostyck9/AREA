@@ -1,5 +1,5 @@
 const app = require('./server')
-const port = process.env.PORT;
+const port = process.env.PORT || 8080;
 
 // swagger
 const expressSwagger = require('express-swagger-generator')(app);

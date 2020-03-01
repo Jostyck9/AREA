@@ -71,14 +71,6 @@ router.get('/auth/dropbox', auth2Mid.auth, auth2Mid.saveUrlCB, dropboxAuth)
 router.get('/auth/dropbox/callback', auth2Mid.getUrlCB, auth2Mid.getUser, dropboxAuth, DropboxController.dropbox)
 
 /**
- * Log the user to facebook
- * @route GET /auth/facebook
- * @group Auth - User Login
- */
-// router.get('/auth/facebook', auth2Mid.auth, facebookAuth)
-// router.get('/auth/facebook/callback', auth2Mid.authCallback, facebookAuth, FacebookController.facebook)
-
-/**
  * Log the user to spotify
  * @route GET /auth/spotify
  * @group Auth - User Login
@@ -101,7 +93,7 @@ router.get('/auth/twitter/callback', auth2Mid.getFromSession, auth2Mid.getUrlCB,
  */
 router.get('/auth/discord', async (req, res) => {
     if (process.env.DISCORD_BOT_URL)
-        res.redirect(process.env.DISCORD_BOT_URL)
+        res.redirect(process.env.DISCORD_BOT_URL || '')
     else
         res.status(404).send({message: 'Discord url not found'})
 })
