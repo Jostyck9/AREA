@@ -12,10 +12,35 @@ import {
     BrowserRouter as Router,
 } from "react-router-dom";
 
+    /**
+     * Sign out an user
+     */
+
 function OnSignOut()
 {
+    var token = localStorage.getItem('currentUser')
     localStorage.removeItem('currentUser')
+    fetch(
+        process.env.REACT_APP_SERVER_URI + '/auth/logout', {
+        method: 'POST',
+        headers: {
+            "content-type": "application/json",
+            Authorization: "Bearer " + token
+        }
+    }).then(res => {
+        alert(res.status)
+        if (res.status >= 200 && res.status <= 204) {
+            alert("See you next time")
+        } else {
+            alert("Need a token to logout")
+        }
+    })
 }
+
+    /**
+     * Render the Auth Layout
+     * @returns the Auth Layoutpage
+     */
 
 export default function AuthLayout({ children }) {
     return (
@@ -40,11 +65,6 @@ export default function AuthLayout({ children }) {
                     { children }
                 </main>
             </div>
-            <footer class="border-top footer text-muted">
-                <div class="container">
-                &copy; 2020 - Area - <a href='about.json'>About</a>
-                </div>
-            </footer>
         </Router>
     );
 }

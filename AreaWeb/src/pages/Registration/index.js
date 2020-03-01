@@ -2,8 +2,9 @@ import '../../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import React from 'react';
 import '../../css/site.css';
 import { Button, Form } from 'react-bootstrap'
-import Microsoft from '../../images/microsoft_logo.png'
-import Twitter from '../../images/twitter_logo.png'
+import GitHub from '../../images/github_logo.png'
+const urlRedirection = process.env.REACT_APP_URI + "/GitHubOAuth2"
+const url = process.env.REACT_APP_SERVER_AUTH + '/auth/github?cb=' + urlRedirection
 
 export default class Registration extends React.Component {
     constructor(props) {
@@ -17,6 +18,10 @@ export default class Registration extends React.Component {
         };
     }
     
+    /**
+     * Handle an input
+     * @param event
+     */
     handleInputChange = (event) => {
         const { value, name } = event.target;
         this.setState({
@@ -24,13 +29,16 @@ export default class Registration extends React.Component {
         });
     }
 
+    /**
+     * When submitting a form
+     * @param event
+     */
     onSubmit = (event) => {
         event.preventDefault();
         const { email, username, password, confirmpassword } = this.state;
         if (password !== confirmpassword)
         alert("Passwords don't match");
         else {
-            alert(process.env.REACT_APP_SERVER_URI)
             fetch(process.env.REACT_APP_SERVER_URI + '/auth/register', {
                 method: 'POST',
                 body: JSON.stringify({ name: username, email: email, password: password }),
@@ -38,9 +46,8 @@ export default class Registration extends React.Component {
                     'Content-Type': 'application/json'
                 }
             }).then(res => {
-                if (res.status === 200 || res.status === 201) {
+                if (res.status >= 200 && res.status <= 204) {
                     res.json().then(data => {
-                        alert(data.token)
                         localStorage.setItem('currentUser', JSON.stringify(data.token))
                         this.props.history.push('/');
                     })
@@ -57,6 +64,10 @@ export default class Registration extends React.Component {
         }
     }
 
+    /**
+     * Render the registration page
+     * @returns the registration page
+     */
     render() {
         return (
             <table width="100%" height="100%" border="0">
@@ -82,11 +93,8 @@ export default class Registration extends React.Component {
                             <Button variant="secondary" size="lg" active type="submit" value="Submit">Register</Button><br />
                         </Form>
                         <div class="text-center">
-                            <br /><Button variant="secondary" size="lg" className="divider" active>
-                                <img src={Microsoft} height="30" width="30" alt="Microsoft" />|Microsoft
-                            </Button>
-                            <Button variant="secondary" size="lg" className="divider" active>
-                                <img src={Twitter} height="30" width="30" alt="Twitter" />|Twitter
+                            <br/><Button variant="secondary" size="lg" className="divider" href={url}>
+                                <img src={GitHub} height="30" width="30" alt="GitHub" />    Github
                             </Button><br/>
                         </div>
                     </td>

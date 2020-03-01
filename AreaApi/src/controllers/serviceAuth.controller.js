@@ -14,7 +14,7 @@ exports.connect = async (user_id, serviceTokens, serviceId, redirectUrl, res) =>
     try {
         const foundService = await ServiceAuthModel.findByServiceAndClientId(serviceId, user_id);
         if (foundService) {
-            await ServiceAuthModel.remove(foundService[0].id)
+            await ServiceAuthModel.remove(foundService.id)
         }
         const toSave = new ServiceAuthModel({
             client_id: user_id,

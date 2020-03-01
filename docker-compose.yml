@@ -56,7 +56,7 @@ services:
         volumes:
             - /app/node_modules
             - ./AreaWeb:/app
-            - common:/var/www/:ro
+            - common:/app/public/apk/:ro
         networks:
             area_network:
                 ipv4_address: 172.20.1.4
