@@ -34,8 +34,7 @@ CREATE TABLE `actions` (
 --
 -- Dumping data for table `actions`
 --
-name
-user
+
 -- LOCK TABLES `actions` WRITE;
 
 INSERT INTO `actions` VALUES (0, 0, "push", "a new push is intended by someone", '{"username": "string", "repository": "string"}', '{"message": "string"}');
