@@ -4,10 +4,10 @@ const auth = require('../middleware/auth')
 
 const Passport = require('passport')
 
-const TwitterController = require('../controllers/twitter.controller')
-const SpotifyController = require('../controllers/spotify.controller')
-const GithubController = require('../controllers/github.controller')
-const DropboxController = require('../controllers/dropbox.controller')
+const TwitterController = require('../controllers/Services/twitter.controller')
+const SpotifyController = require('../controllers/Services/spotify.controller')
+const GithubController = require('../controllers/Services/github.controller')
+const DropboxController = require('../controllers/Services/dropbox.controller')
 const auth2Mid = require('../middleware/auth.service')
 
 const router = express.Router()

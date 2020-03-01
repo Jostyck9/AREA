@@ -1,5 +1,5 @@
 const twitterWebhooks = require('twitter-webhooks')
-const AreaController = require('./area.controller')
+const AreaController = require('../area.controller')
 const twitter = require('twit')
 
 const CONSUMER_KEY = process.env.TWITTER_KEY;
@@ -8,11 +8,11 @@ const SERVER_URL = process.env.SERVER_URL;
 const TWITTER_ENV = process.env.TWITTER_ENV;
 const TWITTER_TOKEN = process.env.TWITTER_TOKEN
 const TWITTER_TOKEN_SECRET = process.env.TWITTER_TOKEN_SECRET
-const ServiceAuthController = require('./serviceAuth.controller')
-const ServiceModel = require('../models/Service.model')
-const ServiceToken = require('../models/ServiceTokens.model')
-const AreaModel = require('../models/Area.model')
-const ActionModel = require('../models/Action.model')
+const ServiceAuthController = require('../serviceAuth.controller')
+const ServiceModel = require('../../models/Service.model')
+const ServiceToken = require('../../models/ServiceTokens.model')
+const AreaModel = require('../../models/Area.model')
+const ActionModel = require('../../models/Action.model')
 
 /**
  * twitter connect the token received to the database

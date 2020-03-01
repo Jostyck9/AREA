@@ -1,8 +1,8 @@
-const AreaController = require('../controllers/area.controller')
-const GithubController = require('../controllers/github.controller')
-const AreaModel = require('../models/Area.model')
-const ActionModel = require('../models/Action.model')
-const ReactionModel = require('../models/Reaction.model')
+const AreaController = require('../../controllers/area.controller')
+const GithubController = require('./github.controller')
+const AreaModel = require('../../models/Area.model')
+const ActionModel = require('../../models/Action.model')
+const ReactionModel = require('../../models/Reaction.model')
 
 require('dotenv').config();
 const Discord = require ('discord.js');

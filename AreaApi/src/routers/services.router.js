@@ -1,7 +1,7 @@
 const express = require('express');
 const ServiceController = require('../controllers/service.controller')
-const dropboxController = require('../controllers/dropbox.controller')
-const githubController = require('../controllers/github.controller')
+const dropboxController = require('../controllers/Services/dropbox.controller')
+const githubController = require('../controllers/Services/github.controller')
 const router = express.Router();
 
 /**

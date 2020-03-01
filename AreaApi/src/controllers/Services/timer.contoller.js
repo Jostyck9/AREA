@@ -1,7 +1,7 @@
-const AreaModel = require('../models/Area.model')
-const AreaController = require('./area.controller')
-const ActionModel = require('../models/Action.model')
-const TimerModel = require('../models/Timer.model')
+const AreaModel = require('../../models/Area.model')
+const AreaController = require('../area.controller')
+const ActionModel = require('../../models/Action.model')
+const TimerModel = require('../../models/Timer.model')
 
 const INTERVAL = 10000
 let idIntervalDate = 0

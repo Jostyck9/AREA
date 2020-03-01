@@ -1,13 +1,13 @@
 var Github = require('github-api');
 var typeGithubEvent = require('typeof-github-event');
 var Promise = require("es6-promise").Promise;
-const AreaController = require('../controllers/area.controller');
-const ServiceAuthController = require('./serviceAuth.controller');
-const ApiAuth = require('./auth.controller');
-const ServiceModel = require('../models/Service.model');
-const AreaModel = require('../models/Area.model');
-const GithubModel = require('../models/github.model');
-const ServiceToken = require('../models/ServiceTokens.model');
+const AreaController = require('../area.controller');
+const ServiceAuthController = require('../serviceAuth.controller');
+const ApiAuth = require('../auth.controller');
+const ServiceModel = require('../../models/Service.model');
+const AreaModel = require('../../models/Area.model');
+const GithubModel = require('../../models/github.model');
+const ServiceToken = require('../../models/ServiceTokens.model');
 
 const HOOK_URL = process.env.SERVER_URL + "/github/webhook";
 const NEW_PUSH = 0;

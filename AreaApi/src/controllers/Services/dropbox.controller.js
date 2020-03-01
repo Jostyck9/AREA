@@ -1,10 +1,10 @@
 const dropboxV2Api = require('dropbox-v2-api');
-const ServiceAuthController = require('./serviceAuth.controller')
-const ServiceModel = require('../models/Service.model')
-const DropboxModel = require('../models/Dropbox.model')
-const ServiceToken = require('../models/ServiceTokens.model')
-const AreaModel = require('../models/Area.model')
-const AreaController = require('./area.controller')
+const ServiceAuthController = require('../serviceAuth.controller')
+const ServiceModel = require('../../models/Service.model')
+const DropboxModel = require('../../models/Dropbox.model')
+const ServiceToken = require('../../models/ServiceTokens.model')
+const AreaModel = require('../../models/Area.model')
+const AreaController = require('../area.controller')
 
 /**
  * dropobox connect the token received to the database
