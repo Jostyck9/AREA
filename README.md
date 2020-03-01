@@ -39,7 +39,24 @@ $ nano .env
 For Twitter, click [here](https://developer.twitter.com/en/apps)
 For Spotify, click [here](https://developer.spotify.com/dashboard/login)
 For Github, click [here](https://github.com/settings/developers)
-For Discord, click [here](https://discordapp.com/developers/applications)
+For Discord, click [here](https://discordapp.com/developers/applications):
+```sh
+* Sign in with your Discord account
+* Click on 'New Application'
+* Register your app by giving it a name
+* Click on 'Bot' on the left side panel then on 'Add Bot'
+* Add your bot token in your .env file as DISCORD_TOKEN /!\ Be careful not to click on 'Reveal Token' or to push it on Github or it will make your bot token deprecated /!\
+* Click on 'OAuth2' on the left side panel
+    * Check 'bot' on the 'scopes' panel
+* Then on 'bot permissions' check the following 
+    * View Audit Log
+    * View Server Insights
+    * Manage Channels
+    * View Channels
+    * Send Messages
+    * Read Message History
+* Add the url that appeared on the 'scopes' panel in your .env file as DISCORD_BOT_URL (ex: https://discordapp.com/api/oauth2/authorize?client_id=0000000000&permissions=00000&scope=bot)
+```
 For Dropbox, click [here](https://www.dropbox.com/developers/apps/ )
 ```sh
 SERVER_URL=https://ID.ngrok.io
@@ -292,6 +309,161 @@ Log out the user out of our service api from all his device
 #### Response format
  - A completed request will return a `200` response code, and inside the body a Json with a message field 
  - When performing an action that is restricted, `404` or `401`  will be returned together with a json containing a message field.
+
+### ``GET``- /me  
+#### Description
+Get the auth user informations
+#### Header fields 
+|HEADER FIELD| VALUE | 
+|--|--| 
+| Authorization | ***Required*** A valid access token from the Area Auth service |
+#### Response format
+- A completed request will return a `200` response code, and inside the body a Json with a message
+- When performing an action that is restricted, `403` will be returned together with a json containing a message field.
+
+### ``PATCH``- /me/password
+#### Description
+Update password
+#### Header fields 
+|HEADER FIELD| VALUE | 
+|--|--| 
+| Authorization | ***Required*** A valid access token from the Area Auth service |
+#### Body fields 
+| BODY FIELD | VALUE |
+|--|--|
+| password | ***Required*** The password to be changed by the user |
+#### Response format
+- A completed request will return a `200` response code, and inside the body a Json with a message
+- When performing an action that is restricted, `403` will be returned together with a json containing a message field.
+
+### ``PATCH``- /me/username
+#### Description
+Update username
+#### Header fields 
+|HEADER FIELD| VALUE | 
+|--|--| 
+| Authorization | ***Required*** A valid access token from the Area Auth service |
+#### Body fields 
+| BODY FIELD | VALUE |
+|--|--|
+| username | ***Required*** The username to be changed by the user |
+#### Response format
+- A completed request will return a `200` response code, and inside the body a Json with a message
+- When performing an action that is restricted, `403` will be returned together with a json containing a message field.
+
+### ``GET``- /me/username
+#### Description
+Get name
+#### Header fields 
+|HEADER FIELD| VALUE | 
+|--|--| 
+| Authorization | ***Required*** A valid access token from the Area Auth service |
+#### Response format
+- A completed request will return a `200` response code, and inside the body a Json with a message
+- When performing an action that is restricted, `403` will be returned together with a json containing a message field.
+### ``GET``- /me/auth
+#### Description
+Get all the services auth and their status
+#### Header fields 
+|HEADER FIELD| VALUE | 
+|--|--| 
+| Authorization | ***Required*** A valid access token from the Area Auth service |
+#### Response format
+- A completed request will return a `200` response code, and inside the body a Json Array with a name and boolean to know if the user is connected
+- When performing an action that is restricted, `403` will be returned together with a json containing a message field.
+
+### ``GET``- /me/auth/{nameService}
+#### Description
+Get all the services auth and their status
+#### Header fields 
+|HEADER FIELD| VALUE | 
+|--|--| 
+| Authorization | ***Required*** A valid access token from the Area Auth service |
+#### Body fields 
+| BODY FIELD | VALUE |
+|--|--|
+| nameService| ***Required*** The nameService use to get all the services auth |
+#### Response format
+- A completed request will return a `200` response code, and inside the body a Json Array with a name and boolean to know if the user is connected
+- When performing an action that is restricted, `403` will be returned together with a json containing a message field.
+
+### ``GET``- /services
+#### Description
+Send a list of available services
+#### Response format
+- A completed request will return a `200` response code, and inside the body a Json Array with a list of all available services
+- When performing an action that is restricted, `401` to `404` will be returned together with a json containing a message error field.
+### ``GET``- /services/{nameService}
+#### Description
+Send info about a service
+#### Body fields 
+| BODY FIELD | VALUE |
+|--|--|
+| nameService| ***Required*** The nameService use to get all the services auth |
+#### Response format
+- A completed request will return a `200` response code, and inside the body a Json Array with a the service's informations.
+- When performing an action that is restricted, `401` to `404` will be returned together with a json containing a message error field.
+
+### ``GET``- /services/{nameService}/actions
+#### Description
+Get actions from a specified service
+#### Body fields 
+| BODY FIELD | VALUE |
+|--|--|
+| nameService| ***Required*** The nameService use to get all the services auth |
+#### Response format
+- A completed request will return a `200` response code, and inside the body a Json Array with the actions of the specified service
+- When performing an action that is restricted, `401` to `404` will be returned together with a json containing a message error field.
+
+### ``GET``- /services/{nameService}/actions/{nameActions}
+Get an action from a specified service
+#### Body fields 
+| BODY FIELD | VALUE |
+|--|--|
+| nameService| ***Required*** The nameService use to get all the services auth |
+| nameAction| ***Required*** The nameAction use to get the information of it |
+#### Response format
+- A completed request will return a `200` response code, and inside the body a Json Array with specified action of the specified service
+- When performing an action that is restricted, `401` to `404` will be returned together with a json containing a message error field.
+### ``GET``- /services/{nameService}/reactions
+Get reactions from a specified service
+#### Body fields 
+| BODY FIELD | VALUE |
+|--|--|
+| nameService| ***Required*** The nameService use to get all the services auth |
+#### Response format
+- A completed request will return a `200` response code, and inside the body a Json Array with the reactions of the specified service
+- When performing an action that is restricted, `401` to `404` will be returned together with a json containing a message error field.
+
+### ``GET``- /services/{nameService}/reactions/{nameReaction}
+Get reactions from a specified service
+#### Body fields 
+| BODY FIELD | VALUE |
+|--|--|
+| nameService| ***Required*** The nameService use to get all the services auth |
+| nameReaction| ***Required*** The nameReaction use to get the information of it |
+#### Response format
+- A completed request will return a `200` response code, and inside the body a Json Array with specific reaction of the specified service
+- When performing an action that is restricted, `401` to `404` will be returned together with a json containing a message error field.
+
+### ``GET``- /services/reactions/{idReaction}
+Get a reaction from a specified service
+#### Body fields 
+| BODY FIELD | VALUE |
+|--|--|
+| idReaction| ***Required*** The idReaction use it's own information |
+#### Response format
+- A completed request will return a `200` response code, and inside the body a Json Array with specific reaction of the specified service
+- When performing an action that is restricted, `401` to `404` will be returned together with a json containing a message error field.
+### ``GET``- /services/actions/{idAction}
+Get a action from a specified service
+#### Body fields 
+| BODY FIELD | VALUE |
+|--|--|
+| idAction| ***Required*** The idAction use it's own information |
+#### Response format
+- A completed request will return a `200` response code, and inside the body a Json Array with specific action of the specified service
+- When performing an action that is restricted, `401` to `404` will be returned together with a json containing a message error field.
 
 # Documentation
 
