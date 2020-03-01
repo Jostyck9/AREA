@@ -1,4 +1,4 @@
-package com.example.area.DataClass
+package com.example.area.dataClass
 
 data class ParameterModel (
     val name: String?,

@@ -50,12 +50,12 @@ class AreaPresenter(var areaView: AreaView, var context: Context) {
         areaModel.getParamsReactionLit(reactionDescription, serviceName)
     }
 
-    fun displayParamActionLists(nameList: ArrayList<String>, typeList: ArrayList<String>, description: String) {
-        areaView.displayParamActionLists(nameList, typeList, description)
+    fun displayParamActionLists(nameList: ArrayList<String>, typeList: ArrayList<String>, description: String, id: String) {
+        areaView.displayParamActionLists(nameList, typeList, description, id)
     }
 
-    fun displayParamReactionLists(nameList: ArrayList<String>, typeList: ArrayList<String>, description: String) {
-        areaView.displayParamReactionLists(nameList, typeList, description)
+    fun displayParamReactionLists(nameList: ArrayList<String>, typeList: ArrayList<String>, description: String, id: String) {
+        areaView.displayParamReactionLists(nameList, typeList, description, id)
     }
 
     fun checkActionConnection(serviceName: String) {
@@ -77,5 +77,13 @@ class AreaPresenter(var areaView: AreaView, var context: Context) {
     fun checkInfos(editText: String): Boolean {
         areaModel.checkInfos(editText)
         return areaView.onResultCheckInfos(areaModel.isEditTextValid)
+    }
+
+    fun createArea(actionId: Int, reactionId: Int, nameParametersAction: ArrayList<String>, resParametersAction: ArrayList<String>, nameParametersReaction: ArrayList<String>, resParametersReaction: ArrayList<String>) {
+        areaModel.createArea(actionId, reactionId, nameParametersAction, resParametersAction, nameParametersReaction, resParametersReaction)
+    }
+
+    fun createSuccess() {
+        areaView.createSuccess()
     }
 }

@@ -1,11 +1,11 @@
-package com.example.area.Adapter
+package com.example.area.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.area.DataClass.ParameterModel
 import com.example.area.R
+import com.example.area.dataClass.ParameterModel
 
 class AreaAdapter(private val params : ArrayList<ParameterModel>, private val mContext : Context) : RecyclerView.Adapter<AreaHolder>() {
 

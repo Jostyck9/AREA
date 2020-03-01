@@ -10,9 +10,9 @@ import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.example.area.presenter.HomePresenter
-import com.example.area.DataClass.ActionModel
-import com.example.area.DataClass.ReactionModel
-import com.example.area.DataClass.AreasModel
+import com.example.area.dataClass.ActionModel
+import com.example.area.dataClass.ReactionModel
+import com.example.area.dataClass.AreasModel
 import com.example.area.R
 import org.json.JSONArray
 

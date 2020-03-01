@@ -1,6 +1,6 @@
 package com.example.area.view
 
-import com.example.area.DataClass.AreasModel
+import com.example.area.dataClass.AreasModel
 
 interface HomeView {
     fun upVisibility()

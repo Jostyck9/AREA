@@ -3,9 +3,9 @@ package com.example.area.presenter
 import android.content.Context
 import android.net.Uri
 import android.util.Log
-import com.example.area.DataClass.ActionModel
-import com.example.area.DataClass.AreasModel
-import com.example.area.DataClass.ReactionModel
+import com.example.area.dataClass.ActionModel
+import com.example.area.dataClass.AreasModel
+import com.example.area.dataClass.ReactionModel
 import androidx.preference.PreferenceManager
 import com.example.area.model.HomeModel
 import com.example.area.view.HomeView

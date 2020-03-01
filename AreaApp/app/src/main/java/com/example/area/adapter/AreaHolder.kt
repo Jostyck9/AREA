@@ -1,10 +1,10 @@
-package com.example.area.Adapter
+package com.example.area.adapter
 
 import android.text.InputType.TYPE_CLASS_NUMBER
 import android.text.InputType.TYPE_CLASS_TEXT
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import com.example.area.DataClass.ParameterModel
+import com.example.area.dataClass.ParameterModel
 import kotlinx.android.synthetic.main.parameter_page.view.*
 
 class AreaHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

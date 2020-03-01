@@ -7,16 +7,15 @@ import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.core.view.get
+import androidx.core.view.size
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.area.Adapter.AreaAdapter
-import com.example.area.DataClass.ParameterModel
+import com.example.area.adapter.AreaAdapter
+import com.example.area.adapter.ResumeAdapter
+import com.example.area.dataClass.ParameterModel
 import com.example.area.presenter.AreaPresenter
 import com.example.area.view.AreaView
 import kotlinx.android.synthetic.main.activity_area.*
-import kotlinx.android.synthetic.main.activity_profile.*
-import kotlinx.android.synthetic.main.activity_sign_in.*
-import kotlinx.android.synthetic.main.parameter_page.*
 import kotlinx.android.synthetic.main.parameter_page.view.*
 
 class AreaActivity : AppCompatActivity(), AreaView {
@@ -60,6 +59,42 @@ class AreaActivity : AppCompatActivity(), AreaView {
         reactionButton.setOnClickListener {
             showReactionServicesList()
         }
+
+        //Create Area
+        saveAreaButton.setOnClickListener {
+            if (actionButton.text == getString(R.string.choose_an_action) || reactionButton.text == getString(R.string.choose_a_reaction))
+                Toast.makeText(applicationContext, "Choose an action and a reaction", Toast.LENGTH_SHORT).show()
+            else {
+                val actionId = actionID.text.toString().toInt()
+                val reactionId = reactionID.text.toString().toInt()
+                val nameParametersAction = ArrayList<String>()
+                val resParametersAction = ArrayList<String>()
+                val nameParametersReaction = ArrayList<String>()
+                val resParametersReaction = ArrayList<String>()
+
+                var adapterAction: ResumeAdapter? = null
+                if (actionParamsRView.adapter != null)
+                    adapterAction = actionParamsRView.adapter as ResumeAdapter
+
+                var adapterReaction: ResumeAdapter? = null
+                if (reactionParamsRView.adapter != null)
+                    adapterReaction = reactionParamsRView.adapter as ResumeAdapter
+
+                if (adapterAction != null) {
+                    for (i in 0 until actionParamsRView.adapter!!.itemCount) {
+                        nameParametersAction.add(adapterAction.getItem(i).name!!)
+                        resParametersAction.add(adapterAction.getItem(i).param!!)
+                    }
+                }
+                if (adapterReaction != null) {
+                    for (i in 0 until reactionParamsRView.adapter!!.itemCount) {
+                        nameParametersReaction.add(adapterReaction.getItem(i).name!!)
+                        resParametersReaction.add(adapterReaction.getItem(i).param!!)
+                    }
+                }
+                areaPresenter.createArea(actionId, reactionId, nameParametersAction, resParametersAction, nameParametersReaction, resParametersReaction)
+            }
+        }
     }
 
     override fun onBackPressed() {
@@ -101,10 +136,11 @@ class AreaActivity : AppCompatActivity(), AreaView {
         }
     }
 
-    override fun displayParamActionLists(nameList: ArrayList<String>, typeList: ArrayList<String>, description: String) {
+    override fun displayParamActionLists(nameList: ArrayList<String>, typeList: ArrayList<String>, description: String, id: String) {
         val parameters: ArrayList<ParameterModel> = ArrayList()
 
         if (nameList.size == 0) {
+            actionID.text = id
             actionButton.text = description
             showArea()
         }
@@ -129,10 +165,25 @@ class AreaActivity : AppCompatActivity(), AreaView {
         //Change save button result
         saveParametersButton.setOnClickListener {
             var isValid = true
+            val resumeParams: ArrayList<ParameterModel> = ArrayList()
+
             for (i in 0 until nameList.size) {
                 isValid = isValid && areaPresenter.checkInfos(rview[i].editParam.text.toString())
             }
             if (isValid) {
+                for (i in 0 until nameList.size) {
+                    resumeParams.add(ParameterModel(nameList[i], rview[i].editParam.text.toString()))
+                }
+
+                val newManager = GridLayoutManager(applicationContext, 1, RecyclerView.VERTICAL, false)
+
+                actionParamsRView.adapter = ResumeAdapter(
+                    resumeParams,
+                    applicationContext
+                )
+                actionParamsRView.layoutManager = newManager
+
+                actionID.text = id
                 actionButton.text = description
                 showArea()
             } else
@@ -140,10 +191,11 @@ class AreaActivity : AppCompatActivity(), AreaView {
         }
     }
 
-    override fun displayParamReactionLists(nameList: ArrayList<String>, typeList: ArrayList<String>, description: String) {
+    override fun displayParamReactionLists(nameList: ArrayList<String>, typeList: ArrayList<String>, description: String, id: String) {
         val parameters: ArrayList<ParameterModel> = ArrayList()
 
         if (nameList.size == 0) {
+            reactionID.text = id
             reactionButton.text = description
             showArea()
         }
@@ -169,10 +221,25 @@ class AreaActivity : AppCompatActivity(), AreaView {
             //Change save button result
             saveParametersButton.setOnClickListener {
                 var isValid = true
+                val resumeParams: ArrayList<ParameterModel> = ArrayList()
+
                 for (i in 0 until nameList.size) {
                     isValid = isValid && areaPresenter.checkInfos(rview[i].editParam.text.toString())
                 }
                 if (isValid) {
+                    for (i in 0 until nameList.size) {
+                        resumeParams.add(ParameterModel(nameList[i], rview[i].editParam.text.toString()))
+                    }
+
+                    val newManager = GridLayoutManager(applicationContext, 1, RecyclerView.VERTICAL, false)
+
+                    reactionParamsRView.adapter = ResumeAdapter(
+                        resumeParams,
+                        applicationContext
+                    )
+                    reactionParamsRView.layoutManager = newManager
+
+                    reactionID.text = id
                     reactionButton.text = description
                     showArea()
                 } else
@@ -190,6 +257,8 @@ class AreaActivity : AppCompatActivity(), AreaView {
         reactionText.visibility = View.VISIBLE
         reactionButton.visibility = View.VISIBLE
         saveAreaButton.visibility = View.VISIBLE
+        actionParamsRView.visibility = View.VISIBLE
+        reactionParamsRView.visibility = View.VISIBLE
 
         areaList.visibility = View.INVISIBLE
 
@@ -205,6 +274,8 @@ class AreaActivity : AppCompatActivity(), AreaView {
         reactionText.visibility = View.INVISIBLE
         reactionButton.visibility = View.INVISIBLE
         saveAreaButton.visibility = View.INVISIBLE
+        actionParamsRView.visibility = View.INVISIBLE
+        reactionParamsRView.visibility = View.INVISIBLE
 
         areaList.visibility = View.VISIBLE
 
@@ -218,6 +289,8 @@ class AreaActivity : AppCompatActivity(), AreaView {
         reactionText.visibility = View.INVISIBLE
         reactionButton.visibility = View.INVISIBLE
         saveAreaButton.visibility = View.INVISIBLE
+        actionParamsRView.visibility = View.INVISIBLE
+        reactionParamsRView.visibility = View.INVISIBLE
 
         areaList.visibility = View.INVISIBLE
 
@@ -255,6 +328,10 @@ class AreaActivity : AppCompatActivity(), AreaView {
 
     override fun onResultCheckInfos(isEditTextValid: Boolean): Boolean {
         return isEditTextValid
+    }
+
+    override fun createSuccess() {
+        finish()
     }
 
 }

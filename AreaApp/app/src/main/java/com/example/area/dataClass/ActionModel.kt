@@ -1,4 +1,4 @@
-package com.example.area.DataClass
+package com.example.area.dataClass
 
 class ActionModel(aId: Int, sName: String, aName: String, aDescription: String) {
     val actionId : Int = aId

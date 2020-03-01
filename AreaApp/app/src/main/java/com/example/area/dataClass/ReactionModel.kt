@@ -1,4 +1,4 @@
-package com.example.area.DataClass
+package com.example.area.dataClass
 
 class ReactionModel(rId: Int, sName: String, rName: String, rDescription: String) {
     val reactionId : Int = rId

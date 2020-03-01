@@ -1,4 +1,4 @@
-package com.example.area.Adapter
+package com.example.area.adapter
 
 import android.graphics.Color
 import android.view.LayoutInflater
@@ -10,7 +10,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.area.HomeActivity
-import com.example.area.DataClass.AreasModel
+import com.example.area.dataClass.AreasModel
 import com.example.area.R
 
 class HomeAdapter (private val homeActivity: HomeActivity, private val areasList: MutableList<AreasModel>) : RecyclerView.Adapter<HomeAdapter.MyViewHolder>() {

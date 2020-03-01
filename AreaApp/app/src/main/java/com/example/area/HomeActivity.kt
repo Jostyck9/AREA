@@ -9,8 +9,8 @@ import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.area.Adapter.HomeAdapter
-import com.example.area.DataClass.AreasModel
+import com.example.area.adapter.HomeAdapter
+import com.example.area.dataClass.AreasModel
 import com.example.area.presenter.HomePresenter
 import com.example.area.view.HomeView
 import kotlinx.android.synthetic.main.activity_home.*

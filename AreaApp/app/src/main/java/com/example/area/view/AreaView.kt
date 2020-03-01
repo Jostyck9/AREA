@@ -19,8 +19,9 @@ interface AreaView {
     fun addReactionAdapter(reactionAdapter: ArrayAdapter<String>, reactionList: ArrayList<String>, serviceName: String)
 
     fun displayMessage(message: String)
-    fun displayParamActionLists(nameList: ArrayList<String>, typeList: ArrayList<String>, description: String)
-    fun displayParamReactionLists(nameList: ArrayList<String>, typeList: ArrayList<String>, description: String)
+    fun displayParamActionLists(nameList: ArrayList<String>, typeList: ArrayList<String>, description: String, id: String)
+    fun displayParamReactionLists(nameList: ArrayList<String>, typeList: ArrayList<String>, description: String, id: String)
 
     fun onResultCheckInfos(isEditTextValid: Boolean): Boolean
+    fun createSuccess()
 }
