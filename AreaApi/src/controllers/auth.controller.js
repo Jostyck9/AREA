@@ -38,7 +38,7 @@ exports.create = async (req, res) => {
 
         const resUser = await User.create(user)
         if (!resUser) {
-            res.status(401).send('not authorized')
+            res.status(401).send({ message: 'not authorized' })
         } else {
             const resToken = await Token.create(resUser.id)
             if (resToken)
@@ -67,11 +67,11 @@ exports.loginRegisterOAuth2 = async (userInfo, tokens, service_id, redirectUrl, 
             throw new Error('No username given for login by service')
         if (!userInfo.hasOwnProperty('idLog'))
             throw new Error('No unique id given for login by service')
-        
+
         let userId = 0
         const resMail = await User.findByEmail(userInfo.idLog)
         if (!resMail) {
-            const resCreate = await User.createOAuth2({username: userInfo.username, id: userInfo.idLog})
+            const resCreate = await User.createOAuth2({ username: userInfo.username, id: userInfo.idLog })
             userId = resCreate.id
         } else {
             userId = resMail.id
@@ -92,7 +92,7 @@ exports.loginRegisterOAuth2 = async (userInfo, tokens, service_id, redirectUrl, 
             res.redirect(UrlConstruct.createRedirect(redirectUrl, 'OK', resToken.token, null))
         else
             res.redirect(UrlConstruct.createRedirect(redirectUrl, 'KO', null, null))
-        
+
     } catch (error) {
         console.log(error)
         res.redirect(UrlConstruct.createRedirect(redirectUrl, 'KO', null, null))

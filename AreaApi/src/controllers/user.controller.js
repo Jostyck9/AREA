@@ -14,7 +14,7 @@ exports.getMe = async (req, res) => {
         if (req.user.is_oauth2)
             res.status(200).send({ username: req.user.username, is_oauth2: req.user.is_oauth2 })
         else
-            res.status(200).send({ username: req.user.username, email: req.user.email })
+            res.status(200).send({ username: req.user.username, email: req.user.email, is_oauth2: req.user.is_oauth2 })
     } catch (error) {
         res.status(403).send({ message: error.message || "Some error occurred while getting the User." })
     }

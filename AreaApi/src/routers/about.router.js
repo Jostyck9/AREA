@@ -4,6 +4,11 @@ const AboutJs = require('../models/About.model')
 const router = express.Router()
 
 /**
+ * @typedef Error 
+ * @property {string} message - error's message
+ * */
+
+/**
  * @typedef ClientAbout
  * @property {string} host - user's ip
  */
@@ -38,7 +43,7 @@ const router = express.Router()
  * @route GET /about.json
  * @group About - About file
  * @returns {About.model} 200 - about file
- * @returns {Error}  default - Unexpected error
+ * @returns {JSON} 400 - {"message": "string"}
  */
 router.get('/about.json', async (req, res) => {
     // Get the about.json

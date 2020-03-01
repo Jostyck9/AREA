@@ -75,7 +75,7 @@ exports.getAll = async (req, res) => {
         else
             res.status(200).send(resRequest);
     } catch (error) {
-        res.status(400).send({ message: error.message || 'An error  occured' });
+        res.status(404).send({ message: error.message || 'An error  occured' });
     }
 }
 
@@ -93,7 +93,7 @@ exports.get = async (req, res) => {
             throw new Error("No area found")
         res.status(200).send(resRequest);
     } catch (error) {
-        res.status(400).send({ message: error.message || 'An error  occured' });
+        res.status(404).send({ message: error.message || 'An error  occured' });
     }
 }
 
@@ -116,7 +116,7 @@ exports.delete = async (req, res) => {
         await SendDeletedToService(resArea)
         res.status(200).send(resRequest);
     } catch (error) {
-        res.status(400).send({ message: error.message || 'An error  occured' });
+        res.status(404).send({ message: error.message || 'An error  occured' });
     }
 }
 
