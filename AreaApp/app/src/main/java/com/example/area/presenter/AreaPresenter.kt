@@ -34,12 +34,28 @@ class AreaPresenter(var areaView: AreaView, var context: Context) {
         areaView.addReactionServicesAdapter(reactionAdapter, reactionServicesList)
     }
 
-    fun addActionsAdapter(actionAdapter: ArrayAdapter<String>, actionList: ArrayList<String>) {
-        areaView.addActionAdapter(actionAdapter, actionList)
+    fun addActionsAdapter(actionAdapter: ArrayAdapter<String>, actionList: ArrayList<String>, serviceName: String) {
+        areaView.addActionAdapter(actionAdapter, actionList, serviceName)
     }
 
-    fun addReactionsAdapter(reactionAdapter: ArrayAdapter<String>, reactionList: ArrayList<String>) {
-        areaView.addReactionAdapter(reactionAdapter, reactionList)
+    fun addReactionsAdapter(reactionAdapter: ArrayAdapter<String>, reactionList: ArrayList<String>, serviceName: String) {
+        areaView.addReactionAdapter(reactionAdapter, reactionList, serviceName)
+    }
+
+    fun getParamsActionLit(actionDescription: String, serviceName: String) {
+        areaModel.getParamsActionLit(actionDescription, serviceName)
+    }
+
+    fun getParamsReactionLit(reactionDescription: String, serviceName: String) {
+        areaModel.getParamsReactionLit(reactionDescription, serviceName)
+    }
+
+    fun displayParamActionLists(nameList: ArrayList<String>, typeList: ArrayList<String>, description: String) {
+        areaView.displayParamActionLists(nameList, typeList, description)
+    }
+
+    fun displayParamReactionLists(nameList: ArrayList<String>, typeList: ArrayList<String>, description: String) {
+        areaView.displayParamReactionLists(nameList, typeList, description)
     }
 
     fun checkActionConnection(serviceName: String) {
@@ -53,7 +69,13 @@ class AreaPresenter(var areaView: AreaView, var context: Context) {
     fun checkReactionConnection(serviceName: String) {
         areaModel.checkReactionConnection(serviceName)
     }
+
     fun showReactionList(serviceName: String) {
         areaView.showReactionList(serviceName)
+    }
+
+    fun checkInfos(editText: String): Boolean {
+        areaModel.checkInfos(editText)
+        return areaView.onResultCheckInfos(areaModel.isEditTextValid)
     }
 }

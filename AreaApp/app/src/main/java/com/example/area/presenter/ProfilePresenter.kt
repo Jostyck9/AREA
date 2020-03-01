@@ -20,6 +20,7 @@ class ProfilePresenter(private var profileView: ProfileView, var context: Contex
         profileModel.checkInfos(password, confirmPassword, username)
         profileView.onResult(profileModel.isValidPassword, profileModel.isValidConfirmPassword, profileModel.isValidUsername)
     }
+
     fun getInfosSuccess(response: String) {
         profileView.changeUserInfos(response)
     }

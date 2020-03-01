@@ -1,25 +1,23 @@
 package com.example.area
 
-import android.content.Intent
-import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Toast
-import androidx.preference.PreferenceManager
-import com.android.volley.AuthFailureError
-import com.android.volley.Request
-import com.android.volley.RequestQueue
-import com.android.volley.Response
-import com.android.volley.toolbox.StringRequest
-import com.android.volley.toolbox.Volley
+import androidx.core.view.get
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.area.Adapter.AreaAdapter
+import com.example.area.DataClass.ParameterModel
 import com.example.area.presenter.AreaPresenter
 import com.example.area.view.AreaView
 import kotlinx.android.synthetic.main.activity_area.*
-import org.json.JSONArray
-import org.json.JSONObject
+import kotlinx.android.synthetic.main.activity_profile.*
+import kotlinx.android.synthetic.main.activity_sign_in.*
+import kotlinx.android.synthetic.main.parameter_page.*
+import kotlinx.android.synthetic.main.parameter_page.view.*
 
 class AreaActivity : AppCompatActivity(), AreaView {
 
@@ -89,20 +87,97 @@ class AreaActivity : AppCompatActivity(), AreaView {
         }
     }
 
-    override fun addActionAdapter(actionAdapter: ArrayAdapter<String>, actionList: ArrayList<String>) {
+    override fun addActionAdapter(actionAdapter: ArrayAdapter<String>, actionList: ArrayList<String>, serviceName: String) {
         areaList.adapter = actionAdapter
         areaList.setOnItemClickListener { _, _, position, _ ->
-            actionButton.text = actionList[position]
-            showArea()
-
+            areaPresenter.getParamsActionLit(actionList[position], serviceName)
         }
     }
 
-    override fun addReactionAdapter(reactionAdapter: ArrayAdapter<String>, reactionList: ArrayList<String>) {
+    override fun addReactionAdapter(reactionAdapter: ArrayAdapter<String>, reactionList: ArrayList<String>, serviceName: String) {
         areaList.adapter = reactionAdapter
         areaList.setOnItemClickListener { _, _, position, _ ->
-            reactionButton.text = reactionList[position]
+            areaPresenter.getParamsReactionLit(reactionList[position], serviceName)
+        }
+    }
+
+    override fun displayParamActionLists(nameList: ArrayList<String>, typeList: ArrayList<String>, description: String) {
+        val parameters: ArrayList<ParameterModel> = ArrayList()
+
+        if (nameList.size == 0) {
+            actionButton.text = description
             showArea()
+        }
+        else
+            for (i in 0 until nameList.size) {
+                parameters.add(
+                    ParameterModel(
+                        nameList[i],
+                        typeList[i]
+                    )
+                )
+                val lManager = GridLayoutManager(applicationContext, 1, RecyclerView.VERTICAL, false)
+
+                rview.adapter = AreaAdapter(
+                    parameters,
+                    applicationContext
+                )
+                rview.layoutManager = lManager
+                showParameters()
+        }
+
+        //Change save button result
+        saveParametersButton.setOnClickListener {
+            var isValid = true
+            for (i in 0 until nameList.size) {
+                isValid = isValid && areaPresenter.checkInfos(rview[i].editParam.text.toString())
+            }
+            if (isValid) {
+                actionButton.text = description
+                showArea()
+            } else
+                displayMessage("Error in your parameters")
+        }
+    }
+
+    override fun displayParamReactionLists(nameList: ArrayList<String>, typeList: ArrayList<String>, description: String) {
+        val parameters: ArrayList<ParameterModel> = ArrayList()
+
+        if (nameList.size == 0) {
+            reactionButton.text = description
+            showArea()
+        }
+        else {
+            for (i in 0 until nameList.size) {
+                parameters.add(
+                    ParameterModel(
+                        nameList[i],
+                        typeList[i]
+                    )
+                )
+                val lManager =
+                    GridLayoutManager(applicationContext, 1, RecyclerView.VERTICAL, false)
+
+                rview.adapter = AreaAdapter(
+                    parameters,
+                    applicationContext
+                )
+                rview.layoutManager = lManager
+                showParameters()
+            }
+
+            //Change save button result
+            saveParametersButton.setOnClickListener {
+                var isValid = true
+                for (i in 0 until nameList.size) {
+                    isValid = isValid && areaPresenter.checkInfos(rview[i].editParam.text.toString())
+                }
+                if (isValid) {
+                    reactionButton.text = description
+                    showArea()
+                } else
+                    displayMessage("Error in your parameters")
+            }
         }
     }
 
@@ -117,6 +192,9 @@ class AreaActivity : AppCompatActivity(), AreaView {
         saveAreaButton.visibility = View.VISIBLE
 
         areaList.visibility = View.INVISIBLE
+
+        rview.visibility = View.INVISIBLE
+        saveParametersButton.visibility = View.INVISIBLE
     }
 
     override fun showList() {
@@ -129,6 +207,22 @@ class AreaActivity : AppCompatActivity(), AreaView {
         saveAreaButton.visibility = View.INVISIBLE
 
         areaList.visibility = View.VISIBLE
+
+        rview.visibility = View.INVISIBLE
+        saveParametersButton.visibility = View.INVISIBLE
+    }
+
+    override fun showParameters() {
+        actionText.visibility = View.INVISIBLE
+        actionButton.visibility = View.INVISIBLE
+        reactionText.visibility = View.INVISIBLE
+        reactionButton.visibility = View.INVISIBLE
+        saveAreaButton.visibility = View.INVISIBLE
+
+        areaList.visibility = View.INVISIBLE
+
+        rview.visibility = View.VISIBLE
+        saveParametersButton.visibility = View.VISIBLE
     }
 
     override fun showActionServicesList() {
@@ -158,4 +252,9 @@ class AreaActivity : AppCompatActivity(), AreaView {
     override fun displayMessage(message: String) {
         Toast.makeText(applicationContext, message, Toast.LENGTH_SHORT).show()
     }
+
+    override fun onResultCheckInfos(isEditTextValid: Boolean): Boolean {
+        return isEditTextValid
+    }
+
 }

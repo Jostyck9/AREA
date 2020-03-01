@@ -5,11 +5,11 @@ import android.content.Intent
 import android.net.Uri
 import android.util.Log
 import android.widget.ArrayAdapter
+import android.widget.EditText
 import androidx.core.content.ContextCompat.startActivity
 import androidx.preference.PreferenceManager
 import com.android.volley.AuthFailureError
 import com.android.volley.Request
-import com.android.volley.RequestQueue
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
@@ -22,6 +22,8 @@ class AreaModel(private var areaPresenter: AreaPresenter, private var context: C
     private var prefSharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
     private lateinit var url: String
     private val queue = Volley.newRequestQueue(context)
+
+    var isEditTextValid: Boolean = false
 
     fun getServicesActionList() {
 
@@ -113,8 +115,9 @@ class AreaModel(private var areaPresenter: AreaPresenter, private var context: C
                             if (actionsJsonArray.toString() != "[]") {
                                 for (y in 0 until actionsJsonArray.length()) {
                                     val newJsonObject = actionsJsonArray.getJSONObject(y)
-                                    if (newJsonObject.has("description"))
+                                    if (newJsonObject.has("description")) {
                                         actionsList.add(newJsonObject.getString("description"))
+                                    }
                                 }
                             }
                         }
@@ -123,7 +126,7 @@ class AreaModel(private var areaPresenter: AreaPresenter, private var context: C
 
                 //create actions adapter
                 val actionAdapter = ArrayAdapter<String>(context, android.R.layout.simple_expandable_list_item_1, actionsList)
-                areaPresenter.addActionsAdapter(actionAdapter, actionsList)
+                areaPresenter.addActionsAdapter(actionAdapter, actionsList, serviceName)
             }, Response.ErrorListener {
                 Log.d("Debug", "Fail to get the actions")
             })
@@ -154,6 +157,8 @@ class AreaModel(private var areaPresenter: AreaPresenter, private var context: C
                                     val newJsonObject = reactionsJsonArray.getJSONObject(y)
                                     if (newJsonObject.has("description"))
                                         reactionsList.add(newJsonObject.getString("description"))
+
+                                    //TODO MANAGE PARAMETERS
                                 }
                             }
                         }
@@ -162,12 +167,98 @@ class AreaModel(private var areaPresenter: AreaPresenter, private var context: C
 
                 //create actions adapter
                 val reactionAdapter = ArrayAdapter<String>(context, android.R.layout.simple_expandable_list_item_1, reactionsList)
-                areaPresenter.addReactionsAdapter(reactionAdapter, reactionsList)
+                areaPresenter.addReactionsAdapter(reactionAdapter, reactionsList, serviceName)
             },
             Response.ErrorListener {
                 Log.d("Debug", "Fail to get the actions")
             })
         queue.add(reactionsRequest)
+    }
+
+    fun getParamsActionLit(actionDescription: String, serviceName: String) {
+
+        url = prefSharedPreferences.getString("api", null)!! + "/services/"
+
+        val paramsActionRequest = StringRequest(
+            Request.Method.GET, url,
+            Response.Listener { response ->
+
+                val jsonArray = JSONArray(response)
+                val nameList = ArrayList<String>()
+                val typeList = ArrayList<String>()
+
+                for (i in 0 until jsonArray.length()) {
+
+                    val jsonObject = jsonArray.getJSONObject(i)
+                    if (jsonObject.has("name") && jsonObject.get("name") == serviceName) {
+                        if (jsonObject.has("actions")) {
+
+                            val actionsJsonArray = jsonObject.getJSONArray("actions")
+                            if (actionsJsonArray.toString() != "[]") {
+                                for (y in 0 until actionsJsonArray.length()) {
+
+                                    val newJsonObject = actionsJsonArray.getJSONObject(y)
+                                    if (newJsonObject.has("parameters") && newJsonObject.has("description") && newJsonObject.get("description") == actionDescription) {
+
+                                        val keys = JSONObject(newJsonObject.get("parameters").toString())
+                                        for (ele in keys.keys()) {
+                                            nameList.add(ele.toString())
+                                            typeList.add(keys.get(ele).toString())
+                                        }
+                                        areaPresenter.displayParamActionLists(nameList, typeList, actionDescription)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }, Response.ErrorListener {
+                Log.d("Debug", "Fail to get the actions")
+            })
+        queue.add(paramsActionRequest)
+    }
+
+    fun getParamsReactionLit(reactionDescription: String, serviceName: String) {
+
+        url = prefSharedPreferences.getString("api", null)!! + "/services/"
+
+        val paramsReactionRequest = StringRequest(
+            Request.Method.GET, url,
+            Response.Listener { response ->
+
+                val jsonArray = JSONArray(response)
+                val nameList = ArrayList<String>()
+                val typeList = ArrayList<String>()
+
+                for (i in 0 until jsonArray.length()) {
+
+                    val jsonObject = jsonArray.getJSONObject(i)
+                    if (jsonObject.has("name") && jsonObject.get("name") == serviceName) {
+                        if (jsonObject.has("reactions")) {
+
+                            val reactionsJsonArray = jsonObject.getJSONArray("reactions")
+                            if (reactionsJsonArray.toString() != "[]") {
+                                for (y in 0 until reactionsJsonArray.length()) {
+
+                                    val newJsonObject = reactionsJsonArray.getJSONObject(y)
+                                    if (newJsonObject.has("parameters") && newJsonObject.has("description") && newJsonObject.get("description") == reactionDescription) {
+
+                                        val keys = JSONObject(newJsonObject.get("parameters").toString())
+                                        for (ele in keys.keys()) {
+                                            nameList.add(ele.toString())
+                                            typeList.add(keys.get(ele).toString())
+                                        }
+                                        areaPresenter.displayParamReactionLists(nameList, typeList, reactionDescription)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }, Response.ErrorListener {
+                Log.d("Debug", "Fail to get the reactions")
+            })
+        queue.add(paramsReactionRequest)
     }
 
     fun checkActionConnection(serviceName: String) {
@@ -248,5 +339,9 @@ class AreaModel(private var areaPresenter: AreaPresenter, private var context: C
             }
         }
         queue.add(connectionRequest)
+    }
+
+    fun checkInfos(editText: String) {
+        isEditTextValid = editText.length > 1
     }
 }

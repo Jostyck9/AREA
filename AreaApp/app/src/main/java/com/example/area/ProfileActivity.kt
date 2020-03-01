@@ -77,7 +77,7 @@ class ProfileActivity : AppCompatActivity(), ProfileView {
 
         if (person.has("username")) {
             val username = person.getString("username")
-            usernameProfile.text = Editable.Factory.getInstance().newEditable(username)
+            usernameProfile.hint = Editable.Factory.getInstance().newEditable(username)
         }
 
         if (person.has("email")) {
