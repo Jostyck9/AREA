@@ -168,7 +168,7 @@ router.get('/dropbox/webhook', (req, res) => {
 * @returns {Error}  default - Unexpected error
 */
 router.post('/dropbox/webhook', (req, res) => {
-    dropboxController.notificationWebhooks(req)
+    dropboxController.notificationWebhook(req)
 })
 
 module.exports = router

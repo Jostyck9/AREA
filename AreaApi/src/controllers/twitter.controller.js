@@ -12,6 +12,7 @@ const ServiceAuthController = require('./serviceAuth.controller')
 const ServiceModel = require('../models/Service.model')
 const ServiceToken = require('../models/ServiceTokens.model')
 const AreaModel = require('../models/Area.model')
+const ActionModel = require('../models/Action.model')
 
 /**
  * twitter connect the token received to the database
@@ -268,7 +269,9 @@ exports.init = async (app) => {
 exports.connectActionToReaction = async function connectActionToReaction(action_id, action_result) {
 	try {
         const AreaArray = await AreaModel.findByActionId(action_id);
-        AreaArray.forEach(element => {
+		if (AreaArray == null)
+			return
+		AreaArray.forEach(element => {
         	if (this.checkIfuserIsConcerned(element, action_result)) {
                 AreaController.SendToReactionById(element, action_id, action_result);
             }

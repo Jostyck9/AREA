@@ -3,6 +3,8 @@ const ServiceAuthController = require('./serviceAuth.controller')
 const ServiceModel = require('../models/Service.model')
 const DropboxModel = require('../models/Dropbox.model')
 const ServiceToken = require('../models/ServiceTokens.model')
+const AreaModel = require('../models/Area.model')
+const AreaController = require('./area.controller')
 
 /**
  * dropobox connect the token received to the database
@@ -34,97 +36,70 @@ exports.dropbox = async (req, res) => {
 	}
 }
 
-function notificationWebhooks(req) {
-	console.info(req.body)
-	// NOTE Add the verification of the USerID
-	// TODO Get the token from database
-	//DropboxModel.findByClientId()
+exports.notificationWebhook = async function notificationWebhook(req) {
 
-	// req.body.delta.users.forEach(element => {
-	// 	console.info(element)
-	// 	const dropbox = dropboxV2Api.authenticate({
-	// 		token: 'SVdSs-me6EAAAAAAAAAAFOmZ6DohRTiLLsNOA3AlDDfP9mbGn-dObY657de3MgWZ'
-	// 	});
-	// 	var cursor;
-	// 	dropbox({
-	// 		resource: 'files/list_folder',
-	// 		parameters: {
-	// 			"path": "",
-	// 			"recursive": false,
-	// 			"include_media_info": false,
-	// 			"include_deleted": false,
-	// 			"include_has_explicit_shared_members": false,
-	// 			"include_mounted_folders": true,
-	// 			"include_non_downloadable_files": true
-	// 		}
-	// 	}, (err, result, response) => {
-	// 		if (err) { return console.log(err); }
-	// 		cursor = result
-	// 		console.info(cursor)
-	// 	});
-	// });
-	// const dropbox = dropboxV2Api.authenticate({
-	// 	token: 'SVdSs-me6EAAAAAAAAAAFOmZ6DohRTiLLsNOA3AlDDfP9mbGn-dObY657de3MgWZ'
-	// });
-	// var cursor;
-	// dropbox({
-	// 	resource: 'files/list_folder',
-	// 	parameters: {
-	// 			"path": "",
-	// 			"recursive": false,
-	// 			"include_media_info": false,
-	// 			"include_deleted": false,
-	// 			"include_has_explicit_shared_members": false,
-	// 			"include_mounted_folders": true,
-	// 			"include_non_downloadable_files": true
-	// 	}
-	// }, (err, result, response) => {
-	// 	if (err) { return console.log(err); }
-	// 	cursor = result
-	// 	console.info(cursor)
-	// });
-	// dropbox({
-	// 	resource: 'files/list_folder/continue',
-	// 	// TODO Get the cursor from database
-	// 	parameters: {
-	// 		"cursor": cursor
-	// 	}
-	// }, (err, result, response) => {
-	// 	if (err) { return console.log(err); }
-	// 	// TODO save the new cursor in the database
-	// 	console.log(result);
-	// });
+	try {
+		for (const element in req.body.list_folder.accounts) {
+			const dropboxAccounts = await DropboxModel.findByAccountId(req.body.list_folder.accounts[element])
+			const ResService = await ServiceModel.findByName('dropbox')
+			if (dropboxAccounts == null || ResService == null)
+				return
+			for (const userElement in dropboxAccounts) {
+				const UserToken = await ServiceToken.findByServiceAndClientId(ResService.id, dropboxAccounts[userElement].client_id)
+				if (UserToken == null)
+					return
+				const dropbox = dropboxV2Api.authenticate({
+					token: UserToken.access_token
+				})
+				let newCursor = null
+				dropbox({
+					resource: 'files/list_folder/continue',
+					parameters: {
+						"cursor": dropboxAccounts[userElement].dropbox_cursor
+					}
+				}, (err, result, response) => {
+					if (err) { return console.log(err); }
+					if (result.entries.length == 1) {
+						const action_result = {
+							name: result.entries[0].name,
+							userDropbox: dropboxAccounts[userElement].dropbox_id,
+							user: dropboxAccounts[userElement].client_id
+						}
+						switch (result.entries[0]['.tag']) {
+							case 'deleted':
+								this.connectActionToReaction(10, action_result)
+								break;
+							case 'file':
+								this.connectActionToReaction(9, action_result)
+								break;
+							default:
+								break;
+						}
+					}
+					newCursor = result.cursor;
+					DropboxModel.updateCursor(newCursor, dropboxAccounts[userElement].client_id)
+				});
+			}
+		}
+	} catch (err) {
+		console.log(err)
+	}
 }
-exports.notificationWebhooks = notificationWebhooks;
-
-// TODO MOVE THEM
-function dropboxFileAdded(area, action_result) {
-	if (action_result.user == area.parameters_action.user)
-		return true
-	return false
-}
-exports.dropboxFileAdded = dropboxFileAdded
-
-function dropboxFileDeleted(area, action_result) {
-	if (action_result.user == area.parameters_action.user)
-		return true
-	return false
-}
-exports.dropboxFileDeleted = dropboxFileDeleted
-
-//NOTE =====================================================================
 
 /**
  * Create specific data for the area (for exemple init a timer for this area)
  */
 exports.createArea = async (area) => {
 	try {
+		if (await DropboxModel.findByClientId(area.client_id) != null)
+			return
 		// NOTE add the cursor in database
-
 		var serviceId = await ServiceModel.findByName('dropbox')
 		if (serviceId == null)
 			return
 		var UserToken = await ServiceToken.findByServiceAndClientId(serviceId.id, area.client_id)
+		if (UserToken == null)
+			return
 		const dropbox = dropboxV2Api.authenticate({
 			token: UserToken.access_token
 		});
@@ -135,7 +110,6 @@ exports.createArea = async (area) => {
 			parameters: {}
 		}, (err, result, response) => {
 			if (err) { return console.log(err); }
-			console.log(result)
 			userID = result.account_id
 			dropbox({
 				resource: 'files/list_folder',
@@ -171,6 +145,12 @@ exports.createArea = async (area) => {
  */
 exports.deleteArea = async (area) => {
 	try {
+		const AreaArray = await AreaModel.findByActionId(area.action_id);
+		for (const element in AreaArray) {
+			if (AreaArray[element].client_id == area.client_id) {
+				return
+			}
+		}
 		await DropboxModel.deleteByClientId(area.client_id)
 	} catch (err) {
 		console.error(err)
@@ -190,4 +170,28 @@ exports.useReaction = async (actionResult, area) => {
  * Init all the necessaries one time for the Service
  */
 exports.init = async (app) => {
+}
+
+exports.connectActionToReaction = async function connectActionToReaction(action_id, action_result) {
+	try {
+        const AreaArray = await AreaModel.findByActionId(action_id);
+		if (AreaArray == null)
+			return
+		AreaArray.forEach(element => {
+			if (this.checkIfUserIsConcerned(element, action_result)) {
+				AreaController.SendToReactionById(element, action_id, action_result);
+			}
+        });
+
+    }
+    catch (error) {
+		console.error(error)
+	}
+}
+
+exports.checkIfUserIsConcerned = async function checkIfUserIsConcerned(area, action_result) {
+	if (area.client_id == action_result.user) {
+		return true
+	}
+	return false
 }
