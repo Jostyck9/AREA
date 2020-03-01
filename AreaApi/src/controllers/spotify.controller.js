@@ -7,6 +7,7 @@ const AreaModel = require('../models/Area.model')
 const ActionModel = require('../models/Action.model')
 const ReactionModel = require('../models/Reaction.model')
 const AreaController = require('./area.controller')
+const Axios = require('axios')
 
 let idInterval = 0
 let INTERVAL = 60000
@@ -104,7 +105,8 @@ async function startMusic(accessToken, name) {
 
         spotifyApi.searchTracks(name).then(
             function (data) {
-                // data.body.tracks.items[0].uri
+                if (data.body.tracks.items.length === 0)
+                    return
                 console.log(data.body.tracks.items[0].uri)
 
                 spotifyApi.play({ uris: [data.body.tracks.items[0].uri] }).then(function (data) {
@@ -112,6 +114,42 @@ async function startMusic(accessToken, name) {
                     function (error) {
                         console.log(error)
                     })
+            },
+            function (error) {
+                console.log(error)
+            }
+        )
+    } catch (err) {
+        console.error(err.message)
+    }
+}
+
+/**
+ * Add music to queue on the user's device, use as REACTION
+ * 
+ * @async
+ * @param {string} accessToken - Spotify's access token
+ * @param {string} name - Name of the spotify music
+ */
+async function addToQueue (accessToken, name) {
+    try {
+        var spotifyApi = new SpotifyWebApi({ accessToken: accessToken });
+
+        spotifyApi.searchTracks(name).then(
+            function (data) {
+                if (data.body.tracks.items.length === 0)
+                    return
+                Axios.defaults.headers.common['Authorization'] = 'Bearer ' + accessToken
+                Axios.defaults.headers.common['Content-Type'] = 'application/json'
+                Axios.defaults.headers.common['Accept'] = 'application/json'
+                const url = 'https://api.spotify.com/v1/me/player/add-to-queue?uri=' + data.body.tracks.items[0].uri
+                Axios.post(url)
+                .then((res) => {
+                    if (res.status != '204')
+                        console.log('Failed to add music to queue')
+                }).catch((err) => {
+                    console.log('Failed ')
+                })
             },
             function (error) {
                 console.log(error)
@@ -393,6 +431,9 @@ exports.useReaction = async (actionResult, area) => {
                 break;
             case "pause_music":
                 pauseMusic(token)
+                break;
+            case "add_to_queue":
+                addToQueue(token, area.parameters_reaction.music)
                 break;
             default:
                 break;

@@ -154,9 +154,10 @@ INSERT INTO `reactions` VALUES (0, 1, "tweet", "post a new tweet", '{"message": 
 INSERT INTO `reactions` VALUES (1, 2, "add_music", "add a new music to an existing playlist", '{"music": "string", "playlist": "string"}');
 INSERT INTO `reactions` VALUES (2, 2, "play_music", "play a music on your devise", '{"music": "string"}');
 INSERT INTO `reactions` VALUES (3, 2, "pause_music", "pause the music on your devise if playing", '{}');
-INSERT INTO `reactions` VALUES (4, 3, "send_message", "send a message to a specific channel", '{"message": "string", "channel": "string"}');
-INSERT INTO `reactions` VALUES (5, 3, "create_channel", "create a channel", '{"channel": "string"}');
-INSERT INTO `reactions` VALUES (6, 6, "send_mail", "send a mail", '{"to": "string", "subject": "string", "message": "string"}');
+INSERT INTO `reactions` VALUES (4, 2, "add_to_queue", "add a music to the player queue", '{"music": "string"}');
+INSERT INTO `reactions` VALUES (5, 3, "send_message", "send a message to a specific channel", '{"message": "string", "channel": "string"}');
+INSERT INTO `reactions` VALUES (6, 3, "create_channel", "create a channel", '{"channel": "string"}');
+INSERT INTO `reactions` VALUES (7, 6, "send_mail", "send a mail", '{"to": "string", "subject": "string", "message": "string"}');
 
 /*!40000 ALTER TABLE `reactions` DISABLE KEYS */;
 /*!40000 ALTER TABLE `reactions` ENABLE KEYS */;
@@ -457,9 +458,10 @@ INSERT INTO `reactions` VALUES (0, 1, "tweet", "post a new tweet", '{"message": 
 INSERT INTO `reactions` VALUES (1, 2, "add_music", "add a new music to an existing playlist", '{"music": "string", "playlist": "string"}');
 INSERT INTO `reactions` VALUES (2, 2, "play_music", "play a music on your devise", '{"music": "string"}');
 INSERT INTO `reactions` VALUES (3, 2, "pause_music", "pause the music on your devise if playing", '{}');
-INSERT INTO `reactions` VALUES (4, 3, "send_message", "send a message to a specific channel", '{"message": "string", "channel": "string"}');
-INSERT INTO `reactions` VALUES (5, 3, "create_channel", "create a channel", '{"channel": "string"}');
-INSERT INTO `reactions` VALUES (6, 6, "send_mail", "send a mail", '{"to": "string", "subject": "string", "message": "string"}');
+INSERT INTO `reactions` VALUES (4, 2, "add_to_queue", "add a music to the player queue", '{"music": "string"}');
+INSERT INTO `reactions` VALUES (5, 3, "send_message", "send a message to a specific channel", '{"message": "string", "channel": "string"}');
+INSERT INTO `reactions` VALUES (6, 3, "create_channel", "create a channel", '{"channel": "string"}');
+INSERT INTO `reactions` VALUES (7, 6, "send_mail", "send a mail", '{"to": "string", "subject": "string", "message": "string"}');
 
 /*!40000 ALTER TABLE `reactions` DISABLE KEYS */;
 /*!40000 ALTER TABLE `reactions` ENABLE KEYS */;
