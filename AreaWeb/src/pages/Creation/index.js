@@ -11,6 +11,7 @@ import Messenger from '../../images/messenger_logo.png'
 import Discord from '../../images/discord_logo.png'
 import Dropbox from '../../images/dropbox_logo.png'
 import Mailing from '../../images/mail_logo.png'
+import Timer from '../../images/timer_logo.png'
 
 
 export default class Creation extends React.Component {
@@ -91,6 +92,7 @@ export default class Creation extends React.Component {
         this.state.images.set("discord", Discord)
         this.state.images.set("dropbox", Dropbox)
         this.state.images.set("mail", Mailing)
+        this.state.images.set("timer", Timer)
 
         fetch(process.env.REACT_APP_SERVER_URI + '/me/auth', {
             method: 'GET',
@@ -189,6 +191,7 @@ export default class Creation extends React.Component {
         for (let i = 0; i < test2.length; i++)
             params_params_reaction.push(test2[i].split('.').pop())
         
+        alert(test1.length)
         if (test1.length === 0)
             parameters_action = null
         if (test2.length === 0)
@@ -332,13 +335,15 @@ export default class Creation extends React.Component {
             if (key1 !== "") {
                 arrayactions.push(<br></br>)
                 arrayactions.push(<Form.Label>{key1}:</Form.Label>)
+                let idAction = "action." + key1
                 if (value1 === "string") {
-                    let idAction = "action." + key1
                     arrayactions.push(<Form.Control id={idAction} placeholder="The value must be a string" required/>)
                     array_for_act_pushing.push(idAction)
                 }
-                else if (value1 === "number")
-                    arrayactions.push(<Form.Control type="number" placeholder="0" required/>)
+                else if (value1 === "int") {
+                    arrayactions.push(<Form.Control id={idAction} type="number" placeholder="0" required/>)
+                    array_for_act_pushing.push(idAction)
+                }
                 else;
             }
         }

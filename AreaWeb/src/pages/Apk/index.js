@@ -16,7 +16,7 @@ export default class Apk extends React.Component {
                     <td width="25%"></td>
                     <td width="50%">
                 <div class="text-center">
-                    <a href="apk/release/app-release.apk" download>Click to download</a>
+                    <a href="https://drive.google.com/open?id=1aHDDzViSdLnVsdzlyLqBng-mPwBH9zkT" download>Click to download</a>
                 </div>
                     </td>
                     <td width="25%"></td>
