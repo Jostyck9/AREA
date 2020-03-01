@@ -54,7 +54,7 @@ exports.github = async (req, res) => {
 } 
 
 const TOKEN = process.env.GITHUB_TOKEN;
-const HOOK_URL = process.env.GITHUB_HOOK_URL;
+const HOOK_URL = process.env.SERVER_URL + '/github/webhook';
 const NEW_PUSH = 0;
 const NEW_PULLREQUEST = 1;
 
@@ -137,4 +137,46 @@ exports.githubNewPullRequest = async function(area, action_result) {
     else
         return false*/
         return true;
+}
+
+//NOTE ========================================================================
+
+/**
+ * Create specific data for the area (for exemple init a timer for this area)
+ */
+exports.createArea = async (area) => {
+    try {
+    } catch (err) {
+        console.error(err)
+        console.error('Ignoring')
+    }
+}
+
+/**
+ * Delete the area (specific for each service (for exemple , delete the timer inthe time table))
+ * 
+ * @param {JSON} - area
+ */
+exports.deleteArea = async (area) => {
+    try {
+    } catch (err) {
+        console.error(err)
+        console.error('Ignoring')
+    }
+}
+
+/**
+ * Call the appropriate reaction from area of the service
+ * 
+ * @param {JSON} actionResult - 
+ */
+exports.useReaction = async (actionResult, area) => {
+}
+
+/**
+ * Init all the timers of the Service
+ * 
+ * @param {Express} app server express
+ */
+exports.init = async (app) => {
 }

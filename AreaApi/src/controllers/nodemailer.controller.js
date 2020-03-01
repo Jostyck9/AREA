@@ -1,10 +1,20 @@
 const nodemailer = require('nodemailer')
 const validator = require('validator')
 
+/**
+ * Send an email to the given dest
+ * 
+ * @param {string} to - Destination
+ * @param {string} subject - Subject of the email
+ * @param {string} message - Message of the email
+ * @throws Can throw an error with a message field
+ */
 exports.sendMail = async (to, subject, message) => {
-    
+    if (!subject || !message) {
+        throw new Error("Invalid null parameter")
+    }
     if (!to || to.length == 0 || !validator.isEmail(to)) {
-        throw new Error("Invalid destinations")
+        throw new Error("Invalid destinations : " + to)
     }
 
     // create reusable transporter object using the default SMTP transport
@@ -31,4 +41,43 @@ exports.sendMail = async (to, subject, message) => {
     });
 
     console.log("Message sent: %s to %s", info.messageId, to);
+}
+
+//NOTE ================================================================
+
+/**
+ * Create specific data for the area (for exemple init a timer for this area)
+ */
+exports.createArea = async (area) => {
+}
+
+/**
+ * Delete the area (specific for each service (for exemple , delete the timer inthe time table))
+ * 
+ * @param {JSON} - area
+ */
+exports.deleteArea = async (area) => {
+}
+
+/**
+ * Use the appropriate reaction of the mail controller
+ * 
+ * @param {JSON} actionResult - Result of the triggered action
+ * @param {JSON} area - The area configuration
+ * @throws - Error with a message field
+ */
+exports.useReaction = async (actionResult, area) => {
+    try {
+        await this.sendMail(area.parameters_reaction.to, area.parameters_reaction.subject, area.parameters_reaction.message)
+    } catch (err) {
+        console.error(err)
+    }
+}
+
+/**
+ * Init all the timers of the Service
+ * 
+ * @param {Express} app server express
+ */
+exports.init = async (app) => {
 }
