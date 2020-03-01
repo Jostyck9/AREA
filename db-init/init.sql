@@ -34,20 +34,21 @@ CREATE TABLE `actions` (
 --
 -- Dumping data for table `actions`
 --
-
+name
+user
 -- LOCK TABLES `actions` WRITE;
 
 INSERT INTO `actions` VALUES (0, 0, "push", "a new push is intended by someone", '{"username": "string", "repository": "string"}', '{"message": "string"}');
 INSERT INTO `actions` VALUES (1, 0, "pull_request", "a new pull request is intended by someone", '{"username": "string", "repository": "string"}', '{"message": "string"}');
-INSERT INTO `actions` VALUES (2, 1, "tweet", "a new tweet has been post", '{}', '{"message": "string"}');
+INSERT INTO `actions` VALUES (2, 1, "tweet", "a new tweet has been post", '{}', '{"user": "string", "message: "string"}');
 INSERT INTO `actions` VALUES (3, 2, "playlist_modified", "A music has been added or deleted from a playlist", '{"playlistId": "string"}', '{"message": "string"}');
 INSERT INTO `actions` VALUES (4, 3, "messaged_received", "A new message has been received", '{"server": "string", "channel": "string"}', '{"message": "string"}');
 INSERT INTO `actions` VALUES (5, 3, "a_user_joined", "A new user has joined the server", '{"server": "string"}', '{"message": "string"}');
 INSERT INTO `actions` VALUES (6, 3, "a_user_is_banned", "A user has been ban from the server", '{"server": "string"}', '{"message": "string"}');
 INSERT INTO `actions` VALUES (7, 3, "channel_created", "A channel has been created on the server", '{"server": "string"}', '{"message": "string"}');
 INSERT INTO `actions` VALUES (8, 4, "timer", "Do an action at min interval", '{"interval": "int"}', '{"message": "string"}');
-INSERT INTO `actions` VALUES (9, 5, "file_added", "A file has been add on the server", '{}', '{"message": "string"}');
-INSERT INTO `actions` VALUES (10, 5, "file_deleted", "A file has been deleted on the server", '{}', '{"message": "string"}');
+INSERT INTO `actions` VALUES (9, 5, "file_added", "A file has been add on the server", '{}', '{"name": "string", "user": "string"}');
+INSERT INTO `actions` VALUES (10, 5, "file_deleted", "A file has been deleted on the server", '{}', '{"name": "string", "user": "string"}');
 
 /*!40000 ALTER TABLE `actions` DISABLE KEYS */;
 /*!40000 ALTER TABLE `actions` ENABLE KEYS */;

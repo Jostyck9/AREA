@@ -138,8 +138,6 @@ exports.twitterTweet = async function(area, action_result) {
 		return false
 	}
 	const userId = UserToken.access_token.split("-")[0];
-	console.log(userId)
-	console.log(action_result.user)
 	if (action_result.user == userId) {
 		return true
 	}

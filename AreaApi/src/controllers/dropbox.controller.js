@@ -62,7 +62,6 @@ exports.notificationWebhook = async function notificationWebhook(req) {
 					if (result.entries.length == 1) {
 						const action_result = {
 							name: result.entries[0].name,
-							userDropbox: dropboxAccounts[userElement].dropbox_id,
 							user: dropboxAccounts[userElement].client_id
 						}
 						switch (result.entries[0]['.tag']) {
