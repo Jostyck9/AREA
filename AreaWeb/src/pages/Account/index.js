@@ -6,8 +6,7 @@ import Twitter from '../../images/twitter_logo.png'
 import Spotify from '../../images/spotify_logo.png'
 import DropBox from '../../images/dropbox_logo.png'
 import Discord from '../../images/discord_logo.png'
-import JSONPretty from 'react-json-pretty'
-import { Button, Form , Row, Col, Card} from 'react-bootstrap'
+import { Button} from 'react-bootstrap'
 
 
 export default class Account extends React.Component {
@@ -28,7 +27,6 @@ export default class Account extends React.Component {
     componentWillMount() {
         const token = localStorage.getItem('currentUser').replace('"', '').replace('"', '')
 
-        const Discordurl = process.env.REACT_APP_SERVER_AUTH + '/auth/discord?token=' + token
         const GitHuburlRedirection = process.env.REACT_APP_URI + "/GitHubOAuth"
         const GitHuburl = process.env.REACT_APP_SERVER_AUTH + '/auth/github?token=' + token + '&cb=' + GitHuburlRedirection
         const TwitterurlRedirection = process.env.REACT_APP_URI + "/TwitterOAuth"
@@ -145,15 +143,6 @@ export default class Account extends React.Component {
      * @returns the account page
      */
     render() {
-        const token = localStorage.getItem('currentUser').replace('"', '').replace('"', '')
-        const GitHuburlRedirection = process.env.REACT_APP_URI + "/GitHubOAuth"
-        const GitHuburl = process.env.REACT_APP_SERVER_AUTH + '/auth/github?token=' + token + '&cb=' + GitHuburlRedirection
-        const TwitterurlRedirection = process.env.REACT_APP_URI + "/TwitterOAuth"
-        const Twitterurl = process.env.REACT_APP_SERVER_AUTH + '/auth/twitter?token=' + token + '&cb=' + TwitterurlRedirection
-        const SpotifyurlRedirection = process.env.REACT_APP_URI + "/SpotifyOAuth"
-        const Spotifyurl = process.env.REACT_APP_SERVER_AUTH + '/auth/spotify?token=' + token + '&cb=' + SpotifyurlRedirection
-        const DropBoxurlRedirection = process.env.REACT_APP_URI + "/DropBoxOAuth"
-        const DropBoxurl = process.env.REACT_APP_SERVER_AUTH + '/auth/dropbox?token=' + token + '&cb=' + DropBoxurlRedirection
         return (
             <table width="100%" height="100%" border="0">
                 <tr height="100%">

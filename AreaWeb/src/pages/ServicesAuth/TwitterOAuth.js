@@ -8,11 +8,6 @@ export default class TwitterOAuth extends React.Component {
      * Do things before the render
      */
     componentWillMount() {
-        const parsedUrl = new URL(window.location.href);
-        if (parsedUrl.searchParams.get("status") === "OK")
-            alert("OKKKKKKKKKKKK")
-        if (parsedUrl.searchParams.get("status") === "KO")
-            alert("KOOOOOOOOOOOO")
         this.props.history.push("/")
     }
 

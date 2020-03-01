@@ -1,0 +1,3793 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset='utf-8'>
+  <title>areaweb 0.1.0 | Documentation</title>
+  <meta name='viewport' content='width=device-width,initial-scale=1'>
+  <link href='assets/bass.css' rel='stylesheet'>
+  <link href='assets/style.css' rel='stylesheet'>
+  <link href='assets/github.css' rel='stylesheet'>
+  <link href='assets/split.css' rel='stylesheet'>
+</head>
+<body class='documentation m0'>
+    <div class='flex'>
+      <div id='split-left' class='overflow-auto fs0 height-viewport-100'>
+        <div class='py1 px2'>
+          <h3 class='mb0 no-anchor'>areaweb</h3>
+          <div class='mb1'><code>0.1.0</code></div>
+          <input
+            placeholder='Filter'
+            id='filter-input'
+            class='col12 block input'
+            type='text' />
+          <div id='toc'>
+            <ul class='list-reset h5 py1-ul'>
+              
+                
+                <li><a
+                  href='#componentwillmount'
+                  class="">
+                  componentWillMount
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#resetareas'
+                  class="">
+                  resetAreas
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#deleteallareas'
+                  class="">
+                  deleteAllAreas
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#deletearea'
+                  class="">
+                  deleteArea
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#jsucfirst'
+                  class="">
+                  jsUcfirst
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#displayparamsactioninfo'
+                  class="">
+                  DisplayParamsActionInfo
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#displayparamsreactioninfo'
+                  class="">
+                  DisplayParamsReactionInfo
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#modalinfo'
+                  class="">
+                  ModalInfo
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#fillinfotodisplay'
+                  class="">
+                  fillInfoToDisplay
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#createareascard'
+                  class="">
+                  createAreasCard
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#render'
+                  class="">
+                  render
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#handleinputchange'
+                  class="">
+                  handleInputChange
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#onsubmit'
+                  class="">
+                  onSubmit
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#render'
+                  class="">
+                  render
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#handleinputchange'
+                  class="">
+                  handleInputChange
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#onsubmit'
+                  class="">
+                  onSubmit
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#render'
+                  class="">
+                  render
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#render'
+                  class="">
+                  render
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#componentwillmount'
+                  class="">
+                  componentWillMount
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#opendiscord'
+                  class="">
+                  openDiscord
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#render'
+                  class="">
+                  render
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#componentdidmount'
+                  class="">
+                  componentDidMount
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#render'
+                  class="">
+                  render
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#render'
+                  class="">
+                  render
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#componentwillmount'
+                  class="">
+                  componentWillMount
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#getspecificparams'
+                  class="">
+                  getSpecificParams
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#onsubmit'
+                  class="">
+                  onSubmit
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#handlechangeservact'
+                  class="">
+                  handleChangeServAct
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#handlechangeservrea'
+                  class="">
+                  handleChangeServRea
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#handlechangeact'
+                  class="">
+                  handleChangeAct
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#handlechangerea'
+                  class="">
+                  handleChangeRea
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#handlesubmit'
+                  class="">
+                  handleSubmit
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#showparamspage'
+                  class="">
+                  ShowParamsPage
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#chooseactionsreactions'
+                  class="">
+                  ChooseActionsReactions
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#checkifserviceislinked'
+                  class="">
+                  checkIfServiceIsLinked
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#chooseservices'
+                  class="">
+                  ChooseServices
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#errorpage'
+                  class="">
+                  ErrorPage
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#createareascard'
+                  class="">
+                  createAreasCard
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#showfromstate'
+                  class="">
+                  showFromState
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#jsucfirst'
+                  class="">
+                  jsUcfirst
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#render'
+                  class="">
+                  render
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#componentwillmount'
+                  class="">
+                  componentWillMount
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#render'
+                  class="">
+                  render
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#componentwillmount'
+                  class="">
+                  componentWillMount
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#render'
+                  class="">
+                  render
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#componentwillmount'
+                  class="">
+                  componentWillMount
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#render'
+                  class="">
+                  render
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#componentwillmount'
+                  class="">
+                  componentWillMount
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#render'
+                  class="">
+                  render
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#componentwillmount'
+                  class="">
+                  componentWillMount
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#render'
+                  class="">
+                  render
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#isprivate'
+                  class="">
+                  isPrivate
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#props'
+                  class="">
+                  props
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#defaultlayout'
+                  class="">
+                  DefaultLayout
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#onsignout'
+                  class="">
+                  OnSignOut
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#authlayout'
+                  class="">
+                  AuthLayout
+                  
+                </a>
+                
+                </li>
+              
+            </ul>
+          </div>
+          <div class='mt1 h6 quiet'>
+            <a href='https://documentation.js.org/reading-documentation.html'>Need help reading this?</a>
+          </div>
+        </div>
+      </div>
+      <div id='split-right' class='relative overflow-auto height-viewport-100'>
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='componentwillmount'>
+      componentWillMount
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>Do things before the render</p>
+
+    <div class='pre p1 fill-light mt0'>componentWillMount()</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='resetareas'>
+      resetAreas
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>Removing a specific Area when calling (linked with a card)</p>
+
+    <div class='pre p1 fill-light mt0'>resetAreas()</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='deleteallareas'>
+      deleteAllAreas
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>Removing all Areas when called.</p>
+
+    <div class='pre p1 fill-light mt0'>deleteAllAreas()</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='deletearea'>
+      deleteArea
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>Remove a specific Area from an id</p>
+
+    <div class='pre p1 fill-light mt0'>deleteArea(id: any)</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>id</span> <code class='quiet'>(any)</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='jsucfirst'>
+      jsUcfirst
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>Change the first letter into maj</p>
+
+    <div class='pre p1 fill-light mt0'>jsUcfirst(string: any): any</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>string</span> <code class='quiet'>(any)</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code>any</code>:
+        a string
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='displayparamsactioninfo'>
+      DisplayParamsActionInfo
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>Display all params from an action</p>
+
+    <div class='pre p1 fill-light mt0'>DisplayParamsActionInfo(): any</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code>any</code>:
+        an array of paramters
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='displayparamsreactioninfo'>
+      DisplayParamsReactionInfo
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>Display all params from an reaction</p>
+
+    <div class='pre p1 fill-light mt0'>DisplayParamsReactionInfo(): any</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code>any</code>:
+        an array of parameters
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='modalinfo'>
+      ModalInfo
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>Create a modal</p>
+
+    <div class='pre p1 fill-light mt0'>ModalInfo(): any</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code>any</code>:
+        a modal
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='fillinfotodisplay'>
+      fillInfoToDisplay
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>Get all actions and reactions to be displayed</p>
+
+    <div class='pre p1 fill-light mt0'>fillInfoToDisplay(element: any)</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>element</span> <code class='quiet'>(any)</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='createareascard'>
+      createAreasCard
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>Create all card from state areas</p>
+
+    <div class='pre p1 fill-light mt0'>createAreasCard(): any</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code>any</code>:
+        an array of card
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='render'>
+      render
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>Render the home page</p>
+
+    <div class='pre p1 fill-light mt0'>render(): any</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code>any</code>:
+        the home page
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='handleinputchange'>
+      handleInputChange
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>Handle an input event</p>
+
+    <div class='pre p1 fill-light mt0'>handleInputChange</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>event</span> <code class='quiet'>(any)</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='onsubmit'>
+      onSubmit
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>When submitting a form</p>
+
+    <div class='pre p1 fill-light mt0'>onSubmit</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>event</span> <code class='quiet'>(any)</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='render'>
+      render
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>Render the login page</p>
+
+    <div class='pre p1 fill-light mt0'>render(): any</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code>any</code>:
+        the login page
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='handleinputchange'>
+      handleInputChange
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>Handle an input</p>
+
+    <div class='pre p1 fill-light mt0'>handleInputChange</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>event</span> <code class='quiet'>(any)</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='onsubmit'>
+      onSubmit
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>When submitting a form</p>
+
+    <div class='pre p1 fill-light mt0'>onSubmit</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>event</span> <code class='quiet'>(any)</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='render'>
+      render
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>Render the registration page</p>
+
+    <div class='pre p1 fill-light mt0'>render(): any</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code>any</code>:
+        the registration page
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='render'>
+      render
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>Render the error page</p>
+
+    <div class='pre p1 fill-light mt0'>render(): any</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code>any</code>:
+        the error page
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='componentwillmount'>
+      componentWillMount
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>Do things before the render</p>
+
+    <div class='pre p1 fill-light mt0'>componentWillMount()</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='opendiscord'>
+      openDiscord
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>OPen the discord registration in a pop up</p>
+
+    <div class='pre p1 fill-light mt0'>openDiscord()</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='render'>
+      render
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>Render the account page</p>
+
+    <div class='pre p1 fill-light mt0'>render(): any</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code>any</code>:
+        the account page
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='componentdidmount'>
+      componentDidMount
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>Do some things before the render</p>
+
+    <div class='pre p1 fill-light mt0'>componentDidMount()</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='render'>
+      render
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>Render the about page</p>
+
+    <div class='pre p1 fill-light mt0'>render(): any</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code>any</code>:
+        the about page
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='render'>
+      render
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>Render the Apk page</p>
+
+    <div class='pre p1 fill-light mt0'>render(): any</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code>any</code>:
+        the apk page
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='componentwillmount'>
+      componentWillMount
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>Do things before the render</p>
+
+    <div class='pre p1 fill-light mt0'>componentWillMount()</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='getspecificparams'>
+      getSpecificParams
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>Get specifics params</p>
+
+    <div class='pre p1 fill-light mt0'>getSpecificParams()</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='onsubmit'>
+      onSubmit
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>Handle the submit of the final form</p>
+
+    <div class='pre p1 fill-light mt0'>onSubmit</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>test1</span> <code class='quiet'>(any)</code>
+	    id of actions
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>test2</span> <code class='quiet'>(any)</code>
+	    id of reactions
+
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='handlechangeservact'>
+      handleChangeServAct
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>Handle the change of service action and set the state of service action</p>
+
+    <div class='pre p1 fill-light mt0'>handleChangeServAct(event: any)</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>event</span> <code class='quiet'>(any)</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='handlechangeservrea'>
+      handleChangeServRea
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>Handle the change of service reaction and set the state of service reaction</p>
+
+    <div class='pre p1 fill-light mt0'>handleChangeServRea(event: any)</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>event</span> <code class='quiet'>(any)</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='handlechangeact'>
+      handleChangeAct
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>Handle the change of action and set the state of action</p>
+
+    <div class='pre p1 fill-light mt0'>handleChangeAct(event: any)</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>event</span> <code class='quiet'>(any)</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='handlechangerea'>
+      handleChangeRea
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>Handle the change of reaction and set the state of reaction</p>
+
+    <div class='pre p1 fill-light mt0'>handleChangeRea(event: any)</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>event</span> <code class='quiet'>(any)</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='handlesubmit'>
+      handleSubmit
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>Handle the submit and check the state of actions reactions</p>
+
+    <div class='pre p1 fill-light mt0'>handleSubmit(event: any)</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>event</span> <code class='quiet'>(any)</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='showparamspage'>
+      ShowParamsPage
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>Return the page of choose params</p>
+
+    <div class='pre p1 fill-light mt0'>ShowParamsPage(): any</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code>any</code>:
+        the page to render
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='chooseactionsreactions'>
+      ChooseActionsReactions
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>Return the page of choose actions reactions</p>
+
+    <div class='pre p1 fill-light mt0'>ChooseActionsReactions(): any</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code>any</code>:
+        a page to render
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='checkifserviceislinked'>
+      checkIfServiceIsLinked
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>Return the page of choose services</p>
+
+    <div class='pre p1 fill-light mt0'>checkIfServiceIsLinked(HaveToCheck: any): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>HaveToCheck</span> <code class='quiet'>(any)</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></code>:
+        
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='chooseservices'>
+      ChooseServices
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>Return the page of choose services</p>
+
+    <div class='pre p1 fill-light mt0'>ChooseServices(): any</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code>any</code>:
+        a page to render
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='errorpage'>
+      ErrorPage
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>Render the error page</p>
+
+    <div class='pre p1 fill-light mt0'>ErrorPage(): any</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code>any</code>:
+        the error page
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='createareascard'>
+      createAreasCard
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>Show on the page the action reaction card that you've just created</p>
+
+    <div class='pre p1 fill-light mt0'>createAreasCard(): any</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code>any</code>:
+        a page with the final card
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='showfromstate'>
+      showFromState
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>Render the page by a state</p>
+
+    <div class='pre p1 fill-light mt0'>showFromState(): any</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code>any</code>:
+        a page
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='jsucfirst'>
+      jsUcfirst
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>Change the first letter into a maj</p>
+
+    <div class='pre p1 fill-light mt0'>jsUcfirst(string: any): any</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>string</span> <code class='quiet'>(any)</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code>any</code>:
+        a string
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='render'>
+      render
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>Render the creation page</p>
+
+    <div class='pre p1 fill-light mt0'>render(): any</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code>any</code>:
+        the creation page
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='componentwillmount'>
+      componentWillMount
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>Do things before the render</p>
+
+    <div class='pre p1 fill-light mt0'>componentWillMount()</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='render'>
+      render
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>Render the github Auth 2 page</p>
+
+    <div class='pre p1 fill-light mt0'>render(): any</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code>any</code>:
+        the github Auth 2 page
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='componentwillmount'>
+      componentWillMount
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>Do things before the render</p>
+
+    <div class='pre p1 fill-light mt0'>componentWillMount()</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='render'>
+      render
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>Render the github auth page</p>
+
+    <div class='pre p1 fill-light mt0'>render(): any</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code>any</code>:
+        the Github auth page
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='componentwillmount'>
+      componentWillMount
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>Do things before the render</p>
+
+    <div class='pre p1 fill-light mt0'>componentWillMount()</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='render'>
+      render
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>Render the Twitter Auth page</p>
+
+    <div class='pre p1 fill-light mt0'>render(): any</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code>any</code>:
+        a the Twitter Auth page
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='componentwillmount'>
+      componentWillMount
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>Do things before the render</p>
+
+    <div class='pre p1 fill-light mt0'>componentWillMount()</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='render'>
+      render
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>Render the Spotify auth page</p>
+
+    <div class='pre p1 fill-light mt0'>render(): any</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code>any</code>:
+        the Spotify Auth page
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='componentwillmount'>
+      componentWillMount
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>DO things before the render</p>
+
+    <div class='pre p1 fill-light mt0'>componentWillMount()</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='render'>
+      render
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>Render the dropbox page</p>
+
+    <div class='pre p1 fill-light mt0'>render(): any</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code>any</code>:
+        DropBoxOAuth page
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='isprivate'>
+      isPrivate
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>Redirect user to SignIn page if he tries to access a private route
+without authentication.</p>
+
+    <div class='pre p1 fill-light mt0'>isPrivate</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='props'>
+      props
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>If not included on both previous cases, redirect user to the desired route.</p>
+
+    <div class='pre p1 fill-light mt0'>props</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='defaultlayout'>
+      DefaultLayout
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>Render the default layout</p>
+
+    <div class='pre p1 fill-light mt0'>new DefaultLayout($0: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>): any</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>$0</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>)</code>
+	    
+          </div>
+          
+          <table class='mt1 mb2 fixed-table h5 col-12'>
+            <colgroup>
+              <col width='30%' />
+              <col width='70%' />
+            </colgroup>
+            <thead>
+              <tr class='bold fill-light'>
+                <th>Name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody class='mt1'>
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>$0.children</span> <code class='quiet'>any</code>
+  </td>
+  <td class='break-word'><span></span></td>
+</tr>
+
+
+              
+            </tbody>
+          </table>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code>any</code>:
+        the default layout
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='onsignout'>
+      OnSignOut
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>Sign out an user</p>
+
+    <div class='pre p1 fill-light mt0'>new OnSignOut()</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='authlayout'>
+      AuthLayout
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>Render the Auth Layout</p>
+
+    <div class='pre p1 fill-light mt0'>new AuthLayout($0: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>): any</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>$0</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>)</code>
+	    
+          </div>
+          
+          <table class='mt1 mb2 fixed-table h5 col-12'>
+            <colgroup>
+              <col width='30%' />
+              <col width='70%' />
+            </colgroup>
+            <thead>
+              <tr class='bold fill-light'>
+                <th>Name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody class='mt1'>
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>$0.children</span> <code class='quiet'>any</code>
+  </td>
+  <td class='break-word'><span></span></td>
+</tr>
+
+
+              
+            </tbody>
+          </table>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code>any</code>:
+        the Auth Layoutpage
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+      </div>
+    </div>
+  <script src='assets/anchor.js'></script>
+  <script src='assets/split.js'></script>
+  <script src='assets/site.js'></script>
+</body>
+</html>
