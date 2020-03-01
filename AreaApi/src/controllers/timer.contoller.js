@@ -20,7 +20,7 @@ async function checkDate() {
                 return
             }
 
-            console.log(new Date())
+            //console.log(new Date())
             const areas = await AreaModel.findByActionId(resAction.id)
             if (areas != null) {
                 for (const element of areas) {
@@ -61,7 +61,7 @@ async function checkInterval() {
                             // NOTE Send the area to trigger it
                             await AreaController.SendToReactionById(elementArea, resAction.id, {message: 'Your timer has been triggered'})
                         }
-                        
+
                     }
                     await TimerModel.updateTimer(newTimerElement, element.id)
                 } catch (err) {
@@ -99,7 +99,7 @@ exports.createArea = async (area) => {
 
 /**
  * Delete the area (specific for each service (for exemple , delete the timer inthe time table))
- * 
+ *
  * @param {JSON} - area
  */
 exports.deleteArea = async (area) => {
@@ -115,15 +115,15 @@ exports.deleteArea = async (area) => {
 
 /**
  * Call the appropriate reaction from area of the service
- * 
- * @param {JSON} actionResult - 
+ *
+ * @param {JSON} actionResult -
  */
 exports.useReaction = async (actionResult, area) => {
 }
 
 /**
  * Init all the timers of the Service
- * 
+ *
  * @param {Express} app server express
  */
 exports.init = async (app) => {

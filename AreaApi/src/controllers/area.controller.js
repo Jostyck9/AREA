@@ -233,14 +233,15 @@ function checkIfuserIsConcerned(area, action_result, action_id) {
 exports.SendToReactionById = async (area, action_id, action_result) => {
     // Call a specific serviceController depending on the reaction_id
     const reactionmodel = await ReactionModel.findById(area.reaction_id); // NOTE controllerArray is global
-    console.log(reactionmodel)
-    await controllerArray[reactionmodel.service_id].useReaction(action_result, area);
+    console.log(reactionmodel.service_id)
+    await controllerArray[3].useReaction(action_result, area);
+    console.log("reaction call finished")
 }
 
 /**
  * Send the area to the appropriate service for initialisation
- * 
- * @param {JSON} newArea 
+ *
+ * @param {JSON} newArea
  */
 async function SendCreatedToService(newArea) {
     try {
@@ -256,8 +257,8 @@ async function SendCreatedToService(newArea) {
 
 /**
  * Send the deleted area to the appropriate service to delete by their side
- * 
- * @param {JSON} areaToDelete 
+ *
+ * @param {JSON} areaToDelete
  */
 async function SendDeletedToService(areaToDelete) {
     try {

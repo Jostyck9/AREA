@@ -1,5 +1,7 @@
 const AreaController = require('../controllers/area.controller')
 const GithubController = require('../controllers/github.controller')
+const AreaModel = require('../models/Area.model')
+const ActionModel = require('../models/Action.model')
 
 
 require('dotenv').config();
@@ -29,10 +31,41 @@ bot.on ('message', msg => {
         serverName: msg.guild.name,
         channelName: msg.channel.name,
         author: msg.author.username,
-        content: msg.content
+        message: msg.message
     };
-    AreaController.connectActionToReaction(MSG_RECEIVED_ID, action_result);
+    this.connectActionToReaction(MSG_RECEIVED_ID, action_result);
 });
+
+exports.connectActionToReaction = async function (action_id, action_result) {
+    console.info("trying to connect ation to react");
+    try {
+        const AreaArray = await AreaModel.findByActionId(action_id);
+        AreaArray.forEach(element => {
+            console.info("found a matching area");
+            if (this.checkIfuserIsConcerned(element, action_result, action_id)) {
+                AreaController.SendToReactionById(element, action_id, action_result);
+            }
+        });
+    }
+    catch (error) {
+        console.err( {message: error.message || 'An internal error occured' });
+    }
+}
+
+exports.checkIfuserIsConcerned = function (area, action_result, action_id) {
+    switch (action_id) {
+        case MSG_RECEIVED_ID:
+            if (discordMessageReceived(area, action_result))
+                return true;
+        case MEMBER_ADD_ID:
+            if (discordNewMember(area, action_result))
+                return true;
+        case MEMBER_BAN_ID:
+            if (discordMemberBan(area, action_result))
+                return true;
+    }
+    return false;
+}
 
 /**
  * Notice that a member was added in a Server
@@ -43,7 +76,7 @@ bot.on('guildMemberAdd', member => {
         serverName: member.guild.name,
         member: member.user.username
     };
-    AreaController.connectActionToReaction(MEMBER_ADD_ID, action_result);
+    this.connectActionToReaction(MEMBER_ADD_ID, action_result);
 });
 
 /**
@@ -55,16 +88,16 @@ bot.on("guildBanAdd", function(guild, user){
         serverName: guild.name,
         member: user.username
     };
-    AreaController.connectActionToReaction(MEMBER_BAN_ID, action_result);
+    this.connectActionToReaction(MEMBER_BAN_ID, action_result);
 });
 
 /**
  * Call required reaction
  * @group Discord - Discord UseReaction
  */
-exports.UseReaction = async(action_result, area) => {
+exports.useReaction = async(action_result, area) => {
     //Call required reaction
-
+    console.info("cheching for reaction now")
     if (area.reaction_id == SEND_MESSAGE_ID)
         await this.sendMessage(area.parameters_reaction, action_result);
     if (area.reaction_id == CREATE_CHANNEL_ID)
@@ -78,11 +111,11 @@ exports.UseReaction = async(action_result, area) => {
  * @property {JSON} params - Message to be sent and in which channel
  * @returns {Error}  default - Unexpected error
  */
-async function createChannel(obj) {
+exports.createChannel = async function(obj) {
     //Create a new channel in Discord
 
     await bot.guilds.find('name', obj.server).createChannel(obj.channel, { type: 'text' });
-    bot.guilds.find('name', obj.server).channels.find('name', obj.channel).send(obj.content);
+    bot.guilds.find('name', obj.server).channels.find('name', obj.channel).send(obj.message);
 }
 
 /**
@@ -91,9 +124,9 @@ async function createChannel(obj) {
  * @property {JSON} params - Message to be sent and in which channel
  * @returns {Error}  default - Unexpected error
  */
-async function sendMessage(obj, action_result) {
+exports.sendMessage = async function (obj, action_result) {
     //Send a specified message in Discord
-    bot.guilds.find('name', obj.server).channels.find('name', obj.channel).send(obj.content);
+    bot.guilds.find('name', obj.server).channels.find('name', obj.channel).send(obj.message);
 }
 
 /**
@@ -115,7 +148,7 @@ exports.getBotUrl = function () {
  * @return {bool} - true if it does match
  * @return {bool} - false if it doesn't match
  */
-exports.discordMessageReceived = function(area, action_result) {
+function discordMessageReceived(area, action_result) {
     if (action_result.serverName == area.parameters_action.server && action_result.channelName == area.parameters_action.channel) {
         return true;
     }
@@ -130,7 +163,7 @@ exports.discordMessageReceived = function(area, action_result) {
  * @return {bool} - true if it does match
  * @return {bool} - false if it doesn't match
  */
-exports.discordNewMember = function(area, action_result) {
+function discordNewMember(area, action_result) {
     if (action_result.serverName = area.parameters_action.server)
         return true
     return false
@@ -144,7 +177,7 @@ exports.discordNewMember = function(area, action_result) {
  * @return {bool} - true if it does match
  * @return {bool} - false if it doesn't match
  */
-exports.discordMemberBan = function(area, action_result) {
+function discordMemberBan(area, action_result) {
     if (action_result.serverName = area.parameters_action.server)
         return true
     return false
@@ -174,14 +207,6 @@ exports.deleteArea = async (area) => {
         console.error(err)
         console.error('Ignoring')
     }
-}
-
-/**
- * Call the appropriate reaction from area of the service
- *
- * @param {JSON} actionResult -
- */
-exports.useReaction = async (actionResult, area) => {
 }
 
 /**
