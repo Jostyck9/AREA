@@ -17,13 +17,13 @@ const servicesRouter = require('../routers/services.router');
 const userRouter = require('../routers/me.router')
 
 // NOTE SERVICES
-const MailController = require('../controllers/nodemailer.controller')
-const SpotifyController = require('../controllers/spotify.controller')
-const DropBoxController = require('../controllers/dropbox.controller')
-const TwitterController = require('../controllers/twitter.controller')
-const DiscordController = require('../controllers/discord.controller')
-const GithubController = require('../controllers/github.controller')
-const TimerController = require('../controllers/timer.contoller')
+const MailController = require('../controllers/Services/nodemailer.controller')
+const SpotifyController = require('../controllers/Services/spotify.controller')
+const DropBoxController = require('../controllers/Services/dropbox.controller')
+const TwitterController = require('../controllers/Services/twitter.controller')
+const DiscordController = require('../controllers/Services/discord.controller')
+const GithubController = require('../controllers/Services/github.controller')
+const TimerController = require('../controllers/Services/timer.contoller')
 const ArrayController = [MailController, SpotifyController, DropBoxController, TwitterController, DiscordController, GithubController, TimerController]
 
 

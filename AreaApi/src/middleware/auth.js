@@ -5,6 +5,7 @@ const Token = require('../models/Tokens.model')
 /**
  * Check if the request intercepted is a user authetified
  * 
+ * @async
  * @param {Request<ParamsDictionary, any, any>} req The request received with the route
  * @param {Response<any>} res The result of the request to send after
  * @param {any} next The next request to validate

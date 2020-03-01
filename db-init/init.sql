@@ -37,21 +37,37 @@ CREATE TABLE `actions` (
 
 -- LOCK TABLES `actions` WRITE;
 
-INSERT INTO `actions` VALUES (0, 0, "push", "a new push is intended by someone", '{"repository": "string"}', '{"message": "string"}');
-INSERT INTO `actions` VALUES (1, 0, "pull_request", "a new pull request is intended by someone", '{"repository": "string"}', '{"message": "string"}');
-INSERT INTO `actions` VALUES (2, 1, "tweet", "a new tweet has been post", '{"user": "string"}', '{"message": "string"}');
-INSERT INTO `actions` VALUES (3, 2, "music_added", "A new music has been added to a playlist", '{"playlist": "string"}', '{"message": "string"}');
+INSERT INTO `actions` VALUES (0, 0, "push", "a new push is intended by someone", '{"username": "string", "repository": "string"}', '{"message": "string"}');
+INSERT INTO `actions` VALUES (1, 0, "pull_request", "a new pull request is intended by someone", '{"username": "string", "repository": "string"}', '{"message": "string"}');
+INSERT INTO `actions` VALUES (2, 1, "tweet", "a new tweet has been post", '{}', '{"user": "string", "message": "string"}');
+INSERT INTO `actions` VALUES (3, 2, "playlist_modified", "A music has been added or deleted from a playlist", '{"playlistId": "string"}', '{"message": "string"}');
 INSERT INTO `actions` VALUES (4, 3, "messaged_received", "A new message has been received", '{"server": "string", "channel": "string"}', '{"message": "string"}');
 INSERT INTO `actions` VALUES (5, 3, "a_user_joined", "A new user has joined the server", '{"server": "string"}', '{"message": "string"}');
 INSERT INTO `actions` VALUES (6, 3, "a_user_is_banned", "A user has been ban from the server", '{"server": "string"}', '{"message": "string"}');
-INSERT INTO `actions` VALUES (7, 4, "is_date", "Do an action at a precise date", '{"date": "date"}', '{"message": "string"}');
+INSERT INTO `actions` VALUES (7, 3, "channel_created", "A channel has been created on the server", '{"server": "string"}', '{"message": "string"}');
 INSERT INTO `actions` VALUES (8, 4, "timer", "Do an action at min interval", '{"interval": "int"}', '{"message": "string"}');
-INSERT INTO `actions` VALUES (9, 5, "file_added", "A file has been add on the server", '{}', '{"message": "string"}');
-INSERT INTO `actions` VALUES (10, 5, "file_deleted", "A file has been deleted on the server", '{}', '{"message": "string"}');
+INSERT INTO `actions` VALUES (9, 5, "file_added", "A file has been add on the server", '{}', '{"name": "string", "user": "string"}');
+INSERT INTO `actions` VALUES (10, 5, "file_deleted", "A file has been deleted on the server", '{}', '{"name": "string", "user": "string"}');
 
 /*!40000 ALTER TABLE `actions` DISABLE KEYS */;
 /*!40000 ALTER TABLE `actions` ENABLE KEYS */;
 -- UNLOCK TABLES;
+
+--
+-- Table structure for table `github`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `github` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `client_id` int(11) NOT NULL,
+  `username` varchar(50) NOT NULL,
+  `repo_name` varchar(50) NOT NULL,
+  `webhook_type`varchar(50) NOT NULL,
+  PRIMARY KEY (`id`)
+) DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Table structure for table `area`
@@ -107,6 +123,17 @@ CREATE TABLE `timer` (
 ) DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `spotify` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `client_id` int(11) NOT NULL,
+  `area_id` int(11) NOT NULL,
+  `tracks` TEXT NOT NULL,
+  PRIMARY KEY (`id`)
+) DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -142,9 +169,12 @@ CREATE TABLE `reactions` (
 
 INSERT INTO `reactions` VALUES (0, 1, "tweet", "post a new tweet", '{"message": "string"}');
 INSERT INTO `reactions` VALUES (1, 2, "add_music", "add a new music to an existing playlist", '{"music": "string", "playlist": "string"}');
-INSERT INTO `reactions` VALUES (2, 3, "send_message", "send a message to a specific channel", '{"message": "string", "channel": "string"}');
-INSERT INTO `reactions` VALUES (3, 3, "create_channel", "create a channel", '{"channel": "string"}');
-INSERT INTO `reactions` VALUES (4, 6, "send_mail", "send a mail", '{"to": "string", "subject": "string", "message": "string"}');
+INSERT INTO `reactions` VALUES (2, 2, "play_music", "play a music on your devise", '{"music": "string"}');
+INSERT INTO `reactions` VALUES (3, 2, "pause_music", "pause the music on your devise if playing", '{}');
+INSERT INTO `reactions` VALUES (4, 2, "add_to_queue", "add a music to the player queue", '{"music": "string"}');
+INSERT INTO `reactions` VALUES (5, 3, "send_message", "send a message to a specific channel", '{"server" : "string", "channel": "string", "message": "string"}');
+INSERT INTO `reactions` VALUES (6, 3, "create_channel", "create a channel", '{"server" : "string", "channel": "string"}');
+INSERT INTO `reactions` VALUES (7, 6, "send_mail", "send a mail", '{"to": "string", "subject": "string", "message": "string"}');
 
 /*!40000 ALTER TABLE `reactions` DISABLE KEYS */;
 /*!40000 ALTER TABLE `reactions` ENABLE KEYS */;
@@ -193,9 +223,9 @@ CREATE TABLE `services_auth` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `client_id` int(11) NOT NULL,
   `service_id` int(11) NOT NULL,
-  `access_token` varchar(200) DEFAULT NULL,
-  `refresh_token` varchar(200) DEFAULT NULL,
-  `secret_token` varchar(200) DEFAULT NULL,
+  `access_token` varchar(500) DEFAULT NULL,
+  `refresh_token` varchar(500) DEFAULT NULL,
+  `secret_token` varchar(500) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -307,6 +337,7 @@ CREATE DATABASE IF NOT EXISTS `area_test`;
 --
 use `area_test`;
 
+DROP TABLE IF EXISTS `actions`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `actions` (
@@ -329,14 +360,15 @@ CREATE TABLE `actions` (
 
 INSERT INTO `actions` VALUES (0, 0, "push", "a new push is intended by someone", '{"repository": "string"}', '{"message": "string"}');
 INSERT INTO `actions` VALUES (1, 0, "pull_request", "a new pull request is intended by someone", '{"repository": "string"}', '{"message": "string"}');
-INSERT INTO `actions` VALUES (2, 1, "tweet", "a new tweet has been post", '{"user": "string"}', '{"message": "string"}');
-INSERT INTO `actions` VALUES (3, 2, "music_added", "A new music has been added to a playlist", '{"playlist": "string"}', '{"message": "string"}');
+INSERT INTO `actions` VALUES (2, 1, "tweet", "a new tweet has been post", '{}', '{"message": "string"}');
+INSERT INTO `actions` VALUES (3, 2, "playlist_modified", "A music has been added or deleted from a playlist", '{"playlistId": "string"}', '{"message": "string"}');
 INSERT INTO `actions` VALUES (4, 3, "messaged_received", "A new message has been received", '{"server": "string", "channel": "string"}', '{"message": "string"}');
 INSERT INTO `actions` VALUES (5, 3, "a_user_joined", "A new user has joined the server", '{"server": "string"}', '{"message": "string"}');
 INSERT INTO `actions` VALUES (6, 3, "a_user_is_banned", "A user has been ban from the server", '{"server": "string"}', '{"message": "string"}');
-INSERT INTO `actions` VALUES (7, 4, "do_at_interval", "Do an action a each interval of time", '{"interval": "string"}', '{"message": "string"}');
+INSERT INTO `actions` VALUES (7, 4, "timer", "Do an action at min interval", '{"interval": "int"}', '{"message": "string"}');
 INSERT INTO `actions` VALUES (8, 5, "file_added", "A file has been add on the server", '{}', '{"message": "string"}');
 INSERT INTO `actions` VALUES (9, 5, "file_deleted", "A file has been deleted on the server", '{}', '{"message": "string"}');
+
 /*!40000 ALTER TABLE `actions` DISABLE KEYS */;
 /*!40000 ALTER TABLE `actions` ENABLE KEYS */;
 -- UNLOCK TABLES;
@@ -371,6 +403,54 @@ CREATE TABLE `area` (
 -- Table structure for table `reactions`
 --
 
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `dropbox` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `client_id` int(11) NOT NULL,
+  `dropbox_id` varchar(200) NOT NULL,
+  `dropbox_cursor` varchar(200) NOT NULL,
+  UNIQUE KEY `service client_id` (`client_id`),
+  PRIMARY KEY (`id`)
+) DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `timer` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `client_id` int(11) NOT NULL,
+  `area_id` int(11) NOT NULL,
+  `interval_timer` int(11) NOT NULL,
+  `current_timer` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `spotify` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `client_id` int(11) NOT NULL,
+  `area_id` int(11) NOT NULL,
+  `tracks` TEXT NOT NULL,
+  PRIMARY KEY (`id`)
+) DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `url_callback` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `url_id` varchar(15) NOT NULL,
+  `url` varchar(200) NOT NULL,
+  `client_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `service name` (`url_id`)
+) DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
 DROP TABLE IF EXISTS `reactions`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -392,10 +472,13 @@ CREATE TABLE `reactions` (
 -- LOCK TABLES `reactions` WRITE;
 
 INSERT INTO `reactions` VALUES (0, 1, "tweet", "post a new tweet", '{"message": "string"}');
-INSERT INTO `reactions` VALUES (1, 2, "add_music", "add a new music to an existing playlist", NULL);
-INSERT INTO `reactions` VALUES (2, 3, "send_message", "send a message to a specific channel", NULL);
-INSERT INTO `reactions` VALUES (3, 3, "create_channel", "create a channel", NULL);
-INSERT INTO `reactions` VALUES (4, 6, "send_mail", "send a mail", '{"to": "string", "message": "string"}');
+INSERT INTO `reactions` VALUES (1, 2, "add_music", "add a new music to an existing playlist", '{"music": "string", "playlist": "string"}');
+INSERT INTO `reactions` VALUES (2, 2, "play_music", "play a music on your devise", '{"music": "string"}');
+INSERT INTO `reactions` VALUES (3, 2, "pause_music", "pause the music on your devise if playing", '{}');
+INSERT INTO `reactions` VALUES (4, 2, "add_to_queue", "add a music to the player queue", '{"music": "string"}');
+INSERT INTO `reactions` VALUES (5, 3, "send_message", "send a message to a specific channel", '{"message": "string", "channel": "string"}');
+INSERT INTO `reactions` VALUES (6, 3, "create_channel", "create a channel", '{"channel": "string"}');
+INSERT INTO `reactions` VALUES (7, 6, "send_mail", "send a mail", '{"to": "string", "subject": "string", "message": "string"}');
 
 /*!40000 ALTER TABLE `reactions` DISABLE KEYS */;
 /*!40000 ALTER TABLE `reactions` ENABLE KEYS */;
@@ -411,6 +494,7 @@ DROP TABLE IF EXISTS `services`;
 CREATE TABLE `services` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
+  `oauth` boolean NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   UNIQUE KEY `service name` (`name`)
 ) DEFAULT CHARSET=utf8;
@@ -422,13 +506,14 @@ CREATE TABLE `services` (
 
 -- LOCK TABLES `services` WRITE;
 /*!40000 ALTER TABLE `services` DISABLE KEYS */;
-INSERT INTO `services` VALUES (0,'github');
-INSERT INTO `services` VALUES (1,'twitter');
-INSERT INTO `services` VALUES (2,'spotify');
-INSERT INTO `services` VALUES (3,'discord');
-INSERT INTO `services` VALUES (4,'timer');
-INSERT INTO `services` VALUES (5,'dropbox');
-INSERT INTO `services` VALUES (6,'mail');
+INSERT INTO `services` VALUES (0,'github', 1);
+INSERT INTO `services` VALUES (1,'twitter', 1);
+INSERT INTO `services` VALUES (2,'spotify', 1);
+INSERT INTO `services` VALUES (3,'discord', 0);
+INSERT INTO `services` VALUES (4,'timer', 0);
+INSERT INTO `services` VALUES (5,'dropbox', 1);
+INSERT INTO `services` VALUES (6,'mail', 0);
+
 /*!40000 ALTER TABLE `services` ENABLE KEYS */;
 -- UNLOCK TABLES;
 
@@ -438,15 +523,13 @@ INSERT INTO `services` VALUES (6,'mail');
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-DROP TABLE IF EXISTS `services_auth`;
-
 CREATE TABLE `services_auth` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `client_id` int(11) NOT NULL,
   `service_id` int(11) NOT NULL,
-  `access_token` varchar(200) DEFAULT NULL,
-  `refresh_token` varchar(200) DEFAULT NULL,
-  `secret_token` varchar(200) DEFAULT NULL,
+  `access_token` varchar(500) DEFAULT NULL,
+  `refresh_token` varchar(500) DEFAULT NULL,
+  `secret_token` varchar(500) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -466,9 +549,6 @@ CREATE TABLE `services_auth` (
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-
-DROP TABLE IF EXISTS `tokens`;
-
 CREATE TABLE `tokens` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `client_id` int(11) NOT NULL,
@@ -492,9 +572,6 @@ CREATE TABLE `tokens` (
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-
-DROP TABLE IF EXISTS `users`;
-
 CREATE TABLE `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(50) NOT NULL,

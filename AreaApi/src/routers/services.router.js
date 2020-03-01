@@ -1,7 +1,7 @@
 const express = require('express');
 const ServiceController = require('../controllers/service.controller')
-const dropboxController = require('../controllers/dropbox.controller')
-const githubController = require('../controllers/github.controller')
+const dropboxController = require('../controllers/Services/dropbox.controller')
+const githubController = require('../controllers/Services/github.controller')
 const router = express.Router();
 
 /**
@@ -48,7 +48,7 @@ router.get('/services', async (req, res) => {
  * Send info about a service
  * @route GET /services/{nameService}
  * @group Services - Services informations
- * @param {string} nameService.path.require - Name of the service
+ * @param {string} nameService.path.required - Name of the service
  * @returns {Service.model} Service's informations
  * @returns {Error}  default - Unexpected error
  */
@@ -62,7 +62,7 @@ router.get('/services/:nameService', async (req, res) => {
  * Get actions from a specified service
  * @route GET /services/{nameService}/actions
  * @group Services - Services informations
- * @param {string} nameService.path.require - Name of the service
+ * @param {string} nameService.path.required - Name of the service
  * @returns {Array.<Action>} actions of the specified service
  * @returns {Error}  default - Unexpected error
  */
@@ -138,47 +138,19 @@ router.get('/services/actions/:idAction', async (req, res) => {
     await ServiceController.getAction(req, res)
 })
 
-/**
-* Get a the verification of github webhook
-* @route GET /github/webhook
-* @group Services - Services informations
-* @returns {Error}  default - Unexpected error
-*/
-router.get('/github/webhook', (req, res) => {
-    res.status(200).send('success');
-})
-
-/**
-* Post when Github receives a trigger on webhook
-* @route GET /github/webhook
-* @group Services - Services informations
-* @returns {Error}  default - Unexpected error
-*/
 router.post('/github/webhook', (req, res) => {
-    githubController.webhookTriggered(req, res)
+    githubController.webhookTriggered(req.body)
     res.status(200).send('success')
 })
 
-/**
-* Get a the verification of drobox webhook
-* @route GET /dropbox/webhook
-* @group Services - Services informations
-* @returns {Error}  default - Unexpected error
-*/
 router.get('/dropbox/webhook', (req, res) => {
 	const challenge = req.originalUrl.split("challenge=")[1]
 	res.writeHead(200, {'Content-Type': 'text/plain', 'X-Content-Type-Options': 'nosniff'});
 	res.end(challenge)
 })
 
-/**
-* Post when dropbox send a notification
-* @route POST /dropbox/webhook
-* @group Services - Services informations
-* @returns {Error}  default - Unexpected error
-*/
 router.post('/dropbox/webhook', (req, res) => {
-    dropboxController.notificationWebhooks(req)
+    dropboxController.notificationWebhook(req)
 })
 
 module.exports = router

@@ -5,6 +5,7 @@ const AuthService = require('../models/ServiceTokens.model')
 /**
  * Get the auth user information
  * 
+ * @async
  * @param {Request<ParamsDictionary, any, any>} req The request received with the route
  * @param {Response<any>} res The result of the request to send after
  */
@@ -13,7 +14,7 @@ exports.getMe = async (req, res) => {
         if (req.user.is_oauth2)
             res.status(200).send({ username: req.user.username, is_oauth2: req.user.is_oauth2 })
         else
-            res.status(200).send({ username: req.user.username, email: req.user.email })
+            res.status(200).send({ username: req.user.username, email: req.user.email, is_oauth2: req.user.is_oauth2 })
     } catch (error) {
         res.status(403).send({ message: error.message || "Some error occurred while getting the User." })
     }
@@ -22,6 +23,7 @@ exports.getMe = async (req, res) => {
 /**
  * Update username
  * 
+ * @async
  * @param {Request<ParamsDictionary, any, any>} req The request received with the route
  * @param {Response<any>} res The result of the request to send after
  */
@@ -39,6 +41,7 @@ exports.updateUsername = async (req, res) => {
 /**
  * Get username
  * 
+ * @async
  * @param {Request<ParamsDictionary, any, any>} req The request received with the route
  * @param {Response<any>} res The result of the request to send after
  */
@@ -53,6 +56,7 @@ exports.getUsername = async (req, res) => {
 /**
  * Update password
  * 
+ * @async
  * @param {Request<ParamsDictionary, any, any>} req The request received with the route
  * @param {Response<any>} res The result of the request to send after
  */
@@ -72,6 +76,7 @@ exports.updatePassword = async (req, res) => {
 /**
  * Get Authenticate service status, returns if the user is connected
  * 
+ * @async
  * @param {Request<ParamsDictionary, any, any>} req The request received with the route
  * @param {Response<any>} res The result of the request to send after
  */
@@ -99,6 +104,13 @@ exports.getAuthServiceStatus = async (req, res) => {
     }
 }
 
+/**
+ * Get all the Authenticate service status, returns if the user is connected
+ * 
+ * @async
+ * @param {Request<ParamsDictionary, any, any>} req The request received with the route
+ * @param {Response<any>} res The result of the request to send after
+ */
 exports.getAllAuthServiceStatus = async (req, res) => {
     try {
         let resRequest = []

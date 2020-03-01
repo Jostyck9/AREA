@@ -9,8 +9,8 @@ const router = express.Router();
  * @route GET /area
  * @group Area - Area connections
  * @security JWT
- * @returns {JSON} list of areas
- * @returns {Error}  default - Unexpected error
+ * @returns {Array.<Area>} 200 - list of areas
+ * @returns {Error.model} 404 - {"message": "string"}
  */
 router.get('/area', auth, async(req, res) => {
     // Get a list of user's Areas
@@ -22,9 +22,9 @@ router.get('/area', auth, async(req, res) => {
  * @route GET /area/{id}
  * @group Area - Area connections
  * @security JWT
- * @param {Int} id.path.require - id of the area
- * @returns {JSON} specified area
- * @returns {Error}  default - Unexpected error
+ * @param {Int} id.path.required - id of the area
+ * @returns {Area.model} 200 - specified area
+ * @returns {Error.model} 404 - {"message": "string"}
  */
 router.get('/area/:id', auth, async(req, res) => {
     // Get the area corresponding to the id
@@ -36,8 +36,9 @@ router.get('/area/:id', auth, async(req, res) => {
  * @route DELETE /area/{id}
  * @group Area - Area connections
  * @security JWT
- * @param {Int} id.path.require - id of the area
- * @returns {Error}  default - Unexpected error
+ * @param {Int} id.path.required - id of the area
+ * @returns {Error.model} 200 - {"message": "string"}
+ * @returns {Error.model} 404 - {"message": "string"}
  */
 router.delete('/area/:id', auth, async(req, res) => {
     // Get the area corresponding to the id
@@ -57,7 +58,8 @@ router.delete('/area/:id', auth, async(req, res) => {
  * @group Area - Area connections
  * @param {Area.model} area.body.required - Area to create
  * @security JWT
- * @returns {Error}  default - Unexpected error
+ * @returns {Error.model} 201 - {"message": "string"}
+ * @returns {Error.model} 400 - {"message": "string"}
  */
 router.post('/area', auth, async(req, res) => {
     AreaController.create(req, res)

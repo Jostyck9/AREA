@@ -6,6 +6,7 @@ const UrlConstruct = require('../models/UrlContructor.model')
 /**
  * Create a user
  * 
+ * @async
  * @param {Request<ParamsDictionary, any, any>} req The request received with the route
  * @param {Response<any>} res The result of the request to send after
  */
@@ -37,7 +38,7 @@ exports.create = async (req, res) => {
 
         const resUser = await User.create(user)
         if (!resUser) {
-            res.status(401).send('not authorized')
+            res.status(401).send({ message: 'not authorized' })
         } else {
             const resToken = await Token.create(resUser.id)
             if (resToken)
@@ -54,6 +55,7 @@ exports.create = async (req, res) => {
 /**
  * Create a user by OAuth2
  * 
+ * @async
  * @param {JSON} userInfo The info of the user with a username and a idLog
  * @param {JSON} tokens The tokens of the auth service with an access_token, a refresh_token, a secret_token and an expires_in
  * @param {number} service_id The id of the service
@@ -69,7 +71,7 @@ exports.loginRegisterOAuth2 = async (userInfo, tokens, service_id, redirectUrl, 
         let userId = 0
         const resMail = await User.findByEmail(userInfo.idLog)
         if (!resMail) {
-            const resCreate = await User.createOAuth2({username: userInfo.username, id: userInfo.idLog})
+            const resCreate = await User.createOAuth2({ username: userInfo.username, id: userInfo.idLog })
             userId = resCreate.id
         } else {
             userId = resMail.id
@@ -90,7 +92,7 @@ exports.loginRegisterOAuth2 = async (userInfo, tokens, service_id, redirectUrl, 
             res.redirect(UrlConstruct.createRedirect(redirectUrl, 'OK', resToken.token, null))
         else
             res.redirect(UrlConstruct.createRedirect(redirectUrl, 'KO', null, null))
-        
+
     } catch (error) {
         console.log(error)
         res.redirect(UrlConstruct.createRedirect(redirectUrl, 'KO', null, null))
@@ -100,6 +102,7 @@ exports.loginRegisterOAuth2 = async (userInfo, tokens, service_id, redirectUrl, 
 /**
  * Log a user
  * 
+ * @async
  * @param {Request<ParamsDictionary, any, any>} req The request received with the route
  * @param {Response<any>} res The result of the request to send after
  */
@@ -144,6 +147,7 @@ exports.login = async (req, res) => {
 /**
  * Logout the token of the user
  * 
+ * @async
  * @param {Request<ParamsDictionary, any, any>} req The request received with the route
  * @param {Response<any>} res The result of the request to send after
  */
@@ -160,6 +164,7 @@ exports.logOut = async (req, res) => {
 /**
  * Log out all the tokens of the user
  * 
+ * @async
  * @param {Request<ParamsDictionary, any, any>} req The request received with the route
  * @param {Response<any>} res The result of the request to send after
  */

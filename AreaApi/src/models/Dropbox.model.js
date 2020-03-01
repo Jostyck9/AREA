@@ -92,7 +92,7 @@ DropboxModel.deleteById = async function (id) {
 }
 
 /**
- * Find a Dropbox data in the databaseby clientId
+ * Find a Dropbox data in the database by clientId
  * 
  * @param {number} clientId Id of the client
  * @returns {json} Json of the result with a message field
@@ -105,6 +105,37 @@ DropboxModel.findByClientId = async function (clientId) {
             return null
         }
         return rows[0]
+    } catch (err) {
+        throw err
+    }
+}
+
+/**
+ * Find a Dropbox data in the database by dropbox account id
+ * 
+ * @param {number} accountId Id of the client
+ * @returns {json} Json of the result with a message field
+ * @throws {error} Contains a message field
+ */
+DropboxModel.findByAccountId = async function (accountId) {
+    try {
+        var [rows, fields] = await sql.query("SELECT * FROM dropbox WHERE dropbox_id = ?", [accountId])
+        if (rows.length == 0) {
+            return null
+        }
+        return rows
+    } catch (err) {
+        throw err
+    }
+}
+
+DropboxModel.updateCursor = async function (newCursor, id) {
+    try {
+        var [rows, fields] = await sql.query("UPDATE dropbox SET dropbox_cursor = ? WHERE client_id = ?", [newCursor, id])
+        if (rows.affectedRows == 0) {
+            throw Error("cannot update client " + id)
+        }
+        return { message: "created dropbox line" }
     } catch (err) {
         throw err
     }
