@@ -36,6 +36,11 @@ exports.dropbox = async (req, res) => {
 	}
 }
 
+/**
+* Manage the notification from dropbox
+*
+* @param {any} req the request
+*/
 exports.notificationWebhook = async function notificationWebhook(req) {
 
 	try {
@@ -86,8 +91,10 @@ exports.notificationWebhook = async function notificationWebhook(req) {
 }
 
 /**
- * Create specific data for the area (for exemple init a timer for this area)
- */
+* Create the area with Dropbox and add cursor in database
+*
+* @param {json} area the current area in creation
+*/
 exports.createArea = async (area) => {
 	try {
 		if (await DropboxModel.findByClientId(area.client_id) != null)
@@ -138,7 +145,7 @@ exports.createArea = async (area) => {
 }
 
 /**
- * Delete the area (specific for each service (for exemple , delete the timer inthe time table))
+ * Delete the area (specific for each service (for exemple , delete the dropbox in the time table))
  * 
  * @param {JSON} - area
  */
@@ -171,6 +178,12 @@ exports.useReaction = async (actionResult, area) => {
 exports.init = async (app) => {
 }
 
+/**
+ * ConnectAction to reaction
+ * @group Dropbox - Dropbox connect Action to reaction
+ * @param {string} action_id id of the action
+ * @param {json} actionResult the result from the action
+ */
 exports.connectActionToReaction = async function connectActionToReaction(action_id, action_result) {
 	try {
         const AreaArray = await AreaModel.findByActionId(action_id);
@@ -188,6 +201,13 @@ exports.connectActionToReaction = async function connectActionToReaction(action_
 	}
 }
 
+/**
+ * Check if user is concerned by action
+ * @group Dropbox - Dropbox checkIfuserIsConcerned
+ * @param {JSON} area Area
+ * @param {json} actionResult the result from the action
+ * @param {string} action_id id of the action
+ */
 exports.checkIfUserIsConcerned = async function checkIfUserIsConcerned(area, action_result) {
 	if (area.client_id == action_result.user) {
 		return true

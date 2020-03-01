@@ -44,6 +44,41 @@ bot.on ('message', msg => {
 });
 
 /**
+ * Notice that a member was banned from a Server
+ * @group Discord - Discord guildMemberBan Action
+ */
+bot.on('guildBanAdd', guild => {
+    const action_result = {
+        serverName: guild.name,
+    };
+    this.connectActionToReaction(MEMBER_BAN_ID, action_result);
+})
+
+/**
+ * Notice that a member was added in a Server
+ * @group Discord - Discord guildMemberAdd Action
+ */
+bot.on('guildMemberAdd', member => {
+    const action_result = {
+        serverName: member.guild.name,
+        member: member.user.username
+    };
+    this.connectActionToReaction(MEMBER_ADD_ID, action_result);
+});
+
+/**
+ * Notice that a channel was added in a Server
+ * @group Discord - Discord channelCreated Action
+ */
+bot.on('channelCreate', channel => {
+    const action_result = {
+        serverName: channel.guild.name,
+        channel: channel.name
+    };
+    this.connectActionToReaction(CHANNEL_CREATE, action_result);
+})
+
+/**
  * ConnectAction to reaction
  * @group Discord - Discord connect Action to reaction
  */
@@ -94,42 +129,6 @@ exports.checkIfuserIsConcerned = function (area, action_result, action_id) {
     }
     return false;
 }
-
-/**
- * Notice that a member was added in a Server
- * @group Discord - Discord guildMemberAdd Action
- */
-bot.on('guildMemberAdd', member => {
-    const action_result = {
-        serverName: member.guild.name,
-        member: member.user.username
-    };
-    this.connectActionToReaction(MEMBER_ADD_ID, action_result);
-});
-
-/**
- * Notice that a member was added in a Server
- * @group Discord - Discord guildMemberAdd Action
- */
-bot.on("guildBanAdd", function(guild, user){
-    const action_result = {
-        serverName: guild.name,
-        member: user.username
-    };
-    this.connectActionToReaction(MEMBER_BAN_ID, action_result);
-});
-
-/**
- * Notice that a channel was added in a Server
- * @group Discord - Discord channelCreated Action
- */
-bot.on('channelCreate', channel => {
-    const action_result = {
-        serverName: channel.guild.name,
-        channel: channel.name
-    };
-    this.connectActionToReaction(CHANNEL_CREATE, action_result);
-})
 
 /**
  * Call required reaction

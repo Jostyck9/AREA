@@ -237,8 +237,6 @@ exports.createGithubWebhook = async function (newArea) {
  * @group Github - Github DeleteGithubwebhook
  */
 exports.deleteGithubWebhook = async function (githubModel) {
-    var fork = gh.getRepo(githubModel.username, githubModel.repo_name);
-    console.info("delete webhook github");
 }
 
 /**
