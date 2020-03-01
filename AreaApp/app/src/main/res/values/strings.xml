@@ -40,4 +40,6 @@
     <string name="reaction">Reaction</string>
     <string name="choose_a_reaction">Choose a reaction</string>
     <string name="save">Save</string>
+    <string name="x">x</string>
+    <string name="delete">Delete</string>
 </resources>
