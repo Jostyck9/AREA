@@ -1,9 +1,7 @@
 package com.example.area.model
 
 import android.content.Context
-import android.text.TextUtils
 import android.util.Log
-import android.util.Patterns
 import android.widget.EditText
 import androidx.preference.PreferenceManager
 import com.android.volley.AuthFailureError

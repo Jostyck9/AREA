@@ -1,11 +1,9 @@
 package com.example.area.presenter
 
 import android.content.Context
-import android.security.ConfirmationAlreadyPresentingException
 import android.util.Log
 import android.widget.EditText
 import com.example.area.model.ProfileModel
-import com.example.area.model.UserLogin
 import com.example.area.view.ProfileView
 
 class ProfilePresenter(private var profileView: ProfileView, var context: Context) {

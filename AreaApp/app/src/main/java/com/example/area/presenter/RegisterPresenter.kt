@@ -12,9 +12,9 @@ import com.example.area.model.UserRegister
 import com.example.area.view.RegisterView
 import org.json.JSONObject
 
-class RegisterPresenter(var registerView: RegisterView, var context: Context) {
+class RegisterPresenter(private var registerView: RegisterView, var context: Context) {
 
-    lateinit var user : UserRegister
+    private lateinit var user : UserRegister
 
     fun onRegister(email: String?, username: String?, password: String?, confirmPassword: String?) {
         user = UserRegister(this, email!!, username!!, password!!, confirmPassword!!)

@@ -1,20 +1,11 @@
 package com.example.area
 
-import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.preference.PreferenceManager
-import com.android.volley.Request
-import com.android.volley.Response
-import com.android.volley.toolbox.JsonObjectRequest
-import com.android.volley.toolbox.Volley
 import com.example.area.presenter.RegisterPresenter
 import com.example.area.view.RegisterView
 import kotlinx.android.synthetic.main.activity_register.*
-import org.json.JSONObject
-
 
 class RegisterActivity : AppCompatActivity(), RegisterView {
 

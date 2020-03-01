@@ -5,7 +5,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
@@ -13,7 +12,6 @@ import androidx.preference.PreferenceManager
 import com.example.area.presenter.MainPresenter
 import com.example.area.view.MainView
 import kotlinx.android.synthetic.main.activity_main.*
-
 
 class MainActivity : AppCompatActivity(), MainView {
 
@@ -38,7 +36,7 @@ class MainActivity : AppCompatActivity(), MainView {
         val githubButton: CardView = findViewById(R.id.githubButton)
         githubButton.setOnClickListener {
             val uriCb = "home://callback/github"
-            val intent: Intent = Intent(Intent.ACTION_VIEW,
+            val intent = Intent(Intent.ACTION_VIEW,
                 Uri.parse(PreferenceManager.getDefaultSharedPreferences(applicationContext).getString("api", null)!! + "/auth/github?cb=$uriCb"))
             startActivity(intent)
         }

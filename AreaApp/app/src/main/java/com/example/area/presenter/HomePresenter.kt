@@ -12,7 +12,7 @@ import com.example.area.view.HomeView
 
 class HomePresenter(private var homeView: HomeView, var context: Context) {
 
-    var homeModel = HomeModel(this, context)
+    private var homeModel = HomeModel(this, context)
 
     fun getServices() {
         homeModel.getServices()
@@ -32,10 +32,6 @@ class HomePresenter(private var homeView: HomeView, var context: Context) {
 
     fun getFail() {
         Log.d("Debug", "Get areas fail")
-    }
-
-    fun onDestroy() {
-        homeView.downVisibility()
     }
 
     fun getSuccess(empty : Boolean) {

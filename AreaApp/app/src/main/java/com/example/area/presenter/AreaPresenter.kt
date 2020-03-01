@@ -1,14 +1,13 @@
 package com.example.area.presenter
 
 import android.content.Context
-import android.util.Log
 import android.widget.ArrayAdapter
 import com.example.area.model.AreaModel
 import com.example.area.view.AreaView
 
-class AreaPresenter(var areaView: AreaView, var context: Context) {
+class AreaPresenter(private var areaView: AreaView, var context: Context) {
 
-    var areaModel = AreaModel(this, context)
+    private var areaModel = AreaModel(this, context)
 
     fun getServicesActionList() {
         areaModel.getServicesActionList()

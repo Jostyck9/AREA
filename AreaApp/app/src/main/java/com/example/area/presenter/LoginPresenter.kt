@@ -14,7 +14,7 @@ import org.json.JSONObject
 
 class LoginPresenter(private var loginView: LoginView, var context: Context) {
 
-    lateinit var user : UserLogin
+    private lateinit var user : UserLogin
 
     fun onLogin(email: String?, password: String?) {
         user = UserLogin(this, email!!, password!!)

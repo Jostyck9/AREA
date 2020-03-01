@@ -5,7 +5,6 @@ import android.content.Intent
 import android.net.Uri
 import android.util.Log
 import android.widget.ArrayAdapter
-import android.widget.EditText
 import android.widget.Toast
 import androidx.core.content.ContextCompat.startActivity
 import androidx.preference.PreferenceManager
@@ -171,8 +170,6 @@ class AreaModel(private var areaPresenter: AreaPresenter, private var context: C
                                     val newJsonObject = reactionsJsonArray.getJSONObject(y)
                                     if (newJsonObject.has("description"))
                                         reactionsList.add(newJsonObject.getString("description"))
-
-                                    //TODO MANAGE PARAMETERS
                                 }
                             }
                         }
@@ -413,8 +410,8 @@ class AreaModel(private var areaPresenter: AreaPresenter, private var context: C
 
         url = prefSharedPreferences.getString("api", null)!! + "/area"
 
-        val registerRequest = object: JsonObjectRequest(Request.Method.POST, url, jsonObj,
-            Response.Listener { _ ->
+        val registerRequest = object: JsonObjectRequest(Method.POST, url, jsonObj,
+            Response.Listener {
                 Log.d("debug", "Area create")
                 areaPresenter.createSuccess()
             },

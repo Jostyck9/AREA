@@ -8,10 +8,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.preference.PreferenceManager
-import com.android.volley.AuthFailureError
-import com.android.volley.Response
-import com.android.volley.toolbox.StringRequest
-import com.android.volley.toolbox.Volley
 import com.example.area.presenter.ProfilePresenter
 import com.example.area.view.ProfileView
 import kotlinx.android.synthetic.main.activity_profile.*
@@ -20,7 +16,7 @@ import org.json.JSONObject
 
 class ProfileActivity : AppCompatActivity(), ProfileView {
 
-    lateinit var profilePresenter: ProfilePresenter
+    private lateinit var profilePresenter: ProfilePresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,7 +47,7 @@ class ProfileActivity : AppCompatActivity(), ProfileView {
         discordButton.setOnClickListener {
             val sharedPref = PreferenceManager.getDefaultSharedPreferences(applicationContext)
             val token = sharedPref.getString("token", null)
-            val intent: Intent = Intent(Intent.ACTION_VIEW,
+            val intent = Intent(Intent.ACTION_VIEW,
                 Uri.parse(sharedPref.getString("api", null)!! + "/auth/discord?token=$token"))
             startActivity(intent)
         }

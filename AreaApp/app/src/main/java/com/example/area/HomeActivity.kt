@@ -25,13 +25,6 @@ class HomeActivity : AppCompatActivity(), HomeView {
     private var mLayoutManager: GridLayoutManager? = null
     private var homeAdapter: HomeAdapter? = null
 
-    private var previousTotal = 0
-    private var loading = true
-    private val visibleThreshold = 5
-    internal var firstVisibleItem: Int = 0
-    internal var visibleItemCount: Int = 0
-    internal var totalItemCount: Int = 0
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)

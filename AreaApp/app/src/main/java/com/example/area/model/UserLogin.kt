@@ -1,22 +1,15 @@
 package com.example.area.model
 
 import android.content.Context
-import android.content.Intent
 import android.text.TextUtils
-import android.util.Log
 import android.util.Patterns
 import android.widget.EditText
-import android.widget.Toast
-import androidx.core.content.ContextCompat.startActivity
 import androidx.preference.PreferenceManager
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
-import com.example.area.HomeActivity
 import com.example.area.presenter.LoginPresenter
-import com.example.area.view.LoginView
-import kotlinx.android.synthetic.main.activity_sign_in.*
 import org.json.JSONObject
 
 class UserLogin(private var loginPresenter: LoginPresenter, private val email: String, private val password: String) {
