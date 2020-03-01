@@ -33,7 +33,8 @@ class HomeModel(private var homePresenter: HomePresenter, private var context: C
             "twitter" to "#1DA1F2",
             "github" to "#24292E",
             "dropbox" to "#007CE4",
-            "mail" to "#EB6464"
+            "mail" to "#EB6464",
+            "timer" to "#000000"
         )
         val imagemap = mapOf(
             "discord" to R.drawable.discord_img,
@@ -41,7 +42,8 @@ class HomeModel(private var homePresenter: HomePresenter, private var context: C
             "twitter" to R.drawable.twitter_img,
             "github" to R.drawable.github_img,
             "dropbox" to R.drawable.dropbox_img,
-            "mail" to R.drawable.mail_img
+            "mail" to R.drawable.mail_img,
+            "timer" to R.drawable.timer_img
         )
         val getAreasRequest = object : StringRequest(
             Method.GET, url,

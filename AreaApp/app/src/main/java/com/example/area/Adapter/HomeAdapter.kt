@@ -32,7 +32,6 @@ class HomeAdapter (private val homeActivity: HomeActivity, private val areasList
 
         holder.deleteButton.setOnClickListener {
             homeActivity.onDeleteClick(areasList[position].areaId)
-//            Toast.makeText(homeActivity, "You clicked me.", Toast.LENGTH_SHORT).show()
         }
     }
 
