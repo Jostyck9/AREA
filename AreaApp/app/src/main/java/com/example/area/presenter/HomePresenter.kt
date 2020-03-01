@@ -26,6 +26,10 @@ class HomePresenter(private var homeView: HomeView, var context: Context) {
         homeView.setDataToRecyclerView(areasInfo)
     }
 
+    fun deleteAnArea(areaId: Int) {
+        homeModel.deleteArea(areaId)
+    }
+
     fun getFail() {
         Log.d("Debug", "Get areas fail")
     }

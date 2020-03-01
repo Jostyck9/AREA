@@ -79,12 +79,14 @@ class HomeActivity : AppCompatActivity(), HomeView {
 
         if (id == R.id.profile) {
             val intentProfile = Intent(this, ProfileActivity::class.java)
-            areasList.clear()
             startActivity(intentProfile)
+            rvDiscoverList?.adapter = null
+            areasList.clear()
         } else if (id == R.id.add) {
             val intentArea = Intent(this, AreaActivity::class.java)
-            areasList.clear()
             startActivity(intentArea)
+            rvDiscoverList?.adapter = null
+            areasList.clear()
         }
         return true
     }
@@ -103,4 +105,11 @@ class HomeActivity : AppCompatActivity(), HomeView {
     override fun displayMessage(message: String) {
         Toast.makeText(applicationContext, message, Toast.LENGTH_SHORT).show()
     }
+
+    fun onDeleteClick(areaId : Int) {
+        rvDiscoverList?.adapter = null
+        areasList.clear()
+        homePresenter.deleteAnArea(areaId)
+    }
+
 }
