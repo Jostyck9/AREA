@@ -6,6 +6,7 @@ const UrlConstruct = require('../models/UrlContructor.model')
 /**
  * Create a user
  * 
+ * @async
  * @param {Request<ParamsDictionary, any, any>} req The request received with the route
  * @param {Response<any>} res The result of the request to send after
  */
@@ -54,6 +55,7 @@ exports.create = async (req, res) => {
 /**
  * Create a user by OAuth2
  * 
+ * @async
  * @param {JSON} userInfo The info of the user with a username and a idLog
  * @param {JSON} tokens The tokens of the auth service with an access_token, a refresh_token, a secret_token and an expires_in
  * @param {number} service_id The id of the service
@@ -100,6 +102,7 @@ exports.loginRegisterOAuth2 = async (userInfo, tokens, service_id, redirectUrl, 
 /**
  * Log a user
  * 
+ * @async
  * @param {Request<ParamsDictionary, any, any>} req The request received with the route
  * @param {Response<any>} res The result of the request to send after
  */
@@ -144,6 +147,7 @@ exports.login = async (req, res) => {
 /**
  * Logout the token of the user
  * 
+ * @async
  * @param {Request<ParamsDictionary, any, any>} req The request received with the route
  * @param {Response<any>} res The result of the request to send after
  */
@@ -160,6 +164,7 @@ exports.logOut = async (req, res) => {
 /**
  * Log out all the tokens of the user
  * 
+ * @async
  * @param {Request<ParamsDictionary, any, any>} req The request received with the route
  * @param {Response<any>} res The result of the request to send after
  */

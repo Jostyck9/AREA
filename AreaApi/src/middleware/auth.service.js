@@ -4,6 +4,14 @@ const Token = require('../models/Tokens.model')
 const Passport = require('passport')
 const UrlCallbackModel = require('../models/UrlCallback.model')
 
+/**
+ * Midllewre for authentification, check if the token and the cb is valid
+ * 
+ * @async
+ * @param {any} req 
+ * @param {any} res 
+ * @param {any} next 
+ */
 const auth = async (req, res, next) => {
     try {
         if (!req.query.hasOwnProperty('cb')) {
@@ -34,6 +42,14 @@ const auth = async (req, res, next) => {
     }
 }
 
+/**
+ * Check if the token is valid but he is not mandatory
+ * 
+ * @async
+ * @param {any} req 
+ * @param {any} res 
+ * @param {any} next 
+ */
 const optAuth = async (req, res, next) => {
     try {
         if (!req.query.hasOwnProperty('cb')) {
@@ -61,6 +77,13 @@ const optAuth = async (req, res, next) => {
     }
 }
 
+/**
+ * Save the Url callback inside the table to the appropriate user
+ * 
+ * @param {any} req 
+ * @param {any} res 
+ * @param {any} next 
+ */
 const saveUrlCB = async (req, res, next) => {
     try {
         let userId = null
@@ -75,22 +98,36 @@ const saveUrlCB = async (req, res, next) => {
         req.urlId = resUrl.idUrl
         next()
     } catch (error) {
-        res.status(401).send({ message: 'Not authorized to access this resource' })
+        res.status(500).send({ message: 'An internal error occured' })
     }
 }
 
+/**
+ * Save the url Id inside the session (only usefull for OAuth1)
+ * 
+ * @param {any} req 
+ * @param {any} res 
+ * @param {any} next 
+ */
 const saveToSession = async (req, res, next) => {
     try {
         req.session.urlId = req.urlId
         next()
     } catch (error) {
-        res.status(401).send({ message: 'Not authorized to access this resource' })
+        res.status(500).send({ message: 'An internal error occured' })
     }
 }
 
 
-// NOTE from here CALLBACK AUTH2
+// NOTE from here for CALLBACK AUTH2
 
+/**
+ * Set the idUrl from session to the query
+ * 
+ * @param {any} req 
+ * @param {any} res 
+ * @param {any} next 
+ */
 const getFromSession = async (req, res, next) => {
     let urlId = null
     if (req.session) {
@@ -100,6 +137,13 @@ const getFromSession = async (req, res, next) => {
     next()
 }
 
+/**
+ * Get the url callback into req from query
+ * 
+ * @param {any} req 
+ * @param {any} res 
+ * @param {any} next 
+ */
 const getUrlCB = async (req, res, next) => {
     try {
         if (!req.query.state) {
@@ -117,6 +161,13 @@ const getUrlCB = async (req, res, next) => {
     }
 }
 
+/**
+ * Get the user from the token
+ * 
+ * @param {any} req 
+ * @param {any} res 
+ * @param {any} next 
+ */
 const getUser = async (req, res, next) => {
     try {
         console.log("user")
@@ -128,14 +179,13 @@ const getUser = async (req, res, next) => {
         const resUser = await User.findById(req.urlCallback.client_id)
         if (resUser)
             req.userArea = resUser
-        // console.log(req.urlCallback)
-        // console.log(req.userArea)
-        // console.log('End')
         next()
     } catch (error) {
         res.status(401).send({ message: 'Not authorized to access this resource' })
     }
 }
+
+/* Passport middleware for score and auth */
 
 const githubAuth = function (req, res, next) {
     Passport.authenticate('github', { state: req.urlId, scope: ['user:email', 'repo', 'admin:repo_hook'] })(req, res, next);
@@ -146,7 +196,7 @@ const twitterAuth = function (req, res, next) {
 }
 
 const spotifyAuth = function (req, res, next) {
-    Passport.authenticate('spotify', { state: req.urlId })(req, res, next);
+    Passport.authenticate('spotify', { state: req.urlId, scope: ['user-modify-playback-state', 'playlist-modify-public', 'playlist-modify-private', 'app-remote-control', 'playlist-read-private'] })(req, res, next);
 }
 
 const dropboxAuth = function (req, res, next) {

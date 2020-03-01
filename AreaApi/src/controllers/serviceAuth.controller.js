@@ -6,6 +6,7 @@ const UrlConstruct = require('../models/UrlContructor.model')
 /**
  * Connect the service with his token to the database
  * 
+ * @async
  * @param {number} user_id the user's id
  * @param {JSON} serviceTokens the user's token from the service
  * @param {any} res the res
@@ -14,8 +15,9 @@ exports.connect = async (user_id, serviceTokens, serviceId, redirectUrl, res) =>
     try {
         const foundService = await ServiceAuthModel.findByServiceAndClientId(serviceId, user_id);
         if (foundService) {
-            await ServiceAuthModel.remove(foundService[0].id)
+            await ServiceAuthModel.remove(foundService.id)
         }
+        console.log(serviceTokens)
         const toSave = new ServiceAuthModel({
             client_id: user_id,
             service_id: serviceId,
@@ -31,9 +33,10 @@ exports.connect = async (user_id, serviceTokens, serviceId, redirectUrl, res) =>
             res.redirect(UrlConstruct.createRedirect(redirectUrl, 'OK', null, 'connected'))
         }
     } catch (err) {
-        if (res)
+        if (res) {
+            console.log(err)
             res.redirect(UrlConstruct.createRedirect(redirectUrl, 'KO', null, 'errorTokens'))
-        else
+        } else
             throw err
     }
 }

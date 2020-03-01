@@ -8,7 +8,6 @@ const TwitterController = require('../controllers/twitter.controller')
 const SpotifyController = require('../controllers/spotify.controller')
 const GithubController = require('../controllers/github.controller')
 const DropboxController = require('../controllers/dropbox.controller')
-const FacebookController = require('../controllers/facebook.controller')
 const auth2Mid = require('../middleware/auth.service')
 
 const router = express.Router()
@@ -17,7 +16,6 @@ const twitterAuth = auth2Mid.twitterAuth
 const githubAuth = auth2Mid.githubAuth
 const spotifyAuth = auth2Mid.spotifyAuth
 const dropboxAuth = auth2Mid.dropboxAuth
-const facebookAuth = auth2Mid.facebookAuth
 
 /**
  * @typedef RegisterData
