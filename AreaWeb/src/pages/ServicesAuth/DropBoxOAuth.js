@@ -9,7 +9,6 @@ export default class DropBoxOAuth extends React.Component {
      */
 
     componentWillMount() {
-        const parsedUrl = new URL(window.location.href);
         this.props.history.push("/")
     }
 

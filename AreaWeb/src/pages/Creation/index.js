@@ -1,5 +1,5 @@
 import '../../../node_modules/bootstrap/dist/css/bootstrap.min.css';
-import React , { useRef, useState } from 'react';
+import React from 'react';
 import '../../css/site.css';
 import { Button, Form , Col, Card,Modal} from 'react-bootstrap'
 import Alert from 'react-bootstrap/Alert'
@@ -191,7 +191,6 @@ export default class Creation extends React.Component {
         for (let i = 0; i < test2.length; i++)
             params_params_reaction.push(test2[i].split('.').pop())
         
-        alert(test1.length)
         if (test1.length === 0)
             parameters_action = null
         if (test2.length === 0)
