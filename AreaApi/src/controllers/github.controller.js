@@ -125,6 +125,10 @@ exports.webhookTriggered = async(payload) => {
     }
 }
 
+/**
+ * ConnectAction to reaction
+ * @group Github - Github connect Action to reaction
+ */
 exports.connectActionToReaction = async function (action_id, action_result) {
     try {
         const AreaArray = await AreaModel.findByActionId(action_id);
@@ -139,6 +143,10 @@ exports.connectActionToReaction = async function (action_id, action_result) {
     }
 }
 
+/**
+ * Check if user is concerned by action
+ * @group Github - Github checkIfuserIsConcerned
+ */
 exports.checkIfuserIsConcerned = function (area, action_result, action_id) {
     switch (action_id) {
         case NEW_PUSH:
@@ -165,12 +173,16 @@ exports.createGithubWebhook = async function (newArea) {
     var serviceId = await ServiceModel.findByName('github')
 	if (serviceId == null)
 		return
-    var UserToken = await ServiceToken.findByServiceAndClientId(serviceId.id, newArea.client_id)
-	var gh = new Github({
-        token: UserToken.access_token
-    });
-    var fork = gh.getRepo(newArea.parameters_action.username, newArea.parameters_action.repository);
-    if (action_webhook_type == "push") {
+   try {
+       var UserToken = await ServiceToken.findByServiceAndClientId(serviceId.id, newArea.client_id)
+	    var gh = new Github({
+            token: UserToken.access_token
+        });
+        var fork = gh.getRepo(newArea.parameters_action.username, newArea.parameters_action.repository);
+   } catch (error) {
+        console.error( {message: error.message || 'An internal error occured' });
+   }
+        if (action_webhook_type == "push") {
         var hookDef = {
             "name": "web",
             "active": true,
