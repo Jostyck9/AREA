@@ -233,9 +233,7 @@ function checkIfuserIsConcerned(area, action_result, action_id) {
 exports.SendToReactionById = async (area, action_id, action_result) => {
     // Call a specific serviceController depending on the reaction_id
     const reactionmodel = await ReactionModel.findById(area.reaction_id); // NOTE controllerArray is global
-    console.log(reactionmodel.service_id)
-    await controllerArray[3].useReaction(action_result, area);
-    console.log("reaction call finished")
+    await controllerArray[reactionmodel.service_id].useReaction(action_result, area);
 }
 
 /**

@@ -5,6 +5,7 @@ const AreaController = require('../controllers/area.controller');
 const ServiceAuthController = require('./serviceAuth.controller');
 const ApiAuth = require('./auth.controller');
 const ServiceModel = require('../models/Service.model');
+const AreaModel = require('../models/Area.model');
 const GithubModel = require('../models/github.model');
 const ServiceToken = require('../models/ServiceTokens.model');
 
@@ -68,6 +69,37 @@ exports.github = async (req, res) => {
 exports.UseReaction = async(action_result, area) => {
 }
 
+
+/**
+ * Check if the action_result matches an area's action parameters
+ * @param {area} area - area concerned
+ * @param {JSON} action_result - action result of the concerned area
+ * @group Github - Github githubPush
+ */
+exports.githubPush = async function(area, action_result) {
+    //check if hook if is similar to client's hooks
+
+    const githubModel = await GithubModel.getGithubObject(area.client_id);
+    if (action_result.repository == githubModel.repo_name && area.action_id == action_result.hook_type)
+        return true;
+    return false;
+}
+
+/**
+ * Check if the action_result matches an area's action parameters
+ * @param {area} area - area concerned
+ * @param {JSON} action_result - action result of the concerned area
+ * @group Github - Github githubNewPullRequest
+ */
+exports.githubNewPullRequest = async function(area, action_result) {
+    //check if hook if is similar to client's hooks
+    const githubModel = await GithubModel.getGithubObject(area.client_id);
+    if (action_result.repository == githubModel.repo_name && area.action_id == action_result.hook_type) {
+        return true;
+    }
+    return false;
+}
+
 /**
  * Interpret webhook trigger post
  * @group Github - Github webhook triggered
@@ -76,15 +108,47 @@ exports.webhookTriggered = async(payload) => {
     //webhook trigger action
 
     var type = typeGithubEvent.typeof(payload);
-    const action_result = {
-        repository: payload.repository.name
-    };
+
     if (typeGithubEvent.isPush(payload)) {
-        AreaController.connectActionToReaction(NEW_PUSH, action_result)
+        const action_result = {
+            repository: payload.repository.name,
+            hook_type: "push"
+        };
+        this.connectActionToReaction(NEW_PUSH, action_result)
     }
     else if (typeGithubEvent.is('pull_request', payload)) {
-        AreaController.connectActionToReaction(NEW_PULLREQUEST, action_result)
+        const action_result = {
+        repository: payload.repository.name,
+        hook_type: "pull_request"
+    };
+        this.connectActionToReaction(NEW_PULLREQUEST, action_result)
     }
+}
+
+exports.connectActionToReaction = async function (action_id, action_result) {
+    try {
+        const AreaArray = await AreaModel.findByActionId(action_id);
+        AreaArray.forEach(element => {
+            if (this.checkIfuserIsConcerned(element, action_result, action_id)) {
+                AreaController.SendToReactionById(element, action_id, action_result);
+            }
+        });
+    }
+    catch (error) {
+        console.error( {message: error.message || 'An internal error occured' });
+    }
+}
+
+exports.checkIfuserIsConcerned = function (area, action_result, action_id) {
+    switch (action_id) {
+        case NEW_PUSH:
+            if (this.githubPush(area, action_result))
+                return true;
+        case NEW_PULLREQUEST:
+            if (this.githubNewPullRequest(area, action_result))
+                return true;
+    }
+    return false;
 }
 
 /**
@@ -137,7 +201,7 @@ exports.createGithubWebhook = async function (newArea) {
         fork.createHook(hookDef)
         .then(function({data: hook}) {});
     } catch (error) {
-        console.err( {message: error.message || 'An internal error occured' });
+        console.error( {message: error.message || 'An internal error occured' });
     }
     const newGModel = new GithubModel({
         client_id: newArea.client_id,
@@ -158,37 +222,6 @@ exports.deleteGithubWebhook = async function (githubModel) {
     console.info("delete webhook github");
 }
 
-/**
- * Check if the action_result matches an area's action parameters
- * @param {area} area - area concerned
- * @param {JSON} action_result - action result of the concerned area
- * @group Github - Github githubPush
- */
-exports.githubPush = async function(area, action_result) {
-    //check if hook if is similar to client's hooks
-
-    const githubModel = await GithubModel.getGithubObject(area.client_id);
-    if (action_result.repository == githubModel.repo_name)
-        return true;
-    else
-        return false;
-}
-
-/**
- * Check if the action_result matches an area's action parameters
- * @param {area} area - area concerned
- * @param {JSON} action_result - action result of the concerned area
- * @group Github - Github githubNewPullRequest
- */
-exports.githubNewPullRequest = async function(area, action_result) {
-    //check if hook if is similar to client's hooks
-    const githubModel = await GithubModel.getGithubObject(area.client_id);
-    if (action_result.repository == githubModel.repo_name)
-        return true;
-    else
-        return false;
-}
-
 //NOTE ========================================================================
 
 /**
@@ -196,7 +229,7 @@ exports.githubNewPullRequest = async function(area, action_result) {
  */
 exports.createArea = async (area) => {
     try {
-        createGithubWebhook(area);
+        await this.createGithubWebhook(area);
     } catch (err) {
         console.error(err)
         console.error('Ignoring')

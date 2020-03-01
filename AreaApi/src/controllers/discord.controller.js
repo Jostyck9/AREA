@@ -37,18 +37,16 @@ bot.on ('message', msg => {
 });
 
 exports.connectActionToReaction = async function (action_id, action_result) {
-    console.info("trying to connect ation to react");
     try {
         const AreaArray = await AreaModel.findByActionId(action_id);
         AreaArray.forEach(element => {
-            console.info("found a matching area");
             if (this.checkIfuserIsConcerned(element, action_result, action_id)) {
                 AreaController.SendToReactionById(element, action_id, action_result);
             }
         });
     }
     catch (error) {
-        console.err( {message: error.message || 'An internal error occured' });
+        console.error({message: error.message || 'An internal error occured' });
     }
 }
 
@@ -97,7 +95,6 @@ bot.on("guildBanAdd", function(guild, user){
  */
 exports.useReaction = async(action_result, area) => {
     //Call required reaction
-    console.info("cheching for reaction now")
     if (area.reaction_id == SEND_MESSAGE_ID)
         await this.sendMessage(area.parameters_reaction, action_result);
     if (area.reaction_id == CREATE_CHANNEL_ID)
