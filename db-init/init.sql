@@ -48,6 +48,7 @@ INSERT INTO `actions` VALUES (7, 4, "is_date", "Do an action at a precise date",
 INSERT INTO `actions` VALUES (8, 4, "timer", "Do an action at min interval", '{"interval": "int"}', '{"message": "string"}');
 INSERT INTO `actions` VALUES (9, 5, "file_added", "A file has been add on the server", '{}', '{"message": "string"}');
 INSERT INTO `actions` VALUES (10, 5, "file_deleted", "A file has been deleted on the server", '{}', '{"message": "string"}');
+INSERT INTO `actions` VALUES (11, 3, "channel_created", "A channel has been created on the server", '{"server": "string"}', '{"message": "string"}');
 
 /*!40000 ALTER TABLE `actions` DISABLE KEYS */;
 /*!40000 ALTER TABLE `actions` ENABLE KEYS */;
