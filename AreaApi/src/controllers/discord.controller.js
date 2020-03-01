@@ -12,6 +12,7 @@ const bot = new Discord.Client ();
 const MSG_RECEIVED_ID = 4;
 const MEMBER_ADD_ID = 5;
 const MEMBER_BAN_ID = 6;
+const CHANNEL_CREATE = 11;
 const SEND_MESSAGE_ID = 2;
 const CREATE_CHANNEL_ID = 3;
 const TOKEN = process.env.DISCORD_TOKEN;
@@ -55,12 +56,23 @@ exports.checkIfuserIsConcerned = function (area, action_result, action_id) {
         case MSG_RECEIVED_ID:
             if (discordMessageReceived(area, action_result))
                 return true;
+            else
+                return false;
         case MEMBER_ADD_ID:
             if (discordNewMember(area, action_result))
                 return true;
+            else
+                return false;
         case MEMBER_BAN_ID:
             if (discordMemberBan(area, action_result))
                 return true;
+            else
+                return false;
+        case CHANNEL_CREATE:
+            if (DiscordChannelCreated(area, action_result))
+                return true;
+            else
+                return false;
     }
     return false;
 }
@@ -90,6 +102,18 @@ bot.on("guildBanAdd", function(guild, user){
 });
 
 /**
+ * Notice that a channel was added in a Server
+ * @group Discord - Discord channelCreated Action
+ */
+bot.on('channelCreate', channel => {
+    const action_result = {
+        serverName: channel.guild.name,
+        channel: channel.name
+    };
+    this.connectActionToReaction(CHANNEL_CREATE, action_result);
+})
+
+/**
  * Call required reaction
  * @group Discord - Discord UseReaction
  */
@@ -110,9 +134,8 @@ exports.useReaction = async(action_result, area) => {
  */
 exports.createChannel = async function(obj) {
     //Create a new channel in Discord
-
-    await bot.guilds.find('name', obj.server).createChannel(obj.channel, { type: 'text' });
-    bot.guilds.find('name', obj.server).channels.find('name', obj.channel).send(obj.message);
+    await bot.guilds.find(x => x.name === obj.server).createChannel(obj.channel, { type: 'text' });
+    bot.guilds.find(x => x.name === obj.server).channels.find(x => x.name === obj.channel).send(obj.message);
 }
 
 /**
@@ -123,7 +146,8 @@ exports.createChannel = async function(obj) {
  */
 exports.sendMessage = async function (obj, action_result) {
     //Send a specified message in Discord
-    bot.guilds.find('name', obj.server).channels.find('name', obj.channel).send(obj.message);
+   // x => x.name === obj.server)
+    bot.guilds.find(x => x.name === obj.server).channels.find(x => x.name === obj.channel).send(obj.message);
 }
 
 /**
@@ -146,8 +170,9 @@ exports.getBotUrl = function () {
  * @return {bool} - false if it doesn't match
  */
 function discordMessageReceived(area, action_result) {
-    if (action_result.serverName == area.parameters_action.server && action_result.channelName == area.parameters_action.channel) {
-        return true;
+    if (action_result.serverName === area.parameters_action.server ) {
+        if (action_result.channelName === area.parameters_action.channel)
+            return true;
     }
     return false
 }
@@ -175,6 +200,20 @@ function discordNewMember(area, action_result) {
  * @return {bool} - false if it doesn't match
  */
 function discordMemberBan(area, action_result) {
+    if (action_result.serverName = area.parameters_action.server)
+        return true
+    return false
+}
+
+/**
+ * Check if the action_result matches an area's action parameters
+ * @param {area} area - area concerned
+ * @param {JSON} action_result - action result of the concerned area
+ * @group Discord - DiscordChannelCreated
+ * @return {bool} - true if it does match
+ * @return {bool} - false if it doesn't match
+ */
+function DiscordChannelCreated(area, action_result) {
     if (action_result.serverName = area.parameters_action.server)
         return true
     return false
