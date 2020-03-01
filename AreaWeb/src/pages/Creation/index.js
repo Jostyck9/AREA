@@ -11,6 +11,7 @@ import Messenger from '../../images/messenger_logo.png'
 import Discord from '../../images/discord_logo.png'
 import Dropbox from '../../images/dropbox_logo.png'
 import Mailing from '../../images/mail_logo.png'
+import Timer from '../../images/timer_logo.png'
 
 
 export default class Creation extends React.Component {
@@ -91,6 +92,7 @@ export default class Creation extends React.Component {
         this.state.images.set("discord", Discord)
         this.state.images.set("dropbox", Dropbox)
         this.state.images.set("mail", Mailing)
+        this.state.images.set("timer", Timer)
 
         fetch(process.env.REACT_APP_SERVER_URI + '/me/auth', {
             method: 'GET',
