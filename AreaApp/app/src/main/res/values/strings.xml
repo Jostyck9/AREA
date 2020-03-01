@@ -35,4 +35,13 @@
     <string name="spotify">Spotify</string>
     <string name="github">Github</string>
     <string name="api">api</string>
+    <string name="action">Action</string>
+    <string name="choose_an_action">Choose an action</string>
+    <string name="reaction">Reaction</string>
+    <string name="choose_a_reaction">Choose a reaction</string>
+    <string name="save">Save</string>
+    <string name="enter_answer">Enter answer</string>
+    <string name="param">Param</string>
+    <string name="x">x</string>
+    <string name="delete">Delete</string>
 </resources>

@@ -1,27 +1,32 @@
 package com.example.area
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import androidx.cardview.widget.CardView
 import androidx.preference.PreferenceManager
+import com.example.area.presenter.MainPresenter
+import com.example.area.view.MainView
 import kotlinx.android.synthetic.main.activity_main.*
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), MainView {
+
+    private lateinit var mainPresenter : MainPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val pref = PreferenceManager.getDefaultSharedPreferences(applicationContext)
-        val editor = pref.edit()
-        if (!pref.contains("api")) {
-            editor.putString("api", "api")
-        }
-        editor.apply()
+        //Add api to preferences
+        mainPresenter = MainPresenter(this, applicationContext)
+        mainPresenter.addApi()
 
         //Redirection
         val signInRedirection: Button = findViewById(R.id.signInRedirection)
@@ -30,6 +35,15 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        val githubButton: CardView = findViewById(R.id.githubButton)
+        githubButton.setOnClickListener {
+            val uriCb = "home://callback/github"
+            val intent: Intent = Intent(Intent.ACTION_VIEW,
+                Uri.parse(PreferenceManager.getDefaultSharedPreferences(applicationContext).getString("api", null)!! + "/auth/github?cb=$uriCb"))
+            startActivity(intent)
+        }
+
+        //Get address
         api.addTextChangedListener(object : TextWatcher {
 
             override fun afterTextChanged(s: Editable) {}
@@ -40,23 +54,24 @@ class MainActivity : AppCompatActivity() {
 
             override fun onTextChanged(s: CharSequence, start: Int,
                                        before: Int, count: Int) {
-                val pref = PreferenceManager.getDefaultSharedPreferences(applicationContext)
-                val editor = pref.edit()
-                editor.putString("api", s.toString())
-                editor.apply()
+                mainPresenter.addApi(s.toString())
             }
         })
     }
 
     public override fun onStart() {
+
         super.onStart()
 
         api.setText(PreferenceManager.getDefaultSharedPreferences(applicationContext).getString("api", null)!!)
+        mainPresenter.checkUser()
 
-        if (PreferenceManager.getDefaultSharedPreferences(applicationContext).contains("token")) {
-            val intent = Intent(this, HomeActivity::class.java)
-            startActivity(intent)
-        }
+    }
+
+    override fun changeView() {
+
+        val intent = Intent(applicationContext, HomeActivity::class.java)
+        startActivity(intent)
 
     }
 }
