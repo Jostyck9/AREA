@@ -5,4 +5,12 @@
     <color name="colorError">#7f0000</color>
     <color name="colorAccent">#D81B60</color>
     <color name="backgroundText">#A0FFFFFF</color>
+    <color name="deleteButton">#C82333</color>
+    <color name="twitter">#1DA1F2</color>
+    <color name="spotify">#1ED760</color>
+    <color name="github">#24292E</color>
+    <color name="discord">#7289DA</color>
+    <color name="dropbox">#007CE4</color>
+    <color name="mail">#EB6464</color>
+    <color name="timer">#000000</color>
 </resources>

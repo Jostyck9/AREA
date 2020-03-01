@@ -129,8 +129,8 @@ exports.init_twitter = async function(app) {
 		route: '/twitter/webhooks',
 		consumerKey: CONSUMER_KEY,
 		consumerSecret: CONSUMER_SECRET,
-		accessToken: '1098557912677576704-2fz3FvHUaDs5ccaje09f8YhiWpISEn',
-		accessTokenSecret: 'pdymBZU6dt229qycuNSyAo11cN9adU3yb2Nhkrka8CQnX',
+		accessToken: '',
+		accessTokenSecret: '',
 		environment: TWITTER_ENV,
 		app
 	});

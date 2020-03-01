@@ -54,7 +54,7 @@
 
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/microsoftButton"
+        android:id="@+id/githubButton"
         android:layout_width="175sp"
         android:layout_height="40sp"
         android:layout_marginTop="200dp"
@@ -62,6 +62,7 @@
         app:cardCornerRadius="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -72,54 +73,19 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="15dp"
-                android:layout_height="15dp"
-                android:layout_gravity="center"
-                android:layout_marginEnd="15dp"
-                app:srcCompat="@drawable/microsoft" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="@string/microsoft"
-                android:textColor="@color/colorPrimary"
-                android:textSize="17sp" />
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/twitterButton"
-        android:layout_width="175sp"
-        android:layout_height="40sp"
-        android:layout_marginTop="20dp"
-        app:cardBackgroundColor="@color/colorPrimaryDark"
-        app:cardCornerRadius="15dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/microsoftButton">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:gravity="center">
-
-            <ImageView
                 android:layout_width="18dp"
                 android:layout_height="15dp"
                 android:layout_gravity="center"
-                app:srcCompat="@drawable/twitter"
-                android:layout_marginEnd="15dp"/>
+                android:layout_marginEnd="15dp"
+                app:srcCompat="@drawable/github_logo" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="@string/twitter"
+                android:text="@string/github"
                 android:textColor="@color/colorPrimary"
-                android:textSize="17sp"/>
+                android:textSize="17sp" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
@@ -142,7 +108,7 @@
         android:layout_width="208dp"
         android:layout_height="234dp"
         android:contentDescription="@string/tree"
-        app:layout_constraintBottom_toTopOf="@+id/microsoftButton"
+        app:layout_constraintBottom_toTopOf="@+id/githubButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/tree" />

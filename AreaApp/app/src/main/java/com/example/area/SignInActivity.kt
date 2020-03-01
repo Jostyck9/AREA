@@ -17,6 +17,8 @@ import org.json.JSONObject
 
 class SignInActivity : AppCompatActivity(), LoginView {
 
+    lateinit var loginPresenter: LoginPresenter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_in)
@@ -31,7 +33,7 @@ class SignInActivity : AppCompatActivity(), LoginView {
             startActivity(intent)
         }
 
-        val loginPresenter = LoginPresenter(this)
+        loginPresenter = LoginPresenter(this, applicationContext)
         signInButton.setOnClickListener {
             loginPresenter.onLogin(emailLogin.text.toString(), passwordLogin.text.toString())
         }
@@ -40,40 +42,16 @@ class SignInActivity : AppCompatActivity(), LoginView {
     override fun onResult(isEmailSuccess: Boolean, isPasswordSuccess: Boolean) {
         if (isEmailSuccess) {
             if (isPasswordSuccess) {
-
                 errorTextLogin.text = ""
-
-                val url = PreferenceManager.getDefaultSharedPreferences(applicationContext).getString("api", null)!! + "/auth/login/"
-
-                val jsonObj = JSONObject()
-                jsonObj.put("email", emailLogin.text)
-                jsonObj.put("password", passwordLogin.text)
-
-                val queue = Volley.newRequestQueue(this)
-                val request = JsonObjectRequest(
-                    Request.Method.POST, url, jsonObj,
-                    Response.Listener { response ->
-
-                        Log.d("Response", response["token"].toString())
-
-                        val pref = PreferenceManager.getDefaultSharedPreferences(applicationContext)
-                        val editor = pref.edit()
-                        editor.putString("token", response["token"].toString())
-                        editor.apply()
-
-                        val intent = Intent(this, HomeActivity::class.java)
-                        startActivity(intent)
-                    },
-                    Response.ErrorListener { error ->
-                        Log.d("Response", error.toString())
-                        Toast.makeText(applicationContext, "Login fail", Toast.LENGTH_SHORT).show()
-                    }
-                )
-                queue.add(request)
+                loginPresenter.signIn(emailLogin, passwordLogin)
 
             } else
                 errorTextLogin.text = getString(R.string.errorPasswordLogin)
         } else
             errorTextLogin.text = getString(R.string.errorEmail)
+    }
+
+    override fun displayMessage(message: String) {
+        Toast.makeText(applicationContext, message, Toast.LENGTH_SHORT).show()
     }
 }
