@@ -3,6 +3,11 @@ import React from 'react';
 import '../../css/site.css';
 
 export default class ErrorPage extends React.Component {
+    /**
+     * Render the error page
+     * 
+     * @returns the error page
+     */
     render() {
         return (
             <div class="text-center">

@@ -30,7 +30,6 @@ exports.github = async (req, res) => {
                 res
             )
         } else {
-            
             await ApiAuth.loginRegisterOAuth2(
                 {
                     username: req.user.profile.username,

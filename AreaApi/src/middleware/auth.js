@@ -11,7 +11,7 @@ const Token = require('../models/Tokens.model')
  */
 const auth = async (req, res, next) => {
     try {
-        const token = req.header('Authorization').replace('Bearer ', '')
+        const token = req.header('Authorization').replace('Bearer ', '').replace('"', '').replace('"', '')
         const data = jwt.verify(token, process.env.JWT_KEY)
 
         const resToken = await Token.findByClientToken(token)
@@ -25,6 +25,7 @@ const auth = async (req, res, next) => {
         req.token = resToken.token
         next()
     } catch (error) {
+        console.log('not authorize')
         res.status(401).send({ message: 'Not authorized to access this resource' })
     }
 }

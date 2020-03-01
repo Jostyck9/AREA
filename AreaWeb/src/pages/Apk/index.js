@@ -4,6 +4,11 @@ import '../../css/site.css';
 
 export default class Apk extends React.Component {
 
+    /**
+     * Render the Apk page
+     * 
+     * @returns the apk page
+     */
     render() {
         return (
             <table width="100%" height="100%" border="0">
