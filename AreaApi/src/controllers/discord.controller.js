@@ -12,7 +12,7 @@ const bot = new Discord.Client ();
 const MSG_RECEIVED_ID = 4;
 const MEMBER_ADD_ID = 5;
 const MEMBER_BAN_ID = 6;
-const CHANNEL_CREATE = 11;
+const CHANNEL_CREATE = 7;
 const TOKEN = process.env.DISCORD_TOKEN;
 const BOT_URL = process.env.DISCORD_BOT_URL;
 
