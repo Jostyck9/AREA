@@ -63,6 +63,7 @@ class HomeActivity : AppCompatActivity(), HomeView {
     }
 
     override fun setDataToRecyclerView(areasInfo: MutableList<AreasModel>) {
+        rvDiscoverList?.adapter = homeAdapter
         for (area in areasInfo) {
             areasList.add(area)
         }
@@ -80,12 +81,10 @@ class HomeActivity : AppCompatActivity(), HomeView {
         if (id == R.id.profile) {
             val intentProfile = Intent(this, ProfileActivity::class.java)
             startActivity(intentProfile)
-            rvDiscoverList?.adapter = null
             areasList.clear()
         } else if (id == R.id.add) {
             val intentArea = Intent(this, AreaActivity::class.java)
             startActivity(intentArea)
-            rvDiscoverList?.adapter = null
             areasList.clear()
         }
         return true
