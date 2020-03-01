@@ -7,8 +7,6 @@ const ReactionModel = require('../models/Reaction.model')
 require('dotenv').config();
 const Discord = require ('discord.js');
 
-const bot = new Discord.Client ();
-
 const MSG_RECEIVED_ID = 4;
 const MEMBER_ADD_ID = 5;
 const MEMBER_BAN_ID = 6;
@@ -16,6 +14,16 @@ const CHANNEL_CREATE = 7;
 const TOKEN = process.env.DISCORD_TOKEN;
 const BOT_URL = process.env.DISCORD_BOT_URL;
 
+/**
+ * Create discord client
+ * @group Discord - Discord login Action
+ */
+const bot = new Discord.Client();
+
+/**
+ * Bot discord is Ready action
+ * @group Discord - Discord login Action
+ */
 bot.login (TOKEN);
 bot.on ('ready', () => {
     console.info (`Connecté en tant que ${bot.user.tag}`);
@@ -35,6 +43,10 @@ bot.on ('message', msg => {
     this.connectActionToReaction(MSG_RECEIVED_ID, action_result);
 });
 
+/**
+ * ConnectAction to reaction
+ * @group Discord - Discord connect Action to reaction
+ */
 exports.connectActionToReaction = async function (action_id, action_result) {
     try {
         const AreaArray = await AreaModel.findByActionId(action_id);
@@ -49,6 +61,14 @@ exports.connectActionToReaction = async function (action_id, action_result) {
     }
 }
 
+
+/**
+ * Check if user is concerned by action
+ * @group Discord - Discord checkIfuserIsConcerned
+ * @param {json} area area
+ * @param {string} action_id id of the action
+ * @param {json} actionResult the result from the action
+ */
 exports.checkIfuserIsConcerned = function (area, action_result, action_id) {
     switch (action_id) {
         case MSG_RECEIVED_ID:
@@ -114,6 +134,8 @@ bot.on('channelCreate', channel => {
 /**
  * Call required reaction
  * @group Discord - Discord UseReaction
+ * @param {json} actionResult the result from the action
+ * @param {json} area actionReaction Datas
  */
 exports.useReaction = async(action_result, area) => {
     //Call required reaction
@@ -218,10 +240,9 @@ function DiscordChannelCreated(area, action_result) {
     return false
 }
 
-//NOTE ========================================================================
-
 /**
  * Create specific data for the area (for exemple init a timer for this area)
+ * @param {json} area the result from the action
  */
 exports.createArea = async (area) => {
     try {
