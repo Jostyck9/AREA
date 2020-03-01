@@ -67,7 +67,7 @@ exports.loginRegisterOAuth2 = async (userInfo, tokens, service_id, redirectUrl, 
             throw new Error('No username given for login by service')
         if (!userInfo.hasOwnProperty('idLog'))
             throw new Error('No unique id given for login by service')
-        
+
         let userId = 0
         const resMail = await User.findByEmail(userInfo.idLog)
         if (!resMail) {
