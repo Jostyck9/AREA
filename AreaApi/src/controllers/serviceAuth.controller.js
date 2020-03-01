@@ -6,6 +6,7 @@ const UrlConstruct = require('../models/UrlContructor.model')
 /**
  * Connect the service with his token to the database
  * 
+ * @async
  * @param {number} user_id the user's id
  * @param {JSON} serviceTokens the user's token from the service
  * @param {any} res the res

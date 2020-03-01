@@ -5,8 +5,8 @@ const { Strategy: SpotifyStrategy } = require('passport-spotify')
 const { Strategy: DropboxOAuth2Strategy } = require('passport-dropbox-oauth2')
 // const { Strategy: FacebookStrategy } = require('passport-facebook')
 const {
-    TWITTER_CONFIG, GITHUB_CONFIG, SPOTIFY_CONFIG, DROPBOX_CONFIG, FACEBOOK_CONFIG
-} = require('./config')
+    TWITTER_CONFIG, GITHUB_CONFIG, SPOTIFY_CONFIG, DROPBOX_CONFIG
+} = require('../config/config')
 
 module.exports = () => {
 
@@ -23,5 +23,4 @@ module.exports = () => {
     passport.use(new GithubStrategy(GITHUB_CONFIG, callback))
     passport.use(new SpotifyStrategy(SPOTIFY_CONFIG, callbackSpotify))
     passport.use(new DropboxOAuth2Strategy(DROPBOX_CONFIG, callback))
-    // passport.use(new FacebookStrategy(FACEBOOK_CONFIG, callback))
 }

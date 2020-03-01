@@ -7,6 +7,11 @@ const INTERVAL = 10000
 let idIntervalDate = 0
 let idInterval = 0
 
+/**
+ * Check the date a each INTERVAL and send a reaction to appropriate area
+ * 
+ * @async
+ */
 async function checkDate() {
     if (idIntervalDate) {
         clearInterval(idIntervalDate)
@@ -38,6 +43,11 @@ async function checkDate() {
     }, INTERVAL);
 }
 
+/**
+ * Check if the areas are triggered at each interval for each area, and send the result with the area
+ * 
+ * @async
+ */
 async function checkInterval() {
     if (idInterval) {
         clearInterval(idInterval)

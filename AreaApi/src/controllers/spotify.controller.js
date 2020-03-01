@@ -14,8 +14,10 @@ let INTERVAL = 60000
 /**
  * spotify connect the token received to the database
  *
+ * @async
  * @param {any} req the request
  * @param {any} res the res
+ * @exports
  */
 exports.spotify = async (req, res) => {
     try {
@@ -41,13 +43,11 @@ exports.spotify = async (req, res) => {
     }
 }
 
-
-// TODO REMOVE HERE !
-exports.spotifyNewMusic = async function (area, action_result) {
-    return false;
-}
-
-// NOTE Reaction
+/**
+ * Check if a changement occurs on the tracks from a playlist inside the db, used as an ACTION
+ * 
+ * @async
+ */
 async function checkPlaylistUpdate() {
     if (idInterval) {
         clearInterval(idInterval)
@@ -91,7 +91,13 @@ async function checkPlaylistUpdate() {
     }, INTERVAL);
 }
 
-// NOTE Reaction
+/**
+ * Start the music on the user's device, use as REACTION
+ * 
+ * @async
+ * @param {string} accessToken - Spotify's access token
+ * @param {string} name - Name of the spotify music
+ */
 async function startMusic(accessToken, name) {
     try {
         var spotifyApi = new SpotifyWebApi({ accessToken: accessToken });
@@ -116,7 +122,12 @@ async function startMusic(accessToken, name) {
     }
 }
 
-// NOTE Reaction
+/**
+ * Pause the music on th euser's device, used as REACTION
+ * 
+ * @async
+ * @param {string} accessToken - Spotify's access token
+ */
 async function pauseMusic(accessToken) {
     try {
         var spotifyApi = new SpotifyWebApi({ accessToken: accessToken });
@@ -129,7 +140,14 @@ async function pauseMusic(accessToken) {
     }
 }
 
-// NOTE Reaction
+/**
+ * Add a music inside a playlist, if not existing, creating the playlist
+ * 
+ * @async
+ * @param {string} accessToken - Spotify's access token
+ * @param {string} music - The music's name to add
+ * @param {string} playlist - The playlist's name
+ */
 async function setMusicPlaylist(accessToken, music, playlist) {
     try {
         var spotifyApi = new SpotifyWebApi({ accessToken: accessToken });
@@ -137,7 +155,6 @@ async function setMusicPlaylist(accessToken, music, playlist) {
         var playlistId = null
         var userId = null
 
-        console.log('try')
         //search the music track
         spotifyApi.searchTracks(music).then(
             function (musics) {
@@ -192,8 +209,16 @@ async function setMusicPlaylist(accessToken, music, playlist) {
     }
 }
 
-//NOTE =======================================================================
+//NOTE ======================^^ ACTION /  REACTIONS ^^=================================================
 
+/**
+ * Compare the the two lost of tracks and returns a message describing the difference
+ * 
+ * @param {string} oldTracks - List of tracks separated by semciolon
+ * @param {string} newTracks - List of tracks separated by semciolon
+ * @param {string} playlistName - Playlist's name
+ * @returns {string} - Message
+ */
 function foundChangementTracks(oldTracks, newTracks, playlistName) {
     const arrayOld = SpotifyModel.convertTracksToArray(oldTracks)
     const arrayNew = SpotifyModel.convertTracksToArray(newTracks)
@@ -230,6 +255,14 @@ function foundChangementTracks(oldTracks, newTracks, playlistName) {
     return message
 }
 
+/**
+ * Get the name of a playlist by his id / uri:id
+ * 
+ * @async
+ * @param {string} playlistId - The playlist's id
+ * @param {string} accessToken - The user's access tokken
+ * @returns {string} - Playlist's Name, can be null
+ */
 async function getPlaylistName(playlistId, accessToken) {
     var spotifyApi = new SpotifyWebApi({ accessToken: accessToken });
     playlistId = playlistId.replace("spotify:playlist:", "")
@@ -242,6 +275,14 @@ async function getPlaylistName(playlistId, accessToken) {
         })
 }
 
+/**
+ * Get the access token of the client for spotify 
+ * 
+ * @async
+ * @param {number} client_id
+ * @returns {string} - Access token
+ * @throws
+ */
 async function getClientSpotifyToken(client_id) {
     const service = await ServiceModel.findByName('spotify')
     if (!service) {
@@ -253,8 +294,9 @@ async function getClientSpotifyToken(client_id) {
 
 /**
  * Get the playlist tracks
- * @param {string} playlistId 
- * @param {string} accessToken 
+ * @param {string} playlistId - Playlist's id
+ * @param {string} accessToken - The user's access token
+ * @param {boolean} toString - Boolean to convert the array in an only one string, DEFAULT = FALSE
  * @throws
  */
 async function getPlaylistTracks(playlistId, accessToken, toString = false) {
@@ -294,6 +336,7 @@ async function getPlaylistTracks(playlistId, accessToken, toString = false) {
 
 /**
  * Create specific data for the area (for exemple init a timer for this area)
+ * @param {JSON} area - The area created
  */
 exports.createArea = async (area) => {
     try {
@@ -332,7 +375,8 @@ exports.deleteArea = async (area) => {
 /**
  * Call the appropriate reaction from area of the service
  * 
- * @param {JSON} actionResult - 
+ * @param {JSON} actionResult - The result of the action triggered
+ * @param {JSON} area - The area to use
  */
 exports.useReaction = async (actionResult, area) => {
     try {

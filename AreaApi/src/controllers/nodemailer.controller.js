@@ -4,12 +4,13 @@ const validator = require('validator')
 /**
  * Send an email to the given dest
  * 
+ * @async
  * @param {string} to - Destination
  * @param {string} subject - Subject of the email
  * @param {string} message - Message of the email
  * @throws Can throw an error with a message field
  */
-exports.sendMail = async (to, subject, message) => {
+async function sendMail(to, subject, message) {
     if (!subject || !message) {
         throw new Error("Invalid null parameter")
     }
@@ -35,7 +36,6 @@ exports.sendMail = async (to, subject, message) => {
     while (messageHtml.includes("\n")) {
         messageHtml = messageHtml.replace("\n", "<br>")
     }
-    console.log("Message mail : " + messageHtml)
     // send mail with defined transport object
     let info = await transporter.sendMail({
         from: '<areax.epitech@hotmail.com>', // sender address
@@ -48,17 +48,20 @@ exports.sendMail = async (to, subject, message) => {
     console.log("Message sent: %s to %s", info.messageId, to);
 }
 
-//NOTE ================================================================
+//NOTE =====================^^ Actions / Reactions ^^===========================================
 
 /**
  * Create specific data for the area (for exemple init a timer for this area)
+ * @async
+ * @param {JSON} area - The area created by the user
  */
 exports.createArea = async (area) => {
 }
 
 /**
- * Delete the area (specific for each service (for exemple , delete the timer inthe time table))
+ * Delete the area (specific for each service (for exemple , delete the timer in the time table))
  * 
+ * @async
  * @param {JSON} - area
  */
 exports.deleteArea = async (area) => {
@@ -67,21 +70,23 @@ exports.deleteArea = async (area) => {
 /**
  * Use the appropriate reaction of the mail controller
  * 
+ * @async
  * @param {JSON} actionResult - Result of the triggered action
  * @param {JSON} area - The area configuration
  * @throws - Error with a message field
  */
 exports.useReaction = async (actionResult, area) => {
     try {
-        await this.sendMail(area.parameters_reaction.to, area.parameters_reaction.subject, area.parameters_reaction.message)
+        await sendMail(area.parameters_reaction.to, area.parameters_reaction.subject, area.parameters_reaction.message)
     } catch (err) {
         console.error(err)
     }
 }
 
 /**
- * Init all the timers of the Service
+ * Init all the timers of the Service, must be called on launching
  * 
+ * @async
  * @param {Express} app server express
  */
 exports.init = async (app) => {
