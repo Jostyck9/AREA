@@ -550,3 +550,4 @@ $ firefox docs/index.html
 Licence
 ----
 Hugo Berthome, Romane Bézier, Esther Bailloux, Clément Dumaine, Fabien Brosset and Gabin Warnier-de-Wailly
+Test
