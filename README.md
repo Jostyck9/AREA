@@ -119,6 +119,13 @@ For Dropbox, click [here](https://www.dropbox.com/developers/apps/ )
     * Add Webhook URI's = https://your-url-ngrok.io/dropbox/webhook
         * the server API and ngrok must be launch for this action (do this action at the end)
 ```
+
+For Mail, click [here](https://outlook.live.com/owa/)
+Only outlook live or hotmail can work for the project
+```sh
+* Create your account and after it's done, just simply put your account in the MAIL and MAIL_PASSWORD env variables
+```
+
 ```sh
 SERVER_URL=https://ID.ngrok.io
 
@@ -138,6 +145,9 @@ SPOTIFY_SECRET=
 
 DROPBOX_KEY=
 DROPBOX_SECRET=
+
+MAIL=
+MAIL_PASSWORD=
 ```
 Now let's go in our AreaWeb folder.
 ```sh
