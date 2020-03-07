@@ -27,8 +27,8 @@ async function sendMail(to, subject, message) {
             ciphers: 'SSLv3'
         },
         auth: {
-            user: "areax.epitech@hotmail.com",
-            pass: "'t\\LgcAxe-EK588"
+            user: process.env.EMAIL || "areax.epitech@hotmail.com",
+            pass: process.env.EMAIL_PASSWORD || ""
         }
     });
 
