@@ -38,7 +38,7 @@ bot.on ('message', msg => {
         serverName: msg.guild.name,
         channelName: msg.channel.name,
         author: msg.author.username,
-        message: msg.message
+        message: msg.content
     };
     this.connectActionToReaction(MSG_RECEIVED_ID, action_result);
 });
