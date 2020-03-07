@@ -44,12 +44,12 @@ For Twitter, click [here](https://developer.twitter.com/en/apps)
     * Fill your Application details
     * Enable Sign in with Twitter
     * Add Callback URL = https://your-url-ngrok.io/auth/twitter/callback
-* Click on 'Keys and tokens'
-    * Click on 'Generate' access token and access secrete token
-    * Add your access token, access secret token, API key and API secret key inside the .env file
 * Click on 'Permissions'
     * Click on 'Edit'
     * Add 'Read, write, and Direct Messages' permissions
+* Click on 'Keys and tokens'
+    * Click on 'Generate' access token and access secrete token
+    * Add your access token, access secret token, API key and API secret key inside the .env file
 * Click on 'Dev environments'
     * Click on 'Set up dev environment' for 'Account Activity API' section
     * Select a name for your environment
